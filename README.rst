@@ -1,14 +1,17 @@
-spec_fit
-========
+specfit
+=======
 
-.. image:: https://img.shields.io/badge/Python-3.5%2C%203.6%2C%203.7%2C%203.8%2C%203.9-brightgreen.svg
-    :target: https://pypi.python.org/pypi/spec_fit
+.. image:: https://badge.fury.io/py/spectral-fitting.svg
+    :target: https://pypi.python.org/pypi/spectral-fitting
+
+.. image:: https://img.shields.io/badge/Python-3.6%2C%203.7%2C%203.8%2C%203.9-brightgreen.svg
+    :target: https://pypi.python.org/pypi/spectral_fitting
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
-    :target: https://github.com/VChristiaens/spec_fit/blob/master/LICENSE
+    :target: https://github.com/VChristiaens/specfit/blob/master/LICENSE
 
 
-``spec_fit`` is a package for the spectral characterization of (sub-)stellar objects.
+``specfit`` (or ``spectral_fitting`` on pypi) is a package for the spectral characterization of (sub-)stellar objects.
 
 This package provides the tools for the analysis of measured spectra (e.g. low-res spectra of directly imaged companions, but not exclusively), including:
 
@@ -33,12 +36,12 @@ Furthermore, the log-likelihood expression has the option to include:
 - weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments.
 
 More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_.
-Please cite this publication if you use `spec_fit` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
+Please cite this publication if you use `specfit ` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
 
 
 Documentation
 -------------
-The documentation for ``spec_fit`` can be found here: TBD
+The documentation for ``specfit`` can be found here: TBD
 
 
 Jupyter notebook tutorial
@@ -50,7 +53,7 @@ TL;DR setup guide
 -----------------
 .. code-block:: bash
 
-    $ pip install spec_fit
+    $ pip install spectral_fitting
 
 
 Installation and dependencies
@@ -62,37 +65,37 @@ alternative is to use package managers like apt-get for Ubuntu or
 Homebrew/MacPorts/Fink for macOS. We recommend using 
 `Miniconda <https://conda.io/miniconda>`_.
 
-``spec_fit`` depends on existing packages from the Python ecosystem, such as
+``specfit`` depends on existing packages from the Python ecosystem, such as
 ``numpy``, ``scipy``, ``matplotlib``, ``pandas`` and ``astropy``. There are different ways of
-installing ``spec_fit`` suitable for different scenarios.
+installing ``specfit`` suitable for different scenarios.
 
 
 Using pip
 ^^^^^^^^^
-The easiest way to install ``spec_fit`` is through the Python Package Index, aka
+The easiest way to install ``specfit`` (``spectral_fitting`` on pypi) is through the Python Package Index, aka
 `PyPI <https://pypi.org/>`_, with the ``pip`` package manager. Simply run:
 
 .. code-block:: bash
 
-  $ pip install spec_fit
+  $ pip install spectral_fitting
 
 With ``pip`` you can easily uninstall, upgrade or install a specific version of
-``spec_fit``. For upgrading the package run:
+``specfit``. For upgrading the package run:
 
 .. code-block:: bash
 
-  $ pip install --upgrade spec_fit
+  $ pip install --upgrade specfit
 
 Alternatively, you can use ``pip install`` and point to the GitHub repo:
 
 .. code-block:: bash
 
-  $ pip install git+https://github.com/VChristiaens/spec_fit.git
+  $ pip install git+https://github.com/VChristiaens/specfit.git
 
 Using the setup.py file
 ^^^^^^^^^^^^^^^^^^^^^^^
-You can download ``spec_fit`` from its GitHub repository as a zip file. A ``setup.py``
-file (setuptools) is included in the root folder of ``spec_fit``. Enter the package's
+You can download ``specfit`` from its GitHub repository as a zip file. A ``setup.py``
+file (setuptools) is included in the root folder of ``specfit``. Enter the package's
 root folder and run:
 
 .. code-block:: bash
@@ -108,14 +111,14 @@ clone it:
 
 .. code-block:: bash
 
-  $ git clone https://github.com/<replace-by-your-username>/spec_fit.git
+  $ git clone https://github.com/<replace-by-your-username>/specfit.git
 
 If you do not create a fork, you can still benefit from the ``git`` syncing
 functionalities by cloning the repository (but will not be able to contribute):
 
 .. code-block:: bash
 
-  $ git clone https://github.com/VChristiaens/spec_fit.git
+  $ git clone https://github.com/VChristiaens/specfit.git
 
 Before installing the package, it is highly recommended to create a dedicated
 conda environment to not mess up with the package versions in your base 
@@ -130,7 +133,7 @@ Note: installing ipython while creating the environment with the above line will
 avoid a commonly reported issue which stems from trying to import VIP from 
 within a base python2.7 ipython console.
 
-To install spec_fit, simply cd into the spec_fit directory and run the setup file 
+To install specfit, simply cd into the specfit directory and run the setup file 
 in 'develop' mode:
 
 .. code-block:: bash
@@ -138,22 +141,22 @@ in 'develop' mode:
   $ cd VIP
   $ python setup.py develop
 
-If cloned from your fork, make sure to link your spec_fit directory to the upstream 
+If cloned from your fork, make sure to link your specfit directory to the upstream 
 source, to be able to easily update your local copy when a new version comes 
 out or a bug is fixed:
 
 .. code-block:: bash
 
-  $ git add remote upstream https://github.com/VChristiaenss/spec_fit.git
+  $ git add remote upstream https://github.com/VChristiaenss/specfit
 
 
-Loading spec_fit
-^^^^^^^^^^^^^^^^
-Finally, start Python or IPython and check that you are able to import ``spec_fit``:
+Loading specfit
+^^^^^^^^^^^^^^^
+Finally, start Python or IPython and check that you are able to import ``specfit``:
 
 .. code-block:: python
 
-  import spec_fit
+  import spectral_fitting as specfit
 
 If everything went fine with the installation, you will see a welcome message.
 Now you can start characterizing exoplanets and other (sub)stellar objects!
