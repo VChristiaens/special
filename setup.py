@@ -14,18 +14,18 @@ from setuptools.command.develop import develop
 # Hackishly override of the install method
 class InstallReqs(install):
     def run(self):
-        print(" ********************** ")
-        print(" *** Installing specfit *** ")
-        print(" ********************** ")
+        print(" *************************** ")
+        print(" *** Installing spec_fit *** ")
+        print(" *************************** ")
         os.system('pip install -r requirements.txt')
         install.run(self)
 
 
 class InstallDevReqs(develop):
     def run(self):
-        print(" **************************** ")
-        print(" *** Installing specfit (dev) *** ")
-        print(" **************************** ")
+        print(" ********************************* ")
+        print(" *** Installing spec_fit (dev) *** ")
+        print(" ********************************* ")
         os.system('pip install -r requirements-dev.txt')
         develop.run(self)
 
@@ -47,27 +47,27 @@ try:
 except:
     reqs_dev = [str(ir.requirement) for ir in reqs_dev]    
 
-with open(resource('README.md')) as readme_file:
+with open(resource('README.rst')) as readme_file:
     README = readme_file.read()
 
-with open(resource('specfit', '__init__.py')) as version_file:
+with open(resource('spec_fit', '__init__.py')) as version_file:
     version_file = version_file.read()
     VERSION = re.search(r"""^__version__ = ['"]([^'"]*)['"]""",
                         version_file, re.M)
     VERSION = VERSION.group(1)
 
 
-PACKAGES = ['specfit']
+PACKAGES = ['spec_fit']
 
 setup(
-    name='specfit',
+    name='spec_fit',
     version=VERSION,
     description='Package for spectral characterization of (sub)stellar objects',
     long_description=README,
     license='MIT',
     author='Valentin Christiaens',
     author_email='valentin.christiaens@uliege.be',
-    url='https://github.com/VChristiaens/specfit',
+    url='https://github.com/VChristiaens/spec_fit',
     cmdclass={'install': InstallReqs,
               'develop': InstallDevReqs},
     packages=PACKAGES,

@@ -1,9 +1,6 @@
 spec_fit
 =======
 
-.. image:: https://badge.fury.io/py/spec_fit.svg
-    :target: https://pypi.python.org/pypi/spec_fit
-
 .. image:: https://img.shields.io/badge/Python-3.5%2C%203.6%2C%203.7%2C%203.8%2C%203.9-brightgreen.svg
     :target: https://pypi.python.org/pypi/spec_fit
 
@@ -36,7 +33,7 @@ Furthermore, the log-likelihood expression has the option to include:
 - weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments.
 
 More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_.
-Please cite this publication if you use `specfit` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
+Please cite this publication if you use `spec_fit` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
 
 
 Documentation
@@ -150,14 +147,13 @@ out or a bug is fixed:
   $ git add remote upstream https://github.com/VChristiaenss/spec_fit.git
 
 
-Loading specfit
-^^^^^^^^^^^^^^^
-Finally, start Python or IPython and check
-that you are able to import ``spec_fit``:
+Loading spec_fit
+^^^^^^^^^^^^^^^^
+Finally, start Python or IPython and check that you are able to import ``spec_fit``:
 
 .. code-block:: python
 
-  import spec_fit as specfit
+  import spec_fit
 
 If everything went fine with the installation, you will see a welcome message.
 Now you can start characterizing exoplanets and other (sub)stellar objects!
