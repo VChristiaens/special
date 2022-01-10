@@ -77,7 +77,7 @@ The easiest way to install ``spec_fit`` is through the Python Package Index, aka
   $ pip install spec_fit
 
 With ``pip`` you can easily uninstall, upgrade or install a specific version of
-``spec_fit ``. For upgrading the package run:
+``spec_fit``. For upgrading the package run:
 
 .. code-block:: bash
 
