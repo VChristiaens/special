@@ -13,9 +13,10 @@ spec_fit
 
 ``spec_fit`` is a package for the spectral characterization of (sub-)stellar objects.
 
-This package provides the tools for the analysis of measured spectra (e.g. low-res spectra of directly imaged companions, but not exclusively). It enables:
+This package provides the tools for the analysis of measured spectra (e.g. low-res spectra of directly imaged companions, but not exclusively), including:
 
-- fitting of input spectra to different grids of models (the code is grid-independent, download of the grid is left to the user);  
+- calculation of the spectral correlation between channels of an IFS datacube;
+- fitting of input spectra to different grids of models (the code is grid-independent, download of the grids is left to the user);  
 - MCMC sampling of the model grid parameter space;
 - searching for the best-fit template spectrum within a given library.
 
