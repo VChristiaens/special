@@ -7,6 +7,7 @@ Module with various fits handling functions (same as in VIP)
 
 __author__ = 'Carlos Alberto Gomez Gonzalez'
 __all__ = ['open_fits',
+           'info_fits',
            'write_fits']
 
 
@@ -79,6 +80,23 @@ def open_fits(fitsfilename, n=0, header=False, ignore_missing_end=False,
                 print("Fits HDU-{} data successfully loaded. "
                       "Data shape: {}".format(n, data.shape))
             return data
+
+
+def info_fits(fitsfilename, **kwargs):
+    """
+    Print the information about a fits file.
+
+    Parameters
+    ----------
+    fitsfilename : str
+        Path to the fits file.
+    **kwargs: optional
+        Optional arguments to the astropy.io.fits.open() function. E.g. 
+        "output_verify" can be set to ignore, in case of non-standard header.
+        
+    """
+    with ap_fits.open(fitsfilename, memmap=True, **kwargs) as hdulist:
+        hdulist.info()
 
 
 def write_fits(fitsfilename, array, header=None, output_verify='exception',

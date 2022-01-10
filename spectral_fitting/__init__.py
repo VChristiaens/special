@@ -14,6 +14,7 @@ from .config import *
 from .utils_mcmc import *
 from .utils_spec import *
 from .fits import *
+from .spec_corr import *
 from .chi import *
 from .model_resampling import *
 from .mcmc_sampling_spec import *

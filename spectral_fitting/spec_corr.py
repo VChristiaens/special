@@ -49,19 +49,22 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
     sp_fwhm_guess: float, optional
         Initial guess on the spectral FWHM of all channels.
     full_output: bool, opt
-        Whether to also output the fitted spectral FWHM for each channel.
+        Whether to also output the fitted spectral FWHM for each channel, and 
+        the vector of radial separation at which each spectral correlation
+        matrix is calculated.
     Note: radii that are skipped will be filled with zeros in the output cube.
 
     Returns
     -------
     sp_corr : numpy ndarray
         3d array of spectral correlation, as a function of radius with 
-        dimensions: n_r x n_ch x n_ch, where n_r = min((n_y-1)/2,(n_x-1)/2)
-        Starts at r = 1 (not r=0) px.
+        dimensions: n_rad x n_ch x n_ch, where n_rad = int((r_out-r_in)/2)
     sp_fwhm: numpy ndarray
         (if full_output is True) 2d array containing the spectral fwhm at each 
-        radius, for each spectral channel. Dims: n_r x n_ch
-        
+        radius, for each spectral channel. Dims: n_rad x n_ch
+    sp_rad: numpy ndarray
+        (if full_output is True) 1d array containing the radial separation of
+        each measured spectral correlation matrix. Dims: n_rad    
     """
 
     if not isinstance(awidth,int) or not isinstance(r_in,int):
@@ -83,9 +86,10 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
     
     #n_rad = int(np.ceil(n_r/ann_width)) # effective number of annuli probed
     
-    sp_corr = np.zeros([int(n_r),n_ch,n_ch])
+    sp_corr = np.zeros([n_rad,n_ch,n_ch])
+    sp_rad= np.zeros([n_rad])
     if full_output:
-        sp_fwhm = np.zeros([int(n_r),n_ch])
+        sp_fwhm = np.zeros([n_rad,n_ch])
         def gauss_1fp(x, *p):
             sigma = p[0]*gaussian_fwhm_to_sigma
             return np.exp(-x**2/(2.*sigma**2))
@@ -110,12 +114,14 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
         xx_final = [xx[i] for i in range(len(ind[0][0])) if not mask_f[yy[i],
                                                                        xx[i]]]
         matrix = array[:, yy_final, xx_final]  # shape (z, npx_annsegm)
+        sp_rad[ann*awidth:(ann+1)*awidth] = r_in+(ann+0.5)*awidth
+        
         for zi in range(n_ch):
             for zj in range(n_ch):
                 num = np.nanmean(matrix[zi]*matrix[zj])
                 denom = np.sqrt(np.nanmean(matrix[zi]*matrix[zi])* \
                                 np.nanmean(matrix[zj]*matrix[zj]))
-                sp_corr[r_in+ann*awidth:r_in+(ann+1)*awidth,zi,zj] = num/denom
+                sp_corr[ann*awidth:(ann+1)*awidth,zi,zj] = num/denom
             if full_output:
                 p0 = (sp_fwhm_guess,)
                 x = np.arange(n_ch)-zi
@@ -123,11 +129,12 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
                 y = y-np.amin(y)
                 y = y/np.amax(y)
                 coeff, var_matrix = curve_fit(gauss_1fp, x, y, p0=p0)
-                sp_fwhm[r_in+ann*awidth:r_in+(ann+1)*awidth,zi] = coeff[0]
+                sp_fwhm[ann*awidth:(ann+1)*awidth,zi] = coeff[0]
+                
 
                 
     if full_output:
-        return sp_corr, sp_fwhm
+        return sp_corr, sp_fwhm, sp_rad
     else:
         return sp_corr
     
