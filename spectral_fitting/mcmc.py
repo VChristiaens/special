@@ -978,8 +978,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         print('\nStart of the MCMC run ...')
         print('Step  |  Duration/step (sec)  |  Remaining Estimated Time (sec)')
     
-    for k, res in enumerate(sampler.sample(pos, iterations=nIterations,
-                                           storechain=True)):
+    for k, res in enumerate(sampler.sample(pos, iterations=nIterations)):
         elapsed = (datetime.datetime.now()-start).total_seconds()
         if verbosity > 1:
             if k == 0:
