@@ -25,6 +25,19 @@ def akaike(LnL, k):
     Computes the Akaike Information Criterion: 2k-2ln(L),
     where k is the number of estimated parameters in the model and LnL is the 
     max ln-likelihood for the model.
+    
+    Parameters
+    ----------
+    LnL : float
+        Max ln-likelihood for the considered model.
+    k : int
+        Number of estimated parameters in the model.
+
+    Returns
+    -------
+    aic : float
+        Akaike Information Criterion
+        
     """
     return 2*k-2*LnL  
 
@@ -33,6 +46,20 @@ def blackbody(lbda, T):
     """
     Planck function. Returns specific intensity for an input wavelength vector
     lbda (in micrometers) and a given input temperature.
+    
+    Parameters
+    ----------
+    lbda : numpy array
+        1d numpy array corresponding to the wavelengths (in microns) for the 
+        desired output specific intensities.
+    T : float
+        Temperature
+
+    Returns
+    -------
+    B_lambda : float
+        Specific intensity corresponding to the Planck function.
+    
     """
     fac = 2*c.h.value*(c.c.value**2)/(np.power(lbda*1e-6,5))
     div = (1/(np.exp((c.h.value*c.c.value)/((lbda*1e-6)*c.k_B.value*T))-1))
@@ -344,13 +371,36 @@ def find_nearest(array, value, output='index', constraint=None, n=1):
     else: return array[idx], idx
 
 
-def inject_em_line(wl, flux, lbda, spec, width=None, em=True, height=0.1):
+def inject_em_line(wl, flux, lbda, spec, width=None, height=0.1, em=True):
     """
-    Injects an emission (or absorption) line in a spectrum. The line will be 
-    injected assuming a gaussian profile with either the provided FWHM (in mu) 
-    or (if not provided) set to the equivalent width of the line.
-    Height is the ratio to peak where the line width is considered. E.g. if 
-    height=10%, the width will be the full width at 10% maximum.
+    Injects an emission (or absorption) line in a spectrum. 
+
+    
+    Parameters
+    ----------
+    wl: float
+        Wavelength of the line
+    flux: float
+        Flux of the line to be injected
+    lbda : 1d np.ndarray
+        Array with the wavelengths (um) of the input spectrum.
+    spec : 1d np.ndarray
+        Input spectrum fluxes
+    width : float, opt
+        Full width of the line in mu (see also height). The line will be 
+        injected assuming a gaussian profile. If not provided, the width will 
+        be set to the 'equivalent width' of the line.
+    height: float, opt
+        Ratio to peak where the line width is considered. E.g. if 
+        height=10%, the width will be the full width at 10% maximum.        
+    em: bool, opt
+        Whether emission (True) or absorption (False) line.
+        
+    Returns
+    -------
+    spec: 1d np.ndarray
+        Spectrum with the injected line
+    
     """
     # convert ew, assuming it's in mu
     idx_mid = find_nearest(lbda, wl)
@@ -411,12 +461,25 @@ def inject_em_line(wl, flux, lbda, spec, width=None, em=True, height=0.1):
         spec[idx_ini:idx_ini+win_sz] -= gaus
     
     return spec
-    
 
+    
 def mj_from_rj_and_logg(rp, logg):
     """
     Estimates a planet mass in Jupiter mass for a given radius in Jupiter 
     radius and the log of the surface gravity. 
+    
+    Parameters
+    ----------
+    rp: float
+        Planet radius in Jupiter radii
+    logg: float
+        Log of the surface gravity
+        
+    Returns
+    -------
+    mj: float
+        Planet mass in Jupiter masses
+    
     """    
     surf_g = 1e-2 * np.power(10.,logg)  # (m s-2)
 
@@ -429,12 +492,26 @@ def mj_from_rj_and_logg(rp, logg):
 
 
 def nrefrac(wavelength, density=1.0):
-   """Calculate refractive index of air from Cauchy formula.
+   """Calculates refractive index of air from Cauchy formula.
 
-   Input: wavelength in Angstrom, density of air in amagat (relative to STP,
-   e.g. ~10% decrease per 1000m above sea level).
+   Input: wavelength in Angstrom, 
    Returns N = (n-1) * 1.e6. 
    Credit: France Allard.
+   
+    Parameters
+    ----------
+    wavelength: numpy array
+        1d numpy array corresponding to the wavelengths of the input spectrum
+        in Angstrom
+    density: float
+        density of air in amagat (relative to STP, e.g. ~10% decrease per 1000m 
+        above sea level).
+        
+    Returns
+    -------
+    N: float
+        Refractive index
+   
    """
 
    # The IAU standard for conversion from air to vacuum wavelengths is given

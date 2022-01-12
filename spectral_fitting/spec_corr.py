@@ -125,7 +125,7 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
             if full_output:
                 p0 = (sp_fwhm_guess,)
                 x = np.arange(n_ch)-zi
-                y = sp_corr[r_in+ann*awidth,zi]# norm y
+                y = sp_corr[ann*awidth,zi]# norm y
                 y = y-np.amin(y)
                 y = y/np.amax(y)
                 coeff, var_matrix = curve_fit(gauss_1fp, x, y, p0=p0)

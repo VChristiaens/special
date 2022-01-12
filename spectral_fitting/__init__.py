@@ -15,7 +15,8 @@ from .utils_mcmc import *
 from .utils_spec import *
 from .fits import *
 from .spec_corr import *
+from .spec_indices import *
 from .chi import *
 from .model_resampling import *
-from .mcmc_sampling_spec import *
+from .mcmc import *
 from .template_fit import *
