@@ -1,7 +1,7 @@
 numpy
 scipy
 astropy
-emcee
+emcee==2.2.1
 corner
 pandas
 matplotlib
