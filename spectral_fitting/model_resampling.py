@@ -443,8 +443,7 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
                     res = np.array([lbda_obs, spec_mod])
                     
                 resamp_mod.append(res)                
-        else:
-                    
+        else:    
             # interpolate OR convolve+bin model spectrum if not same sampling
             if len(lbda_obs) != len(lbda_mod):
                 res = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 

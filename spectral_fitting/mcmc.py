@@ -252,7 +252,7 @@ def spec_lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs,
         if model_grid is None and model_reader is None:
             msg = "model_name and model_reader must be provided"
             raise TypeError(msg)
-                           
+                         
     lbda_mod, spec_mod = make_model_from_params(params, labels, grid_param_list, 
                                                 dist, lbda_obs, model_grid, 
                                                 model_reader, em_lines, em_grid, 
@@ -260,7 +260,7 @@ def spec_lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs,
                                                 instru_idx, filter_reader, 
                                                 AV_bef_bb, units_obs, units_mod, 
                                                 interp_order)
-    
+     
     # evaluate the goodness of fit indicator
     chi = goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, 
                           dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
