@@ -853,7 +853,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
 
 
     # If required, create the output folder.
-    if save or resamp_before:
+    if save or (resamp_before and grid_param_list is not None):
         if not output_dir:
             raise ValueError('Please provide an output directory path')
         if not isdir(output_dir):
@@ -959,7 +959,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     else:
         raise ValueError("ini_ball must be string or float")
     
-    sampler = emcee.EnsembleSampler(nwalkers, dim, spec_lnprob, a,
+    sampler = emcee.EnsembleSampler(nwalkers, dim, spec_lnprob, a=a,
                                     args=([labels, bounds, grid_param_list, 
                                            lbda_obs, spec_obs, err_obs, dist,
                                            model_grid, model_reader, em_lines,
