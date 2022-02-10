@@ -156,10 +156,29 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         if len(em_grid) == 0:
             p_em_grid = None
         else:
+            # first update units of params if needed (i.e. if model_grid is None)
+            em_params = list(params)
+            if model_grid is None:
+                idx_R = labels.index('R')
+                for key, val in em_lines.items():
+                    if val[1] == 'L':
+                        idx_line = labels.index(key)
+                        R_si = em_params[idx_R]*con.R_jup.value
+                        conv_fac = 4*np.pi*R_si**2
+                        em_params[idx_line] /= conv_fac
+                    elif val[1] == 'LogL':
+                        idx_line = labels.index(key)
+                        R_si = em_params[idx_R]*con.R_jup.value
+                        conv_fac = con.L_sun.value/(4*np.pi*R_si**2)
+                        em_params[idx_line] = conv_fac*10**em_params[idx_line]
+                        
+            # then build em. lines dictionary        
             p_em_grid = {}
             for key, _ in em_grid.items():
                 j = labels.index(key)
-                p_em_grid[key] = params[j]
+                p_em_grid[key] = em_params[j]
+                
+
         # interpolate model to requested parameters
         lbda_mod, spec_mod = interpolate_model(params_grid, grid_param_list, 
                                                p_em_grid, em_grid, em_lines,
@@ -763,6 +782,7 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
         where n_ch is the number of wavelengths for the observed spectrum.
         If provided, takes precedence over filename/file_reader which would 
         open and read models at each step of the MCMC.
+        Note: if provided, it should already probe any potential emission line.
     model_reader : python routine
         External routine that reads a model file, converts it to required 
         units and returns a 2D numpy array, where the first column corresponds
