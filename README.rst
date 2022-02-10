@@ -36,7 +36,7 @@ Furthermore, the log-likelihood expression has the option to include:
 - weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments.
 
 More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_.
-Please cite this publication if you use `specfit ` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
+Please cite this publication if you use `specfit` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
 
 
 Documentation
@@ -84,7 +84,7 @@ With ``pip`` you can easily uninstall, upgrade or install a specific version of
 
 .. code-block:: bash
 
-  $ pip install --upgrade specfit
+  $ pip install --upgrade spectral_fitting
 
 Alternatively, you can use ``pip install`` and point to the GitHub repo:
 
