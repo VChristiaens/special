@@ -15,7 +15,7 @@ from setuptools.command.develop import develop
 class InstallReqs(install):
     def run(self):
         print(" *************************** ")
-        print(" *** Installing specfit *** ")
+        print(" *** Installing special *** ")
         print(" *************************** ")
         os.system('pip install -r requirements.txt')
         install.run(self)
@@ -24,7 +24,7 @@ class InstallReqs(install):
 class InstallDevReqs(develop):
     def run(self):
         print(" ********************************* ")
-        print(" *** Installing specfit (dev) *** ")
+        print(" *** Installing special (dev) *** ")
         print(" ********************************* ")
         os.system('pip install -r requirements-dev.txt')
         develop.run(self)
@@ -50,24 +50,24 @@ except:
 with open(resource('README.rst')) as readme_file:
     README = readme_file.read()
 
-with open(resource('spectral_fitting', '__init__.py')) as version_file:
+with open(resource('special', '__init__.py')) as version_file:
     version_file = version_file.read()
     VERSION = re.search(r"""^__version__ = ['"]([^'"]*)['"]""",
                         version_file, re.M)
     VERSION = VERSION.group(1)
 
 
-PACKAGES = ['spectral_fitting']
+PACKAGES = ['special']
 
 setup(
-    name='spectral_fitting',
+    name='special',
     version=VERSION,
     description='Package for spectral characterization of (sub)stellar objects',
     long_description=README,
     license='MIT',
     author='Valentin Christiaens',
     author_email='valentin.christiaens@uliege.be',
-    url='https://github.com/VChristiaens/specfit',
+    url='https://github.com/VChristiaens/special',
     cmdclass={'install': InstallReqs,
               'develop': InstallDevReqs},
     packages=PACKAGES,

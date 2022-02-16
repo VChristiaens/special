@@ -493,6 +493,9 @@ def mj_from_rj_and_logg(rp, logg):
 
 def nrefrac(wavelength, density=1.0):
    """Calculates refractive index of air from Cauchy formula.
+   For comparisong to measurements from the ground, the wavelenghts of model 
+   spectra must be slightly shifted using:
+       lbda_shift = lbda_model/(1+(nrefrac*1e-6))
 
    Input: wavelength in Angstrom, 
    Returns N = (n-1) * 1.e6. 

@@ -7,11 +7,12 @@ estimation.
 
 __author__ = 'V. Christiaens'
 __all__ = ['mcmc_spec_sampling',
-           'spec_lnprob',
-           'spec_chain_zero_truncated',
-           'spec_show_corner_plot',
-           'spec_show_walk_plot',
-           'spec_confidence']
+           'lnprob',
+           'lnlike',
+           'chain_zero_truncated',
+           'show_corner_plot',
+           'show_walk_plot',
+           'confidence']
 
 from astropy import constants as con
 import numpy as np
@@ -35,7 +36,7 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
-def spec_lnprior(params, labels, bounds, priors=None):
+def lnprior(params, labels, bounds, priors=None):
     """ Define the prior log-function.
     
     Parameters
@@ -95,7 +96,7 @@ def spec_lnprior(params, labels, bounds, priors=None):
             cond=False
 
     if cond:
-        lnprior = 0.
+        lnpri = 0.
         if priors is not None:
             for key, prior in priors.items():
                 if key == 'M' and 'logg' in labels:
@@ -104,20 +105,20 @@ def spec_lnprior(params, labels, bounds, priors=None):
                     rp = params[idx_rp]
                     logg = params[idx_logg]
                     mp = mj_from_rj_and_logg(rp, logg)
-                    lnprior += -0.5 * (mp - prior[0])**2 / prior[1]**2
+                    lnpri += -0.5 * (mp - prior[0])**2 / prior[1]**2
                 else:
                     idx_prior = labels.index(key)
-                    lnprior += -0.5*(params[idx_prior]-prior[0])**2/prior[1]**2
-        return lnprior
+                    lnpri += -0.5*(params[idx_prior]-prior[0])**2/prior[1]**2
+        return lnpri
     else:
         return -np.inf
 
 
-def spec_lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, 
-                dist, model_grid=None, model_reader=None, em_lines={}, 
-                em_grid={}, dlbda_obs=None, instru_corr=None, 
-                instru_fwhm=None, instru_idx=None, filter_reader=None, 
-                AV_bef_bb=False, units_obs='si', units_mod='si', interp_order=1):
+def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist, 
+           model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
+           dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
+           filter_reader=None, AV_bef_bb=False, units_obs='si', units_mod='si', 
+           interp_order=1):
     """ Define the likelihood log-function.
     
     Parameters
@@ -273,12 +274,11 @@ def spec_lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs,
     return lnlikelihood
 
 
-def spec_lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, 
-                err_obs, dist, model_grid=None, model_reader=None, em_lines={},
-                em_grid={}, dlbda_obs=None, instru_corr=None, instru_fwhm=None, 
-                instru_idx=None, filter_reader=None, AV_bef_bb=False, 
-                units_obs='si', units_mod='si', interp_order=1, priors=None, 
-                physical=True):
+def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs, 
+           dist, model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
+           dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
+           filter_reader=None, AV_bef_bb=False, units_obs='si', units_mod='si', 
+           interp_order=1, priors=None, physical=True):
     """ Define the probability log-function as the sum between the prior and
     likelihood log-functions.
     
@@ -435,7 +435,7 @@ def spec_lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs,
     
     """
     
-    lp = spec_lnprior(params, labels, bounds, priors)
+    lp = lnprior(params, labels, bounds, priors)
     
     if np.isinf(lp):
         return -np.inf
@@ -474,7 +474,7 @@ def spec_lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs,
                 if params[idx_Tbb1+idx] >= params[idx_Tbb1+idx-2]:
                     return -np.inf
         
-    return lp + spec_lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, 
+    return lp + lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, 
                             err_obs, dist, model_grid, model_reader, em_lines,
                             em_grid, dlbda_obs, instru_corr, instru_fwhm, 
                             instru_idx, filter_reader, AV_bef_bb, units_obs, 
@@ -959,7 +959,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     else:
         raise ValueError("ini_ball must be string or float")
     
-    sampler = emcee.EnsembleSampler(nwalkers, dim, spec_lnprob, a=a,
+    sampler = emcee.EnsembleSampler(nwalkers, dim, lnprob, a=a,
                                     args=([labels, bounds, grid_param_list, 
                                            lbda_obs, spec_obs, err_obs, dist,
                                            model_grid, model_reader, em_lines,
@@ -1014,7 +1014,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
             geom += 1
             lastcheck = k
             if display:
-                spec_show_walk_plot(chain)
+                show_walk_plot(chain)
                 
             # We only test the rhat if we have reached the min # of steps
             if (k+1) >= itermin and konvergence == np.inf:
@@ -1097,9 +1097,8 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
             # break to avoid a bug related to font type
             break
         
-    isamples, ln_proba, ar = spec_chain_zero_truncated(chain, 
-                                                       sampler.lnprobability,
-                                                       ar_frac)   
+    isamples, ln_proba, ar = chain_zero_truncated(chain, sampler.lnprobability,
+                                                  ar_frac)   
     # update units in the chain if needed
     if len(em_grid)>0:
         for key, val in em_lines.items():
@@ -1147,7 +1146,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     return isamples, ln_proba
 
                                     
-def spec_chain_zero_truncated(chain, ln_proba=None, ar=None):
+def chain_zero_truncated(chain, ln_proba=None, ar=None):
     """
     Return the Markov chain with the dimension: walkers x steps* x parameters,
     where steps* is the last step before having 0 (not yet constructed chain).
@@ -1184,8 +1183,8 @@ def spec_chain_zero_truncated(chain, ln_proba=None, ar=None):
         return tuple(res)
  
    
-def spec_show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
-                        **kwargs):
+def show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
+                   **kwargs):
     """
     Display/save a figure showing the path of each walker during the MCMC run.
     
@@ -1253,9 +1252,9 @@ def spec_show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
         plt.show()
 
 
-def spec_show_corner_plot(chain, burnin=0.5, save=False, output_dir='', 
-                          mcmc_res=None, units=None, ndig=None, 
-                          labels_plot=None, plot_name='corner_plot.pdf', **kwargs):
+def show_corner_plot(chain, burnin=0.5, save=False, output_dir='', 
+                     mcmc_res=None, units=None, ndig=None, labels_plot=None, 
+                     plot_name='corner_plot.pdf', **kwargs):
     """
     Display/save a figure showing the corner plot (pdfs + correlation plots).
     
@@ -1396,9 +1395,9 @@ def spec_show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
         plt.show()
 
 
-def spec_confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False, 
-                    weights=None, verbose=True, save=False, output_dir='', 
-                    bounds=None, priors=None, **kwargs):
+def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False, 
+               weights=None, verbose=True, save=False, output_dir='', 
+               bounds=None, priors=None, **kwargs):
     """
     Determine the highly probable value for each model parameter, as well as
     the 1-sigma confidence interval.

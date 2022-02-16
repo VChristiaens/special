@@ -5,7 +5,7 @@
 Module with configuration parameters and timing functions (inspired from VIP).
 """
 
-__author__ = 'Valentin Christiaens'
+__author__ = 'Valentin Christiaens, C. A. Gomez Gonzalez'
 
 __all__ = ['time_ini',
            'timing',

@@ -18,5 +18,6 @@ from .spec_corr import *
 from .spec_indices import *
 from .chi import *
 from .model_resampling import *
-from .mcmc import *
+from .mcmc_sampling import *
+from .nested_sampling import *
 from .template_fit import *

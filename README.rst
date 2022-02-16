@@ -1,22 +1,22 @@
-specfit
+special
 =======
 
-.. image:: https://badge.fury.io/py/spectral-fitting.svg
-    :target: https://pypi.python.org/pypi/spectral-fitting
+.. image:: https://badge.fury.io/py/special.svg
+    :target: https://pypi.python.org/pypi/special.svg
 
 .. image:: https://img.shields.io/badge/Python-3.6%2C%203.7%2C%203.8%2C%203.9-brightgreen.svg
-    :target: https://pypi.python.org/pypi/spectral_fitting
+    :target: https://pypi.python.org/pypi/special.svg
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
-    :target: https://github.com/VChristiaens/specfit/blob/master/LICENSE
+    :target: https://github.com/VChristiaens/special/blob/master/LICENSE
 
 
-``specfit`` (or ``spectral_fitting`` on pypi) is a package for the spectral characterization of (sub-)stellar objects.
+``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions.
 
-This package provides the tools for the analysis of measured spectra (e.g. low-res spectra of directly imaged companions, but not exclusively), including:
+This package provides the tools for the analysis of measured spectra, including:
 
 - calculation of the spectral correlation between channels of an IFS datacube;
-- fitting of input spectra to different grids of models (the code is grid-independent, download of the grids is left to the user);  
+- fitting of input spectra to different grids of models (the code is grid-independent, download of the grids is left to the user);
 - MCMC sampling of the model grid parameter space;
 - searching for the best-fit template spectrum within a given library.
 
