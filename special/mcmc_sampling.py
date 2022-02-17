@@ -493,7 +493,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                        niteration_supp=0, check_maxgap=20, conv_test='ac', 
                        ac_c=50, ac_count_thr=3, burnin=0.3, rhat_threshold=1.01, 
                        rhat_count_threshold=1, grid_name='resamp_grid.fits', 
-                       output_dir='specfit/', output_file=None, nproc=1, 
+                       output_dir='special/', output_file=None, nproc=1, 
                        display=False, verbosity=0, save=False):
     """ Runs an affine invariant MCMC sampling algorithm in order to determine
     the most likely parameters for given spectral model and observed spectrum. 
@@ -1203,6 +1203,9 @@ def show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
         contribution
     save: boolean, default: False
         If True, a pdf file is created.
+    output_dir: str, optional
+        The name of the output directory which contains the output files in the 
+        case  ``save`` is True.    
     ntrunc: int, opt
         max number of walkers plotted. If too many walkers the plot will become
         too voluminous and too crowded. Plot will be truncated to only ntrunc 
@@ -1268,6 +1271,9 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
         The fraction of a walker we want to discard.
     save: boolean, default: False
         If True, a pdf file is created.
+    output_dir: str, optional
+        The name of the output directory which contains the output files in the 
+        case  ``save`` is True.    
     mcmc_res: numpy array OR tuple of 2 dictionaries/np.array, opt
         Values to be printed on top of each 1d posterior distribution   
         * if numpy array: \
@@ -1290,7 +1296,7 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
         will use "labels" passed in kwargs.
     kwargs:
         Additional attributes passed to the corner.corner() method.
-        (e.g. 'labels', 'show_title')
+        (e.g. 'labels', 'labels_tit', 'labels_tit_unit', 'title_kwargs')
                     
     Returns
     -------

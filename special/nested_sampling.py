@@ -11,12 +11,15 @@ __author__ = 'V. Christiaens, C. A. Gomez Gonzalez',
 __all__ = ['nested_spec_sampling',
            'nested_sampling_results']
 
+from astropy import constants as con
 import nestle
-import corner
 import numpy as np
 from matplotlib import pyplot as plt
-from ..config import time_ini, timing
-from .mcmc_sampling import lnlike, confidence, show_walk_plot
+from .config import time_ini, timing
+from .fits import open_fits, write_fits
+from .mcmc_sampling import lnlike, confidence, show_walk_plot, show_corner_plot
+from .model_resampling import make_resampled_models
+from os.path import isfile
 
 
 def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist, 
@@ -26,7 +29,8 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                          instru_fwhm=None, instru_idx=None, filter_reader=None, 
                          AV_bef_bb=False, units_obs='si', units_mod='si', 
                          interp_order=1, priors=None, physical=True, 
-                         interp_nonexist=True, w=0.1, method='single', 
+                         interp_nonexist=True, w=0.1, output_dir='special/', 
+                         grid_name='resamp_grid.fits', method='single', 
                          npoints=100, dlogz=0.1, decline_factor=None, 
                          rstate=None, verbose=True):
                             
@@ -172,7 +176,6 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
         or "lambda(nm)" for nanometer. Note: Only what is in parentheses \
         matters.
-        
         Important: filter files should all have the same format and WL units.
     AV_bef_bb: bool, optional
         If both extinction and an extra bb component are free parameters, 
@@ -213,6 +216,14 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
             (0.9*params[0], 1.1*params[0]),
             ...
             (0.9*params[N-1], 1.1*params[N-1]),
+        to True), or make it and write it if it doesn't.
+    output_dir: str, optional
+        The name of the output directory which contains the output files in the 
+        case  ``save`` is True.   
+    grid_name: str, optional
+        Name of the fits file containing the model grid (numpy array) AFTER
+        convolution+resampling as the observed spectrum given as input.
+        If provided, will read it if it exists (and resamp_before is set
     method : {"single", "multi", "classic"}, str optional
         Flavor of nested sampling. Single ellipsoid works well for the NEGFC and
         is the default.
@@ -303,13 +314,146 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     decrease is significant.
 
     """
+    # ----------------------- Preparation/Formatting --------------------------
 
-    # If companion flux is too low MCMC will not converge. Solution: scale up 
-    # the intensities in the cube after injecting the negfc.
-    if init[2] < 100:
-        scale_fac = 100./init[2]
+    nparams = len(init)  
+    if np.isscalar(w):
+        w_list = [w]*nparams
+    elif nparams != len(w):
+        msg = "length of w should be equal to the number of parameters"
+        raise ValueError(msg)
     else:
-        scale_fac = 1
+        w_list = w
+    
+    if grid_param_list is not None:
+        if model_grid is None and model_reader is None:
+            msg = "Either model_grid or model_reader have to be provided"
+            raise TypeError(msg)
+        n_gparams = len(grid_param_list)
+        gp_dims = []
+        for nn in range(n_gparams):
+            gp_dims.append(len(grid_param_list[nn]))
+        gp_dims = tuple(gp_dims)
+    else:
+        n_gparams = 0
+        
+    # format emission line dictionary and em grid
+    if len(em_grid)>0:
+        n_em = len(em_grid)
+        em_dims = []
+        for lab in labels:
+            if lab in em_grid.keys():
+                em_dims.append(len(em_grid[lab]))
+        em_dims = tuple(em_dims)
+        # update the grids depending on input units => make it surface flux
+        idx_R = labels.index('R')
+        for key, val in em_lines.items():
+            if val[1] == 'L':
+                idx_line = labels.index(key)
+                # adapt grid
+                R_si = init[idx_R]*con.R_jup.value
+                conv_fac = 4*np.pi*R_si**2
+                tmp = np.array(em_grid[key])/conv_fac
+                em_grid[key] = tmp.tolist()
+                # adapt ini state 
+                init = list(init)
+                init[idx_line] /= conv_fac
+                init = tuple(init)
+                #adapt bounds
+                bounds_ori = list(bounds[key])
+                bounds[key] = (bounds_ori[0]/conv_fac, bounds_ori[1]/conv_fac) 
+            elif val[1] == 'LogL':
+                idx_line = labels.index(key)
+                R_si = init[idx_R]*con.R_jup.value
+                conv_fac = con.L_sun.value/(4*np.pi*R_si**2)
+                tmp = np.power(10,np.array(em_grid[key]))*conv_fac
+                em_grid[key] = tmp.tolist()  
+                # adapt ini state 
+                init = list(init)
+                init[idx_line] = conv_fac*10**init[idx_line]
+                init = tuple(init)
+                #adapt bounds
+                bounds_ori = list(bounds[key])
+                bounds[key] = (conv_fac*10**bounds_ori[0], 
+                               conv_fac*10**bounds_ori[1]) 
+            if em_lines[key][2] is not None:
+                if em_lines[key][-1] == 'km/s':
+                    v = em_lines[key][2]
+                    em_lines_tmp = list(em_lines[key])
+                    em_lines_tmp[2] = (1000*v/con.c.value)*em_lines[key][0]
+                    em_lines_tmp[3] = 'mu'
+                    em_lines[key] = tuple(em_lines_tmp)
+                elif em_lines[key][-1] == 'nm':
+                    em_lines_tmp = list(em_lines[key])
+                    em_lines_tmp[2] = em_lines[key][2]/1000
+                    em_lines_tmp[3] = 'mu'
+                    em_lines[key] = tuple(em_lines_tmp)
+                elif em_lines[key][-1] != 'mu':
+                    msg = "Invalid unit of FWHM for line injection"
+                    raise ValueError(msg)
+                
+    if model_grid is not None and grid_param_list is not None:
+        if model_grid.ndim-2 != n_gparams:
+            msg = "Ndim-2 of model_grid should match len(grid_param_list)"
+            raise TypeError(msg)
+
+ 
+    # Check model grid parameters extend beyond bounds to avoid extrapolation
+    if grid_param_list is not None:
+        for pp in range(n_gparams):
+            if grid_param_list[pp][0]>bounds[labels[pp]][0]:
+                msg= "Grid has to extend beyond bounds for {}."
+                msg+="\n Consider increasing the lower bound to >{}."
+                raise ValueError(msg.format(labels[pp],grid_param_list[pp][0]))
+            if grid_param_list[pp][-1]<bounds[labels[pp]][1]:
+                msg= "Grid has to extend beyond bounds for {}."
+                msg+="\n Consider decreasing the upper bound to <{}."
+                raise ValueError(msg.format(labels[pp],grid_param_list[pp][1]))
+                
+    # Check initial state is within bounds for all params (not only grid)
+    for pp in range(nparams):
+        if init[pp]<bounds[labels[pp]][0]:
+            msg= "Initial state has to be within bounds for {}."
+            msg+="\n Consider decreasing the lower bound to <{}."
+            raise ValueError(msg.format(labels[pp],init[pp]))            
+        if init[pp]>bounds[labels[pp]][1]:
+            msg= "Initial state has to be within bounds for {}."
+            msg+="\n Consider decreasing the upper bound to >{}."
+            raise ValueError(msg.format(labels[pp],init[pp]))
+        
+    # Prepare model grid: convolve+resample models as observations 
+    if resamp_before and grid_param_list is not None:
+        if isfile(output_dir+grid_name):
+            model_grid = open_fits(output_dir+grid_name)
+            # check its shape is consistent with grid_param_list
+            if model_grid.shape[:n_gparams] != gp_dims:
+                msg="the loaded model grid ({}) doesn't have expected dims ({})"
+                raise TypeError(msg.format(model_grid.shape,gp_dims))
+            elif model_grid.shape[-2] != len(lbda_obs):
+                msg="the loaded model grid doesn't have expected WL dimension"
+                raise TypeError(msg)
+            elif model_grid.shape[-1] != 2:
+                msg="the loaded model grid doesn't have expected last dimension"
+                raise TypeError(msg)
+            elif len(em_grid) > 0:
+                if model_grid.shape[n_gparams:n_gparams+n_em] != em_dims:
+                    msg="loaded model grid ({}) doesn't have expected dims ({})"
+                    raise TypeError(msg.format(model_grid.shape,em_dims))
+        else:
+            model_grid = make_resampled_models(lbda_obs, grid_param_list, 
+                                               model_grid, model_reader, 
+                                               em_lines, em_grid, dlbda_obs, 
+                                               instru_fwhm, instru_idx, 
+                                               filter_reader, interp_nonexist)
+            if output_dir and grid_name:
+                write_fits(output_dir+grid_name, model_grid)
+        # note: if model_grid is provided, it is still resampled to the 
+        # same wavelengths as observed spectrum. However, if a fits name is 
+        # provided in grid_name and that file exists, it is assumed the model 
+        # grid in it is already resampled to match lbda_obs.    
+
+
+    # -------------- Definition of utilities for nested sampling --------------
 
     def prior_transform(x):
         """
@@ -337,68 +481,106 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         for each parameter.
         http://kbarbary.github.io/nestle/prior.html
         """
-        nparams = len(init)
-        
-        if np.isscalar(w):
-            w_list = [w]*nparams
-        elif nparams != len(w):
-            msg = "length of w should be equal to the number of parameters"
-            raise ValueError(msg)
-        else:
-            w_list = w
             
         pt = []
         for p in range(nparams):            
-            tmin = init[p] * (1-w_list[p])
-            tmax = init[p] * (1+w_list[p])
-            pt.append(x[p] * (tmax - tmin) + tmin)
+            pmin = init[p] * (1-w_list[p])
+            pmax = init[p] * (1+w_list[p])
+            pt.append(x[p] * (pmax - pmin) + pmin)
         
         return np.array(pt)
 
     def f(param):
-        return lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist, 
-                   model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
-                   dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
-                   filter_reader=None, AV_bef_bb=False, units_obs='si', units_mod='si', 
-                   interp_order=1
-            
-            param=param, cube=cube, angs=angs, plsc=plsc,
-                      psf_norm=psf, fwhm=fwhm, annulus_width=annulus_width,
-                      aperture_radius=aperture_radius, initial_state=init,
-                      cube_ref=cube_ref, svd_mode=svd_mode, scaling=scaling,
-                      algo=algo, delta_rot=delta_rot, fmerit='sum', ncomp=ncomp, 
-                      collapse=collapse, algo_options=algo_options, 
-                      weights=weights, scale_fac=scale_fac)
-
-    # -------------------------------------------------------------------------
+        return lnlike(param, labels, grid_param_list, lbda_obs, spec_obs, 
+                      err_obs, dist, model_grid=model_grid,
+                      model_reader=model_reader, em_lines=em_lines, 
+                      em_grid=em_grid, dlbda_obs=dlbda_obs, 
+                      instru_corr=instru_corr, instru_fwhm=instru_fwhm, 
+                      instru_idx=instru_idx, filter_reader=filter_reader, 
+                      AV_bef_bb=AV_bef_bb, units_obs=units_obs, 
+                      units_mod=units_mod, interp_order=interp_order)
+        
+        
+    # ------------------------ Actual sampling --------------------------------
     if verbose:  start = time_ini()
 
     if verbose:
         print('Prior bounds on parameters:')
-        print('Radius [{},{}]'.format(init[0] - w[0], init[0] + w[0], ))
-        print('Theta [{},{}]'.format(init[1] - w[1], init[1] + w[1]))
-        print('Flux [{},{}]'.format(init[2] - w[2], init[2] + w[2]))
+        for p in range(nparams):            
+            pmin = init[p] * (1-w_list[p])
+            pmax = init[p] * (1+w_list[p])
+            print('{} [{},{}]'.format(labels[p], pmin, pmax))
         print('\nUsing {} active points'.format(npoints))
 
-    res = nestle.sample(f, prior_transform, ndim=3, method=method,
+    res = nestle.sample(f, prior_transform, ndim=nparams, method=method,
                         npoints=npoints, rstate=rstate, dlogz=dlogz,
                         decline_factor=decline_factor)
 
-    # if verbose:  print; timing(start)
     if verbose:
         print('\nTotal running time:')
         timing(start)
+        
     return res
 
 
-def nested_sampling_results(ns_object, burnin=0.4, bins=None, save=False,
-                            output_dir='/', plot=False):
-    """ Shows the results of the Nested Sampling, summary, parameters with 
-    errors, walk and corner plots.
+def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
+                            units=None, ndig=None, labels_plot=None, save=False, 
+                            output_dir='/', plot=False,  **kwargs):
+    """ 
+    Shows the results of the Nested Sampling, summary, parameters with 
+    errors, walk and corner plots. Returns best-fit values and uncertatinties.
+    
+    Parameters
+    ----------
+    ns_object: numpy.array
+        The nestle object returned from `nested_spec_sampling`.
+    labels: Tuple of strings
+        Tuple of labels in the same order as initial_state, that is:
+        - first all parameters related to loaded models (e.g. 'Teff', 'logg')
+        - then the planet photometric radius 'R', in Jupiter radius
+        - (optionally) the flux of emission lines (labels should match those \
+        in the em_lines dictionary), in units of the model spectrum (times mu)
+        - (optionally) the optical extinction 'Av', in mag
+        - (optionally) the ratio of total to selective optical extinction 'Rv'
+        - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
+        contribution. 
+    burnin: float, default: 0
+        The fraction of a walker we want to discard.
+    bins: int, optional
+        The number of bins used to sample the posterior distributions.
+    cfd: float, optional
+        The confidence level given in percentage.
+    units: tuple, opt
+        Tuple of strings containing units for each parameter. If provided,
+        mcmc_res will be printed on top of each 1d posterior distribution along 
+        with these units.
+    ndig: tuple, opt
+        Number of digits precision for each printed parameter
+    labels_plot: tuple, opt
+        Labels corresponding to parameter names, used for the plot. If None,
+        will use "labels" passed in kwargs.
+    save: boolean, default: False
+        If True, a pdf file is created.
+    output_dir: str, optional
+        The name of the output directory which contains the output files in the 
+        case  ``save`` is True. 
+    plot: bool, optional
+        Whether to show the plots (instead of saving them).
+    kwargs:
+        Additional optional arguments passed to `confidence` (matplotlib 
+        optional arguments for histograms).
+                    
+    Returns
+    -------
+    final_res: numpy ndarray
+         Best-fit parameters and uncertainties (corresponding to 68% confidence
+         interval). Dimensions: nparams x 2.
+    
     """
     res = ns_object
     nsamples = res.samples.shape[0]
     indburnin = int(np.percentile(np.array(range(nsamples)), burnin * 100))
+    nparams = len(labels)
 
     print(res.summary())
 
@@ -433,10 +615,9 @@ def nested_sampling_results(ns_object, burnin=0.4, bins=None, save=False,
     mean, cov = nestle.mean_and_cov(res.samples[indburnin:],
                                     res.weights[indburnin:])
     print("\nWeighted mean +- sqrt(covariance)")
-    print("Radius = {:.3f} +/- {:.3f}".format(mean[0], np.sqrt(cov[0, 0])))
-    print("Theta = {:.3f} +/- {:.3f}".format(mean[1], np.sqrt(cov[1, 1])))
-    print("Flux = {:.3f} +/- {:.3f}".format(mean[2], np.sqrt(cov[2, 2])))
-
+    for p in range(nparams):
+        print("{} = {:.3f} +/- {:.3f}".format(labels[p], mean[p], 
+                                              np.sqrt(cov[p, p])))
     if save:
         with open(output_dir+'Nested_sampling.txt', "w") as f:
             f.write('#################################\n')
@@ -447,34 +628,38 @@ def nested_sampling_results(ns_object, burnin=0.4, bins=None, save=False,
             f.write('----------------------------------\n ')
             f.write(' \n')
             f.write("\nWeighted mean +- sqrt(covariance)\n")
-            f.write("Radius = {:.3f} +/- {:.3f}\n".format(mean[0], np.sqrt(cov[0, 0])))
-            f.write("Theta = {:.3f} +/- {:.3f}\n".format(mean[1], np.sqrt(cov[1, 1])))
-            f.write("Flux = {:.3f} +/- {:.3f}\n".format(mean[2], np.sqrt(cov[2, 2])))
+            for p in range(nparams):
+                f.write("{} = {:.3f} +/- {:.3f}\n".format(labels[p], mean[p], 
+                                                          np.sqrt(cov[p, p])))
                         
+    final_res = np.zeros([nparams,2]) 
+    for p in range(nparams):     
+        final_res[p] = [mean[p], np.sqrt(cov[p, p])]
+
     if bins is None:
         bins = int(np.sqrt(res.samples[indburnin:].shape[0]))
         print("\nHist bins =", bins)
     
     if save or plot:
-        ranges = None
-        fig = corner.corner(res.samples[indburnin:], bins=bins,
-                            labels=["$r$", r"$\theta$", "$f$"],
-                            weights=res.weights[indburnin:], range=ranges,
-                            plot_contours=True)
+        fig = show_corner_plot(res.samples[indburnin:], burnin=burnin, 
+                               save=save, output_dir=output_dir, 
+                               mcmc_res=final_res, units=units, ndig=ndig, 
+                               labels_plot=labels_plot, 
+                               plot_name='corner_plot.pdf', labels=labels)
         fig.set_size_inches(8, 8)
     if save:
         plt.savefig(output_dir+'Nested_corner.pdf')
             
     print('\nConfidence intervals')
     if save or plot:
-        _ = confidence(res.samples[indburnin:], cfd=68, bins=bins,
+        _ = confidence(res.samples[indburnin:], labels, cfd=cfd, bins=bins,
                        weights=res.weights[indburnin:],
-                       gaussian_fit=True, verbose=True, save=False)
-                   
+                       gaussian_fit=True, verbose=True, save=False, **kwargs)        
+     
     if save:
         plt.savefig(output_dir+'Nested_confi_hist_flux_r_theta_gaussfit.pdf')
 
-    final_res = np.array([[mean[0], np.sqrt(cov[0, 0])],
-                          [mean[1], np.sqrt(cov[1, 1])],
-                          [mean[2], np.sqrt(cov[2, 2])]])
+    if plot:
+        plt.show()
+        
     return final_res
