@@ -11,16 +11,16 @@ special
     :target: https://github.com/VChristiaens/special/blob/master/LICENSE
 
 
-``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions.
+``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. Although some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets, it can also be used in a more general way for the characterisation of any object with a measured spectrum, provided a user-provided model grid.
 
-This package provides the tools for the analysis of measured spectra, including:
+This package provides the following tools for the analysis of measured spectra:
 
 - calculation of the spectral correlation between channels of an IFS datacube;
-- fitting of input spectra to different grids of models (the code is grid-independent, download of the grids is left to the user);
-- MCMC sampling of the model grid parameter space;
-- searching for the best-fit template spectrum within a given library.
+- fitting of input spectra to different grids of models;
+- MCMC or nested sampling of the model grid parameter space;
+- searching for the best-fit template spectrum within a given template library.
 
-In particular, the MCMC sampler routine makes use of the `emcee` package (Foreman-Mackey et al. 2013):
+The MCMC sampler routine makes use of the `emcee` package (Foreman-Mackey et al. 2013):
 
 - is flexible, as it is usable on any grid of models downloaded by the user (provided a snippet function specifying the format of the input);
 - can fit (additional) blackbody components;
@@ -33,15 +33,17 @@ In particular, the MCMC sampler routine makes use of the `emcee` package (Forema
 Furthermore, the log-likelihood expression has the option to include:
 
 - spectral correlation between measurements of adjacent channels of a given instrument;
-- weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments.
+- weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).
 
-More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_.
-Please cite this publication if you use `specfit` for your research, along with `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler.
+More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as a module called ``specfit`` in the VIP package).
+Please cite this publication if you use `special` for your research, along with:
+- `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler;
+- `Skilling et al. (2004) <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S/abstract>`_ and `Feroz et al. (2009) <https://ui.adsabs.harvard.edu/abs/2009MNRAS.398.1601F/abstract>`_ if you use the nested sampler.
 
 
 Documentation
 -------------
-The documentation for ``specfit`` can be found here: TBD
+The documentation for ``special`` can be found here: TBD
 
 
 Jupyter notebook tutorial
@@ -53,7 +55,7 @@ TL;DR setup guide
 -----------------
 .. code-block:: bash
 
-    $ pip install spectral_fitting
+    $ pip install special
 
 
 Installation and dependencies
@@ -65,37 +67,37 @@ alternative is to use package managers like apt-get for Ubuntu or
 Homebrew/MacPorts/Fink for macOS. We recommend using 
 `Miniconda <https://conda.io/miniconda>`_.
 
-``specfit`` depends on existing packages from the Python ecosystem, such as
+``special `` depends on existing packages from the Python ecosystem, such as
 ``numpy``, ``scipy``, ``matplotlib``, ``pandas`` and ``astropy``. There are different ways of
-installing ``specfit`` suitable for different scenarios.
+installing ``special`` suitable for different scenarios.
 
 
 Using pip
 ^^^^^^^^^
-The easiest way to install ``specfit`` (``spectral_fitting`` on pypi) is through the Python Package Index, aka
+The easiest way to install ``special`` is through the Python Package Index, aka
 `PyPI <https://pypi.org/>`_, with the ``pip`` package manager. Simply run:
 
 .. code-block:: bash
 
-  $ pip install spectral_fitting
+  $ pip install special
 
 With ``pip`` you can easily uninstall, upgrade or install a specific version of
-``specfit``. For upgrading the package run:
+``special ``. For upgrading the package run:
 
 .. code-block:: bash
 
-  $ pip install --upgrade spectral_fitting
+  $ pip install --upgrade special
 
 Alternatively, you can use ``pip install`` and point to the GitHub repo:
 
 .. code-block:: bash
 
-  $ pip install git+https://github.com/VChristiaens/specfit.git
+  $ pip install git+https://github.com/VChristiaens/special.git
 
 Using the setup.py file
 ^^^^^^^^^^^^^^^^^^^^^^^
-You can download ``specfit`` from its GitHub repository as a zip file. A ``setup.py``
-file (setuptools) is included in the root folder of ``specfit``. Enter the package's
+You can download ``special`` from its GitHub repository as a zip file. A ``setup.py``
+file (setuptools) is included in the root folder of ``special``. Enter the package's
 root folder and run:
 
 .. code-block:: bash
@@ -111,14 +113,14 @@ clone it:
 
 .. code-block:: bash
 
-  $ git clone https://github.com/<replace-by-your-username>/specfit.git
+  $ git clone https://github.com/<replace-by-your-username>/special.git
 
 If you do not create a fork, you can still benefit from the ``git`` syncing
 functionalities by cloning the repository (but will not be able to contribute):
 
 .. code-block:: bash
 
-  $ git clone https://github.com/VChristiaens/specfit.git
+  $ git clone https://github.com/VChristiaens/special.git
 
 Before installing the package, it is highly recommended to create a dedicated
 conda environment to not mess up with the package versions in your base 
@@ -133,7 +135,7 @@ Note: installing ipython while creating the environment with the above line will
 avoid a commonly reported issue which stems from trying to import VIP from 
 within a base python2.7 ipython console.
 
-To install specfit, simply cd into the specfit directory and run the setup file 
+To install special, simply cd into the special directory and run the setup file 
 in 'develop' mode:
 
 .. code-block:: bash
@@ -141,22 +143,22 @@ in 'develop' mode:
   $ cd VIP
   $ python setup.py develop
 
-If cloned from your fork, make sure to link your specfit directory to the upstream 
+If cloned from your fork, make sure to link your special directory to the upstream 
 source, to be able to easily update your local copy when a new version comes 
 out or a bug is fixed:
 
 .. code-block:: bash
 
-  $ git add remote upstream https://github.com/VChristiaenss/specfit
+  $ git add remote upstream https://github.com/VChristiaenss/special
 
 
-Loading specfit
+Loading special
 ^^^^^^^^^^^^^^^
-Finally, start Python or IPython and check that you are able to import ``specfit``:
+Finally, start Python or IPython and check that you are able to import ``special``:
 
 .. code-block:: python
 
-  import spectral_fitting as specfit
+  import specialspecial
 
 If everything went fine with the installation, you will see a welcome message.
 Now you can start characterizing exoplanets and other (sub)stellar objects!
