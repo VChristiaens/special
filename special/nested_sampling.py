@@ -20,6 +20,7 @@ from .fits import open_fits, write_fits
 from .mcmc_sampling import lnlike, confidence, show_walk_plot, show_corner_plot
 from .model_resampling import make_resampled_models
 from os.path import isfile
+from scipy.special import ndtri
 
 
 def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist, 
@@ -29,7 +30,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                          instru_fwhm=None, instru_idx=None, filter_reader=None, 
                          AV_bef_bb=False, units_obs='si', units_mod='si', 
                          interp_order=1, priors=None, physical=True, 
-                         interp_nonexist=True, w=0.1, output_dir='special/', 
+                         interp_nonexist=True, w=0.5, output_dir='special/', 
                          grid_name='resamp_grid.fits', method='single', 
                          npoints=100, dlogz=0.1, decline_factor=None, 
                          rstate=None, verbose=True):
@@ -225,8 +226,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         convolution+resampling as the observed spectrum given as input.
         If provided, will read it if it exists (and resamp_before is set
     method : {"single", "multi", "classic"}, str optional
-        Flavor of nested sampling. Single ellipsoid works well for the NEGFC and
-        is the default.
+        Flavor of nested sampling.
     npoints : int optional
         Number of active points. At least ndim+1 (4 will produce bad results).
         For problems with just a few parameters (<=5) like the NEGFC, good
@@ -460,16 +460,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         Computes the transformation from the unit distribution `[0, 1]` to 
         parameter space. Uniform distributions are assumed for all parameters.
         
-        The default distributions used are
-        radius: Uniform distribution transformed into polar coordinates
-            This distribution assumes uniform distribution for the (x,y) 
-            coordinates transformed to polar coordinates.
-        theta: Uniform distribution
-            This distribution is derived the same as the radial distribution, 
-            but there is no change on the prior for theta after the 
-            change-of-variables transformation.
-        flux: Poisson-invariant scale distribution
-            This distribution is the Jeffrey's prior for Poisson data
+        
         Notes
         -----
         The prior transform function is used to specify the Bayesian prior for 
@@ -481,16 +472,27 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         for each parameter.
         http://kbarbary.github.io/nestle/prior.html
         """
-            
+        # uniform priors
         pt = []
         for p in range(nparams):            
             pmin = init[p] * (1-w_list[p])
             pmax = init[p] * (1+w_list[p])
             pt.append(x[p] * (pmax - pmin) + pmin)
-        
+                
+        if priors is not None:
+            # replace with Gaussian prior where relevant
+            for key, prior in priors.items():
+                if key == 'M' and 'logg' in labels:
+                    msg = "Mass prior only available for MCMC sampling"
+                    raise ValueError(msg)
+                else:
+                    idx_prior = labels.index(key)
+                    pt[idx_prior] = prior[0] + prior[1] * ndtri(x)
+            
         return np.array(pt)
 
     def f(param):
+        
         return lnlike(param, labels, grid_param_list, lbda_obs, spec_obs, 
                       err_obs, dist, model_grid=model_grid,
                       model_reader=model_reader, em_lines=em_lines, 
