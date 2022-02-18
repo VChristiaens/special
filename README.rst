@@ -17,13 +17,14 @@ This package provides the following tools for the analysis of measured spectra:
 
 - calculation of the spectral correlation between channels of an IFS datacube;
 - fitting of input spectra to different grids of models;
-- MCMC or nested sampling of the model grid parameter space;
+- using the MCMC (emcee) sampler to infer posterior distributions on spectral model parameters;
+- using the nested (nestle) sampler to infer posterior distributions on spectral model parameters;
 - searching for the best-fit template spectrum within a given template library.
 
-The MCMC sampler routine makes use of the `emcee` package (Foreman-Mackey et al. 2013):
+The MCMC sampler routine makes use of the `emcee` package (Foreman-Mackey et al. 2013), while the nested sampler routine relies on the `nestle` package (http://kylebarbary.com/nestle/). Either routine:
 
 - is flexible, as it is usable on any grid of models downloaded by the user (provided a snippet function specifying the format of the input);
-- can fit (additional) blackbody components;
+- can sample the effect of (additional) blackbody components;
 - can sample the effect of extinction; 
 - can sample different extinction laws than ISM (parametrised using RV);
 - accepts either uniform or Gaussian priors for each model parameter;
@@ -36,9 +37,9 @@ Furthermore, the log-likelihood expression has the option to include:
 - weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).
 
 More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as a module called ``specfit`` in the VIP package).
-Please cite this publication if you use `special` for your research, along with:
+Please cite the above publication if you use `special` for your research, along with:
 - `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler;
-- `Skilling et al. (2004) <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S/abstract>`_ and `Feroz et al. (2009) <https://ui.adsabs.harvard.edu/abs/2009MNRAS.398.1601F/abstract>`_ if you use the nested sampler.
+- `Skilling (2004) <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S/abstract>`_, `Mukherjee et al. (2006) <https://ui.adsabs.harvard.edu/abs/2006ApJ...638L..51M/abstract>`_, or `Feroz et al. (2009) <https://ui.adsabs.harvard.edu/abs/2009MNRAS.398.1601F/abstract>`_ if you use the nested sampler in 'classic', 'single' or 'multi' mode, respectively. Please also provide the `GitHub repository <http://github.com/kbarbary/nestle>`_.
 
 
 Documentation
@@ -149,7 +150,7 @@ out or a bug is fixed:
 
 .. code-block:: bash
 
-  $ git add remote upstream https://github.com/VChristiaenss/special
+  $ git add remote upstream https://github.com/VChristiaens/special.git
 
 
 Loading special
@@ -158,7 +159,6 @@ Finally, start Python or IPython and check that you are able to import ``special
 
 .. code-block:: python
 
-  import specialspecial
+  import special
 
-If everything went fine with the installation, you will see a welcome message.
 Now you can start characterizing exoplanets and other (sub)stellar objects!
