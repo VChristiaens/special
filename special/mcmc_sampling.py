@@ -1338,7 +1338,7 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
 
         
     if mcmc_res is not None and labels is not None:
-        title_kwargs = kwargs.pop('title_kwargs', None)
+        title_kwargs = kwargs.pop('title_kwargs', {})
         if isinstance(mcmc_res,tuple):
             if len(mcmc_res) != 2:
                 msg = "mcmc_res should have 2 elements"
@@ -1375,7 +1375,11 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
             else:
                 q_50 = mcmc_res[i,0]
                 q_m = mcmc_res[i,1]
-                q_p = mcmc_res[i,2]
+                if mcmc_res.shape[1]==3:
+                    q_p = mcmc_res[i,2]
+                else:
+                    q_p = np.abs(q_m)
+                    q_m = -np.abs(q_m)
 
             # Format the quantile display.
             try:
@@ -1534,7 +1538,7 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
                 ax[0][j].set_ylabel('Counts')
 
             mu[j], sigma[j] = norm.fit(isamples[:, j])
-            n_fit, bins_fit = np.histogram(isamples[:, j], bins, normed=1,
+            n_fit, bins_fit = np.histogram(isamples[:, j], bins, density=1,
                                            weights=weights)
             ax[1][j].hist(isamples[:, j], bins, density=1, weights=weights,
                           facecolor='gray', edgecolor='darkgray',

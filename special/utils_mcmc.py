@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 """
-Module with utility functions to the MCMC (``emcee``) sampling for NEGFC 
+Module with utility functions to the MCMC (``emcee``) sampling for 
 parameter estimation.
 """
 

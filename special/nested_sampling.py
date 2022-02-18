@@ -30,10 +30,10 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                          instru_fwhm=None, instru_idx=None, filter_reader=None, 
                          AV_bef_bb=False, units_obs='si', units_mod='si', 
                          interp_order=1, priors=None, physical=True, 
-                         interp_nonexist=True, w=0.5, output_dir='special/', 
+                         interp_nonexist=True, output_dir='special/', 
                          grid_name='resamp_grid.fits', method='single', 
                          npoints=100, dlogz=0.1, decline_factor=None, 
-                         rstate=None, verbose=True):
+                         rstate=None, verbose=True, **kwargs):
                             
     
     """ Runs a nested sampling algorithm in order to determine the position and
@@ -247,6 +247,8 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     rstate : random instance, optional
         RandomState instance. If not given, the global random state of the
         numpy.random module will be used.
+    kwargs: optional
+        Additional optional arguments to the `nestle.sample` function.
 
     Returns
     -------
@@ -316,14 +318,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     """
     # ----------------------- Preparation/Formatting --------------------------
 
-    nparams = len(init)  
-    if np.isscalar(w):
-        w_list = [w]*nparams
-    elif nparams != len(w):
-        msg = "length of w should be equal to the number of parameters"
-        raise ValueError(msg)
-    else:
-        w_list = w
+    nparams = len(init)
     
     if grid_param_list is not None:
         if model_grid is None and model_reader is None:
@@ -475,8 +470,8 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         # uniform priors
         pt = []
         for p in range(nparams):            
-            pmin = init[p] * (1-w_list[p])
-            pmax = init[p] * (1+w_list[p])
+            pmin = bounds[labels[p]][0]
+            pmax = bounds[labels[p]][1]
             pt.append(x[p] * (pmax - pmin) + pmin)
                 
         if priors is not None:
@@ -509,14 +504,14 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     if verbose:
         print('Prior bounds on parameters:')
         for p in range(nparams):            
-            pmin = init[p] * (1-w_list[p])
-            pmax = init[p] * (1+w_list[p])
+            pmin = bounds[labels[p]][0]
+            pmax = bounds[labels[p]][1]
             print('{} [{},{}]'.format(labels[p], pmin, pmax))
         print('\nUsing {} active points'.format(npoints))
 
     res = nestle.sample(f, prior_transform, ndim=nparams, method=method,
                         npoints=npoints, rstate=rstate, dlogz=dlogz,
-                        decline_factor=decline_factor)
+                        decline_factor=decline_factor, **kwargs)
 
     if verbose:
         print('\nTotal running time:')
@@ -602,24 +597,29 @@ def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
         plt.ylabel('weights')
         plt.vlines(indburnin, res.weights.min(), res.weights.max(),
                    linestyles='dotted')
+        if save:
+            plt.savefig(output_dir+'Nested_results.pdf')
         if plot:
             plt.show()
-    
-        plt.savefig(output_dir+'Nested_results.pdf')
             
         print("\nWalk plots before the burnin")
-        show_walk_plot(np.expand_dims(res.samples, axis=0))
+        show_walk_plot(np.expand_dims(res.samples, axis=0), labels)
         if burnin > 0:
             print("\nWalk plots after the burnin")
-            show_walk_plot(np.expand_dims(res.samples[indburnin:], axis=0))
-        plt.savefig(output_dir+'Nested_walk_plots.pdf')
+            show_walk_plot(np.expand_dims(res.samples[indburnin:], axis=0),
+                           labels)
+        if save:
+            plt.savefig(output_dir+'Nested_walk_plots.pdf')
         
     mean, cov = nestle.mean_and_cov(res.samples[indburnin:],
                                     res.weights[indburnin:])
     print("\nWeighted mean +- sqrt(covariance)")
+    if ndig is None:
+        ndig = [3]*len(labels)   
     for p in range(nparams):
-        print("{} = {:.3f} +/- {:.3f}".format(labels[p], mean[p], 
-                                              np.sqrt(cov[p, p])))
+        fmt = "{{:.{0}f}}".format(ndig[p]).format
+        print(r"{0} = {1} +/- {2}".format(labels[p], fmt(mean[p]), 
+                                          fmt(np.sqrt(cov[p, p]))))
     if save:
         with open(output_dir+'Nested_sampling.txt', "w") as f:
             f.write('#################################\n')
@@ -631,8 +631,9 @@ def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
             f.write(' \n')
             f.write("\nWeighted mean +- sqrt(covariance)\n")
             for p in range(nparams):
-                f.write("{} = {:.3f} +/- {:.3f}\n".format(labels[p], mean[p], 
-                                                          np.sqrt(cov[p, p])))
+                fmt = "{{:.{0}f}}".format(ndig[p]).format
+                f.write(r"{0} = {1} +/- {2}\n".format(labels[p], fmt(mean[p]), 
+                                                      fmt(np.sqrt(cov[p, p]))))
                         
     final_res = np.zeros([nparams,2]) 
     for p in range(nparams):     
@@ -643,14 +644,14 @@ def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
         print("\nHist bins =", bins)
     
     if save or plot:
-        fig = show_corner_plot(res.samples[indburnin:], burnin=burnin, 
-                               save=save, output_dir=output_dir, 
-                               mcmc_res=final_res, units=units, ndig=ndig, 
-                               labels_plot=labels_plot, 
-                               plot_name='corner_plot.pdf', labels=labels)
-        fig.set_size_inches(8, 8)
+        show_corner_plot(res.samples[indburnin:], burnin=burnin, save=save, 
+                         output_dir=output_dir, mcmc_res=final_res, units=units, 
+                         ndig=ndig, labels_plot=labels_plot, 
+                         plot_name='corner_plot.pdf', labels=labels)
     if save:
         plt.savefig(output_dir+'Nested_corner.pdf')
+    if plot:
+        plt.show()
             
     print('\nConfidence intervals')
     if save or plot:
