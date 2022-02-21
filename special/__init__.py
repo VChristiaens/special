@@ -4,11 +4,12 @@ spectra, including:
 
 - fitting of input spectra to models and templates;
 - mcmc sampling of model parameter space;
+- nested sampling of model parameter space;
 - best fit search within a template library;
 - utility functions for the spectral fit.
 """
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 from .config import *
 from .utils_mcmc import *
