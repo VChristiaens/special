@@ -144,8 +144,8 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
     if remove_nan:
         if np.isnan(spec_tmp).any() or np.isnan(spec_tmp_err).any():
             bad_idx1 = np.where(np.isnan(spec_tmp))[0]
-            bad_idx2 = np.where(np.isnan(spec_tmp_err))[1]
-            all_bad = np.concatenate(bad_idx1,bad_idx2)
+            bad_idx2 = np.where(np.isnan(spec_tmp_err))[0]
+            all_bad = np.concatenate((bad_idx1,bad_idx2))
             nch = len(lbda_tmp)
             new_lbda = [lbda_tmp[i] for i in range(nch) if i not in all_bad]
             new_spec = [spec_tmp[i] for i in range(nch) if i not in all_bad]
@@ -283,12 +283,23 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
                                       instru_fwhm=instru_fwhm, 
                                       instru_idx=instru_idx, 
                                       filter_reader=filter_reader,
-                                      ext_range=ext_range) 
-        best_chi = np.nanmin(chi)
-        best_idx = np.nanargmin(chi)
-        best_idx = np.unravel_index(best_idx,chi.shape)
-        best_scal = test_scale[best_idx[0]]
-        best_ext = test_ext[best_idx[1]]
+                                      ext_range=ext_range)
+        try:
+            best_chi = np.nanmin(chi)
+            best_idx = np.nanargmin(chi)
+            best_idx = np.unravel_index(best_idx,chi.shape)
+            best_scal = test_scale[best_idx[0]]*scal_fac
+            best_ext = test_ext[best_idx[1]]
+        except:
+            if force_continue:
+                best_chi = np.inf
+                best_scal = np.nan
+                best_ext = np.nan
+            else:
+                msg = "Issue with grid search minimization for template {}. "
+                print(msg.format(tmp_name))
+                import pdb
+                pdb.set_trace()
     
     else:
         msg = "Search mode not recognised. Should be 'simplex' or 'grid'."
@@ -298,7 +309,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         best_chi /= n_dof
         
     
-    return best_chi, best_scal*scal_fac, best_ext, n_dof
+    return best_chi, best_scal, best_ext, n_dof
 
 
 
@@ -469,10 +480,10 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
             if chi[tt]<np.inf:
                 counter+=1
             elif verbosity>0:
-                msg = "{:.0f}/{:.0f} ({}) FAILED"
+                msg_err = "{:.0f}/{:.0f} ({}) FAILED"
                 if np.isnan(chi[tt]):
-                    msg += " (simplex did not converge)"
-                print(msg.format(tt, n_tmp, tmp_filelist[tt]))
+                    msg_err += " (simplex did not converge)"
+                print(msg_err.format(tt, n_tmp, tmp_filelist[tt]))
 
             if verbosity > 0 and tt==0:
                 msg = "{:.0f}/{:.0f}: done in {}s"
@@ -555,7 +566,7 @@ def best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, n_best=1,
         if verbose:
             msg = "The best template #{:.0f} is: {} "
             msg+="(Delta A_V={:.1f}mag)\n"
-            print(msg.format(n, sort_filelist[n], sort_ext[n]))
+            print(msg.format(n+1, sort_filelist[n], sort_ext[n]))
             
     best_tmpname = tuple(sort_filelist[:n_best])
     best_tmp = tuple(best_tmp)
