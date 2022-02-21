@@ -46,7 +46,7 @@ The documentation for ``special`` can be found here: TBD
 
 Jupyter notebook tutorial
 -------------------------
-A Jupter notebook tutorial examplifying most possibilities within ``special`` is available in the 
+A Jupyter notebook tutorial examplifying most possibilities within ``special`` is available in the 
 ``special-extras`` `repository <https://github.com/VChristiaens/special_extras>`_. 
 Alternatively, you can execute this repository on 
 `Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/main>`_ (in the tutorials directory).
@@ -83,7 +83,7 @@ The easiest way to install ``special`` is through the Python Package Index, aka
   $ pip install special
 
 With ``pip`` you can easily uninstall, upgrade or install a specific version of
-``special ``. For upgrading the package run:
+``special``. For upgrading the package run:
 
 .. code-block:: bash
 
