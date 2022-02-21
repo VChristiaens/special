@@ -1,7 +1,7 @@
 special
 =======
 
-.. image:: https://badge.fury.io/py/special.svg
+.. image:: https://badge.fury.io/py/special.svg&service=github
     :target: https://badge.fury.io/py/special
 
 .. image:: https://img.shields.io/badge/Python-3.6%2C%203.7%2C%203.8%2C%203.9-brightgreen.svg
