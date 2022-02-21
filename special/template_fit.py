@@ -258,6 +258,8 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
             best_ext = 0
         else:
             best_scal, best_ext = res.x
+        if np.isfinite(best_scal):
+            best_scal*=scal_fac
         
     # or grid search        
     elif search_mode == 'grid':
@@ -508,8 +510,8 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         print(msg.format(counter, n_tmp))
         timing(start_time)
         
-    return best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, n_best=n_best,
-                      verbose=True)
+    return best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, 
+                      n_best=n_best, verbose=True)
     
     
 def best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, n_best=1, 
