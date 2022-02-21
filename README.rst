@@ -11,33 +11,33 @@ special
     :target: https://github.com/VChristiaens/special/blob/master/LICENSE
 
 
-``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. Although some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets, it can also be used in a more general way for the characterisation of any object with a measured spectrum, provided a user-provided model grid.
+``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. Although some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets, it can also be used in a more general way for the characterisation of any object with a measured spectrum, provided an input model grid.
 
 This package provides the following tools for the analysis of measured spectra:
 
 - calculation of the spectral correlation between channels of an IFS datacube;
 - fitting of input spectra to different grids of models;
-- using the MCMC (emcee) sampler to infer posterior distributions on spectral model parameters;
-- using the nested (nestle) sampler to infer posterior distributions on spectral model parameters;
+- using the MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) sampler to infer posterior distributions on spectral model parameters;
+- using the nested (`nestle <http://github.com/kbarbary/nestle>`_) sampler to infer posterior distributions on spectral model parameters;
 - searching for the best-fit template spectrum within a given template library.
 
-The MCMC sampler routine makes use of the `emcee` package (Foreman-Mackey et al. 2013), while the nested sampler routine relies on the `nestle` package (http://kylebarbary.com/nestle/). Either routine:
+The MCMC and nested sampler routines:
 
-- is flexible, as it is usable on any grid of models downloaded by the user (provided a snippet function specifying the format of the input);
+- are flexible, as they are usable on any grid of models provided by the user (along with a snippet function specifying the format of the input);
 - can sample the effect of (additional) blackbody components;
 - can sample the effect of extinction; 
 - can sample different extinction laws than ISM (parametrised using RV);
-- accepts either uniform or Gaussian priors for each model parameter;
-- accepts a prior on the mass of the object (if surface gravity is one of the model parameters);
-- considers convolution with the spectral PSF and/or resampling of the model for consistency with the input spectrum.
+- accept either uniform or Gaussian priors for each model parameter;
+- accept a prior on the mass of the object (if surface gravity is one of the model parameters, and for the MCMC sampler only);
+- consider convolution with the spectral PSF, photometric filters transmission and/or resampling of the model for consistency with the input spectrum.
 
 Furthermore, the log-likelihood expression has the option to include:
 
 - spectral correlation between measurements of adjacent channels of a given instrument;
 - weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).
 
-More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as a module called ``specfit`` in the VIP package).
-Please cite the above publication if you use `special` for your research, along with:
+More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as a module called ``specfit`` in the ``VIP`` package).
+Please cite Christiaens et al. (2021) if you use ``special`` for your research, along with:
 - `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the MCMC sampler;
 - `Skilling (2004) <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S/abstract>`_, `Mukherjee et al. (2006) <https://ui.adsabs.harvard.edu/abs/2006ApJ...638L..51M/abstract>`_, or `Feroz et al. (2009) <https://ui.adsabs.harvard.edu/abs/2009MNRAS.398.1601F/abstract>`_ if you use the nested sampler in 'classic', 'single' or 'multi' mode, respectively. Please also provide the `GitHub repository <http://github.com/kbarbary/nestle>`_.
 
@@ -49,7 +49,10 @@ The documentation for ``special`` can be found here: TBD
 
 Jupyter notebook tutorial
 -------------------------
-TBD
+A Jupter notebook tutorial examplifying most possibilities within ``special`` is available in the 
+``special-extras`` `repository <https://github.com/VChristiaens/special_extras>`_. 
+Alternatively, you can execute this repository on 
+`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/master>`_(in the tutorials directory).
 
 
 TL;DR setup guide
