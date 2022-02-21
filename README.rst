@@ -2,7 +2,7 @@ special
 =======
 
 .. image:: https://badge.fury.io/py/special.svg
-    :target: https://pypi.python.org/pypi/special.svg
+    :target: https://badge.fury.io/py/special
 
 .. image:: https://img.shields.io/badge/Python-3.6%2C%203.7%2C%203.8%2C%203.9-brightgreen.svg
     :target: https://pypi.python.org/pypi/special.svg
