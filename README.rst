@@ -1,5 +1,4 @@
-special
-=======
+.. image:: /docs/source/_static/Special_logo.jpeg
 
 .. image:: https://badge.fury.io/py/special.svg?branch=main&service=github
     :target: https://badge.fury.io/py/special
@@ -9,9 +8,6 @@ special
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
     :target: https://github.com/VChristiaens/special/blob/master/LICENSE
-
-
-.. image:: /docs/source/_static/Special_logo.jpeg
 
 
 ``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. Although some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets, it can also be used in a more general way for the characterisation of any object with a measured spectrum, provided an input model grid.
