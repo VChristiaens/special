@@ -50,7 +50,7 @@ Jupyter notebook tutorial
 A Jupter notebook tutorial examplifying most possibilities within ``special`` is available in the 
 ``special-extras`` `repository <https://github.com/VChristiaens/special_extras>`_. 
 Alternatively, you can execute this repository on 
-`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/master>`_(in the tutorials directory).
+`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/main>`_ (in the tutorials directory).
 
 
 TL;DR setup guide
