@@ -68,7 +68,7 @@ alternative is to use package managers like apt-get for Ubuntu or
 Homebrew/MacPorts/Fink for macOS. We recommend using 
 `Miniconda <https://conda.io/miniconda>`_.
 
-``special `` depends on existing packages from the Python ecosystem, such as
+``special`` depends on existing packages from the Python ecosystem, such as
 ``numpy``, ``scipy``, ``matplotlib``, ``pandas`` and ``astropy``. There are different ways of
 installing ``special`` suitable for different scenarios.
 
@@ -133,7 +133,7 @@ for your environment):
   $ conda create -n spec_env python=3.9 ipython
 
 Note: installing ipython while creating the environment with the above line will
-avoid a commonly reported issue which stems from trying to import VIP from 
+avoid a commonly reported issue which stems from trying to import ``special`` from 
 within a base python2.7 ipython console.
 
 To install special, simply cd into the special directory and run the setup file 
@@ -141,7 +141,7 @@ in 'develop' mode:
 
 .. code-block:: bash
 
-  $ cd VIP
+  $ cd special
   $ python setup.py develop
 
 If cloned from your fork, make sure to link your special directory to the upstream 
