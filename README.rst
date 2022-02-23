@@ -11,32 +11,33 @@ special
     :target: https://github.com/VChristiaens/special/blob/master/LICENSE
 
 
-``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. Although some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets, it can also be used in a more general way for the characterisation of any object with a measured spectrum, provided an input model grid.
+``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. While some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets, ``special`` can also be used in a more general way for the characterisation of any object with a measured spectrum, provided an input model grid.
 
 This package provides the following tools for the analysis of measured spectra:
 
-- calculation of the spectral correlation between channels of an IFS datacube;
-- fitting of input spectra to different grids of models;
-- using the MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) sampler to infer posterior distributions on spectral model parameters;
-- using the nested (`nestle <http://github.com/kbarbary/nestle>`_) sampler to infer posterior distributions on spectral model parameters;
-- searching for the best-fit template spectrum within a given template library.
+* calculation of the spectral correlation between channels of an IFS datacube;
+* calculation of empirical spectral indices for MLT-dwarfs;
+* fitting of input spectra to different grids of models;
+* using the MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) sampler to infer posterior distributions on spectral model parameters;
+* using the nested (`nestle <http://github.com/kbarbary/nestle>`_) sampler to infer posterior distributions on spectral model parameters;
+* searching for the best-fit template spectrum within a given template library, with up to two free parameters (flux scaling and relative extinction).
 
 The MCMC and nested sampler routines:
 
-- are flexible, as they are usable on any grid of models provided by the user (along with a snippet function specifying the format of the input);
-- can sample the effect of (additional) blackbody components;
-- can sample the effect of extinction; 
-- can sample different extinction laws than ISM (parametrised using RV);
-- accept either uniform or Gaussian priors for each model parameter;
-- accept a prior on the mass of the object (if surface gravity is one of the model parameters, and for the MCMC sampler only);
-- consider convolution with the spectral PSF, photometric filters transmission and/or resampling of the model for consistency with the input spectrum.
+* are flexible, as they are usable on any grid of models provided by the user (along with a snippet function specifying the format of the input);
+* can sample the effect of (additional) blackbody components;
+* can sample the effect of extinction; 
+* can sample different extinction laws than ISM (parametrised using RV);
+* accept either uniform or Gaussian priors for each model parameter;
+* accept a prior on the mass of the object (if surface gravity is one of the model parameters, and for the MCMC sampler only);
+* consider convolution with the spectral PSF, photometric filters transmission and/or resampling of the model for consistency with the input spectrum.
 
 Furthermore, the log-likelihood expression has the option to include:
 
-- spectral correlation between measurements of adjacent channels of a given instrument;
-- weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).
+* spectral correlation between measurements of adjacent channels of a given instrument;
+* weights that are proportional to the relative spectral span of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).
 
-More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as a module called ``specfit`` in the ``VIP`` package).
+More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as ``specfit``, a former module of the ``VIP`` package).
 
 
 Documentation
@@ -49,7 +50,7 @@ Jupyter notebook tutorial
 A Jupyter notebook tutorial examplifying most possibilities within ``special`` is available in the 
 ``special-extras`` `repository <https://github.com/VChristiaens/special_extras>`_. 
 Alternatively, you can execute this repository on 
-`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/main>`_ (in the tutorials directory).
+`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/main>`_ (in the tutorials directory), or go through it in the documentation TBD.
 
 
 TL;DR setup guide
@@ -136,7 +137,7 @@ Note: installing ipython while creating the environment with the above line will
 avoid a commonly reported issue which stems from trying to import ``special`` from 
 within a base python2.7 ipython console.
 
-To install special, simply cd into the special directory and run the setup file 
+To install ``special``, simply cd into the special directory and run the setup file 
 in 'develop' mode:
 
 .. code-block:: bash
@@ -164,8 +165,22 @@ Finally, start Python or IPython and check that you are able to import ``special
 Now you can start characterizing exoplanets and other (sub)stellar objects!
 
 
+
+About special
+-------------
+
+Contributions
+^^^^^^^^^^^^^
+External contributions are very welcome.  Feel free to fork the repository and submit a pull request with either new features or bug fixes. Areas for development are laid out `here <https://github.com/VChristiaens/special/projects/1>`_, although I am open to new suggestions as well.
+
+
+Questions and suggestions
+^^^^^^^^^^^^^^^^^^^^^^^^^
+``special`` was developed by Valentin Christiaens. Feel free to contact me at valentin.christiaens@uliege.be if you have any question or suggestion.
+
+
 Acknowledgements
-----------------
+^^^^^^^^^^^^^^^^
 Please cite `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ if you use ``special`` for your research, along with:
 
 - `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the ``emcee`` MCMC sampler;
