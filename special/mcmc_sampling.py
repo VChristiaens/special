@@ -130,12 +130,13 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         Tuple of labels in the same order as initial_state, that is:
         - first all parameters related to loaded models (e.g. 'Teff', 'logg')
         - then the planet photometric radius 'R', in Jupiter radius
-        - (optionally) the flux of emission lines (labels should match those in
-        the em_lines dictionary), in units of the model spectrum (times mu)
+        - (optionally) the flux of emission lines (labels should match those \
+        in the em_lines dictionary), in units of the model spectrum (times mu)
         - (optionally) the optical extinction 'Av', in mag
         - (optionally) the ratio of total to selective optical extinction 'Rv'
-        - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb
+        - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
         contribution.
+        
     grid_param_list : list of 1d numpy arrays/lists OR None
         - If list, should contain list/numpy 1d arrays with available grid of 
         model parameters. 
@@ -145,6 +146,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         - Note2: for a combined grid model + black body, just provide
         the grid parameter list here, and provide values for 'Tbbn' and 'Rbbn'
         in initial_state, labels and bounds.
+        
     lbda_obs : numpy 1d ndarray or list
         Wavelength of observed spectrum. If several instruments, should be 
         ordered per instrument, not necessarily as monotonically increasing 
@@ -173,27 +175,30 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
         4 values: 
-            1) the wavelength (in mu); 
-            2) a string indicating whether line intensity is expressed in flux 
-            ('F'), luminosity ('L') or log(L/LSun) ("LogL");
-            3) the FWHM of the gaussian (or None if to be set automatically); 
-            4) whether the FWHM is expressed in 'nm', 'mu' or 'km/s'. 
+        1) the wavelength (in mu); 
+        2) a string indicating whether line intensity is expressed in flux 
+        ('F'), luminosity ('L') or log(L/LSun) ("LogL");
+        3) the FWHM of the gaussian (or None if to be set automatically); 
+        4) whether the FWHM is expressed in 'nm', 'mu' or 'km/s'. 
+        
         The third and fourth can also be set to None. In that case, the FWHM of 
         the gaussian will automatically be set to the equivalent width of the
         line, calculated from the flux to be injected and the continuum 
         level (measured in the grid model to which the line is injected). 
-        Examples: em_lines = {'BrG':(2.1667,'F',None, None)};
-                  em_lines = {'BrG':(2.1667,'LogL', 100, 'km/s')}
+        Examples:
+        - em_lines = {'BrG':(2.1667,'F',None, None)};
+        - em_lines = {'BrG':(2.1667,'LogL', 100, 'km/s')}
+        
     em_grid: dictionary pointing to lists, opt
         Dictionary where each entry corresponds to an emission line and points
-        to a list of values to inject for emission line fluxes. For computation 
-        efficiency, interpolation will be performed between the points of this 
+        to a list of values to inject for emission line fluxes. For computation
+        efficiency, interpolation will be performed between the points of this
         grid during the MCMC sampling. Dict entries should match labels and 
         em_lines.
     dlbda_obs: numpy 1d ndarray or list, optional
         Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
+        IF one wants to weigh each point based on the spectral resolution of 
+        the respective instruments (as in Olofsson et al. 2016).
     instru_corr : numpy 2d ndarray or list, optional
         Spectral correlation throughout post-processed images in which the 
         spectrum is measured. It is specific to the combination of instrument, 
@@ -498,33 +503,25 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     """ Runs an affine invariant MCMC sampling algorithm in order to determine
     the most likely parameters for given spectral model and observed spectrum. 
     Allowed features:
+    * Spectral models can either be read from a grid (e.g. BT-SETTL) or \
+    be purely parametric (e.g. a blackbody model).
+    * Extinction (A_V) and total-to-selective optical extinction ratio \
+    (R_V) can be sampled. Default: A_V=0. If non-zero, default R_V=3.1 (ISM).
+    * A dictionary of emission lines can be provided and their flux can \
+    be sampled too.
+    * Gaussian priors can be provided for each parameter, including the \
+    mass of the object. The latter will be used if 'logg' is a parameter.
+    * Spectral correlation between measurements will be taken into account \ 
+    if provided in 'instru_corr'.
+    * Convolution of the model spectra with instrumental FWHM or \
+    photometric filter can be performed using 'instru_fwhm' and/or \
+    'filter_reader' (done before resampling to observed).
+    * The weight of each observed point will be directly proportional to \
+    Delta lbda_i/lbda_i, where Delta lbda_i is either the FWHM of the \
+    photometric filter (imager) or the width of the spectral channel (IFS).
+    * MCMC convergence criterion can either be based on auto-correlation \
+    time (default) or the Gelman-Rubin test.
         
-        * Spectral models can either be read from a grid (e.g. BT-SETTL) or \
-        be purely parametric (e.g. a blackbody model). 
-        
-        * Extinction (A_V) and total-to-selective optical extinction ratio \
-        (R_V) can be sampled. Default: A_V=0. If non-zero, default R_V=3.1 (ISM).
-        
-        * A dictionary of emission lines can be provided and their flux can \
-        be sampled too.
-        
-        * Gaussian priors can be provided for each parameter, including the \
-        mass of the object. The latter will be used if 'logg' is a parameter.
-        
-        * Spectral correlation between measurements will be taken into account \ 
-        if provided in 'instru_corr'.
-        
-        * Convolution of the model spectra with instrumental FWHM or \
-        photometric filter can be performed using 'instru_fwhm' and/or \
-        'filter_reader' (done before resampling to observed).
-        
-        * The weight of each observed point will be directly proportional to \
-        Delta lbda_i/lbda_i, where Delta lbda_i is either the FWHM of the \
-        photometric filter (imager) or the width of the spectral channel (IFS).
-        
-        * MCMC convergence criterion can either be based on auto-correlation \
-        time (default) or the Gelman-Rubin test.
-    
     The result of this procedure is a chain with the samples from the posterior 
     distributions of each of the free parameters in the model.
     More details in Christiaens et al. (2021).
@@ -635,9 +632,9 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         Spectral correlation throughout post-processed images in which the 
         spectrum is measured. It is specific to the combination of instrument, 
         algorithm and radial separation of the companion from the central star.
-        Can be computed using distances.spectral_correlation(). In case of
+        Can be computed using `spec_corr.spectral_correlation()`. In case of
         a spectrum obtained with different instruments, build it with
-        distances.combine_corrs(). If not provided, it will consider the 
+        `spec_corr.combine_corrs()`. If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_fwhm : float OR list of either floats or strings, optional

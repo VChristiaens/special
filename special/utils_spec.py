@@ -492,28 +492,29 @@ def mj_from_rj_and_logg(rp, logg):
 
 
 def nrefrac(wavelength, density=1.0):
-   """Calculates refractive index of air from Cauchy formula.
+   """
+   Calculates refractive index of air from Cauchy formula.
    For comparisong to measurements from the ground, the wavelenghts of model 
    spectra must be slightly shifted using:
-       lbda_shift = lbda_model/(1+(nrefrac*1e-6))
+   lbda_shift = lbda_model/(1+(nrefrac*1e-6))
 
    Input: wavelength in Angstrom, 
    Returns N = (n-1) * 1.e6. 
    Credit: France Allard.
    
-    Parameters
-    ----------
-    wavelength: numpy array
-        1d numpy array corresponding to the wavelengths of the input spectrum
-        in Angstrom
-    density: float
-        density of air in amagat (relative to STP, e.g. ~10% decrease per 1000m 
-        above sea level).
+   Parameters
+   ----------
+   wavelength: numpy array
+       1d numpy array corresponding to the wavelengths of the input spectrum
+       in Angstrom
+   density: float
+       density of air in amagat (relative to STP, e.g. ~10% decrease per 1000m 
+       above sea level).
         
-    Returns
-    -------
-    N: float
-        Refractive index
+   Returns
+   -------
+   N: float
+       Refractive index
    
    """
 

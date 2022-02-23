@@ -130,7 +130,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
     # read template spectrum
     try:
         lbda_tmp, spec_tmp, spec_tmp_err = tmp_reader(tmp_name, 
-                                                  verbose=bool(verbose))
+                                                      verbose=verbose>1)
     except:
         msg = "{} could not be opened. Corrupt file?".format(tmp_name)
         if force_continue:
@@ -447,7 +447,7 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
     
     if verbosity > 0:
         start_time = time_ini()
-        int_time = time_ini()
+        int_time = start_time
         print("{:.0f} template spectra will be tested. \n".format(n_tmp))
         print("****************************************\n")
     
@@ -459,25 +459,18 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
     
     if nproc == 1:
         for tt in range(n_tmp):
-            if verbosity>0 and search_mode=='simplex':
+            if verbosity>1 and search_mode=='simplex':
                 print('Nelder-Mead minimization is running...')
-            chi[tt], scal[tt], ext[tt], n_dof[tt] = get_chi(lbda_obs, spec_obs, err_obs, 
-                                                 tmp_filelist[tt], tmp_reader, 
-                                                 search_mode=search_mode, 
-                                                 scale_range=scale_range, 
-                                                 ext_range=ext_range,
-                                                 lambda_scal=lambda_scal,
-                                                 dlbda_obs=dlbda_obs, 
-                                                 instru_corr=instru_corr, 
-                                                 instru_fwhm=instru_fwhm, 
-                                                 instru_idx=instru_idx, 
-                                                 filter_reader=filter_reader,
-                                                 simplex_options=simplex_options,
-                                                 red_chi2=red_chi2,
-                                                 remove_nan=remove_nan,
-                                                 force_continue=force_continue,
-                                                 verbose=verbosity,
-                                                 **kwargs)
+            res = get_chi(lbda_obs, spec_obs, err_obs, tmp_filelist[tt], 
+                          tmp_reader, search_mode=search_mode, 
+                          scale_range=scale_range, ext_range=ext_range,
+                          lambda_scal=lambda_scal, dlbda_obs=dlbda_obs, 
+                          instru_corr=instru_corr, instru_fwhm=instru_fwhm, 
+                          instru_idx=instru_idx, filter_reader=filter_reader,
+                          simplex_options=simplex_options, red_chi2=red_chi2,
+                          remove_nan=remove_nan, force_continue=force_continue,
+                          verbose=verbosity, **kwargs)
+            chi[tt], scal[tt], ext[tt], n_dof[tt] = res
             
             if chi[tt]<np.inf:
                 counter+=1
@@ -493,10 +486,12 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                 print(msg.format(tt, n_tmp, indiv_time))
                 now = datetime.now()
                 delta_t = now.timestamp()-start_time.timestamp()
-                tot_time = n_tmp*delta_t/60
-                print("Fit may take a total of ~{:.0f}min \n".format(tot_time))
+                tot_time = np.ceil(n_tmp*delta_t/60)
+                msg = "Based on the first fit, it may take ~{:.0f}min to"
+                msg += " test the whole library \n"
+                print(msg.format(tot_time))
                 int_time = time_ini(verbose=False)
-            elif verbosity > 1:
+            elif verbosity > 0:
                 msg = "{:.0f}/{:.0f}: done in {}s \n"
                 indiv_time = time_fin(int_time)
                 int_time = time_ini(verbose=False)

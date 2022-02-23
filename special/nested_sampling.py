@@ -214,10 +214,10 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         The relative size of the bounds (around the initial state ``init``) for 
         each parameter. If a float the same relative size is considered for 
         each parameter. E.g. if 0.1, bounds will be set to:
-            (0.9*params[0], 1.1*params[0]),
-            ...
-            (0.9*params[N-1], 1.1*params[N-1]),
-        to True), or make it and write it if it doesn't.
+        (0.9*params[0], 1.1*params[0]),
+        ...
+        (0.9*params[N-1], 1.1*params[N-1]),
+        to True), or make it and write it if it does not.
     output_dir: str, optional
         The name of the output directory which contains the output files in the 
         case  ``save`` is True.   
