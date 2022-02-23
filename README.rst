@@ -1,4 +1,4 @@
-.. image::  _static/Special_logo.jpeg
+.. image::  docs/_static/Special_logo.jpeg
    :align:  left
    :scale:  100 %
    :target: #
