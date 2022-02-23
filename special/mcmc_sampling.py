@@ -136,7 +136,6 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         - (optionally) the ratio of total to selective optical extinction 'Rv'
         - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
         contribution.
-        
     grid_param_list : list of 1d numpy arrays/lists OR None
         - If list, should contain list/numpy 1d arrays with available grid of 
         model parameters. 
@@ -145,8 +144,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         these should still be passed in initial_state (Av optional).
         - Note2: for a combined grid model + black body, just provide
         the grid parameter list here, and provide values for 'Tbbn' and 'Rbbn'
-        in initial_state, labels and bounds.
-        
+        in initial_state, labels and bounds.       
     lbda_obs : numpy 1d ndarray or list
         Wavelength of observed spectrum. If several instruments, should be 
         ordered per instrument, not necessarily as monotonically increasing 
