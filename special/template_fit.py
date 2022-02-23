@@ -472,30 +472,30 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                           verbose=verbosity, **kwargs)
             chi[tt], scal[tt], ext[tt], n_dof[tt] = res
             
-            if chi[tt]<np.inf:
-                counter+=1
-            elif verbosity>0:
-                msg_err = "{:.0f}/{:.0f} ({}) FAILED"
-                if np.isnan(chi[tt]):
-                    msg_err += " (simplex did not converge)"
-                print(msg_err.format(tt, n_tmp, tmp_filelist[tt]))
-
-            if verbosity > 0 and tt==0:
-                msg = "{:.0f}/{:.0f}: done in {}s"
-                indiv_time = time_fin(start_time)
-                print(msg.format(tt, n_tmp, indiv_time))
-                now = datetime.now()
-                delta_t = now.timestamp()-start_time.timestamp()
-                tot_time = np.ceil(n_tmp*delta_t/60)
-                msg = "Based on the first fit, it may take ~{:.0f}min to"
-                msg += " test the whole library \n"
-                print(msg.format(tot_time))
-                int_time = time_ini(verbose=False)
-            elif verbosity > 0:
-                msg = "{:.0f}/{:.0f}: done in {}s \n"
-                indiv_time = time_fin(int_time)
-                int_time = time_ini(verbose=False)
-                print(msg.format(tt, n_tmp, indiv_time))
+            if not np.isfinite(chi[tt]):
+                if verbosity>0:
+                    msg_err = "{:.0f}/{:.0f} ({}) FAILED"
+                    if np.isnan(chi[tt]):
+                        msg_err += " (simplex did not converge)"
+                    print(msg_err.format(tt, n_tmp, tmp_filelist[tt]))
+            else:
+                counter +=1
+                if verbosity > 0 and tt==0:
+                    msg = "{:.0f}/{:.0f}: done in {}s"
+                    indiv_time = time_fin(start_time)
+                    print(msg.format(tt, n_tmp, indiv_time))
+                    now = datetime.now()
+                    delta_t = now.timestamp()-start_time.timestamp()
+                    tot_time = np.ceil(n_tmp*delta_t/60)
+                    msg = "Based on the first fit, it may take ~{:.0f}min to"
+                    msg += " test the whole library \n"
+                    print(msg.format(tot_time))
+                    int_time = time_ini(verbose=False)
+                elif verbosity > 0:
+                    msg = "{:.0f}/{:.0f}: done in {}s"
+                    indiv_time = time_fin(int_time)
+                    int_time = time_ini(verbose=False)
+                    print(msg.format(tt, n_tmp, indiv_time))
     else:
         raise ValueError("multiprocessing mode yet to be implemented")
         
