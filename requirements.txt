@@ -6,3 +6,5 @@ corner
 nestle
 pandas
 matplotlib<=3.4.3
+nbsphinx
+pandoc
