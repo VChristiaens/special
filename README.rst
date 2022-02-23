@@ -28,7 +28,7 @@ More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harv
 
 Documentation
 -------------
-The documentation for ``special`` can be found here: TBD
+The documentation for ``special`` can be found `here <https://special.readthedocs.io/en/latest/>`_.
 
 
 Jupyter notebook tutorial
@@ -36,7 +36,7 @@ Jupyter notebook tutorial
 A Jupyter notebook tutorial examplifying most possibilities within ``special`` is available in the 
 ``special-extras`` `repository <https://github.com/VChristiaens/special_extras>`_. 
 Alternatively, you can execute this repository on 
-`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/main>`_ (in the tutorials directory), or go through it in the documentation TBD.
+`Binder <https://mybinder.org/v2/gh/VChristiaens/special_extras/main>`_ (in the tutorials directory), or go through it in `the documentation <https://special.readthedocs.io/en/latest/tutorials/walkthrough.html>`_.
 
 
 TL;DR setup guide
@@ -140,8 +140,8 @@ out or a bug is fixed:
   $ git add remote upstream https://github.com/VChristiaens/special.git
 
 
-Loading special
-^^^^^^^^^^^^^^^
+Loading `special`
+^^^^^^^^^^^^^^^^^
 Finally, start Python or IPython and check that you are able to import ``special``:
 
 .. code-block:: python

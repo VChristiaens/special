@@ -1,13 +1,5 @@
 .. _special:
 
-Module contents
----------------
-
-.. automodule:: special
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 special.chi
 -----------
 

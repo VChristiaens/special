@@ -99,8 +99,8 @@ out or a bug is fixed:
   $ git add remote upstream https://github.com/VChristiaens/special.git
 
 
-Loading special
-^^^^^^^^^^^^^^^
+Loading `special`
+^^^^^^^^^^^^^^^^^
 Finally, start Python or IPython and check that you are able to import ``special``:
 
 .. code-block:: python

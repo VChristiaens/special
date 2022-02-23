@@ -1,5 +1,5 @@
 """
-``specfit`` has helping functions for the analysis of (low-res) 
+``special`` has helping functions for the analysis of (low-res) 
 spectra, including:
 
 - fitting of input spectra to models and templates;

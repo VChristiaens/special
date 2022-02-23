@@ -9,7 +9,6 @@ Welcome to the `special` documentation
 
 ``special`` is a package for the SPEctral Characterization of directly ImAged Low-mass companions. While some tools are specific to the characterisation of directly imaged (sub-)stellar companions, the main features of ``special`` can also be used in a more general way for the characterisation of any object with a measured spectrum, provided an input model or template grid.
 
-
 .. toctree::
    :maxdepth: 2
    :caption: Getting started
@@ -32,7 +31,7 @@ Welcome to the `special` documentation
 
 .. toctree::
    :maxdepth: 3
-   :caption: Index
+   :caption: Package content
 
    special
 
@@ -40,7 +39,6 @@ Welcome to the `special` documentation
 
 API
 ---
-
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
