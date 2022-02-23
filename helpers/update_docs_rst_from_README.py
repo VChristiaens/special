@@ -1,0 +1,35 @@
+"""
+Update intro text in documentation using text in README.rst
+
+"""
+
+
+import nbformat
+import re
+
+
+with open("../README.rst") as f_r:
+    readme = f_r.read()
+
+start_write=False
+stop_write=False
+str_start = 'TL;DR'
+str_stop = 'About special'
+with open("../docs/trimmed_readme.rst", 'w') as f_i:
+    for l, line in enumerate(readme):
+        if start_write and not stop_write:
+            f_i.write(line)
+        elif str_start in line and not stop_write:
+            f_i.write(line)
+            start_write=True
+        elif str_stop in line:
+            stop_write=True
+            l_about = l
+            
+with open("../docs/about.rst", 'w') as f_i:
+    for l, line in enumerate(readme):
+        if l >= l_about:
+            f_i.write(line)
+            
+
+print("successfully converted README into documentation rst files.")
