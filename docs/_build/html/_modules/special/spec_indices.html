@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>special.spec_indices &#8212; special  documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/Special_logo.jpeg" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Tutorial
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../tutorials/walkthrough.html">
+   <em>
+    special
+   </em>
+   tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Index
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../special.html">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/VChristiaens/special"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/VChristiaens/special/issues/new?title=Issue%20on%20page%20%2F_modules/special/spec_indices.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <h1>Source code for special.spec_indices</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module with utilities to estimate the spectral type and gravity of an object </span>
+<span class="sd">based on spectral indices.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;V. Christiaens&#39;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;spectral_idx&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;sp_idx_to_spt&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;idx_to_spt&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;spt_to_idx&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.utils_spec</span> <span class="kn">import</span> <span class="n">find_nearest</span>
+
+<div class="viewcode-block" id="spectral_idx"><a class="viewcode-back" href="../../special.html#special.spec_indices.spectral_idx">[docs]</a><span class="k">def</span> <span class="nf">spectral_idx</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s1">&#39;H2O-1.5&#39;</span><span class="p">,</span> <span class="n">spec_err</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes a spectral index. Implemented so far:</span>
+<span class="sd">        - the H2O 1.5 mu index (Allers et al. 2007)</span>
+<span class="sd">        - the Na 1.1 mu index (Allers et al. 2007)</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lbda : numpy ndarray</span>
+<span class="sd">        1d numpy array containing the wavelengths of the spectrum in microns.</span>
+<span class="sd">    spec : numpy ndarray</span>
+<span class="sd">        1d numpy array containing the measured flux (arbitrary units accepted).</span>
+<span class="sd">    line: str, optional {&#39;H2O-1.5&#39;, &#39;Na-1.1&#39;}</span>
+<span class="sd">        Which line to use for the calculation of the spectral index.</span>
+<span class="sd">    spec_err: numpy ndarray, optional</span>
+<span class="sd">        1d numpy array containing the uncertainties on the measured flux </span>
+<span class="sd">        (arbitrary units accepted). If provided the uncertainty on the spectral</span>
+<span class="sd">        index will also be returned.</span>
+<span class="sd">    verbose: bool, optional</span>
+<span class="sd">        Whther to print more information.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    index : float</span>
+<span class="sd">        Value of the spectral index</span>
+<span class="sd">    index_err: float</span>
+<span class="sd">       [if spec_err is provided] Uncertainty on the spectral index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;H2O-1.5&#39;</span><span class="p">:</span>
+        <span class="n">lbda_num0</span> <span class="o">=</span> <span class="mf">1.55</span>
+        <span class="n">lbda_num1</span> <span class="o">=</span> <span class="mf">1.56</span>
+        <span class="n">lbda_den0</span> <span class="o">=</span> <span class="mf">1.492</span>
+        <span class="n">lbda_den1</span> <span class="o">=</span> <span class="mf">1.502</span>
+    <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;Na-1.1&#39;</span><span class="p">:</span>
+        <span class="n">lbda_num0</span> <span class="o">=</span> <span class="mf">1.15</span>
+        <span class="n">lbda_num1</span> <span class="o">=</span> <span class="mf">1.16</span>
+        <span class="n">lbda_den0</span> <span class="o">=</span> <span class="mf">1.134</span>
+        <span class="n">lbda_den1</span> <span class="o">=</span> <span class="mf">1.144</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;line not recognised&quot;</span><span class="p">)</span>
+        
+    <span class="n">idx_num0</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_num0</span><span class="p">)</span>
+    <span class="n">idx_num1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_num1</span><span class="p">)</span>
+    <span class="n">idx_den0</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_den0</span><span class="p">)</span>
+    <span class="n">idx_den1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_den1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Closest indices to </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> mu&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lbda_num0</span><span class="p">,</span><span class="n">lbda_num1</span><span class="p">,</span><span class="n">lbda_den0</span><span class="p">,</span><span class="n">lbda_den1</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot;correspond to </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> resp.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">],</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">],</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">],</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_den1</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Same index for num1 and den0: not enough spec res&quot;</span><span class="p">)</span>
+    
+    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">:</span><span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">:</span><span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">den</span>
+    
+    <span class="k">if</span> <span class="n">spec_err</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">index</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">spec_err</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">:</span><span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="p">((</span><span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="o">-</span><span class="n">idx_num0</span><span class="p">)</span><span class="o">*</span><span class="n">den</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">den_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">spec_err</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">:</span><span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="o">-</span><span class="n">idx_den0</span><span class="p">)</span><span class="o">*</span><span class="n">num</span><span class="o">/</span><span class="p">(</span><span class="n">den</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">index_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num_err</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">den_err</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">index</span><span class="p">,</span> <span class="n">index_err</span></div>
+
+
+<div class="viewcode-block" id="sp_idx_to_spt"><a class="viewcode-back" href="../../special.html#special.spec_indices.sp_idx_to_spt">[docs]</a><span class="k">def</span> <span class="nf">sp_idx_to_spt</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s1">&#39;H2O-1.5&#39;</span><span class="p">,</span> <span class="n">idx_err</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimates a spectral type from a spectral index. Implemented so far:</span>
+<span class="sd">        - the H2O 1.5 mu index (Allers et al. 2007)</span>
+<span class="sd">        </span>
+<span class="sd">    Note on scale of SpT:</span>
+<span class="sd">        5 = M5</span>
+<span class="sd">        15 = L5</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    idx : float</span>
+<span class="sd">        Value of spectral index</span>
+<span class="sd">    line: str, optional {&#39;H2O-1.5&#39;}</span>
+<span class="sd">        The line corresponding to the spectral index.</span>
+<span class="sd">    idx_err: float, optional</span>
+<span class="sd">        Uncertainty on the spectral index value</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spt : float</span>
+<span class="sd">        Value of the spectral type</span>
+<span class="sd">    spt_err: float</span>
+<span class="sd">       [if idx_err is provided] Uncertainty on the spectral type.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;H2O-1.5&#39;</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">0.75</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="mf">0.03</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">0.044</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="mf">0.004</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;not implemented for this line&quot;</span><span class="p">)</span>
+        
+    <span class="n">spt</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">b</span>
+    <span class="n">tot_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">da</span><span class="o">/</span><span class="n">b</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># err related to a</span>
+    <span class="n">tot_err</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">db</span><span class="o">*</span><span class="p">(</span><span class="n">idx</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># err related to b</span>
+    <span class="k">if</span> <span class="n">idx_err</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tot_err</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">idx_err</span><span class="o">/</span><span class="n">b</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">spt_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tot_err</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">spt</span><span class="p">,</span> <span class="n">spt_err</span></div>
+
+
+<div class="viewcode-block" id="spt_to_idx"><a class="viewcode-back" href="../../special.html#special.spec_indices.spt_to_idx">[docs]</a><span class="k">def</span> <span class="nf">spt_to_idx</span><span class="p">(</span><span class="n">spt</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a string representing spectral type into an integer index.</span>
+<span class="sd">    Convention (from splat): K0 = 0, M0=10, L0=20, T0=30, Y9 = 49</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spt : str</span>
+<span class="sd">        String representing the spectral index</span>
+<span class="sd">    verbose: bool, optional</span>
+<span class="sd">        Whther to print more information.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    idx : float or int</span>
+<span class="sd">        Index value of the spectral type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">spt</span> <span class="o">=</span> <span class="n">spt</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;K&#39;</span> <span class="ow">in</span> <span class="n">spt</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">spt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;M&#39;</span> <span class="ow">in</span> <span class="n">spt</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">spt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;L&#39;</span> <span class="ow">in</span> <span class="n">spt</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">spt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;T&#39;</span> <span class="ow">in</span> <span class="n">spt</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">30</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">spt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;Y&#39;</span> <span class="ow">in</span> <span class="n">spt</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">40</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">spt</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spectral type not between K0 and Y9. Idx set to nan.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spt</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="c1"># ie. not just &quot;M&quot; or &quot;L&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spt</span><span class="p">[</span><span class="n">loc</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">spt</span><span class="p">[</span><span class="n">loc</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+                <span class="n">idx</span><span class="o">+=</span><span class="nb">float</span><span class="p">(</span><span class="n">spt</span><span class="p">[</span><span class="n">loc</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">loc</span><span class="o">+</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">spt</span><span class="p">[</span><span class="n">loc</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">idx</span><span class="o">+=</span><span class="nb">float</span><span class="p">(</span><span class="n">spt</span><span class="p">[</span><span class="n">loc</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idx</span><span class="o">+=</span><span class="mi">5</span> <span class="c1"># in case just &quot;M&quot; or &quot;L&quot; is given, let&#39;s assume it&#39;s M5 or L5</span>
+    
+    <span class="k">return</span> <span class="n">idx</span></div>
+
+    
+<div class="viewcode-block" id="idx_to_spt"><a class="viewcode-back" href="../../special.html#special.spec_indices.idx_to_spt">[docs]</a><span class="k">def</span> <span class="nf">idx_to_spt</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="s1">&#39;splat&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts an integer index into spectral type.</span>
+<span class="sd">    Convention (from splat): K0 = 0, M0=10, L0=20, T0=30, Y9 = 49</span>
+<span class="sd">    Convention (from Allers+07): M5 = 5, L5 = 15</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    idx : float or int</span>
+<span class="sd">        Index value of the spectral type </span>
+<span class="sd">    verbose: bool, optional</span>
+<span class="sd">        Whther to print more information.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spt : str</span>
+<span class="sd">        String representing the spectral index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">convention</span> <span class="o">==</span> <span class="s1">&#39;splat&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;K&#39;</span>
+        <span class="k">elif</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;M&#39;</span>
+        <span class="k">elif</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;L&#39;</span>
+        <span class="k">elif</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
+        <span class="k">elif</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;Y&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Index not between 0 (K0) and 49 (Y9)&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">convention</span> <span class="o">==</span> <span class="s1">&#39;Allers07&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;M&#39;</span>
+        <span class="k">elif</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="n">spt</span> <span class="o">=</span> <span class="s1">&#39;L&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Index not between 0 (M0) and 20 (L9)&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">idx</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span><span class="o">%</span><span class="mi">1</span><span class="p">:</span>
+       <span class="n">spt</span><span class="o">+=</span><span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">spt</span><span class="o">+=</span><span class="s2">&quot;</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">spt</span></div>
+    
+</pre></div>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Valentin Christiaens<br/>
+    
+        &copy; Copyright 2019-2022, Valentin Christiaens.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

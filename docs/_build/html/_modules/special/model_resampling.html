@@ -1,0 +1,1281 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>special.model_resampling &#8212; special  documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/Special_logo.jpeg" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Tutorial
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../tutorials/walkthrough.html">
+   <em>
+    special
+   </em>
+   tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Index
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../special.html">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/VChristiaens/special"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/VChristiaens/special/issues/new?title=Issue%20on%20page%20%2F_modules/special/model_resampling.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <h1>Source code for special.model_resampling</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions useful for spectral fitting of companions, and model interpolation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Valentin Christiaens&#39;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;make_model_from_params&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;make_resampled_models&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;resample_model&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;interpolate_model&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.constants</span> <span class="k">as</span> <span class="nn">con</span>
+<span class="kn">from</span> <span class="nn">astropy.convolution</span> <span class="kn">import</span> <span class="n">Gaussian1DKernel</span><span class="p">,</span> <span class="n">convolve_fft</span>
+<span class="kn">from</span> <span class="nn">astropy.stats</span> <span class="kn">import</span> <span class="n">gaussian_fwhm_to_sigma</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">InterpolatedUnivariateSpline</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pdb</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="kn">import</span> <span class="n">map_coordinates</span>
+<span class="kn">from</span> <span class="nn">.fits</span> <span class="kn">import</span> <span class="n">open_fits</span>
+<span class="kn">from</span> <span class="nn">.utils_spec</span> <span class="kn">import</span> <span class="p">(</span><span class="n">convert_F_units</span><span class="p">,</span> <span class="n">blackbody</span><span class="p">,</span> <span class="n">find_nearest</span><span class="p">,</span> <span class="n">extinction</span><span class="p">,</span>
+                         <span class="n">inject_em_line</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="make_model_from_params"><a class="viewcode-back" href="../../special.html#special.model_resampling.make_model_from_params">[docs]</a><span class="k">def</span> <span class="nf">make_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> 
+                           <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Routine to make the model from input parameters.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : tuple</span>
+<span class="sd">        Set of models parameters for which the model grid has to be </span>
+<span class="sd">        interpolated.</span>
+<span class="sd">    labels: Tuple of strings</span>
+<span class="sd">        Tuple of labels in the same order as initial_state, that is:</span>
+<span class="sd">        * first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">        * then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">        * (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">        in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">        * (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">        * (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">        * (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">        contribution.</span>
+<span class="sd">    grid_param_list : list of 1d numpy arrays/lists OR None</span>
+<span class="sd">        * If list, should contain list/numpy 1d arrays with available grid of \</span>
+<span class="sd">        model parameters. </span>
+<span class="sd">        * Set to None for a pure n-blackbody fit, n=1,2,...</span>
+<span class="sd">        * Note1: model grids should not contain grids on radius and Av, but \</span>
+<span class="sd">        these should still be passed in initial_state (Av optional).</span>
+<span class="sd">        * Note2: for a combined grid model + black body, just provide \</span>
+<span class="sd">        the grid parameter list here, and provide values for &#39;Tbbn&#39; and \</span>
+<span class="sd">        &#39;Rbbn&#39; in initial_state, labels and bounds.</span>
+<span class="sd">    dist :  float</span>
+<span class="sd">        Distance in parsec, used for flux scaling of the models.</span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list, opt</span>
+<span class="sd">        Wavelength of observed spectrum. If provided, the model spectrum will </span>
+<span class="sd">        be resampled to match lbda_obs. If several instruments, should be </span>
+<span class="sd">        ordered per instrument, not necessarily as monotonically increasing </span>
+<span class="sd">        wavelength. Hereafter, n_ch = len(lbda_obs). </span>
+<span class="sd">    model_grid : numpy N-d array, optional</span>
+<span class="sd">        If provided, should contain the grid of model spectra for each</span>
+<span class="sd">        free parameter of the given grid. I.e. for a grid of n_T values of Teff </span>
+<span class="sd">        and n_g values of Logg, the numpy array should be n_T x n_g x n_ch x 2, </span>
+<span class="sd">        where n_ch is the number of wavelengths for the observed spectrum,</span>
+<span class="sd">        and the last 2 dims are for wavelength and fluxes respectively.</span>
+<span class="sd">        If provided, takes precedence over model_name/model_reader.</span>
+<span class="sd">    model_reader : python routine, opt</span>
+<span class="sd">        External routine that reads a model file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains model values. See example routine in interpolate_model() </span>
+<span class="sd">        description.</span>
+<span class="sd">    em_lines: dictionary, opt</span>
+<span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
+<span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
+<span class="sd">        3 values: 1) the wavelength (in mu), 2) a string indicating whether line </span>
+<span class="sd">        intensity is expressed in flux (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) </span>
+<span class="sd">        (&quot;LogL&quot;), and 3) the latter quantity. The intensity of the emission </span>
+<span class="sd">        lines can be sampled by MCMC, in that case the last element of the </span>
+<span class="sd">        tuple can be set to None. If not to be sampled, a value for the </span>
+<span class="sd">        intensity should be provided (in the same system of units as the model </span>
+<span class="sd">        spectra, multiplied by mu). Examples:</span>
+<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,263)};</span>
+<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;,-5.1)}</span>
+<span class="sd">    em_grid: dictionary pointing to lists, opt</span>
+<span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation </span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this </span>
+<span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
+<span class="sd">        em_lines.</span>
+<span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
+<span class="sd">        Spectral channel width for the observed spectrum. It should be provided </span>
+<span class="sd">        IF one wants to weigh each point based on the spectral </span>
+<span class="sd">        resolution of the respective instruments (as in Olofsson et al. 2016).</span>
+<span class="sd">    instru_fwhm : float or list, optional</span>
+<span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
+<span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
+<span class="sd">        instru_fwhm values, one for each instrument whose spectral resolution</span>
+<span class="sd">        is coarser than the model - including broad band</span>
+<span class="sd">        filter FWHM if relevant.</span>
+<span class="sd">    instru_idx: numpy 1d array, optional</span>
+<span class="sd">        1d array containing an index representing each instrument used </span>
+<span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
+<span class="sd">        that don&#39;t correspond to any instru_fwhm provided above, and i in </span>
+<span class="sd">        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter </span>
+<span class="sd">        must be provided if the spectrum consists of points obtained with </span>
+<span class="sd">        different instruments.</span>
+<span class="sd">    filter_reader: python routine, optional</span>
+<span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains transmission values. Important: if not provided, but strings </span>
+<span class="sd">        are detected in instru_fwhm, the default format assumed for the files:</span>
+<span class="sd">        - first row containing header;</span>
+<span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
+<span class="sd">        Note: files should all have the same format and wavelength units.</span>
+<span class="sd">    AV_bef_bb: bool, optional</span>
+<span class="sd">        If both extinction and an extra bb component are free parameters, </span>
+<span class="sd">        whether to apply extinction before adding the BB component (e.g. </span>
+<span class="sd">        extinction mostly from circumplanetary dust) or after the BB component</span>
+<span class="sd">        (e.g. mostly insterstellar extinction).</span>
+<span class="sd">    units_obs : str, opt {&#39;si&#39;,&#39;cgs&#39;,&#39;jy&#39;}</span>
+<span class="sd">        Units of observed spectrum. &#39;si&#39; for W/m^2/mu; &#39;cgs&#39; for ergs/s/cm^2/mu </span>
+<span class="sd">        or &#39;jy&#39; for janskys.</span>
+<span class="sd">    units_mod: str, opt {&#39;si&#39;,&#39;cgs&#39;,&#39;jy&#39;}</span>
+<span class="sd">        Units of the model. &#39;si&#39; for W/m^2/mu; &#39;cgs&#39; for ergs/s/cm^2/mu or &#39;jy&#39;</span>
+<span class="sd">        for janskys. If different to units_obs, the spectrum units will be </span>
+<span class="sd">        converted.</span>
+<span class="sd">    interp_order: int, opt, {-1,0,1} </span>
+<span class="sd">        Interpolation mode for model interpolation.</span>
+<span class="sd">        -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
+<span class="sd">        0: nearest neighbour model.</span>
+<span class="sd">        1: Order 1 spline interpolation.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: numpy array</span>
+<span class="sd">        The model wavelength and spectrum</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+    <span class="k">if</span> <span class="s1">&#39;Tbb1&#39;</span> <span class="ow">in</span> <span class="n">labels</span> <span class="ow">and</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">lbda_obs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lbda_obs should be provided because there is no grid&quot;</span><span class="p">)</span>
+      
+    <span class="k">if</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">lbda_obs</span>
+        <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">npar_grid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
+        <span class="n">params_grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npar_grid</span><span class="p">)]</span>
+        <span class="n">params_grid</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">params_grid</span><span class="p">)</span>        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">p_em_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># first update units of params if needed (i.e. if model_grid is None)</span>
+            <span class="n">em_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">idx_R</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">em_lines</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span>
+                        <span class="n">idx_line</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                        <span class="n">R_si</span> <span class="o">=</span> <span class="n">em_params</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
+                        <span class="n">conv_fac</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">R_si</span><span class="o">**</span><span class="mi">2</span>
+                        <span class="n">em_params</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span> <span class="o">/=</span> <span class="n">conv_fac</span>
+                    <span class="k">elif</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LogL&#39;</span><span class="p">:</span>
+                        <span class="n">idx_line</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                        <span class="n">R_si</span> <span class="o">=</span> <span class="n">em_params</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
+                        <span class="n">conv_fac</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">L_sun</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">R_si</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="n">em_params</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv_fac</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">em_params</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span>
+                        
+            <span class="c1"># then build em. lines dictionary        </span>
+            <span class="n">p_em_grid</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">p_em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">em_params</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                
+
+        <span class="c1"># interpolate model to requested parameters</span>
+        <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">interpolate_model</span><span class="p">(</span><span class="n">params_grid</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> 
+                                               <span class="n">p_em_grid</span><span class="p">,</span> <span class="n">em_grid</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">,</span>
+                                               <span class="n">labels</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">,</span> 
+                                               <span class="n">model_reader</span><span class="p">,</span> <span class="n">interp_order</span><span class="p">)</span>
+        
+        <span class="c1"># resample to lbda_obs if needed</span>
+        <span class="k">if</span> <span class="n">lbda_obs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cond</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
+                <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
+                <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
+                <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
+                                                    <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="p">,</span> 
+                                                    <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
+            
+        <span class="c1"># convert model to same units as observed spectrum if necessary</span>
+        <span class="k">if</span> <span class="n">units_mod</span> <span class="o">!=</span> <span class="n">units_obs</span><span class="p">:</span>
+            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">convert_F_units</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">in_unit</span><span class="o">=</span><span class="n">units_mod</span><span class="p">,</span> 
+                                       <span class="n">out_unit</span><span class="o">=</span><span class="n">units_obs</span><span class="p">)</span>
+
+        <span class="c1"># scale by (R/dist)**2</span>
+        <span class="n">idx_R</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
+        <span class="n">dilut_fac</span> <span class="o">=</span> <span class="p">((</span><span class="n">params</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dist</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">pc</span><span class="o">.</span><span class="n">value</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">spec_mod</span> <span class="o">*=</span> <span class="n">dilut_fac</span>
+
+        
+    <span class="c1"># apply extinction if requested</span>
+    <span class="k">if</span> <span class="s1">&#39;Av&#39;</span> <span class="ow">in</span> <span class="n">labels</span> <span class="ow">and</span> <span class="n">AV_bef_bb</span><span class="p">:</span>
+        <span class="c1">## so far only assume Cardelli extinction law</span>
+        <span class="n">idx_AV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Av&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;Rv&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">idx_RV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Rv&quot;</span><span class="p">)</span>
+            <span class="n">RV</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_RV</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">RV</span><span class="o">=</span><span class="mf">3.1</span>
+        <span class="n">extinc_curve</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_AV</span><span class="p">],</span> <span class="n">RV</span><span class="p">)</span>
+        <span class="n">flux_ratio_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">extinc_curve</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">spec_mod</span> <span class="o">*=</span> <span class="n">flux_ratio_ext</span>
+        <span class="c1">## TBD: add more options</span>
+
+    <span class="c1"># add n blackbody component(s) if requested </span>
+    <span class="k">if</span> <span class="s1">&#39;Tbb1&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+         <span class="n">n_bb</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+             <span class="k">if</span> <span class="s1">&#39;Tbb&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+                 <span class="n">n_bb</span><span class="o">+=</span><span class="mi">1</span>
+         <span class="n">idx_Tbb1</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Tbb1&quot;</span><span class="p">)</span>
+         <span class="n">Rj</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
+         <span class="n">pc</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">pc</span><span class="o">.</span><span class="n">value</span>
+         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bb</span><span class="p">):</span>
+             <span class="n">idx</span> <span class="o">=</span> <span class="n">ii</span><span class="o">*</span><span class="mi">2</span>
+             <span class="n">Omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">params</span><span class="p">[</span><span class="n">idx_Tbb1</span><span class="o">+</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Rj</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dist</span><span class="o">*</span><span class="n">pc</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+             <span class="n">bb</span> <span class="o">=</span> <span class="n">Omega</span><span class="o">*</span><span class="n">blackbody</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_Tbb1</span><span class="o">+</span><span class="n">idx</span><span class="p">])</span>
+             <span class="n">spec_mod</span> <span class="o">+=</span> <span class="n">bb</span>
+
+    <span class="c1"># apply extinction if requested</span>
+    <span class="k">if</span> <span class="s1">&#39;Av&#39;</span> <span class="ow">in</span> <span class="n">labels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">AV_bef_bb</span><span class="p">:</span>
+        <span class="c1">## so far only assume Cardelli extinction law</span>
+        <span class="n">idx_AV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Av&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;Rv&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">idx_RV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Rv&quot;</span><span class="p">)</span>
+            <span class="n">RV</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_RV</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">RV</span><span class="o">=</span><span class="mf">3.1</span>
+        <span class="n">extinc_curve</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_AV</span><span class="p">],</span> <span class="n">RV</span><span class="p">)</span>
+        <span class="n">flux_ratio_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">extinc_curve</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">spec_mod</span> <span class="o">*=</span> <span class="n">flux_ratio_ext</span>
+        <span class="c1">## TBD: add more options                </span>
+        
+    <span class="k">return</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span></div>
+
+
+<div class="viewcode-block" id="make_resampled_models"><a class="viewcode-back" href="../../special.html#special.model_resampling.make_resampled_models">[docs]</a><span class="k">def</span> <span class="nf">make_resampled_models</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                          <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                          <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interp_nonexist</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a cube of models after convolution and resampling as in the </span>
+<span class="sd">    observations.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------   </span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelength of observed spectrum. If several instruments, should be </span>
+<span class="sd">        ordered per instrument, not necessarily as monotonically increasing </span>
+<span class="sd">        wavelength. Hereafter, n_ch = len(lbda_obs).</span>
+<span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
+<span class="sd">        Should contain list/numpy 1d arrays with available grid of model </span>
+<span class="sd">        parameters. Note: model grids shouldn&#39;t contain grids on radius and Av.</span>
+<span class="sd">    model_grid: list of 1d numpy arrays, or list of lists.</span>
+<span class="sd">        Available grid of model parameters (should only contain the parameter</span>
+<span class="sd">        values, not the models themselves). The latter will be loaded. </span>
+<span class="sd">        Important: 1) Make sure the bounds are within the model grid to avoid </span>
+<span class="sd">        extrapolation. 2) All keywords that are neither &#39;R&#39;, &#39;Av&#39; nor &#39;M&#39; will </span>
+<span class="sd">        be considered model grid parameters.</span>
+<span class="sd">        length of params, with the same order. OR &#39;1bb&#39; or &#39;2bb&#39; for black-body</span>
+<span class="sd">        models. In that case the model will be created on the fly at each </span>
+<span class="sd">        iteration using 1 or 2 Planck functions respectively. There are 2 params </span>
+<span class="sd">        for each Planck function: Teff and radius.</span>
+<span class="sd">    model_reader : python routine</span>
+<span class="sd">        External routine that reads a model file, converts it to required </span>
+<span class="sd">        units and returns a 2D numpy array, where the first column corresponds</span>
+<span class="sd">        to wavelengths, and the second contains model values. Example below.</span>
+<span class="sd">    em_lines: dictionary, opt</span>
+<span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
+<span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
+<span class="sd">        3 values: 1) the wavelength (in mu), 2) a string indicating whether line </span>
+<span class="sd">        intensity is expressed in flux (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) </span>
+<span class="sd">        (&quot;LogL&quot;), and 3) the latter quantity. The intensity of the emission </span>
+<span class="sd">        lines can be sampled by MCMC, in that case the last element of the </span>
+<span class="sd">        tuple can be set to None. If not to be sampled, a value for the </span>
+<span class="sd">        intensity should be provided (in the same system of units as the model </span>
+<span class="sd">        spectra, multiplied by mu). Example:</span>
+<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,263)}</span>
+<span class="sd">    em_grid: dictionary pointing to lists, opt</span>
+<span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation </span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this </span>
+<span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
+<span class="sd">        em_lines. Note: length of this dictionary can be different of em_lines;</span>
+<span class="sd">        i.e. if a line is in em_lines but not in em_grid, it will not be </span>
+<span class="sd">        considered an MCMC parameter.</span>
+<span class="sd">    lbda_mod : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelength of tested model. Should have a wider wavelength extent than </span>
+<span class="sd">        the observed spectrum.</span>
+<span class="sd">    spec_mod : numpy 1d ndarray</span>
+<span class="sd">        Model spectrum. It does not require the same wavelength sampling as the</span>
+<span class="sd">        observed spectrum. If higher spectral resolution, it will be convolved</span>
+<span class="sd">        with the instrumental spectral psf (if instru_fwhm is provided) and </span>
+<span class="sd">        then binned to the same sampling. If lower spectral resolution, a </span>
+<span class="sd">        linear interpolation is performed to infer the value at the observed </span>
+<span class="sd">        spectrum wavelength sampling.</span>
+<span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
+<span class="sd">        Spectral channel width for the observed spectrum. It should be provided </span>
+<span class="sd">        IF one wants to weigh each point based on the spectral </span>
+<span class="sd">        resolution of the respective instruments (as in Olofsson et al. 2016).</span>
+<span class="sd">    instru_fwhm : float or list, optional</span>
+<span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
+<span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
+<span class="sd">        instru_fwhm values, one for each instrument whose spectral resolution</span>
+<span class="sd">        is coarser than the model - including broad band</span>
+<span class="sd">        filter FWHM if relevant.</span>
+<span class="sd">    instru_idx: numpy 1d array, optional</span>
+<span class="sd">        1d array containing an index representing each instrument used </span>
+<span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
+<span class="sd">        that don&#39;t correspond to any instru_fwhm provided above, and i in </span>
+<span class="sd">        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter </span>
+<span class="sd">        must be provided if the spectrum consists of points obtained with </span>
+<span class="sd">        different instruments.</span>
+<span class="sd">    filter_reader: python routine, optional</span>
+<span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains transmission values. Important: if not provided, but strings </span>
+<span class="sd">        are detected in instru_fwhm, the default format assumed for the files:</span>
+<span class="sd">        - first row containing header</span>
+<span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
+<span class="sd">        Note: files should all have the same format and wavelength units.</span>
+<span class="sd">    interp_nonexist: bool, opt</span>
+<span class="sd">        Whether to interpolate if models do not exist, based on closest model(s)</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    resamp_mod: 1d numpy array</span>
+<span class="sd">        Grid of model spectra resampled at wavelengths matching the observed </span>
+<span class="sd">        spectrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
+    <span class="n">n_mods</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    
+    <span class="k">if</span> <span class="n">n_params</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n_params</span><span class="p">):</span>
+            <span class="n">n_mods</span> <span class="o">*=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">])</span>
+            <span class="n">dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">em_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n_em</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">final_dims</span> <span class="o">=</span> <span class="n">dims</span><span class="o">+</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_em</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span>
+        <span class="n">n_em_mods</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">dims_em</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">n_em_mods</span> <span class="o">*=</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="n">dims_em</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+        <span class="n">final_dims</span> <span class="o">=</span> <span class="n">dims</span><span class="o">+</span><span class="n">dims_em</span><span class="o">+</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">dims_em</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dims_em</span><span class="p">)</span>
+     
+    <span class="n">final_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+    <span class="n">resamp_mod</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Loop on all models whose parameters are provided in model grid</span>
+    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mods</span><span class="p">):</span>            
+        <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span><span class="n">dims</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">])</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">model_grid</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+            <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>             
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">params_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span><span class="n">dims</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+                <span class="n">params_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>  
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are nan values in spec for params: &quot;</span><span class="p">)</span>
+                    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Model does not exist for param combination (</span><span class="si">{}</span><span class="s2">)&quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press c if you wish to interpolate that model from neighbours&quot;</span><span class="p">)</span>
+                <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">interp_nonexist</span><span class="p">:</span>
+                    <span class="c1"># find for which dimension the model doesn&#39;t exist;</span>
+                    <span class="k">for</span> <span class="n">qq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+                        <span class="n">interp_params1</span><span class="o">=</span><span class="p">[]</span>
+                        <span class="n">interp_params2</span><span class="o">=</span><span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">pp</span> <span class="o">==</span> <span class="n">qq</span><span class="p">:</span>
+                                <span class="k">try</span><span class="p">:</span>
+                                    <span class="n">interp_params1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                                    <span class="n">interp_params2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                                <span class="k">except</span><span class="p">:</span>
+                                    <span class="k">continue</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">interp_params1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
+                                <span class="n">interp_params2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">lbda_mod1</span><span class="p">,</span> <span class="n">spec_mod1</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">interp_params1</span><span class="p">)</span>
+                            <span class="n">lbda_mod2</span><span class="p">,</span> <span class="n">spec_mod2</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">interp_params2</span><span class="p">)</span>
+                            <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">lbda_mod1</span><span class="p">,</span><span class="n">lbda_mod2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">spec_mod1</span><span class="p">,</span><span class="n">spec_mod2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Model was interpolated based on models: </span><span class="si">{}</span><span class="s2"> &quot;</span>
+                            <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;and </span><span class="si">{}</span><span class="s2">&quot;</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interp_params1</span><span class="p">,</span><span class="n">interp_params2</span><span class="p">))</span>
+                            <span class="k">break</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                        <span class="k">if</span> <span class="n">qq</span> <span class="o">==</span> <span class="n">n_params</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Impossible to interpolate model!&quot;</span> 
+                            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Consider reducing bounds.&quot;</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Model interpolation not allowed for non existing &quot;</span> 
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;models in the grid.&quot;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>                    
+                    
+        <span class="c1"># inject emission lines if any</span>
+        <span class="k">if</span> <span class="n">n_em</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">flux_grids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">wls</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">widths</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">flux_grid</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">flux_grids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flux_grid</span><span class="p">)</span>
+                <span class="n">wls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="c1"># recursively inject em lines</span>
+            <span class="k">for</span> <span class="n">fluxes</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">flux_grids</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">ff</span><span class="p">,</span> <span class="n">flux</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fluxes</span><span class="p">):</span>
+                    <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">wls</span><span class="p">[</span><span class="n">ff</span><span class="p">],</span> <span class="n">flux</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span>
+                                              <span class="n">widths</span><span class="p">[</span><span class="n">ff</span><span class="p">])</span>                
+                <span class="c1"># interpolate OR convolve+bin model spectrum if required</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
+                                         <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
+                                         <span class="n">filter_reader</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
+                                         <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
+                                         <span class="n">filter_reader</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">])</span>
+                    
+                <span class="n">resamp_mod</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>                
+        <span class="k">else</span><span class="p">:</span>    
+            <span class="c1"># interpolate OR convolve+bin model spectrum if not same sampling</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                                     <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                                     <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">])</span>
+                
+            <span class="n">resamp_mod</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+    <span class="n">resamp_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">resamp_mod</span><span class="p">)</span>
+    <span class="n">resamp_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">resamp_mod</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+       
+    <span class="k">return</span> <span class="n">resamp_mod</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span></div>
+
+ 
+<div class="viewcode-block" id="resample_model"><a class="viewcode-back" href="../../special.html#special.model_resampling.resample_model">[docs]</a><span class="k">def</span> <span class="nf">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                   <span class="n">instru_fwhm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">no_constraint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolve, interpolate and resample a model spectrum to match observed </span>
+<span class="sd">    spectrum.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelength of observed spectrum. If several instruments, should be </span>
+<span class="sd">        ordered per instrument, not necessarily as monotonically increasing </span>
+<span class="sd">        wavelength. Hereafter, n_ch = len(lbda_obs).</span>
+<span class="sd">    lbda_mod : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelength of tested model. Should have a wider wavelength extent than </span>
+<span class="sd">        the observed spectrum.</span>
+<span class="sd">    spec_mod : numpy 1d ndarray</span>
+<span class="sd">        Model spectrum. It does not require the same wavelength sampling as the</span>
+<span class="sd">        observed spectrum. If higher spectral resolution, it will be convolved</span>
+<span class="sd">        with the instrumental spectral psf (if instru_fwhm is provided) and </span>
+<span class="sd">        then binned to the same sampling. If lower spectral resolution, a </span>
+<span class="sd">        linear interpolation is performed to infer the value at the observed </span>
+<span class="sd">        spectrum wavelength sampling.</span>
+<span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
+<span class="sd">        Spectral channel width for the observed spectrum. It should be provided </span>
+<span class="sd">        IF one wants to weigh each point based on the spectral </span>
+<span class="sd">        resolution of the respective instruments (as in Olofsson et al. 2016).</span>
+<span class="sd">    instru_fwhm : float or list, optional</span>
+<span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
+<span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
+<span class="sd">        instru_fwhm values, one for each instrument whose spectral resolution</span>
+<span class="sd">        is coarser than the model - including broad band</span>
+<span class="sd">        filter FWHM if relevant.</span>
+<span class="sd">    instru_idx: numpy 1d array, optional</span>
+<span class="sd">        1d array containing an index representing each instrument used </span>
+<span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
+<span class="sd">        that don&#39;t correspond to any instru_fwhm provided above, and i in </span>
+<span class="sd">        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter </span>
+<span class="sd">        must be provided if the spectrum consists of points obtained with </span>
+<span class="sd">        different instruments.</span>
+<span class="sd">    filter_reader: python routine, optional</span>
+<span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains transmission values. Important: if not provided, but strings </span>
+<span class="sd">        are detected in instru_fwhm, the default format assumed for the files:</span>
+<span class="sd">        - first row containing header</span>
+<span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
+<span class="sd">        Note: files should all have the same format and wavelength units.</span>
+<span class="sd">    no_constraint: bool, optional</span>
+<span class="sd">        If set to True, will not use &#39;floor&#39; and &#39;ceil&#39; constraints when</span>
+<span class="sd">        cropping the model wavelength ranges, i.e. faces the risk of </span>
+<span class="sd">        extrapolation. May be useful, if the bounds of the wavelength ranges </span>
+<span class="sd">        are known to match exactly. </span>
+<span class="sd">    verbose: bool, optional</span>
+<span class="sd">        Whether to print more information during resampling.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lbda_obs, spec_mod_res: 2x 1d numpy array</span>
+<span class="sd">        Observed lambdas, and resampled model spectrum (at those lambdas)</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">_default_file_reader</span><span class="p">(</span><span class="n">filter_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default file reader if no filter file reader is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">filt_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filter_name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                                 <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">filt_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">lbda_filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filt_table</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="s1">&#39;(AA)&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">lbda_filt</span> <span class="o">/=</span><span class="mi">10000</span>
+        <span class="k">elif</span> <span class="s1">&#39;(mu)&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="s1">&#39;(nm)&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">lbda_filt</span> <span class="o">/=</span><span class="mi">10000</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Wavelength unit not recognised in filter file&#39;</span><span class="p">)</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filt_table</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span>      
+                    
+    <span class="n">n_ch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
+    <span class="n">spec_mod_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">dlbda_obs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># this is only to trim out useless WL ranges, hence significantly </span>
+        <span class="c1"># improving speed for large (&gt;1M pts) models (e.g. BT-SETTL).</span>
+        <span class="c1"># 0.3 factor to consider possible broad-band filters.</span>
+        <span class="n">dlbda_obs1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="n">dlbda_obs2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_ch</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="n">dlbda_obs3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])]</span>
+        <span class="n">dlbda_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dlbda_obs1</span><span class="o">+</span><span class="n">dlbda_obs2</span><span class="o">+</span><span class="n">dlbda_obs3</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;checking whether WL samplings are the same for obs and model&quot;</span><span class="p">)</span>        
+        
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">instru_fwhm</span> <span class="o">=</span> <span class="p">[</span><span class="n">instru_fwhm</span><span class="p">]</span>
+    <span class="n">cond</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
+        <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
+        <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">lbda_min_tmp</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lbda_min</span><span class="p">,</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+            <span class="n">lbda_max_tmp</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lbda_max</span><span class="p">,</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lbda_min_tmp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_min_tmp</span>
+                <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_max_tmp</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+            
+        <span class="k">if</span> <span class="n">no_constraint</span><span class="p">:</span>
+            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_min</span><span class="p">)</span>
+            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_max</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_min</span><span class="p">,</span> 
+                                   <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_max</span><span class="p">,</span> 
+                                   <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
+
+        <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        
+        
+    <span class="n">nmod</span> <span class="o">=</span> <span class="n">lbda_mod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1">## compute the wavelength sampling of the model</span>
+    <span class="n">dlbda_mod1</span> <span class="o">=</span> <span class="p">[</span><span class="n">lbda_mod</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">dlbda_mod2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nmod</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">dlbda_mod3</span> <span class="o">=</span> <span class="p">[</span><span class="n">lbda_mod</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span>
+    <span class="n">dlbda_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dlbda_mod1</span><span class="o">+</span><span class="n">dlbda_mod2</span><span class="o">+</span><span class="n">dlbda_mod3</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;testing whether observed spectral res could be &gt; than model&#39;s &quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(in at least parts of the spectrum)&quot;</span><span class="p">)</span>
+    <span class="n">dlbda_obs_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">dlbda_obs</span><span class="p">)</span>
+    <span class="n">idx_obs_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">dlbda_obs</span><span class="p">)</span>
+    <span class="n">idx_near</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_obs_min</span><span class="p">])</span>
+    <span class="n">dlbda_mod_tmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_near</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_near</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">do_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_ch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">dlbda_mod_tmp</span><span class="o">&gt;</span><span class="n">dlbda_obs_min</span> <span class="ow">and</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;checking where obs spec res is &lt; or &gt; than model&#39;s&quot;</span><span class="p">)</span>
+        <span class="c1">## check where obs spec res is &lt; or &gt; than model&#39;s</span>
+        <span class="n">nchunks_i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_ch</span><span class="p">):</span>
+            <span class="n">idx_near</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">ll</span><span class="p">])</span>
+            <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_near</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">ll</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">nchunks_i</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="p">]:</span>
+                <span class="n">nchunks_i</span><span class="o">=</span><span class="mi">1</span>
+            
+    <span class="c1">## interpolate model if the observed spectrum has higher resolution </span>
+    <span class="c1">## and is monotonically increasing</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">do_interp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;interpolating model where obs spectrum has higher res&quot;</span><span class="p">)</span>    
+        <span class="n">idx_0</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nchunks_i</span><span class="p">):</span>
+            <span class="n">idx_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">do_interp</span><span class="p">[</span><span class="n">idx_0</span><span class="p">:])</span><span class="o">+</span><span class="n">idx_0</span>
+            <span class="n">idx_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">do_interp</span><span class="p">[</span><span class="n">idx_1</span><span class="p">:])</span><span class="o">+</span><span class="n">idx_1</span>
+            <span class="k">if</span> <span class="n">idx_0</span><span class="o">==</span><span class="n">idx_1</span><span class="p">:</span>
+                <span class="n">idx_0</span><span class="o">=-</span><span class="mi">1</span>
+                <span class="k">if</span> <span class="n">nc</span> <span class="o">!=</span> <span class="n">nchunks_i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span> <span class="c1"># should not happen</span>
+            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_1</span><span class="p">],</span>
+                                   <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_0</span><span class="p">],</span>
+                                   <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
+
+
+            <span class="n">spl</span> <span class="o">=</span> <span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span> 
+                                               <span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span>
+                                                   <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">idx_fin</span><span class="o">-</span><span class="n">idx_ini</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">idx_1</span><span class="p">:</span><span class="n">idx_0</span><span class="p">]</span> <span class="o">=</span> <span class="n">spl</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_1</span><span class="p">:</span><span class="n">idx_0</span><span class="p">])</span>
+
+            
+    <span class="c1">## convolve+bin where the model spectrum has higher resolution (most likely)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">do_interp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_ch</span> <span class="ow">or</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="c1"># Note: if dlbda_obs_min &lt; 0, it means several instruments are used with </span>
+    <span class="c1"># overlapping WL ranges. instru_fwhm should be provided!</span>
+        <span class="k">if</span> <span class="n">instru_fwhm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Warning! No spectral FWHM nor filter file provided&quot;</span>
+            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; =&gt; binning without convolution&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lbda</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">):</span>
+                <span class="n">mid_lbda_f</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">-</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
+                <span class="n">mid_lbda_l</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">+</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
+                <span class="n">i_f</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span>
+                                   <span class="n">mid_lbda_f</span><span class="p">[</span><span class="n">ll</span><span class="p">])</span>
+                <span class="n">i_l</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span>
+                                   <span class="n">mid_lbda_l</span><span class="p">[</span><span class="n">ll</span><span class="p">])</span>
+                <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">i_f</span><span class="p">:</span><span class="n">i_l</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;convolving+binning where model spectrum has higher res&quot;</span><span class="p">)</span>   
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">instru_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="n">instru_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">n_ch</span><span class="p">)</span>
+    
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
+                    <span class="n">ifwhm</span> <span class="o">=</span> <span class="n">instru_fwhm</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dlbda_mod</span><span class="p">))</span>
+                    <span class="n">gau_ker</span> <span class="o">=</span> <span class="n">Gaussian1DKernel</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="n">ifwhm</span><span class="o">*</span><span class="n">gaussian_fwhm_to_sigma</span><span class="p">)</span>
+                    <span class="n">spec_mod_conv</span> <span class="o">=</span> <span class="n">convolve_fft</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">,</span> <span class="n">gau_ker</span><span class="p">)</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)])</span>
+                    <span class="k">for</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lbda</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]):</span>
+                        <span class="n">mid_lbda_f</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">-</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
+                        <span class="n">mid_lbda_l</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">+</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
+                        <span class="n">i_f</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span>
+                                           <span class="n">mid_lbda_f</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)][</span><span class="n">ll</span><span class="p">])</span>
+                        <span class="n">i_l</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span>
+                                           <span class="n">mid_lbda_l</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)][</span><span class="n">ll</span><span class="p">])</span>
+                        <span class="n">tmp</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_mod_conv</span><span class="p">[</span><span class="n">i_f</span><span class="p">:</span><span class="n">i_l</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">tmp</span>  
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">filter_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">filter_reader</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">_default_file_reader</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_filt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                                           <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
+                    <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_filt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> 
+                                           <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+                    <span class="n">interp_trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span> <span class="n">lbda_filt</span><span class="p">,</span>
+                                             <span class="n">trans</span><span class="p">)</span>
+                    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">interp_trans</span><span class="o">*</span><span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]</span><span class="o">*</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">])</span>
+                    <span class="n">denom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">interp_trans</span><span class="o">*</span><span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">])</span>
+                    <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">denom</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;instru_fwhm is a </span><span class="si">{}</span><span class="s2">, while it should be either a&quot;</span>
+                    <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; scalar or a string&quot;</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">instru_fwhm</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_mod_res</span><span class="p">])</span></div>
+
+    
+<div class="viewcode-block" id="interpolate_model"><a class="viewcode-back" href="../../special.html#special.model_resampling.interpolate_model">[docs]</a><span class="k">def</span> <span class="nf">interpolate_model</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">params_em</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> 
+                      <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                      <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dlbda</span><span class="o">=</span><span class="mf">2e-4</span><span class="p">,</span>
+                      <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : tuple</span>
+<span class="sd">        Set of models parameters for which the model grid has to be </span>
+<span class="sd">        interpolated.</span>
+<span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
+<span class="sd">        * If list, should contain list/numpy 1d arrays with available grid of \</span>
+<span class="sd">        model parameters.</span>
+<span class="sd">        * Note1: model grids should not contain grids on radius and Av, but \</span>
+<span class="sd">        these should still be passed in initial_state (Av optional).</span>
+<span class="sd">    params_em : dictionary, opt</span>
+<span class="sd">        Set of emission line parameters (typically fluxes) for which the model </span>
+<span class="sd">        grid has to be interpolated.</span>
+<span class="sd">    em_grid: dictionary pointing to lists, opt</span>
+<span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation </span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this </span>
+<span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
+<span class="sd">        em_lines. Note: length of this dictionary can be different of em_lines;</span>
+<span class="sd">        i.e. if a line is in em_lines but not in em_grid, it will not be </span>
+<span class="sd">        considered an MCMC parameter.</span>
+<span class="sd">    em_lines: dictionary, opt</span>
+<span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
+<span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
+<span class="sd">        3 values: 1) the wavelength (in mu), 2) a string indicating whether line </span>
+<span class="sd">        intensity is expressed in flux (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) </span>
+<span class="sd">        (&quot;LogL&quot;), and 3) the latter quantity. The intensity of the emission </span>
+<span class="sd">        lines can be sampled by MCMC, in that case the last element of the </span>
+<span class="sd">        tuple can be set to None. If not to be sampled, a value for the </span>
+<span class="sd">        intensity should be provided (in the same system of units as the model </span>
+<span class="sd">        spectra, multiplied by mu). Example:</span>
+<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,263)}</span>
+<span class="sd">    labels: Tuple of strings</span>
+<span class="sd">        Tuple of labels in the same order as initial_state, that is:</span>
+<span class="sd">        * first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">        * next the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">        * (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">        in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">        * (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">        * (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">        * (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">        contribution.</span>
+<span class="sd">        Note: only necessary if an emission list dictionary is provided.</span>
+<span class="sd">    model_grid : numpy N-d array</span>
+<span class="sd">        If provided, should contain the grid of model spectra for each</span>
+<span class="sd">        free parameter of the given grid. I.e. for a grid of n_T values of Teff </span>
+<span class="sd">        and n_g values of Logg, the numpy array should be n_T x n_g x n_ch x 2, </span>
+<span class="sd">        where n_ch is the number of wavelengths for the observed spectrum.</span>
+<span class="sd">        If provided, takes precedence over filename/file_reader which would </span>
+<span class="sd">        open and read models at each step of the MCMC.</span>
+<span class="sd">        Note: if provided, it should already probe any potential emission line.</span>
+<span class="sd">    model_reader : python routine</span>
+<span class="sd">        External routine that reads a model file, converts it to required </span>
+<span class="sd">        units and returns a 2D numpy array, where the first column corresponds</span>
+<span class="sd">        to wavelengths, and the second contains model values. Example below.</span>
+<span class="sd">    interp_order: int, opt, {0,1} </span>
+<span class="sd">        0: nearest neighbour model.</span>
+<span class="sd">        1: Order 1 spline interpolation.</span>
+<span class="sd">    max_dlbda: float, opt</span>
+<span class="sd">        Maximum delta lbda in mu allowed if binning of lbda_model is necessary. </span>
+<span class="sd">        This is necessary for grids of models (e.g. BT-SETTL) where the wavelength</span>
+<span class="sd">        sampling is not the same depending on parameters (e.g. between 4000K</span>
+<span class="sd">        and 4100K models for BT-SETTL): resampling preserving original </span>
+<span class="sd">        resolution is too prohibitive computationally.</span>
+<span class="sd">    verbose: bool, optional</span>
+<span class="sd">        Whether to print more information during resampling.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model : 2d numpy array</span>
+<span class="sd">        Interpolated model for input parameters. First column corresponds</span>
+<span class="sd">        to wavelengths, and the second contains model values.</span>
+<span class="sd">        </span>
+<span class="sd">    Example file_reader</span>
+<span class="sd">    -------------------</span>
+<span class="sd">    def _example_file_reader(params):</span>
+<span class="sd">        &#39;&#39;&#39;This is a minimal example for the file_reader routine to be provided </span>
+<span class="sd">        as argument to model_interpolation. The routine should only take as </span>
+<span class="sd">        inputs grid parameters, and returns as output: both the wavelengths and </span>
+<span class="sd">        model values as a 2D numpy array.</span>
+<span class="sd">        This example assumes the model is in a fits file, that is already a 2D</span>
+<span class="sd">        numpy array, where the first column is the wavelength, and 2nd column </span>
+<span class="sd">        is the corresponding model values.&#39;&#39;&#39;</span>
+<span class="sd">        </span>
+<span class="sd">        model = open_fits(filename.format(params[0],params[1]))</span>
+
+<span class="sd">        return model       </span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_example_file_reader</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; This is a minimal example for the file_reader routine to be provided </span>
+<span class="sd">        as argument to model_interpolation. The routine should take as input a </span>
+<span class="sd">        template filename format with blanks and parameters, and return as output </span>
+<span class="sd">        the wavelengths and model values as a 2D numpy array.</span>
+<span class="sd">        This example assumes the model is in a fits file, that is already a 2D</span>
+<span class="sd">        numpy array, where the first column is the wavelength, and second column </span>
+<span class="sd">        is the corresponding model values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">open_fits</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">model</span>
+
+    <span class="k">def</span> <span class="nf">_den_to_bin</span><span class="p">(</span><span class="n">denary</span><span class="p">,</span><span class="n">ndigits</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert denary to binary number, keeping n digits for binary (i.e.</span>
+<span class="sd">        padding with zeros if necessary)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">binary</span><span class="o">=</span><span class="s2">&quot;&quot;</span>  
+        <span class="k">while</span> <span class="n">denary</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>  
+          <span class="c1">#A left shift in binary means /2  </span>
+          <span class="n">binary</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">denary</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">binary</span>  
+          <span class="n">denary</span> <span class="o">=</span> <span class="n">denary</span><span class="o">//</span><span class="mi">2</span>  
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ndigits</span><span class="p">:</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">*</span><span class="p">(</span><span class="n">ndigits</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">binary</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">pad</span><span class="o">+</span><span class="n">binary</span>  
+
+    <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
+    <span class="n">n_em</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span>
+    <span class="n">n_params_tot</span> <span class="o">=</span> <span class="n">n_params</span><span class="o">+</span><span class="n">n_em</span>
+
+    <span class="k">if</span> <span class="n">interp_order</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>    
+            <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+                <span class="n">params_tmp</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span> 
+                                              <span class="n">params</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+            <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n_em</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span>
+                        <span class="n">spec</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> 
+                                              <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nn</span> <span class="o">&lt;</span> <span class="n">n_params</span><span class="p">:</span>
+                    <span class="n">idx_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span>
+                                                <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span>
+                            <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+                            <span class="k">break</span>
+                    <span class="n">idx_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
+                                                <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>                    
+            <span class="n">idx_tmp</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">idx_tmp</span><span class="p">)</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">model_grid</span><span class="p">[</span><span class="n">idx_tmp</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+    
+    
+    <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">interp_order</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># first compute new subgrid &quot;coords&quot; for interpolation</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing new coords for interpolation&quot;</span><span class="p">)</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">,</span><span class="s1">&#39;ceil&#39;</span><span class="p">]</span>
+        <span class="n">new_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">sub_grid_param</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nn</span> <span class="o">&lt;</span> <span class="n">n_params</span><span class="p">:</span>
+                <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
+                <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span>
+                        <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> 
+                        <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                        <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+                        <span class="k">break</span>
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_tmp</span><span class="p">,</span> 
+                                                         <span class="n">params_tmp</span><span class="p">,</span>
+                                                         <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> 
+                                                         <span class="n">output</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+                
+            <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">params_tmp</span><span class="o">-</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">new_coords</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">denom</span>
+            
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Making sub-grid of models&quot;</span><span class="p">)</span>
+        <span class="n">sub_grid</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="p">[]</span>        
+        <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ntot_subgrid</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n_params_tot</span>
+            <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">):</span>
+                <span class="n">str_indices</span> <span class="o">=</span> <span class="n">_den_to_bin</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">n_params_tot</span><span class="p">)</span>
+                <span class="n">params_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
+                    <span class="n">params_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">str_indices</span><span class="p">[</span><span class="n">nn</span><span class="p">])])</span>
+                <span class="n">params_tmp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
+                <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">n_em</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
+                            <span class="n">spec</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
+                                                  <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">lbda</span><span class="p">,</span> 
+                                                  <span class="n">spec</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">sub_grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+                <span class="n">sub_grid_lbda</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lbda</span><span class="p">)</span>
+            
+            <span class="c1"># resample to match sparser sampling if required</span>
+            <span class="n">nch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
+            <span class="n">nch_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="n">nch_max</span> <span class="o">!=</span> <span class="n">nch</span><span class="p">:</span>
+                <span class="n">min_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
+                <span class="n">min_dlbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">min_dlbda</span> <span class="o">&lt;</span> <span class="n">max_dlbda</span><span class="p">:</span>
+                    <span class="n">bin_fac</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_dlbda</span><span class="o">/</span><span class="n">min_dlbda</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Models will be binned in WL by a factor </span><span class="si">{}</span><span class="s2"> to &quot;</span>
+                        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;min dlbda = </span><span class="si">{}</span><span class="s2">mu&quot;</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bin_fac</span><span class="p">,</span><span class="n">max_dlbda</span><span class="p">))</span>
+                    
+                    <span class="n">nch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">])</span><span class="o">/</span><span class="n">bin_fac</span><span class="p">)</span>
+                    <span class="n">tmp_spec</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">tmp_lbda</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">bb</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">):</span>
+                        <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">bb</span><span class="o">*</span><span class="n">bin_fac</span>
+                        <span class="n">idx_fin</span> <span class="o">=</span> <span class="p">(</span><span class="n">bb</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bin_fac</span>
+                        <span class="n">tmp_spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]))</span>
+                        <span class="n">tmp_lbda</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]))</span>
+                    <span class="n">sub_grid</span><span class="p">[</span><span class="n">min_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp_spec</span><span class="p">)</span>
+                    <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp_lbda</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">):</span>
+                    <span class="n">cond</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">])</span> <span class="o">!=</span> <span class="n">nch</span><span class="p">:</span>
+                        <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># np.allclose() or np.array_equal are TOO slow</span>
+                        <span class="n">dlbda</span> <span class="o">=</span> <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">dlbda</span><span class="o">/=</span><span class="n">nch</span>
+                        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">])</span><span class="o">&gt;</span><span class="n">dlbda</span><span class="p">:</span>
+                            <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Resampling model of different WL sampling. &quot;</span>
+                            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot;This may take a while for high-res/large WL&quot;</span>
+                            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; ranges...&quot;</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                        <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">],</span> 
+                                             <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">],</span> 
+                                             <span class="n">sub_grid</span><span class="p">[</span><span class="n">dd</span><span class="p">],</span>
+                                             <span class="n">no_constraint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                             <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+                        <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">],</span> <span class="n">sub_grid</span><span class="p">[</span><span class="n">dd</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+
+            <span class="c1"># Create array with dimensions &#39;dims&#39; for each wavelength</span>
+            <span class="n">final_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">nch</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">n_params_tot</span><span class="p">)</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">)</span>
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">)</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>            
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span>
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">sub_grid_lbda</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">,</span><span class="s1">&#39;ceil&#39;</span><span class="p">]</span>
+            <span class="n">sub_grid_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="c1">#list_idx = []</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nn</span> <span class="o">&lt;</span> <span class="n">n_params</span><span class="p">:</span>
+                    <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
+                    <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span>
+                            <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> 
+                            <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                            <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+                            <span class="k">break</span>
+                <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="n">sub_grid_idx</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span><span class="o">=</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_tmp</span><span class="p">,</span> <span class="n">params_tmp</span><span class="p">,</span>
+                                                     <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> 
+                                                     <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n_params_tot</span><span class="p">):</span>
+                <span class="n">str_indices</span> <span class="o">=</span> <span class="n">_den_to_bin</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">n_params_tot</span><span class="p">)</span>
+                <span class="n">idx_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
+                    <span class="n">idx_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_grid_idx</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">str_indices</span><span class="p">[</span><span class="n">nn</span><span class="p">])])</span>
+                    <span class="c1">#idx_tmp = sub_grid_idx[nn,int(str_indices[nn])]</span>
+                <span class="c1">#list_idx.append(idx_tmp)</span>
+                <span class="c1">#list_idx=np.array(list_idx)</span>
+                <span class="n">sub_grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_grid</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">idx_tmp</span><span class="p">)])</span>
+            
+            <span class="c1"># first reshape</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">)</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">n_params_tot</span><span class="o">+</span><span class="p">[</span><span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span><span class="o">+</span><span class="p">[</span><span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># make last dim (lbda vs flux) come first</span>
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># move again axis to have nch as first axis</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">nch</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            
+        <span class="n">interp_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span>
+        <span class="n">interp_lbdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">interp_order</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">):</span>
+            <span class="n">interp_model</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">[</span><span class="n">cc</span><span class="p">],</span> <span class="n">new_coords</span><span class="p">,</span> 
+                                               <span class="n">order</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">interp_order</span><span class="p">))</span>
+            <span class="n">interp_lbdas</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">cc</span><span class="p">],</span> <span class="n">new_coords</span><span class="p">,</span> 
+                                               <span class="n">order</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">interp_order</span><span class="p">))</span>
+            
+        <span class="k">if</span> <span class="n">interp_order</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">interp_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">interp_model</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">interp_lbdas</span><span class="p">,</span> <span class="n">interp_model</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Interpolation order not allowed. Only -1, 0 or 1 accepted&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+</pre></div>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Valentin Christiaens<br/>
+    
+        &copy; Copyright 2019-2022, Valentin Christiaens.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

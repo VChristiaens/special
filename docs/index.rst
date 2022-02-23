@@ -1,0 +1,45 @@
+.. This file should at least contain the root `toctree` directive.
+
+.. Welcome to ``special``'s documentation
+.. ======================================
+
+.. image::  _static/Special_logo.jpeg
+   :align:  center
+   :scale:  100 %
+   :target: #
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Getting started
+   :hidden:
+
+   trimmed_readme
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Tutorial
+   :hidden:
+
+   tutorials/walkthrough.ipynb
+
+.. toctree::
+   :maxdepth: 3
+   :caption: About
+
+   about
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Index
+
+   special
+
+
+
+API
+---
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

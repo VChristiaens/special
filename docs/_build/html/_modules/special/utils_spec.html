@@ -1,0 +1,749 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>special.utils_spec &#8212; special  documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/Special_logo.jpeg" class="logo" alt="logo">
+      
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Tutorial
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../tutorials/walkthrough.html">
+   <em>
+    special
+   </em>
+   tutorial
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Index
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../special.html">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/VChristiaens/special"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/VChristiaens/special/issues/new?title=Issue%20on%20page%20%2F_modules/special/utils_spec.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1></h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <h1>Source code for special.utils_spec</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utility functions for spectral fitting.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Valentin Christiaens&#39;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;akaike&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;blackbody&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;combine_spec_corrs&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convert_F_units&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convert_F_vs_mag&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;extinction&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;find_nearest&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;inject_em_line&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;mj_from_rj_and_logg&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;nrefrac&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">astropy.constants</span> <span class="k">as</span> <span class="nn">c</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">gaussian</span>
+        
+<div class="viewcode-block" id="akaike"><a class="viewcode-back" href="../../special.html#special.utils_spec.akaike">[docs]</a><span class="k">def</span> <span class="nf">akaike</span><span class="p">(</span><span class="n">LnL</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the Akaike Information Criterion: 2k-2ln(L),</span>
+<span class="sd">    where k is the number of estimated parameters in the model and LnL is the </span>
+<span class="sd">    max ln-likelihood for the model.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    LnL : float</span>
+<span class="sd">        Max ln-likelihood for the considered model.</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Number of estimated parameters in the model.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    aic : float</span>
+<span class="sd">        Akaike Information Criterion</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">LnL</span>  </div>
+
+
+<div class="viewcode-block" id="blackbody"><a class="viewcode-back" href="../../special.html#special.utils_spec.blackbody">[docs]</a><span class="k">def</span> <span class="nf">blackbody</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Planck function. Returns specific intensity for an input wavelength vector</span>
+<span class="sd">    lbda (in micrometers) and a given input temperature.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lbda : numpy array</span>
+<span class="sd">        1d numpy array corresponding to the wavelengths (in microns) for the </span>
+<span class="sd">        desired output specific intensities.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    B_lambda : float</span>
+<span class="sd">        Specific intensity corresponding to the Planck function.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fac</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">h</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lbda</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+    <span class="n">div</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">c</span><span class="o">.</span><span class="n">h</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">/</span><span class="p">((</span><span class="n">lbda</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">k_B</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">T</span><span class="p">))</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># convert from W m-3 Sr-1 to W m-2 mu-1 Sr-1 </span>
+    <span class="n">conv</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="k">return</span> <span class="n">fac</span><span class="o">*</span><span class="n">div</span><span class="o">*</span><span class="n">conv</span></div>
+
+
+<div class="viewcode-block" id="combine_spec_corrs"><a class="viewcode-back" href="../../special.html#special.utils_spec.combine_spec_corrs">[docs]</a><span class="k">def</span> <span class="nf">combine_spec_corrs</span><span class="p">(</span><span class="n">arr_list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Combines the spectral correlation matrices of different instruments </span>
+<span class="sd">    into a single square matrix (required for input of spectral fit).</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arr_list : list or tuple of numpy ndarrays</span>
+<span class="sd">        List/tuple containing the distinct square spectral correlation matrices </span>
+<span class="sd">        OR ones (for independent photometric measurements). </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    combi_corr : numpy 2d ndarray</span>
+<span class="sd">        2d square ndarray representing the combined spectral correlation.</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_arr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr_list</span><span class="p">)</span>
+    
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_arr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Arrays of the tuple should be 2d&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Arrays of the tuple should be square&quot;</span><span class="p">)</span>
+            <span class="n">size</span><span class="o">+=</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">size</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Tuple can only have square 2d arrays or ones&quot;</span><span class="p">)</span>
+            
+    <span class="n">combi_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">size</span><span class="p">,</span><span class="n">size</span><span class="p">])</span>
+    
+    <span class="n">size_tmp</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_arr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">mm</span> <span class="o">=</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">combi_corr</span><span class="p">[</span><span class="n">size_tmp</span><span class="p">:</span><span class="n">size_tmp</span><span class="o">+</span><span class="n">mm</span><span class="p">,</span><span class="n">size_tmp</span><span class="p">:</span><span class="n">size_tmp</span><span class="o">+</span><span class="n">mm</span><span class="p">]</span><span class="o">=</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
+            <span class="n">size_tmp</span><span class="o">+=</span><span class="n">mm</span>
+        <span class="k">elif</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">combi_corr</span><span class="p">[</span><span class="n">size_tmp</span><span class="p">,</span><span class="n">size_tmp</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">size_tmp</span><span class="o">+=</span><span class="mi">1</span>      
+        
+    <span class="k">return</span> <span class="n">combi_corr</span></div>
+
+
+<div class="viewcode-block" id="convert_F_units"><a class="viewcode-back" href="../../special.html#special.utils_spec.convert_F_units">[docs]</a><span class="k">def</span> <span class="nf">convert_F_units</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">in_unit</span><span class="o">=</span><span class="s1">&#39;cgs&#39;</span><span class="p">,</span> <span class="n">out_unit</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to convert Flux density between [ergs s-1 cm-2 um-1], </span>
+<span class="sd">    [W m-2 um-1] and [Jy].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    F: float or 1d array</span>
+<span class="sd">        Flux</span>
+<span class="sd">    lbda: float or 1d array</span>
+<span class="sd">        Wavelength of the flux (in um)</span>
+<span class="sd">    in_unit: str, opt, {&quot;si&quot;, &quot;cgs&quot;, &quot;jy&quot;, &quot;cgsA&quot;} </span>
+<span class="sd">        Input flux units. </span>
+<span class="sd">        &#39;si&#39;: W/m^2/mu; </span>
+<span class="sd">        &#39;cgs&#39;: ergs/s/cm^2/mu</span>
+<span class="sd">        &#39;jy&#39;: janskys</span>
+<span class="sd">        &#39;cgsA&#39;: erg/s/cm^2/AA </span>
+<span class="sd">    out_unit: str, opt {&quot;si&quot;, &quot;cgs&quot;, &quot;jy&quot;}</span>
+<span class="sd">        Output flux units.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Flux in output units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">in_unit</span> <span class="o">==</span> <span class="s1">&#39;cgs&#39;</span><span class="p">:</span>
+        <span class="n">new_F</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="o">*</span><span class="mf">1e23</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e6</span><span class="p">)</span> <span class="c1"># convert to jy</span>
+    <span class="k">elif</span> <span class="n">in_unit</span> <span class="o">==</span> <span class="s1">&#39;cgsA&#39;</span><span class="p">:</span>
+        <span class="n">new_F</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="o">*</span><span class="mf">1e27</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e6</span><span class="p">)</span> <span class="c1"># convert to jy</span>
+    <span class="k">elif</span> <span class="n">in_unit</span> <span class="o">==</span> <span class="s1">&#39;si&#39;</span><span class="p">:</span>
+        <span class="n">new_F</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="o">*</span><span class="mf">1e26</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e6</span><span class="p">)</span> <span class="c1"># convert to jy</span>
+    <span class="k">elif</span> <span class="n">in_unit</span> <span class="o">==</span> <span class="s2">&quot;jy&quot;</span><span class="p">:</span>
+        <span class="n">new_F</span><span class="o">=</span><span class="n">F</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;in_unit not recognized, try either &#39;cgs&#39;, &#39;si&#39; or &#39;jy&#39;.&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>        
+    <span class="k">if</span> <span class="n">out_unit</span> <span class="o">==</span> <span class="s1">&#39;jy&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">new_F</span>
+    <span class="k">elif</span> <span class="n">out_unit</span> <span class="o">==</span> <span class="s1">&#39;cgs&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">new_F</span><span class="o">*</span><span class="mf">1e-23</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e6</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">out_unit</span> <span class="o">==</span> <span class="s1">&#39;si&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">new_F</span><span class="o">*</span><span class="mf">1e-26</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mf">1e6</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;out_unit not recognized, try either &#39;cgs&#39;, &#39;si&#39; or &#39;jy&#39;.&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>  </div>
+
+
+<div class="viewcode-block" id="convert_F_vs_mag"><a class="viewcode-back" href="../../special.html#special.utils_spec.convert_F_vs_mag">[docs]</a><span class="k">def</span> <span class="nf">convert_F_vs_mag</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">F_0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">band</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="s1">&#39;Johnson&#39;</span><span class="p">,</span> 
+                     <span class="n">conversion</span><span class="o">=</span><span class="s1">&#39;to_mag&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to convert Flux density (in Jy) to magnitude in a given band, or </span>
+<span class="sd">    the opposite.</span>
+
+<span class="sd">    Sources for zero points:</span>
+<span class="sd">        * TOKUNAGA chapter on IR astronomy (from Cohen 1992)</span>
+<span class="sd">        * UKIRT webpage: \</span>
+<span class="sd">        (http://www.jach.hawaii.edu/UKIRT/astronomy/calib/phot_cal/conver.html)</span>
+<span class="sd">        * van der Bliek et al. 1996 (ESO standard stars)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value: float</span>
+<span class="sd">        Flux or magnitude to be converted.</span>
+<span class="sd">    F_0: float, opt</span>
+<span class="sd">        Zero-point flux. If provided will take precedence over band.</span>
+<span class="sd">    band: str, opt</span>
+<span class="sd">        Band of the given flux or magnitude. Choice between: {&#39;U&#39;,&#39;B&#39;,&#39;V&#39;, &#39;R&#39;, </span>
+<span class="sd">        &#39;I&#39;, &#39;J&#39;, &#39;H&#39;, &#39;K&#39;, &quot;L&quot;, &quot;L&#39;&quot;, &#39;M&#39;, &#39;N&#39;, &#39;O&#39;} </span>
+<span class="sd">        (but not for all band systems).</span>
+<span class="sd">    system: str, opt</span>
+<span class="sd">        Band system. Choice between: {&#39;Johnson;,&#39;2MASS&#39;, &#39;UKIRT&#39;, &#39;ESO&#39;}</span>
+<span class="sd">    conversion: str, opt</span>
+<span class="sd">        In which sense to convert: flux to mag (&#39;to_mag&#39;) or mag to flux </span>
+<span class="sd">        (&#39;to_flux&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Converted flux or magnitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>               
+    
+    <span class="n">dico_zero_pts_Jo</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;U&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.36</span><span class="p">,</span><span class="mf">1823.</span><span class="p">],</span>
+                        <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.44</span><span class="p">,</span><span class="mf">4130.</span><span class="p">],</span>
+                        <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">3781.</span><span class="p">],</span>
+                        <span class="s1">&#39;R&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.71</span><span class="p">,</span><span class="mf">2941.</span><span class="p">],</span>
+                        <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.97</span><span class="p">,</span><span class="mf">2635.</span><span class="p">],</span>
+                        <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1603.</span><span class="p">],</span>
+                        <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.60</span><span class="p">,</span><span class="mf">1075.</span><span class="p">],</span>
+                        <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.22</span><span class="p">,</span><span class="mf">667.</span><span class="p">],</span>
+                        <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.54</span><span class="p">,</span><span class="mf">288.</span><span class="p">],</span>
+                        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.80</span><span class="p">,</span><span class="mf">170.</span><span class="p">],</span>
+                        <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">10.6</span><span class="p">,</span><span class="mf">36.</span><span class="p">],</span>
+                        <span class="s1">&#39;O&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">21.0</span><span class="p">,</span><span class="mf">9.4</span><span class="p">]}</span>
+    <span class="n">dico_zero_pts_2M</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.235</span><span class="p">,</span><span class="mf">1594.</span><span class="p">],</span>
+                        <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.662</span><span class="p">,</span><span class="mf">1024.</span><span class="p">],</span>
+                        <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.159</span><span class="p">,</span><span class="mf">666.7</span><span class="p">]}</span>
+    <span class="n">dico_zero_pts_UK</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.5556</span><span class="p">,</span><span class="mf">3540.</span><span class="p">],</span> <span class="c1"># TOKUNAGA (from Cohen 1992)</span>
+                        <span class="s1">&#39;I&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">2250.</span><span class="p">],</span>    <span class="c1"># UKIRT webpage</span>
+                        <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.215</span><span class="p">,</span><span class="mf">1630.</span><span class="p">],</span>  <span class="c1"># TOKUNAGA (from Cohen 1992)</span>
+                        <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.654</span><span class="p">,</span><span class="mf">1050.</span><span class="p">],</span>  <span class="c1"># TOKUNAGA (from Cohen 1992)</span>
+                        <span class="s1">&#39;Ks&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.157</span><span class="p">,</span><span class="mf">667.</span><span class="p">],</span>  <span class="c1"># TOKUNAGA (from Cohen 1992)</span>
+                        <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.179</span><span class="p">,</span><span class="mf">655.</span><span class="p">],</span>   <span class="c1"># TOKUNAGA (from Cohen 1992)                        </span>
+                        <span class="s1">&#39;L&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.547</span><span class="p">,</span><span class="mf">276.</span><span class="p">],</span>   <span class="c1"># TOKUNAGA (from Cohen 1992)  </span>
+                        <span class="s2">&quot;L&#39;&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.761</span><span class="p">,</span><span class="mf">248.</span><span class="p">],</span>  <span class="c1"># TOKUNAGA (from Cohen 1992)                          </span>
+                        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.769</span><span class="p">,</span><span class="mf">160.</span><span class="p">],</span>   <span class="c1"># TOKUNAGA (from Cohen 1992)  </span>
+                        <span class="s1">&#39;8.7&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">8.756</span><span class="p">,</span><span class="mf">50.</span><span class="p">],</span>  <span class="c1"># TOKUNAGA (from Cohen 1992)                          </span>
+                        <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">10.472</span><span class="p">,</span><span class="mf">35.3</span><span class="p">],</span>  <span class="c1"># TOKUNAGA (from Cohen 1992)  </span>
+                        <span class="s1">&#39;11.7&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">11.653</span><span class="p">,</span><span class="mf">28.6</span><span class="p">],</span> <span class="c1"># TOKUNAGA (from Cohen 1992)         </span>
+                        <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">20.13</span><span class="p">,</span><span class="mf">9.7</span><span class="p">]}</span>      <span class="c1"># TOKUNAGA (from Cohen 1992)</span>
+    <span class="n">dico_zero_pts_ESO</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.228</span><span class="p">,</span><span class="mf">3.44e-9</span><span class="p">],</span>  <span class="c1"># van der Bliek 1996</span>
+                        <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.651</span><span class="p">,</span><span class="mf">1.21e-9</span><span class="p">],</span>   <span class="c1"># van der Bliek 1996</span>
+                        <span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.216</span><span class="p">,</span><span class="mf">4.12e-10</span><span class="p">],</span>  <span class="c1"># van der Bliek 1996</span>
+                        <span class="s2">&quot;L&#39;&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.771</span><span class="p">,</span><span class="mf">5.58e-11</span><span class="p">],</span> <span class="c1"># van der Bliek 1996</span>
+                        <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.772</span><span class="p">,</span><span class="mf">2.21e-11</span><span class="p">]}</span>  <span class="c1"># van der Bliek 1996 </span>
+    
+    <span class="k">if</span> <span class="n">F_0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;Johnson&#39;</span> <span class="ow">and</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">dico_zero_pts_Jo</span><span class="p">:</span>
+            <span class="n">dico_F_0</span> <span class="o">=</span> <span class="n">dico_zero_pts_Jo</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;2MASS&#39;</span> <span class="ow">and</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">dico_zero_pts_2M</span><span class="p">:</span>
+            <span class="n">dico_F_0</span> <span class="o">=</span> <span class="n">dico_zero_pts_2M</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;UKIRT&#39;</span> <span class="ow">and</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">dico_zero_pts_UK</span><span class="p">:</span>
+            <span class="n">dico_F_0</span> <span class="o">=</span> <span class="n">dico_zero_pts_UK</span>
+        <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;ESO&#39;</span> <span class="ow">and</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">dico_zero_pts_UK</span><span class="p">:</span>
+            <span class="n">dico_F_0</span> <span class="o">=</span> <span class="n">dico_zero_pts_ESO</span>                   
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Combination of band name and band system not recognized.&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">F_0</span> <span class="o">=</span> <span class="n">dico_F_0</span><span class="p">[</span><span class="n">band</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;ESO&#39;</span><span class="p">:</span>
+            <span class="c1"># convert from W m-2 mu-1 to Jy</span>
+            <span class="n">F_0</span> <span class="o">=</span> <span class="n">convert_F_units</span><span class="p">(</span><span class="n">F_0</span><span class="p">,</span> <span class="n">dico_F_0</span><span class="p">[</span><span class="n">band</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">in_unit</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> 
+                                  <span class="n">out_unit</span><span class="o">=</span><span class="s1">&#39;jy&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">conversion</span> <span class="o">==</span> <span class="s1">&#39;to_mag&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">2.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">value</span><span class="o">/</span><span class="n">F_0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">conversion</span> <span class="o">==</span> <span class="s1">&#39;to_flux&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">F_0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">value</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;conversion not recognized, must be &#39;to_mag&#39; or &#39;to_flux&#39;.&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        
+
+<div class="viewcode-block" id="extinction"><a class="viewcode-back" href="../../special.html#special.utils_spec.extinction">[docs]</a><span class="k">def</span> <span class="nf">extinction</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">AV</span><span class="p">,</span> <span class="n">RV</span><span class="o">=</span><span class="mf">3.1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the A(lambda) extinction for a given combination of A_V and R_V.</span>
+<span class="sd">    If R_V is not provided, assumes an ISM value of R_V=3.1</span>
+<span class="sd">    Uses the Cardelli et al. (1989) empirical formulas.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lbda : 1d np.ndarray</span>
+<span class="sd">        Array with the wavelengths (um) for which the extinction is calculated.</span>
+<span class="sd">    AV : float</span>
+<span class="sd">        Extinction (mag) in the V band.</span>
+<span class="sd">    RV : float, opt</span>
+<span class="sd">        Reddening in the V band: R_V = A_V / E(B-V)</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Albda: 1d np.ndarray</span>
+<span class="sd">        Extinction (mag) at wavelengths lbda.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">xx</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">lbda</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="n">xx</span> <span class="o">-</span> <span class="mf">1.82</span>
+
+    <span class="n">a_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+    <span class="n">b_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xx</span> <span class="o">&lt;</span> <span class="mf">1.1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">a_c</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.574</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="mf">1.61</span><span class="p">)</span>
+        <span class="n">b_c</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.527</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="mf">1.61</span><span class="p">)</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xx</span> <span class="o">&gt;=</span> <span class="mf">1.1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">a_c</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">+</span> <span class="mf">0.17699</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.50447</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> \
+                       <span class="mf">0.02427</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="mf">0.72085</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> \
+                       <span class="mf">0.01979</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">5</span> <span class="o">-</span> <span class="mf">0.77530</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">6</span> <span class="o">+</span> \
+                       <span class="mf">0.32999</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">7</span>
+
+        <span class="n">b_c</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.41338</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">+</span> <span class="mf">2.28305</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> \
+                       <span class="mf">1.07233</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mf">5.38434</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">4</span> <span class="o">-</span> \
+                       <span class="mf">0.62251</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">5</span> <span class="o">+</span> <span class="mf">5.30260</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">6</span> <span class="o">-</span> \
+                       <span class="mf">2.09002</span><span class="o">*</span><span class="n">yy</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">**</span><span class="mi">7</span>
+
+    <span class="k">return</span> <span class="n">AV</span> <span class="o">*</span> <span class="p">(</span><span class="n">a_c</span> <span class="o">+</span> <span class="n">b_c</span><span class="o">/</span><span class="n">RV</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="find_nearest"><a class="viewcode-back" href="../../special.html#special.utils_spec.find_nearest">[docs]</a><span class="k">def</span> <span class="nf">find_nearest</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to find the indices, and optionally the values, of an array&#39;s n </span>
+<span class="sd">    closest elements to a certain value.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    array: 1d numpy array or list</span>
+<span class="sd">        Array in which to check the closest element to value.</span>
+<span class="sd">    value: float</span>
+<span class="sd">        Value for which the algorithm searches for the n closest elements in </span>
+<span class="sd">        the array.</span>
+<span class="sd">    output: str, opt {&#39;index&#39;,&#39;value&#39;,&#39;both&#39; }</span>
+<span class="sd">        Set what is returned</span>
+<span class="sd">    constraint: str, opt {None, &#39;ceil&#39;, &#39;floor&#39;}</span>
+<span class="sd">        If not None, will check for the closest element larger than value (ceil)</span>
+<span class="sd">        or closest element smaller than value (floor).</span>
+<span class="sd">    n: int, opt</span>
+<span class="sd">        Number of elements to be returned, sorted by proximity to the values.</span>
+<span class="sd">        Default: only the closest value is returned.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Either:</span>
+<span class="sd">        (output=&#39;index&#39;): index/indices of the closest n value(s) in the array;</span>
+<span class="sd">        (output=&#39;value&#39;): the closest n value(s) in the array, </span>
+<span class="sd">        (output=&#39;both&#39;): closest value(s) and index/-ices, respectively.</span>
+<span class="sd">    By default, only returns the index/indices.</span>
+<span class="sd">    </span>
+<span class="sd">    Possible constraints: &#39;ceil&#39;, &#39;floor&#39;, None (&quot;ceil&quot; will return the closest </span>
+<span class="sd">    element with a value greater than &#39;value&#39;, &quot;floor&quot; the opposite)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input type for array should be np.ndarray or list.&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">array</span><span class="o">-</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">constraint</span> <span class="o">==</span> <span class="s1">&#39;floor&#39;</span> <span class="ow">or</span> <span class="n">constraint</span> <span class="o">==</span> <span class="s1">&#39;ceil&#39;</span><span class="p">:</span> 
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">constraint</span> <span class="o">==</span> <span class="s1">&#39;floor&#39;</span><span class="p">:</span>
+            <span class="n">fm</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">array</span><span class="o">-</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fm</span> <span class="o">=</span> <span class="n">array</span><span class="o">-</span><span class="n">value</span>
+        <span class="n">crop_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fm</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="n">fm</span> <span class="o">=</span> <span class="n">fm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fm</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">crop_indices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;No indices match the constraint (</span><span class="si">{}</span><span class="s2"> w.r.t </span><span class="si">{:.2f}</span><span class="s2">)&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">constraint</span><span class="p">,</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No indices match the constraint&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Constraint not recognised&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">output</span><span class="o">==</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">idx</span>
+    <span class="k">elif</span> <span class="n">output</span><span class="o">==</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">idx</span></div>
+
+
+<div class="viewcode-block" id="inject_em_line"><a class="viewcode-back" href="../../special.html#special.utils_spec.inject_em_line">[docs]</a><span class="k">def</span> <span class="nf">inject_em_line</span><span class="p">(</span><span class="n">wl</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">em</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Injects an emission (or absorption) line in a spectrum. </span>
+
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    wl: float</span>
+<span class="sd">        Wavelength of the line</span>
+<span class="sd">    flux: float</span>
+<span class="sd">        Flux of the line to be injected</span>
+<span class="sd">    lbda : 1d np.ndarray</span>
+<span class="sd">        Array with the wavelengths (um) of the input spectrum.</span>
+<span class="sd">    spec : 1d np.ndarray</span>
+<span class="sd">        Input spectrum fluxes</span>
+<span class="sd">    width : float, opt</span>
+<span class="sd">        Full width of the line in mu (see also height). The line will be </span>
+<span class="sd">        injected assuming a gaussian profile. If not provided, the width will </span>
+<span class="sd">        be set to the &#39;equivalent width&#39; of the line.</span>
+<span class="sd">    height: float, opt</span>
+<span class="sd">        Ratio to peak where the line width is considered. E.g. if </span>
+<span class="sd">        height=10%, the width will be the full width at 10% maximum.        </span>
+<span class="sd">    em: bool, opt</span>
+<span class="sd">        Whether emission (True) or absorption (False) line.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    spec: 1d np.ndarray</span>
+<span class="sd">        Spectrum with the injected line</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># convert ew, assuming it&#39;s in mu</span>
+    <span class="n">idx_mid</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">wl</span><span class="p">)</span>
+    
+    <span class="n">nch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda</span><span class="p">)</span>
+    <span class="n">dlbda</span> <span class="o">=</span> <span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_mid</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_mid</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+    
+    <span class="c1"># estimate model continuum level using adjacent channels in the spectrum</span>
+    <span class="n">lbda_b0</span> <span class="o">=</span> <span class="mf">0.99</span><span class="o">*</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_mid</span><span class="p">]</span>
+    <span class="n">idx_b0</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_b0</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">lbda_b1</span> <span class="o">=</span> <span class="mf">0.995</span><span class="o">*</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_mid</span><span class="p">]</span>
+    <span class="n">idx_b1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_b1</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+    <span class="n">lbda_r1</span> <span class="o">=</span> <span class="mf">1.01</span><span class="o">*</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_mid</span><span class="p">]</span> 
+    <span class="n">idx_r1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_r1</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+    <span class="n">lbda_r0</span> <span class="o">=</span> <span class="mf">1.005</span><span class="o">*</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_mid</span><span class="p">]</span> 
+    <span class="n">idx_r0</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_r0</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx_b0</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">idx_r1</span><span class="o">&gt;</span><span class="n">nch</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The line is too close from the edge of the spectrum&quot;</span><span class="p">)</span>
+    <span class="n">spec_b</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="n">idx_b0</span><span class="p">:</span><span class="n">idx_b1</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">spec_r</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="n">idx_r0</span><span class="p">:</span><span class="n">idx_r1</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cont</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">spec_b</span><span class="p">,</span><span class="n">spec_r</span><span class="p">)))</span>
+    
+    <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># infer ew</span>
+        <span class="n">ew</span> <span class="o">=</span> <span class="n">flux</span><span class="o">/</span><span class="n">cont</span>
+        <span class="c1"># infer gaussian profile assuming FWHM = EW</span>
+        <span class="n">stddev</span> <span class="o">=</span> <span class="n">ew</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">height</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stddev</span> <span class="o">=</span> <span class="n">width</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">height</span><span class="p">)))</span>
+        
+    <span class="n">win_sz</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mi">5</span><span class="o">*</span><span class="n">stddev</span><span class="p">)</span><span class="o">/</span><span class="n">dlbda</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">win_sz</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">win_sz</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="n">idx_ini</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx_mid</span> <span class="o">-</span> <span class="p">(</span><span class="n">win_sz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idx_ini</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;idx ini for line injection negative: try smaller line flux&quot;</span>
+        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; than: </span><span class="si">{}</span><span class="s2"> W/m2 (surface flux)&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flux</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">idx_ini</span><span class="o">+</span><span class="n">win_sz</span><span class="o">&gt;</span><span class="nb">len</span><span class="p">(</span><span class="n">spec</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;idx fin for line injection larger than spec length: try smaller&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; line flux than: </span><span class="si">{}</span><span class="s2"> W/m2 (surface flux)&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flux</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">win_sz</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;window size for line injection = </span><span class="si">{}</span><span class="s2">&lt;1&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">win_sz</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">win_sz</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">gaus</span> <span class="o">=</span> <span class="n">flux</span><span class="o">/</span><span class="n">dlbda</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gaus</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">win_sz</span><span class="p">,</span><span class="n">stddev</span><span class="o">/</span><span class="n">dlbda</span><span class="p">)</span>
+        <span class="c1"># scale the gaussian to contain exactly required flux</span>
+        <span class="n">dlbda_tmp</span> <span class="o">=</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_ini</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">idx_ini</span><span class="o">+</span><span class="n">win_sz</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_ini</span><span class="o">+</span><span class="n">win_sz</span><span class="p">]</span>
+        <span class="n">gaus</span> <span class="o">=</span> <span class="n">flux</span><span class="o">*</span><span class="n">gaus</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gaus</span><span class="p">)</span><span class="o">*</span><span class="n">dlbda_tmp</span><span class="p">)</span>
+
+    
+    <span class="k">if</span> <span class="n">em</span><span class="p">:</span>
+        <span class="n">spec</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_ini</span><span class="o">+</span><span class="n">win_sz</span><span class="p">]</span> <span class="o">+=</span> <span class="n">gaus</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">spec</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_ini</span><span class="o">+</span><span class="n">win_sz</span><span class="p">]</span> <span class="o">-=</span> <span class="n">gaus</span>
+    
+    <span class="k">return</span> <span class="n">spec</span></div>
+
+    
+<div class="viewcode-block" id="mj_from_rj_and_logg"><a class="viewcode-back" href="../../special.html#special.utils_spec.mj_from_rj_and_logg">[docs]</a><span class="k">def</span> <span class="nf">mj_from_rj_and_logg</span><span class="p">(</span><span class="n">rp</span><span class="p">,</span> <span class="n">logg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimates a planet mass in Jupiter mass for a given radius in Jupiter </span>
+<span class="sd">    radius and the log of the surface gravity. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rp: float</span>
+<span class="sd">        Planet radius in Jupiter radii</span>
+<span class="sd">    logg: float</span>
+<span class="sd">        Log of the surface gravity</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mj: float</span>
+<span class="sd">        Planet mass in Jupiter masses</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">surf_g</span> <span class="o">=</span> <span class="mf">1e-2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="n">logg</span><span class="p">)</span>  <span class="c1"># (m s-2)</span>
+
+    <span class="n">rpJ</span> <span class="o">=</span> <span class="n">rp</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span> <span class="c1"># (m)</span>
+
+    <span class="n">mp</span> <span class="o">=</span> <span class="n">surf_g</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">rpJ</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">value</span> <span class="c1"># (kg)</span>
+    <span class="n">mp</span> <span class="o">/=</span> <span class="n">c</span><span class="o">.</span><span class="n">M_jup</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># (Mjup)</span>
+
+    <span class="k">return</span> <span class="n">mp</span></div>
+
+
+<div class="viewcode-block" id="nrefrac"><a class="viewcode-back" href="../../special.html#special.utils_spec.nrefrac">[docs]</a><span class="k">def</span> <span class="nf">nrefrac</span><span class="p">(</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Calculates refractive index of air from Cauchy formula.</span>
+<span class="sd">   For comparisong to measurements from the ground, the wavelenghts of model </span>
+<span class="sd">   spectra must be slightly shifted using:</span>
+<span class="sd">   lbda_shift = lbda_model/(1+(nrefrac*1e-6))</span>
+
+<span class="sd">   Input: wavelength in Angstrom, </span>
+<span class="sd">   Returns N = (n-1) * 1.e6. </span>
+<span class="sd">   Credit: France Allard.</span>
+<span class="sd">   </span>
+<span class="sd">   Parameters</span>
+<span class="sd">   ----------</span>
+<span class="sd">   wavelength: numpy array</span>
+<span class="sd">       1d numpy array corresponding to the wavelengths of the input spectrum</span>
+<span class="sd">       in Angstrom</span>
+<span class="sd">   density: float</span>
+<span class="sd">       density of air in amagat (relative to STP, e.g. ~10% decrease per 1000m </span>
+<span class="sd">       above sea level).</span>
+<span class="sd">        </span>
+<span class="sd">   Returns</span>
+<span class="sd">   -------</span>
+<span class="sd">   N: float</span>
+<span class="sd">       Refractive index</span>
+<span class="sd">   </span>
+<span class="sd">   &quot;&quot;&quot;</span>
+
+   <span class="c1"># The IAU standard for conversion from air to vacuum wavelengths is given</span>
+   <span class="c1"># in Morton (1991, ApJS, 77, 119). For vacuum wavelengths (VAC) in</span>
+   <span class="c1"># Angstroms, convert to air wavelength (AIR) via: </span>
+
+   <span class="c1">#  AIR = VAC / (1.0 + 2.735182E-4 + 131.4182 / VAC^2 + 2.76249E8 / VAC^4)</span>
+
+   <span class="k">try</span><span class="p">:</span>
+       <span class="n">wl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">wavelength</span><span class="p">)</span>
+   <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+       <span class="k">return</span> <span class="kc">None</span>
+
+   <span class="n">wl2inv</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e4</span><span class="o">/</span><span class="n">wl</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+   <span class="n">refracstp</span> <span class="o">=</span> <span class="mf">272.643</span> <span class="o">+</span> <span class="mf">1.2288</span> <span class="o">*</span> <span class="n">wl2inv</span>  <span class="o">+</span> <span class="mf">3.555e-2</span> <span class="o">*</span> <span class="n">wl2inv</span><span class="o">**</span><span class="mi">2</span>
+   <span class="k">return</span> <span class="n">density</span> <span class="o">*</span> <span class="n">refracstp</span></div>
+</pre></div>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Valentin Christiaens<br/>
+    
+        &copy; Copyright 2019-2022, Valentin Christiaens.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
