@@ -1,141 +1,105 @@
 <!DOCTYPE html>
-
-
-
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    
-    <title>special.utils_mcmc &mdash; special  documentation</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    
-
-<link rel="stylesheet" href="../../_static/css/basicstrap-base.css" type="text/css" />
-<link rel="stylesheet" id="current-theme" href="../../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
-
-<link rel="stylesheet" href="../../_static/css/font-awesome.min.css">
-
-<style type="text/css">
-  body {
-    padding-top: 60px;
-    padding-bottom: 40px;
-  }
-</style>
-
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../../_static/css/basicstrap.css" type="text/css" />
-    
-<script type="text/javascript">
-  var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:    '../../',
-            VERSION:     '',
-            COLLAPSE_INDEX: false,
-            FILE_SUFFIX: '.html',
-            HAS_SOURCE:  true
-  };
-</script>
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script type="text/javascript" src="../../_static/js/bootstrap3.min.js"></script>
-<script type="text/javascript" src="../../_static/js/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="../../_static/js/basicstrap.js"></script>
-<script type="text/javascript">
-</script>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>special.utils_mcmc &mdash; special  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="special  documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" /> 
-  </head>
-  <body role="document">
-    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="../../index.html">special  documentation</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
 
-            
-              <li><a href="../../py-modindex.html" title="Python Module Index" >modules </a></li>
-              <li><a href="../../genindex.html" title="General Index" accesskey="I">index </a></li>
-              <li><a href="../index.html" accesskey="U">Module code</a></li>
-            
-
-            <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
-                  <div class="input-append input-group">
-                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
-                    <span class="input-group-btn">
-                    <input type="submit" class="btn" value="Go" />
-                    </span>
-                  </div>
-                  <input type="hidden" name="check_keywords" value="yes" />
-                  <input type="hidden" name="area" value="default" />
-                </form>
-            </li>
-
-            
-
-          </ul>
-
-        </div>
-      </div>
-    </div>
-    
-
-    <!-- container -->
-    <div class="container-fluid">
-
-      <!-- row -->
-      <div class="row">
-         
-<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
-  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-    <p class="logo"><a href="../../index.html">
-      <img class="logo" src="../../_static/Special_logo.jpeg" alt="Logo"/>
-    </a></p>
-<div id="searchbox" role="search">
-  <h3>Quick search</h3>
-  <form class="search form-inline" action="../../search.html" method="get">
-      <div class="input-append input-group">
-        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
-        <span class="input-group-btn">
-        <input type="submit" class="btn" value="Go" />
-        </span>
-      </div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html">
+            <img src="../../_static/Special_logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-  </div>
-</div> 
-        
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">What makes it <cite>special</cite>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html">TL;DR setup guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html#installation-and-dependencies">Installation and dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html"><em>special</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#1.-Loading-the-data">1. Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#4.-MCMC-sampler-examples">4. MCMC sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#5.-Comparison-of-results">5. Comparison of results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#6.-Nested-sampler-examples">6. Nested sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#questions-and-suggestions">Questions and suggestions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.chi">special.chi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.config">special.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.fits">special.fits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.model_resampling">special.model_resampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.nested_sampling">special.nested_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_corr">special.spec_corr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_indices">special.spec_indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.template_fit">special.template_fit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_spec">special.utils_spec</a></li>
+</ul>
 
-        <div class="col-md-9" id="content-wrapper">
-          <div class="document" role="main">
-            <div class="documentwrapper">
-              <div class="bodywrapper">
-                <div class="body">
-                  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">special</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>special.utils_mcmc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for special.utils_mcmc</h1><div class="highlight"><pre>
 <span></span><span class="ch">#! /usr/bin/env python</span>
 
@@ -293,43 +257,31 @@
     <span class="k">return</span> <span class="n">tau</span><span class="o">/</span><span class="n">N</span></div>
 </pre></div>
 
-                </div>
-              </div>
-            </div>
+           </div>
           </div>
-        </div>
-        
-        
-      </div><!-- /row -->
+          <footer>
 
-      <!-- row -->
-      <div class="row footer-relbar">
-<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
-  <div class="navbar-inner">
-    <ul class="nav navbar-nav ">
-        <li><a href="../../index.html">special  documentation</a></li>
-    </ul>
-<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
-      
-        <li><a href="../../py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="../../genindex.html" title="General Index" >index</a></li>
-        <li><a href="../index.html" >Module code</a></li>
-        <li><a href="#">top</a></li> 
-      
-    </ul>
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Valentin Christiaens.</p>
   </div>
-</div>
-      </div><!-- /row -->
 
-      <!-- footer -->
-      <footer role="contentinfo">
-          &copy; Copyright 2019-2022, Valentin Christiaens.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
-      </footer>
-      <!-- /footer -->
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
-    </div>
-    <!-- /container -->
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-  </body>
+</body>
 </html>

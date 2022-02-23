@@ -57,23 +57,23 @@ exclude_patterns = ['_build',
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-#html_theme = 'sphinx_rtd_theme'
+html_theme = 'sphinx_rtd_theme'
 #html_theme = 'sphinx_book_theme'
-extensions.append("sphinxjp.themes.basicstrap")
-html_theme = 'basicstrap'
+# extensions.append("sphinxjp.themes.basicstrap")
+# html_theme = 'basicstrap'
 
 html_theme_options = {
-    'path_to_docs': 'docs',
-    'repository_url': 'https://github.com/VChristiaens/special',
-    'repository_branch': 'main',
-    'launch_buttons': {
-        'binderhub_url': 'https://mybinder.org',
-        'notebook_interface': 'jupyterlab',
-    },
-    'use_edit_page_button': True,
-    'use_issues_button': True,
-    'use_repository_button': True,
-    'use_download_button': True,
+    # 'path_to_docs': 'docs',
+    # 'repository_url': 'https://github.com/VChristiaens/special',
+    # 'repository_branch': 'main',
+    # 'launch_buttons': {
+    #     'binderhub_url': 'https://mybinder.org',
+    #     'notebook_interface': 'jupyterlab',
+    # },
+    # 'use_edit_page_button': True,
+    # 'use_issues_button': True,
+    # 'use_repository_button': True,
+    # 'use_download_button': True,
     'logo_only': True,
 }
 

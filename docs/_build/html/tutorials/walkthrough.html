@@ -1,247 +1,136 @@
 <!DOCTYPE html>
-
-
-
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    
-    <title>special tutorial &mdash; special  documentation</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    
-
-<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
-<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" id="current-adjust-theme" type="text/css" />
-
-<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
-
-<style type="text/css">
-  body {
-    padding-top: 60px;
-    padding-bottom: 40px;
-  }
-</style>
-
-<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
-<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
-    
-<script type="text/javascript">
-  var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:    '../',
-            VERSION:     '',
-            COLLAPSE_INDEX: false,
-            FILE_SUFFIX: '.html',
-            HAS_SOURCE:  true
-  };
-</script>
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script type="text/javascript" src="../None"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
-<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
-<script type="text/javascript">
-</script>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>special tutorial &mdash; special  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="top" title="special  documentation" href="../index.html" />
-    <link rel="next" title="About special" href="../about.html" />
+    <link rel="next" title="Contributions" href="../about.html" />
     <link rel="prev" title="TL;DR setup guide" href="../trimmed_readme.html" /> 
-  </head>
-  <body role="document">
-    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="../index.html">special  documentation</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown visible-xs">
-                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">Table Of Contents <b class="caret"></b></a>
-                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
-                <ul>
-<li><a class="reference internal" href="#"><em>special</em> tutorial</a><ul>
-<li><a class="reference internal" href="#Table-of-contents">Table of contents</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#1.-Loading-the-data">1. Loading the data</a></li>
-<li><a class="reference internal" href="#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a><ul>
-<li><a class="reference internal" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels">2.1 Estimating the spectral correlation between IFS channels</a></li>
-<li><a class="reference internal" href="#2.2-Concatenating-spectral-correlation-matrices">2.2 Concatenating spectral correlation matrices</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a><ul>
-<li><a class="reference internal" href="#3.1-Dereddening">3.1 Dereddening</a></li>
-<li><a class="reference internal" href="#3.2-Spectral-indices">3.2 Spectral indices</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#4.-MCMC-sampler-examples">4. MCMC sampler examples</a><ul>
-<li><a class="reference internal" href="#4.1.-Parameters">4.1. Parameters</a></li>
-<li><a class="reference internal" href="#4.2.-Blackbody-model">4.2. Blackbody model</a></li>
-<li><a class="reference internal" href="#4.3.-BT-SETTL-model">4.3. BT-SETTL model</a></li>
-<li><a class="reference internal" href="#4.4.-BT-SETTL-+-BB-model">4.4. BT-SETTL + BB model</a></li>
-<li><a class="reference internal" href="#4.5.-BT-SETTL-model-+-BrG-line-model">4.5. BT-SETTL model + BrG line model</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#5.-Comparison-of-results">5. Comparison of results</a><ul>
-<li><a class="reference internal" href="#5.1.-Akaike-Information-Criterion">5.1. Akaike Information Criterion</a></li>
-<li><a class="reference internal" href="#5.2.-Best-fit-models">5.2. Best-fit models</a></li>
-<li><a class="reference internal" href="#5.3.-Models-from-the-posterior-distribution">5.3. Models from the posterior distribution</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#6.-Nested-sampler-examples">6. Nested sampler examples</a><ul>
-<li><a class="reference internal" href="#6.1.-Single-ellipsoid-method">6.1. Single ellipsoid method</a></li>
-<li><a class="reference internal" href="#6.2.-Multi-ellipsoid-method">6.2. Multi-ellipsoid method</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
-</ul>
+</head>
 
-                </ul>
-              </li>
-
-            
-              <li><a href="../trimmed_readme.html" title="TL;DR setup guide" accesskey="P">previous </a></li>
-              <li><a href="../about.html" title="About special" accesskey="N">next </a></li>
-              <li><a href="../py-modindex.html" title="Python Module Index" >modules </a></li>
-              <li><a href="../genindex.html" title="General Index" accesskey="I">index </a></li>
-            
-            <li class="visible-xs"><a href="../_sources/tutorials/walkthrough.ipynb.txt" rel="nofollow">Show Source</a></li>
-
-            <li class="visible-xs">
-                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
-                  <div class="input-append input-group">
-                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
-                    <span class="input-group-btn">
-                    <input type="submit" class="btn" value="Go" />
-                    </span>
-                  </div>
-                  <input type="hidden" name="check_keywords" value="yes" />
-                  <input type="hidden" name="area" value="default" />
-                </form>
-            </li>
-
-            
-
-          </ul>
-
-        </div>
-      </div>
-    </div>
-    
-
-    <!-- container -->
-    <div class="container-fluid">
-
-      <!-- row -->
-      <div class="row">
-         
-<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
-  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation">
-    <p class="logo"><a href="../index.html">
-      <img class="logo" src="../_static/Special_logo.jpeg" alt="Logo"/>
-    </a></p>
-  <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#"><em>special</em> tutorial</a><ul>
-<li><a class="reference internal" href="#Table-of-contents">Table of contents</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#1.-Loading-the-data">1. Loading the data</a></li>
-<li><a class="reference internal" href="#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a><ul>
-<li><a class="reference internal" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels">2.1 Estimating the spectral correlation between IFS channels</a></li>
-<li><a class="reference internal" href="#2.2-Concatenating-spectral-correlation-matrices">2.2 Concatenating spectral correlation matrices</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a><ul>
-<li><a class="reference internal" href="#3.1-Dereddening">3.1 Dereddening</a></li>
-<li><a class="reference internal" href="#3.2-Spectral-indices">3.2 Spectral indices</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#4.-MCMC-sampler-examples">4. MCMC sampler examples</a><ul>
-<li><a class="reference internal" href="#4.1.-Parameters">4.1. Parameters</a></li>
-<li><a class="reference internal" href="#4.2.-Blackbody-model">4.2. Blackbody model</a></li>
-<li><a class="reference internal" href="#4.3.-BT-SETTL-model">4.3. BT-SETTL model</a></li>
-<li><a class="reference internal" href="#4.4.-BT-SETTL-+-BB-model">4.4. BT-SETTL + BB model</a></li>
-<li><a class="reference internal" href="#4.5.-BT-SETTL-model-+-BrG-line-model">4.5. BT-SETTL model + BrG line model</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#5.-Comparison-of-results">5. Comparison of results</a><ul>
-<li><a class="reference internal" href="#5.1.-Akaike-Information-Criterion">5.1. Akaike Information Criterion</a></li>
-<li><a class="reference internal" href="#5.2.-Best-fit-models">5.2. Best-fit models</a></li>
-<li><a class="reference internal" href="#5.3.-Models-from-the-posterior-distribution">5.3. Models from the posterior distribution</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#6.-Nested-sampler-examples">6. Nested sampler examples</a><ul>
-<li><a class="reference internal" href="#6.1.-Single-ellipsoid-method">6.1. Single ellipsoid method</a></li>
-<li><a class="reference internal" href="#6.2.-Multi-ellipsoid-method">6.2. Multi-ellipsoid method</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
-</ul>
-
-  </div>
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="../trimmed_readme.html"
-                          title="previous chapter">TL;DR setup guide</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="../about.html"
-                          title="next chapter">About special</a></p>
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/tutorials/walkthrough.ipynb.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" role="search">
-  <h3>Quick search</h3>
-  <form class="search form-inline" action="../search.html" method="get">
-      <div class="input-append input-group">
-        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
-        <span class="input-group-btn">
-        <input type="submit" class="btn" value="Go" />
-        </span>
-      </div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/Special_logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-  </div>
-</div> 
-        
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">What makes it <cite>special</cite>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trimmed_readme.html">TL;DR setup guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trimmed_readme.html#installation-and-dependencies">Installation and dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><em>special</em> tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Table-of-contents">Table of contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#1.-Loading-the-data">1. Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels">2.1 Estimating the spectral correlation between IFS channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#2.2-Concatenating-spectral-correlation-matrices">2.2 Concatenating spectral correlation matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#3.1-Dereddening">3.1 Dereddening</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#3.2-Spectral-indices">3.2 Spectral indices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#4.-MCMC-sampler-examples">4. MCMC sampler examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#4.1.-Parameters">4.1. Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#4.2.-Blackbody-model">4.2. Blackbody model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#4.3.-BT-SETTL-model">4.3. BT-SETTL model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#4.4.-BT-SETTL-+-BB-model">4.4. BT-SETTL + BB model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#4.5.-BT-SETTL-model-+-BrG-line-model">4.5. BT-SETTL model + BrG line model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#5.-Comparison-of-results">5. Comparison of results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#5.1.-Akaike-Information-Criterion">5.1. Akaike Information Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#5.2.-Best-fit-models">5.2. Best-fit models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#5.3.-Models-from-the-posterior-distribution">5.3. Models from the posterior distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#6.-Nested-sampler-examples">6. Nested sampler examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#6.1.-Single-ellipsoid-method">6.1. Single ellipsoid method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#6.2.-Multi-ellipsoid-method">6.2. Multi-ellipsoid method</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html#questions-and-suggestions">Questions and suggestions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../special.html">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.chi">special.chi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.config">special.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.fits">special.fits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.model_resampling">special.model_resampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.nested_sampling">special.nested_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.spec_corr">special.spec_corr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.spec_indices">special.spec_indices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.template_fit">special.template_fit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.utils_spec">special.utils_spec</a></li>
+</ul>
 
-        <div class="col-md-9" id="content-wrapper">
-          <div class="document" role="main">
-            <div class="documentwrapper">
-              <div class="bodywrapper">
-                <div class="body">
-                  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">special</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><em>special</em> tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/VChristiaens/special/blob/main/docs/tutorials/walkthrough.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   
 <style>
 /* CSS for nbsphinx extension */
@@ -489,13 +378,35 @@ div.rendered_html tbody tr:nth-child(odd) {
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
 <div class="section" id="special-tutorial">
-<h1><em>special</em> tutorial<a class="headerlink" href="#special-tutorial" title="Permalink to this headline">¶</a></h1>
+<h1><em>special</em> tutorial<a class="headerlink" href="#special-tutorial" title="Permalink to this headline"></a></h1>
 <p>Written by: <em>Valentin Christiaens</em>.</p>
 <p>Last update: <em>2022/02/17</em></p>
 <div class="section" id="Table-of-contents">
-<h2>Table of contents<a class="headerlink" href="#Table-of-contents" title="Permalink to this headline">¶</a></h2>
+<h2>Table of contents<a class="headerlink" href="#Table-of-contents" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="#1.-Loading-the-data">1. Loading the data</a></p></li>
 <li><p><a class="reference external" href="#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a></p>
@@ -566,7 +477,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="section" id="1.-Loading-the-data">
-<h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline">¶</a></h1>
+<h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline"></a></h1>
 <p>In the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">specfit_extras</span></code> repository you can find:</p>
 <ul class="simple">
 <li><p>a post-processed Integral Field Spectrograph (IFS) datacube (<code class="docutils literal notranslate"><span class="pre">CrA-9_2019_IFS_pca_annulus.fits</span></code>);</p></li>
@@ -732,9 +643,9 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
 </div>
 <div class="section" id="2.-Spectral-correlation-matrix">
-<h1>2. Spectral correlation matrix<a class="headerlink" href="#2.-Spectral-correlation-matrix" title="Permalink to this headline">¶</a></h1>
+<h1>2. Spectral correlation matrix<a class="headerlink" href="#2.-Spectral-correlation-matrix" title="Permalink to this headline"></a></h1>
 <div class="section" id="2.1-Estimating-the-spectral-correlation-between-IFS-channels">
-<h2>2.1 Estimating the spectral correlation between IFS channels<a class="headerlink" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels" title="Permalink to this headline">¶</a></h2>
+<h2>2.1 Estimating the spectral correlation between IFS channels<a class="headerlink" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels" title="Permalink to this headline"></a></h2>
 <p>Before fitting different models to the spectrum, let’s first estimate the spectral correlation between the IFS channels. By design of the IFS, the flux at a given wavelength leaks on/overlaps with neighbouring channels. These can therefore not be considered as independent measurements. The spectral correlation matrix has therefore to be considered when fitting a given IFS spectrum. Not taking it into account can indeed lead to significant biases, and in particular to erroneous results in terms
 of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 <p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">specfit</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in Greco &amp; Brandt (2017). For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
@@ -835,7 +746,7 @@ of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 <p>We see that, as expected, each spectral channel is most correlated to itself, and at most to its 2 closest neighbouring channels. Depending on the number of principal components (npc) subtracted during the PCA, a stronger (low npc) or lower (high npc) residual correlation will be seen between adjacent channels.</p>
 </div>
 <div class="section" id="2.2-Concatenating-spectral-correlation-matrices">
-<h2>2.2 Concatenating spectral correlation matrices<a class="headerlink" href="#2.2-Concatenating-spectral-correlation-matrices" title="Permalink to this headline">¶</a></h2>
+<h2>2.2 Concatenating spectral correlation matrices<a class="headerlink" href="#2.2-Concatenating-spectral-correlation-matrices" title="Permalink to this headline"></a></h2>
 <p>Since our full spectrum of CrA-9b/B also contains photometric points measured by SPHERE/IRDIS (2) and NACO (1), we need to pad the IFS spectral correlation matrix with 3 additional rows and columns of zeroes + ones on the diagonal, in order to get the final spectral correlation matrix.</p>
 <p>This can easily be done with the <code class="docutils literal notranslate"><span class="pre">combine_spec_corrs</span></code> routine:</p>
 <div class="nbinput nblast docutils container">
@@ -884,10 +795,10 @@ of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 </div>
 </div>
 <div class="section" id="3.-Preliminary-spectral-analysis">
-<h1>3. Preliminary spectral analysis<a class="headerlink" href="#3.-Preliminary-spectral-analysis" title="Permalink to this headline">¶</a></h1>
+<h1>3. Preliminary spectral analysis<a class="headerlink" href="#3.-Preliminary-spectral-analysis" title="Permalink to this headline"></a></h1>
 <p>A number of utilities are implemented in the <code class="docutils literal notranslate"><span class="pre">utils_spec</span></code> module, which allow for a preliminary qualitative analysis of the spectrum of the companion. However, to avoid biased conclusions due to extinction in this preliminary analysis, let’s first deredden the observed spectrum using the value quoted in the literature for CrA-9 (<span class="math notranslate nohighlight">\(A_V = 1.6\)</span> mag; Dunham et a. 2015).</p>
 <div class="section" id="3.1-Dereddening">
-<h2>3.1 Dereddening<a class="headerlink" href="#3.1-Dereddening" title="Permalink to this headline">¶</a></h2>
+<h2>3.1 Dereddening<a class="headerlink" href="#3.1-Dereddening" title="Permalink to this headline"></a></h2>
 <p>Provided a given <span class="math notranslate nohighlight">\(A_V\)</span> extinction value, the <code class="docutils literal notranslate"><span class="pre">extinction</span></code> routine can estimate the corresponding extinction factor at different wavelengths following the Cardelli et al. (1989) law, and for a desired <span class="math notranslate nohighlight">\(R_V\)</span> value. Let’s consider the standard ISM value of <span class="math notranslate nohighlight">\(R_V = 3.1\)</span> mag (default if not provided).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
@@ -963,7 +874,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </div>
 </div>
 <div class="section" id="3.2-Spectral-indices">
-<h2>3.2 Spectral indices<a class="headerlink" href="#3.2-Spectral-indices" title="Permalink to this headline">¶</a></h2>
+<h2>3.2 Spectral indices<a class="headerlink" href="#3.2-Spectral-indices" title="Permalink to this headline"></a></h2>
 <p>(Sub)stellar objects of M, L and T types have been extensively studied, such that some empirical spectral indices. Some standard spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">specfit</span></code>. An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
 <p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to the following works: Allers et al. (2007); Bonnefoy et al. (2014) and references therein.</p>
 <div class="nbinput docutils container">
@@ -1040,11 +951,11 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 </div>
 <div class="section" id="4.-MCMC-sampler-examples">
-<h1>4. MCMC sampler examples<a class="headerlink" href="#4.-MCMC-sampler-examples" title="Permalink to this headline">¶</a></h1>
+<h1>4. MCMC sampler examples<a class="headerlink" href="#4.-MCMC-sampler-examples" title="Permalink to this headline"></a></h1>
 <p>Now let’s fit different models to the observed spectrum of CrA-9 b/B.</p>
 <p>In that purpose, let’s first define some parameters that will be common to all MCMC sampler runs on this measured spectrum.</p>
 <div class="section" id="4.1.-Parameters">
-<h2>4.1. Parameters<a class="headerlink" href="#4.1.-Parameters" title="Permalink to this headline">¶</a></h2>
+<h2>4.1. Parameters<a class="headerlink" href="#4.1.-Parameters" title="Permalink to this headline"></a></h2>
 <p>Let’s first define the distance to the system, which will be used to scale the models (along with the companion radius):</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
@@ -1174,7 +1085,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 <p>Note that for the purpose of this tutorial, we set a low number of walkers and a low maximum number of iterations. It is recommended to set it large enough (&gt;&gt;1000, depends on number of parameters and model) such that the convergence criterion will break the chain once it is met.</p>
 </div>
 <div class="section" id="4.2.-Blackbody-model">
-<h2>4.2. Blackbody model<a class="headerlink" href="#4.2.-Blackbody-model" title="Permalink to this headline">¶</a></h2>
+<h2>4.2. Blackbody model<a class="headerlink" href="#4.2.-Blackbody-model" title="Permalink to this headline"></a></h2>
 <p>This model does not involve any grid:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
@@ -1407,7 +1318,7 @@ array([2.58128969e+03, 7.39761626e-01])
 </div>
 </div>
 <div class="section" id="4.3.-BT-SETTL-model">
-<h2>4.3. BT-SETTL model<a class="headerlink" href="#4.3.-BT-SETTL-model" title="Permalink to this headline">¶</a></h2>
+<h2>4.3. BT-SETTL model<a class="headerlink" href="#4.3.-BT-SETTL-model" title="Permalink to this headline"></a></h2>
 <p>Let’s now consider a grid of BT-SETTL models. In addition, let’s also consider extinction as a free parameter, since for young objects it is possible that different amounts of dust surround the companion than the central star.</p>
 <p>In the case of BT-SETTL models, there are 2 free parameters in the grid: effective temperature and surface gravity. Let’s define the grid of parameter values covered by the models in our possession (in the <code class="docutils literal notranslate"><span class="pre">models/btsettl15/</span></code> directory).</p>
 <div class="nbinput nblast docutils container">
@@ -1736,7 +1647,7 @@ array([3.16633525e+03, 5.00426271e+00, 5.62017189e-01, 1.81206806e+00])
 <p>The results above are puzzling: a ~3000 K effective temperature combined with a ~0.5 <span class="math notranslate nohighlight">\(R_J\)</span> photometric radius. See Christiaens et al. (2021) for a discussion on the different hypotheses put forward to reconcile these results.</p>
 </div>
 <div class="section" id="4.4.-BT-SETTL-+-BB-model">
-<h2>4.4. BT-SETTL + BB model<a class="headerlink" href="#4.4.-BT-SETTL-+-BB-model" title="Permalink to this headline">¶</a></h2>
+<h2>4.4. BT-SETTL + BB model<a class="headerlink" href="#4.4.-BT-SETTL-+-BB-model" title="Permalink to this headline"></a></h2>
 <p>Although this is not necessarily a good model for the NIR spectrum of CrA-9 B/b, let’s illustrate how to set up a photospheric + extra blackbody component model to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">specfit</span></code>.</p>
 <p>Let’s set Gaussian priors on the temperatures of each Blackbody component, to replicate the kinds of constraints that could potentially be obtained from past works.</p>
 <p>Note that a single extra BB component is considered here, but <code class="docutils literal notranslate"><span class="pre">specfit</span></code> does not limit the number of components you wish to incorporate in the model (just add the desired number of parameters ‘Tbb<em>n</em>’ and ‘Rbb<em>n</em>’, where <em>n</em>&gt;0).</p>
@@ -2078,7 +1989,7 @@ array([3.11003067e+03, 4.09851594e+00, 4.77898990e-01, 9.03728496e-01,
 </div>
 </div>
 <div class="section" id="4.5.-BT-SETTL-model-+-BrG-line-model">
-<h2>4.5. BT-SETTL model + BrG line model<a class="headerlink" href="#4.5.-BT-SETTL-model-+-BrG-line-model" title="Permalink to this headline">¶</a></h2>
+<h2>4.5. BT-SETTL model + BrG line model<a class="headerlink" href="#4.5.-BT-SETTL-model-+-BrG-line-model" title="Permalink to this headline"></a></h2>
 <p>In order to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">specfit</span></code>, let’s now consider a BT-SETTL + Brackett Gamma line model for the spectrum. Let’s also consider <span class="math notranslate nohighlight">\(R_V\)</span> as a free parameter, and finally consider Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(R_V\)</span>: <span class="math notranslate nohighlight">\(\mu_{\mathrm{log}(g)}=3.5\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{log}(g)} = 0.2\)</span> and <span class="math notranslate nohighlight">\(\mu_{R_V}=3.1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{R_V} = 0.2\)</span>.</p>
 <p>This time, we have a total of 6 free parameters, including 2 captured by the BT-SETTL grid:</p>
 <div class="nbinput nblast docutils container">
@@ -2480,9 +2391,9 @@ array([ 3.14920546e+03,  4.23347893e+00,  5.43523102e-01,  1.63279269e+00,
 </div>
 </div>
 <div class="section" id="5.-Comparison-of-results">
-<h1>5. Comparison of results<a class="headerlink" href="#5.-Comparison-of-results" title="Permalink to this headline">¶</a></h1>
+<h1>5. Comparison of results<a class="headerlink" href="#5.-Comparison-of-results" title="Permalink to this headline"></a></h1>
 <div class="section" id="5.1.-Akaike-Information-Criterion">
-<h2>5.1. Akaike Information Criterion<a class="headerlink" href="#5.1.-Akaike-Information-Criterion" title="Permalink to this headline">¶</a></h2>
+<h2>5.1. Akaike Information Criterion<a class="headerlink" href="#5.1.-Akaike-Information-Criterion" title="Permalink to this headline"></a></h2>
 <p>For each of the tested type of model above (Secs. 4.2 to 4.5), let’s compute the Akaike Information Criterion (AIC) in order to assess which one is likely the best model for our observations. The 4 tested models are:</p>
 <ul class="simple">
 <li><p>Blackbody (2 parameters);</p></li>
@@ -2551,7 +2462,7 @@ array([ 3.14920546e+03,  4.23347893e+00,  5.43523102e-01,  1.63279269e+00,
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
 </div>
 <div class="section" id="5.2.-Best-fit-models">
-<h2>5.2. Best-fit models<a class="headerlink" href="#5.2.-Best-fit-models" title="Permalink to this headline">¶</a></h2>
+<h2>5.2. Best-fit models<a class="headerlink" href="#5.2.-Best-fit-models" title="Permalink to this headline"></a></h2>
 <p>Let’s first assemble all the relevant parameters from the different models considered above in different lists:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
@@ -2761,7 +2672,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
 </div>
 <div class="section" id="5.3.-Models-from-the-posterior-distribution">
-<h2>5.3. Models from the posterior distribution<a class="headerlink" href="#5.3.-Models-from-the-posterior-distribution" title="Permalink to this headline">¶</a></h2>
+<h2>5.3. Models from the posterior distribution<a class="headerlink" href="#5.3.-Models-from-the-posterior-distribution" title="Permalink to this headline"></a></h2>
 <p>It can be useful to plot a large number of models randomly picked from the posterior distribution in order to have an idea of the uncertainty in different parts of the spectrum. Let’s consider 200 samples from the posterior distribution:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
@@ -2896,7 +2807,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <div class="section" id="6.-Nested-sampler-examples">
-<h1>6. Nested sampler examples<a class="headerlink" href="#6.-Nested-sampler-examples" title="Permalink to this headline">¶</a></h1>
+<h1>6. Nested sampler examples<a class="headerlink" href="#6.-Nested-sampler-examples" title="Permalink to this headline"></a></h1>
 <p>The procedure is very similar to set the MCMC and the nested sampler routines as most parameters of <code class="docutils literal notranslate"><span class="pre">mcmc_spec_sampling</span></code> and <code class="docutils literal notranslate"><span class="pre">nested_spec_sampling</span></code> are identical.</p>
 <p>The only differences are the <code class="docutils literal notranslate"><span class="pre">method</span></code>, <code class="docutils literal notranslate"><span class="pre">npoints</span></code>, <code class="docutils literal notranslate"><span class="pre">dlogz</span></code>, <code class="docutils literal notranslate"><span class="pre">decline_factor</span></code> and <code class="docutils literal notranslate"><span class="pre">rstate</span></code> parameters for the nested sampler. Most importantly the <code class="docutils literal notranslate"><span class="pre">method</span></code> can be set to <code class="docutils literal notranslate"><span class="pre">'classic'</span></code> (mcmc; Skilling 2004), <code class="docutils literal notranslate"><span class="pre">'single'</span></code> (single ellipsoid; Mutherjee et al. 2006) or <code class="docutils literal notranslate"><span class="pre">'multi'</span></code> (original multinest implementation as in Feroz et al. 2009, with conservative ellipsoid splitting).</p>
 <p>The interested user is referred to the documentation of <a class="reference external" href="http://kylebarbary.com/nestle/">nestle</a> for details on how to appropriately set these parameters.</p>
@@ -2938,7 +2849,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <div class="section" id="6.1.-Single-ellipsoid-method">
-<h2>6.1. Single ellipsoid method<a class="headerlink" href="#6.1.-Single-ellipsoid-method" title="Permalink to this headline">¶</a></h2>
+<h2>6.1. Single ellipsoid method<a class="headerlink" href="#6.1.-Single-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Now let’s set the parameters that are specific to the nested sampler:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[118]:
@@ -3159,7 +3070,7 @@ Av: 1.8+/-0.1 mag
 </div>
 </div>
 <div class="section" id="6.2.-Multi-ellipsoid-method">
-<h2>6.2. Multi-ellipsoid method<a class="headerlink" href="#6.2.-Multi-ellipsoid-method" title="Permalink to this headline">¶</a></h2>
+<h2>6.2. Multi-ellipsoid method<a class="headerlink" href="#6.2.-Multi-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Let’s adapt the method and number of active points:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[123]:
@@ -3359,7 +3270,7 @@ Av: 1.7881925524990752 +-0.08199748042195355
 </div>
 </div>
 <div class="section" id="7.-Best-fit-template-spectrum">
-<h1>7. Best-fit template spectrum<a class="headerlink" href="#7.-Best-fit-template-spectrum" title="Permalink to this headline">¶</a></h1>
+<h1>7. Best-fit template spectrum<a class="headerlink" href="#7.-Best-fit-template-spectrum" title="Permalink to this headline"></a></h1>
 <p>In this section, we will find the best-fit template spectra to our measured spectrum in the Montreal Spectral Library of observed M-L-T type low-mass objects. Since the template spectra from this library typically do not cover wavelengths longward of the K band, we will discard the NACO L’ point from the spectrum, just for the sake of this exercise:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[127]:
@@ -5630,44 +5541,34 @@ Fits HDU-0 data and header successfully loaded. Data shape: (3, 4169)
 </div>
 
 
-                </div>
-              </div>
-            </div>
+           </div>
           </div>
-        </div>
-        
-        
-      </div><!-- /row -->
-
-      <!-- row -->
-      <div class="row footer-relbar">
-<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
-  <div class="navbar-inner">
-    <ul class="nav navbar-nav ">
-        <li><a href="../index.html">special  documentation</a></li>
-    </ul>
-<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
-      
-        <li><a href="../trimmed_readme.html" title="TL;DR setup guide" >previous</a></li>
-        <li><a href="../about.html" title="About special" >next</a></li>
-        <li><a href="../py-modindex.html" title="Python Module Index" >modules</a></li>
-        <li><a href="../genindex.html" title="General Index" >index</a></li>
-        <li><a href="#">top</a></li> 
-      
-    </ul>
-  </div>
-</div>
-      </div><!-- /row -->
-
-      <!-- footer -->
-      <footer role="contentinfo">
-          &copy; Copyright 2019-2022, Valentin Christiaens.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 4.4.0.
-      </footer>
-      <!-- /footer -->
-
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../trimmed_readme.html" class="btn btn-neutral float-left" title="TL;DR setup guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../about.html" class="btn btn-neutral float-right" title="Contributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-    <!-- /container -->
 
-  </body>
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Valentin Christiaens.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>
