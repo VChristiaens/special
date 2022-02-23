@@ -1,5 +1,7 @@
-.. image::  docs/_static/Special_logo.jpeg
-   :align:  center
+.. image:: docs/_static/Special_logo.jpeg
+   :width: 400px
+   :align: center
+
 
 .. image:: https://badge.fury.io/py/special.svg?branch=main&service=github
     :target: https://badge.fury.io/py/special
