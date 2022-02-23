@@ -1,7 +1,4 @@
-.. automodule:: special
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. _special:
 
 Module contents
 ---------------

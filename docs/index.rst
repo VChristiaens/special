@@ -3,11 +3,6 @@
 .. Welcome to ``special``'s documentation
 .. ======================================
 
-.. image::  _static/Special_logo.jpeg
-   :align:  center
-   :scale:  100 %
-   :target: #
-
 .. toctree::
    :maxdepth: 2
    :caption: Getting started

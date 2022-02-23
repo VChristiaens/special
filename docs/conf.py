@@ -59,9 +59,8 @@ exclude_patterns = ['_build',
 #
 #html_theme = 'sphinx_rtd_theme'
 #html_theme = 'sphinx_book_theme'
-import better
-html_theme = 'better'
-html_theme_path = [better.better_theme_path]
+extensions.append("sphinxjp.themes.basicstrap")
+html_theme = 'basicstrap'
 
 html_theme_options = {
     'path_to_docs': 'docs',
