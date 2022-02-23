@@ -1,5 +1,5 @@
 .. image:: docs/_static/Special_logo.jpeg
-   :width: 400px
+   :width: 800px
    :align: center
 
 
