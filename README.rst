@@ -1,6 +1,6 @@
 .. image::  docs/_static/Special_logo.jpeg
    :align:  left
-   :scale:  100 %
+   :scale:  140 %
    :target: #
 
 .. image:: https://badge.fury.io/py/special.svg?branch=main&service=github
