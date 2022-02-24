@@ -62,7 +62,7 @@ PACKAGES = ['special']
 setup(
     name='special',
     version=VERSION,
-    description='Package for SPEctral Characterization of ImAged Low-mass objects',
+    description='Package for SPEctral Characterization of ImAged Low-mass companions',
     long_description=README,
     license='MIT',
     author='Valentin Christiaens',
