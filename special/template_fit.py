@@ -481,9 +481,9 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
             else:
                 counter +=1
                 if verbosity > 0 and tt==0:
-                    msg = "{:.0f}/{:.0f}: done in {}s"
+                    msg = "{:.0f}/{:.0f}: chi_r^2 = {:.1f}, done in {}s"
                     indiv_time = time_fin(start_time)
-                    print(msg.format(tt+1, n_tmp, indiv_time))
+                    print(msg.format(tt+1, n_tmp, chi[tt], indiv_time))
                     now = datetime.now()
                     delta_t = now.timestamp()-start_time.timestamp()
                     tot_time = np.ceil(n_tmp*delta_t/60)
@@ -492,10 +492,10 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                     print(msg.format(tot_time))
                     int_time = time_ini(verbose=False)
                 elif verbosity > 0:
-                    msg = "{:.0f}/{:.0f}: done in {}s"
+                    msg = "{:.0f}/{:.0f}: chi_r^2 = {:.1f}, done in {}s"
                     indiv_time = time_fin(int_time)
                     int_time = time_ini(verbose=False)
-                    print(msg.format(tt+1, n_tmp, indiv_time))
+                    print(msg.format(tt+1, n_tmp, chi[tt], indiv_time))
     else:
         raise ValueError("multiprocessing mode yet to be implemented")
         

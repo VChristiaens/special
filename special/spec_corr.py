@@ -131,7 +131,8 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
                 coeff, var_matrix = curve_fit(gauss_1fp, x, y, p0=p0)
                 sp_fwhm[ann*awidth:(ann+1)*awidth,zi] = coeff[0]
                 
-
+    # Zero is adopted for uncorrelated channels
+    sp_corr[np.where(sp_corr<0)] = 0
                 
     if full_output:
         return sp_corr, sp_fwhm, sp_rad
