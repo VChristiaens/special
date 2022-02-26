@@ -13,7 +13,11 @@
    "source": [
     "Written by: *Valentin Christiaens*.\n",
     "\n",
-    "Last update: *2022/02/24*"
+    "Last update: *2022/02/25*\n",
+    "\n",
+    "This jupyter notebook tutorial is available in the [``special-extras`` repository](https://github.com/VChristiaens/special_extras). \n",
+    "Alternatively, you can execute this repository on [Binder](https://mybinder.org/v2/gh/VChristiaens/special_extras/main) (in the tutorials directory).\n",
+    "\n"
    ]
   },
   {
