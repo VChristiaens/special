@@ -1,7 +1,7 @@
 
 Contributions
 ^^^^^^^^^^^^^
-External contributions are very welcome.  Feel free to fork the repository and submit a pull request with either new features or bug fixes. Areas for development are laid out `here <https://github.com/VChristiaens/special/projects/1>`_, although I am open to new suggestions as well.
+Feel free to fork the repository and submit a pull request with either new features or bug fixes. External contributions are very welcome. In particular, please check the expected future `areas for development <https://github.com/VChristiaens/special/projects/1>`_.
 
 
 Questions and suggestions

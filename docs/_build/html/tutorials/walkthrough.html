@@ -403,7 +403,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="special-tutorial">
 <h1><em>special</em> tutorial<a class="headerlink" href="#special-tutorial" title="Permalink to this headline"></a></h1>
 <p>Written by: <em>Valentin Christiaens</em>.</p>
-<p>Last update: <em>2022/02/17</em></p>
+<p>Last update: <em>2022/02/24</em></p>
 <div class="section" id="Table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#Table-of-contents" title="Permalink to this headline"></a></h2>
 <ul class="simple">
@@ -460,7 +460,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.0.3&#39;
+&#39;0.0.4&#39;
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -477,7 +477,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="section" id="1.-Loading-the-data">
 <h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline"></a></h1>
-<p>In the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">specfit_extras</span></code> repository you can find:</p>
+<p>In the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">special_extras</span></code> repository you can find:</p>
 <ul class="simple">
 <li><p>a post-processed Integral Field Spectrograph (IFS) datacube (<code class="docutils literal notranslate"><span class="pre">CrA-9_2019_IFS_pca_annulus.fits</span></code>);</p></li>
 <li><p>the measured spectrum of (sub)stellar companion CrA-9 b/B (<code class="docutils literal notranslate"><span class="pre">CrA-9b_spectrum.fits</span></code>).</p></li>
@@ -539,7 +539,7 @@ Fits HDU-0 data successfully loaded. Data shape: (39, 291, 291)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x7f9e10889700&gt;
+&lt;matplotlib.image.AxesImage at 0x7f8740bdc6a0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -596,7 +596,7 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </pre></div></div>
 </div>
-<p>The flux units follow the SI convention (W m<span class="math notranslate nohighlight">\(^{-2}\)</span>). Let’s set it for later. Note that <code class="docutils literal notranslate"><span class="pre">specfit</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if units are provided for observed and model spectra. If not specified, <code class="docutils literal notranslate"><span class="pre">specfit</span></code> assumes SI units.</p>
+<p>The flux units follow the SI convention (W m<span class="math notranslate nohighlight">\(^{-2}\)</span>). Let’s set it for later. Note that <code class="docutils literal notranslate"><span class="pre">special</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if units are provided for observed and model spectra. If not specified, <code class="docutils literal notranslate"><span class="pre">special</span></code> assumes SI units.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -629,7 +629,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f9de006d6d0&gt;
+&lt;matplotlib.legend.Legend at 0x7f8760fc27c0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -647,7 +647,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 <h2>2.1 Estimating the spectral correlation between IFS channels<a class="headerlink" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels" title="Permalink to this headline"></a></h2>
 <p>Before fitting different models to the spectrum, let’s first estimate the spectral correlation between the IFS channels. By design of the IFS, the flux at a given wavelength leaks on/overlaps with neighbouring channels. These can therefore not be considered as independent measurements. The spectral correlation matrix has therefore to be considered when fitting a given IFS spectrum. Not taking it into account can indeed lead to significant biases, and in particular to erroneous results in terms
 of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
-<p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">specfit</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in Greco &amp; Brandt (2017). For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
+<p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">special</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in Greco &amp; Brandt (2017). For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -691,7 +691,7 @@ of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 93.08598175880189
 </pre></div></div>
 </div>
-<p>The spectral correlation depends on the radial separation to the central star. The algorithm implemented in <code class="docutils literal notranslate"><span class="pre">specfit</span></code> can therefore compute it in concentric annuli between given inner and outer radii (by default spanning the whole field). Here since we are only interested in the spectral correlation at the radial separation of the companion, let’s set the annular width, inner and outer radii such that they only encompass the companion radial separation:</p>
+<p>The spectral correlation depends on the radial separation to the central star. The algorithm implemented in <code class="docutils literal notranslate"><span class="pre">special</span></code> can therefore compute it in concentric annuli between given inner and outer radii (by default spanning the whole field). Here since we are only interested in the spectral correlation at the radial separation of the companion, let’s set the annular width, inner and outer radii such that they only encompass the companion radial separation:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -742,7 +742,7 @@ of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 <img alt="../_images/tutorials_walkthrough_35_0.png" src="../_images/tutorials_walkthrough_35_0.png" />
 </div>
 </div>
-<p>We see that, as expected, each spectral channel is most correlated to itself, and at most to its 2 closest neighbouring channels. Depending on the number of principal components (npc) subtracted during the PCA, a stronger (low npc) or lower (high npc) residual correlation will be seen between adjacent channels.</p>
+<p>Here we used a high number of principal components for PCA, and the companion is far away from the star, such that the correlated speckle noise is efficiently subtracted from each reduced channel. Consequently, not much correlation can be seen between channels. Each spectral channel is most correlated to itself, and at most to its 2 closest neighbouring channels. Note that zero is adopted for uncorrelated channels.</p>
 </div>
 <div class="section" id="2.2-Concatenating-spectral-correlation-matrices">
 <h2>2.2 Concatenating spectral correlation matrices<a class="headerlink" href="#2.2-Concatenating-spectral-correlation-matrices" title="Permalink to this headline"></a></h2>
@@ -861,7 +861,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f9e2062c9d0&gt;
+&lt;matplotlib.legend.Legend at 0x7f87613422b0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -874,7 +874,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </div>
 <div class="section" id="3.2-Spectral-indices">
 <h2>3.2 Spectral indices<a class="headerlink" href="#3.2-Spectral-indices" title="Permalink to this headline"></a></h2>
-<p>(Sub)stellar objects of M, L and T types have been extensively studied, such that some empirical spectral indices. Some standard spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">specfit</span></code>. An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
+<p>(Sub)stellar objects of M, L and T types have been extensively studied, such that some empirical spectral indices. Some standard spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code>. An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
 <p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to the following works: Allers et al. (2007); Bonnefoy et al. (2014) and references therein.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
@@ -964,7 +964,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div>
 </div>
 </div>
-<p>The internal workings of <code class="docutils literal notranslate"><span class="pre">specfit</span></code> allow for the convolution with the spectral PSF of (in the case of an IFS), or the integration over a filter transmission curve (in the case of photometric points). For these options to be considered, let’s provide the nominal spectral FWHM in nm for IFS (19.15 nm), and the name of the filenames where the filter transmission curves are encoded.</p>
+<p>The internal workings of <code class="docutils literal notranslate"><span class="pre">special</span></code> allow for the convolution with the spectral PSF of (in the case of an IFS), or the integration over a filter transmission curve (in the case of photometric points). For these options to be considered, let’s provide the nominal spectral FWHM in nm for IFS (19.15 nm), and the name of the filenames where the filter transmission curves are encoded.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
@@ -1033,7 +1033,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">specfit</span></code> was implemented with directly imaged substellar objects in mind. Radii and masses therefore implicitly assume Jovian units. If you prefer Solar radii for your outputs, set <code class="docutils literal notranslate"><span class="pre">star</span></code> to True in the following box:</p>
+<p><code class="docutils literal notranslate"><span class="pre">special</span></code> was implemented with directly imaged substellar objects in mind. Radii and masses therefore implicitly assume Jovian units. If you prefer Solar radii for your outputs, set <code class="docutils literal notranslate"><span class="pre">star</span></code> to True in the following box:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
@@ -1094,7 +1094,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div>
 </div>
 </div>
-<p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">specfit</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
+<p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">special</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
@@ -1216,18 +1216,18 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Tbb1: 69.8342857142857%
-percentage for Rbb1: 69.06571428571428%
+percentage for Tbb1: 69.35142857142857%
+percentage for Rbb1: 69.67714285714285%
 ******* Results for Tbb1 *****
 
 
 Confidence intervals:
-Tbb1: 2580.0997243264624 [-16.642569965393704,16.642569965393704]
+Tbb1: 2535.443233644556 [-13.38774335302378,19.2085013325991]
 ******* Results for Rbb1 *****
 
 
 Confidence intervals:
-Rbb1: 0.7368989458909917 [-0.00795331915859332,0.012498072963503915]
+Rbb1: 0.7635579346034969 [-0.011310764759267844,0.008391857724618146]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1312,7 +1312,7 @@ Rbb1: 0.7368989458909917 [-0.00795331915859332,0.012498072963503915]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([2.58147810e+03, 7.39635865e-01])
+array([2.53985199e+03, 7.61128071e-01])
 </pre></div></div>
 </div>
 </div>
@@ -1374,7 +1374,7 @@ array([2.58147810e+03, 7.39635865e-01])
 </div>
 </div>
 <p>Considering also the extinction <code class="docutils literal notranslate"><span class="pre">A_V</span></code> as a free parameter, we have a total of 4 free parameters, including 2 captured by the grid:</p>
-<p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">specfit</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
+<p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">special</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
@@ -1533,30 +1533,30 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 69.44857142857143%
-percentage for logg: 69.61142857142858%
-percentage for R: 68.72571428571429%
-percentage for Av: 69.00285714285715%
+percentage for Teff: 68.91142857142857%
+percentage for logg: 69.72%
+percentage for R: 68.7342857142857%
+percentage for Av: 68.83142857142856%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3169.231372943627 [-48.47753170626402,38.447697560140114]
+Teff: 3260.1307157825104 [-45.752730911391154,49.14182209001274]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 5.00038218244958 [-0.19114552865797219,0.26513734620299445]
+logg: 4.5689013244469905 [-0.13633173914586472,0.22721956524310816]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5603655752590516 [-0.01004829450629352,0.009244430945790083]
+R: 0.5330345392117131 [-0.016865950249796535,0.006667933819687]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.8090257283773643 [-0.08833250939842485,0.052999505639054645]
+Av: 1.8119627537831273 [-0.08181462990403787,0.07526945951171471]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1640,16 +1640,16 @@ Av: 1.8090257283773643 [-0.08833250939842485,0.052999505639054645]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([3.16449482e+03, 5.00849672e+00, 5.61779329e-01, 1.80778235e+00])
+array([3.26716826e+03, 4.52016129e+00, 5.25820763e-01, 1.78470308e+00])
 </pre></div></div>
 </div>
 <p>The results above are puzzling: a ~3000 K effective temperature combined with a ~0.5 <span class="math notranslate nohighlight">\(R_J\)</span> photometric radius. See Christiaens et al. (2021) for a discussion on the different hypotheses put forward to reconcile these results.</p>
 </div>
 <div class="section" id="4.4.-BT-SETTL-+-BB-model">
 <h2>4.4. BT-SETTL + BB model<a class="headerlink" href="#4.4.-BT-SETTL-+-BB-model" title="Permalink to this headline"></a></h2>
-<p>Although this is not necessarily a good model for the NIR spectrum of CrA-9 B/b, let’s illustrate how to set up a photospheric + extra blackbody component model to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">specfit</span></code>.</p>
+<p>Although this is not necessarily a good model for the NIR spectrum of CrA-9 B/b, let’s illustrate how to set up a photospheric + extra blackbody component model to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>.</p>
 <p>Let’s set Gaussian priors on the temperatures of each Blackbody component, to replicate the kinds of constraints that could potentially be obtained from past works.</p>
-<p>Note that a single extra BB component is considered here, but <code class="docutils literal notranslate"><span class="pre">specfit</span></code> does not limit the number of components you wish to incorporate in the model (just add the desired number of parameters ‘Tbb<em>n</em>’ and ‘Rbb<em>n</em>’, where <em>n</em>&gt;0).</p>
+<p>Note that a single extra BB component is considered here, but <code class="docutils literal notranslate"><span class="pre">special</span></code> does not limit the number of components you wish to incorporate in the model (just add the desired number of parameters ‘Tbb<em>n</em>’ and ‘Rbb<em>n</em>’, where <em>n</em>&gt;0).</p>
 <p>This time, we have a total of 8 free parameters, including 2 captured by the BT-SETTL grid:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
@@ -1863,42 +1863,42 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 69.29100000000001%
-percentage for logg: 69.86099999999999%
-percentage for R: 68.563%
-percentage for Av: 69.91000000000001%
-percentage for Tbb1: 68.60499999999999%
-percentage for Rbb1: 69.15699999999998%
+percentage for Teff: 68.74500000000002%
+percentage for logg: 68.55%
+percentage for R: 69.006%
+percentage for Av: 68.69200000000002%
+percentage for Tbb1: 70.20500000000001%
+percentage for Rbb1: 71.108%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3141.0563510171787 [-47.47021410888192,34.37498263056932]
+Teff: 3170.2497554348347 [-36.10725705288314,64.36511039861807]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.142693617992571 [-0.14631340453420538,0.12743425556205068]
+logg: 4.074548852132896 [-0.08814237968464944,0.1301149414392455]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.48102491944429965 [-0.011803034757999376,0.02050000773757782]
+R: 0.46965632681817165 [-0.016020869754632405,0.01085284725313812]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 0.9435293321920638 [-0.10997445498162195,0.20258452233456692]
+Av: 0.9220631184649718 [-0.11799395239811805,0.17418154877817427]
 ******* Results for Tbb1 *****
 
 
 Confidence intervals:
-Tbb1: 1643.5708063199083 [-121.60288721804591,121.60288721804568]
+Tbb1: 1620.4685550840918 [-135.0461185094955,102.63505006721653]
 ******* Results for Rbb1 *****
 
 
 Confidence intervals:
-Rbb1: 0.7695322046512436 [-0.0814893021134484,0.11408502295882794]
+Rbb1: 0.8040363333560335 [-0.07312155493667305,0.1263008676178895]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1982,14 +1982,14 @@ Rbb1: 0.7695322046512436 [-0.0814893021134484,0.11408502295882794]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([3.11453061e+03, 4.05664843e+00, 4.75798199e-01, 8.81629368e-01,
-       1.72113831e+03, 7.73025998e-01])
+array([3.15522362e+03, 4.01692631e+00, 4.60215160e-01, 8.32223893e-01,
+       1.66376083e+03, 8.23991450e-01])
 </pre></div></div>
 </div>
 </div>
 <div class="section" id="4.5.-BT-SETTL-model-+-BrG-line-model">
 <h2>4.5. BT-SETTL model + BrG line model<a class="headerlink" href="#4.5.-BT-SETTL-model-+-BrG-line-model" title="Permalink to this headline"></a></h2>
-<p>In order to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">specfit</span></code>, let’s now consider a BT-SETTL + Brackett Gamma line model for the spectrum. Let’s also consider <span class="math notranslate nohighlight">\(R_V\)</span> as a free parameter, and finally consider Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(R_V\)</span>: <span class="math notranslate nohighlight">\(\mu_{\mathrm{log}(g)}=3.5\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{log}(g)} = 0.2\)</span> and <span class="math notranslate nohighlight">\(\mu_{R_V}=3.1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{R_V} = 0.2\)</span>.</p>
+<p>In order to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>, let’s now consider a BT-SETTL + Brackett Gamma line model for the spectrum. Let’s also consider <span class="math notranslate nohighlight">\(R_V\)</span> as a free parameter, and finally consider Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(R_V\)</span>: <span class="math notranslate nohighlight">\(\mu_{\mathrm{log}(g)}=3.5\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{log}(g)} = 0.2\)</span> and <span class="math notranslate nohighlight">\(\mu_{R_V}=3.1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{R_V} = 0.2\)</span>.</p>
 <p>This time, we have a total of 6 free parameters, including 2 captured by the BT-SETTL grid:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
@@ -2150,7 +2150,7 @@ array([3.11453061e+03, 4.05664843e+00, 4.75798199e-01, 8.81629368e-01,
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">mcmc_spec_sampling</span>
 
 <span class="n">res</span> <span class="o">=</span> <span class="n">mcmc_spec_sampling</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">spec_err</span><span class="p">,</span> <span class="n">d_st</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda</span><span class="p">,</span> <span class="o">**</span><span class="n">instru_params</span><span class="p">,</span>
-                                      <span class="o">**</span><span class="n">mcmc_params</span><span class="p">,</span> <span class="o">**</span><span class="n">conv_params</span><span class="p">,</span> <span class="o">**</span><span class="n">model_params</span><span class="p">,</span> <span class="o">**</span><span class="n">output_params</span><span class="p">)</span>
+                         <span class="o">**</span><span class="n">mcmc_params</span><span class="p">,</span> <span class="o">**</span><span class="n">conv_params</span><span class="p">,</span> <span class="o">**</span><span class="n">model_params</span><span class="p">,</span> <span class="o">**</span><span class="n">output_params</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2233,42 +2233,42 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 69.07466666666667%
-percentage for logg: 69.96746666666665%
-percentage for R: 68.3392%
-percentage for Av: 69.32853333333333%
-percentage for Rv: 68.27413333333332%
-percentage for BrG: 71.41173333333333%
+percentage for Teff: 69.54346666666669%
+percentage for logg: 68.6912%
+percentage for R: 69.13813333333334%
+percentage for Av: 70.38506666666665%
+percentage for Rv: 69.2768%
+percentage for BrG: 69.25440000000002%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3142.0414314106793 [-30.816561161645495,43.79195533496977]
+Teff: 3208.950910623342 [-56.4720856400354,37.110227706309615]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.245812133527229 [-0.12468995140380024,0.14464034362840916]
+logg: 4.168626324555663 [-0.10384118473145065,0.12045577428848198]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5443511102674519 [-0.012393643347779149,0.010410660412134565]
+R: 0.5197237671331671 [-0.01293470709504041,0.012042658329865397]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.6498712509626843 [-0.10632183062218425,0.08080459127285988]
+Av: 1.6073040163484957 [-0.10427047671835155,0.10427047671835177]
 ******* Results for Rv *****
 
 
 Confidence intervals:
-Rv: 3.063485624652843 [-0.1934371141778275,0.2270783514261452]
+Rv: 3.0764793396078827 [-0.20504981251011323,0.22288023098925303]
 ******* Results for BrG *****
 
 
 Confidence intervals:
-BrG: -5.590376640061844 [-0.07761023516494348,0.056914172454291645]
+BrG: -5.541562454843202 [-0.0739778927033079,0.05284135193093409]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2353,7 +2353,7 @@ BrG: -5.590376640061844 [-0.07761023516494348,0.056914172454291645]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f9e20b2fcd0&gt;
+&lt;matplotlib.legend.Legend at 0x7f87611e83a0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2382,8 +2382,8 @@ BrG: -5.590376640061844 [-0.07761023516494348,0.056914172454291645]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([ 3.14318793e+03,  4.25003767e+00,  5.44311050e-01,  1.63802590e+00,
-        3.10729072e+00, -5.59085418e+00])
+array([ 3.21274170e+03,  4.16411256e+00,  5.15590750e-01,  1.57144523e+00,
+        3.12575083e+00, -5.56393433e+00])
 </pre></div></div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
@@ -2429,10 +2429,7 @@ array([ 3.14318793e+03,  4.25003767e+00,  5.44311050e-01,  1.63802590e+00,
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[269.38789884405725,
- 139.56302978916275,
- 132.59107553938156,
- 145.31998428578405]
+[297.15299036523453, 166.63316668754538, 138.85914218287007, 156.7278063704993]
 </pre></div></div>
 </div>
 <p>Now let’s compute the <span class="math notranslate nohighlight">\(\Delta\)</span> AIC, i.e. the difference with the smallest AIC value obtained for the different models:</p>
@@ -2453,7 +2450,7 @@ array([ 3.14318793e+03,  4.25003767e+00,  5.44311050e-01,  1.63802590e+00,
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[136.79682330467568, 6.9719542497811915, 0.0, 12.728908746402482]
+[158.29384818236446, 27.77402450467531, 0.0, 17.868664187629236]
 </pre></div></div>
 </div>
 <p>The values above suggest that the most likely types of model that we considered are the BT-SETTL alone, the BT-SETTL+BB and BT-SETTL+BrG line models.</p>
@@ -2504,12 +2501,12 @@ array([ 3.14318793e+03,  4.25003767e+00,  5.44311050e-01,  1.63802590e+00,
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[array([2.58147810e+03, 7.39635865e-01]),
- array([3.16449482e+03, 5.00849672e+00, 5.61779329e-01, 1.80778235e+00]),
- array([3.11453061e+03, 4.05664843e+00, 4.75798199e-01, 8.81629368e-01,
-        1.72113831e+03, 7.73025998e-01]),
- array([ 3.14318793e+03,  4.25003767e+00,  5.44311050e-01,  1.63802590e+00,
-         3.10729072e+00, -5.59085418e+00])]
+[array([2.53985199e+03, 7.61128071e-01]),
+ array([3.26716826e+03, 4.52016129e+00, 5.25820763e-01, 1.78470308e+00]),
+ array([3.15522362e+03, 4.01692631e+00, 4.60215160e-01, 8.32223893e-01,
+        1.66376083e+03, 8.23991450e-01]),
+ array([ 3.21274170e+03,  4.16411256e+00,  5.15590750e-01,  1.57144523e+00,
+         3.12575083e+00, -5.56393433e+00])]
 </pre></div></div>
 </div>
 <p>Now for each type of model considered above, let’s now generate the spectrum corresponding to the most likely parameters inferred with the MCMC. By providing <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> to <code class="docutils literal notranslate"><span class="pre">make_model_from_params</span></code>, the returned model will be resampled to match the spectral resolution of the measured spectrum. If provided, the instrumental spectral FWHM and/or photometric filter(s) will also be used. If <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> is left to None, the model is returned at the native resolution of the grid used as input.
@@ -2855,7 +2852,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;single&#39;</span>
-<span class="n">npoints</span><span class="o">=</span><span class="mi">150</span>
+<span class="n">npoints</span><span class="o">=</span><span class="mi">1500</span> <span class="c1">#150</span>
 <span class="n">dlogz</span><span class="o">=</span><span class="mf">0.1</span>
 <span class="n">decline_factor</span><span class="o">=</span><span class="kc">None</span>
 <span class="n">rstate</span><span class="o">=</span><span class="kc">None</span>
@@ -2874,7 +2871,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </pre></div>
 </div>
 </div>
-<p>Now let’s run the nested sampler (<strong>Warning: the next cell may take up to a few minutes to complete</strong>):</p>
+<p>Now let’s run the nested sampler. <strong>Warning: the next cell may take up to a few minutes to complete</strong> - reduce the number of active points for a faster calculation.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[120]:
 </pre></div>
@@ -2893,7 +2890,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <div class="highlight"><pre>
 Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-02-24 00:06:38
+Starting time: 2022-02-26 12:49:07
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 Prior bounds on parameters:
 Teff [2000,4000]
@@ -2901,10 +2898,10 @@ logg [2.5,5.5]
 R [0.1,5]
 Av [0.0,5]
 
-Using 150 active points
+Using 1500 active points
 
 Total running time:
-Running time:  0:00:31.279935
+Running time:  0:06:01.330473
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 </pre></div></div>
 </div>
@@ -2926,11 +2923,11 @@ Running time:  0:00:31.279935
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-niter: 2595
-ncall: 7503
-nsamples: 2745
-logz: -80.759 +/-  0.294
-h: 12.956
+niter: 25565
+ncall: 92414
+nsamples: 27065
+logz: -94.032 +/-  0.092
+h: 12.686
 
 Natural log of prior volume and Weight corresponding to each sample
 </pre></div></div>
@@ -2981,12 +2978,12 @@ Walk plots after the burnin
 <div class="highlight"><pre>
 
 Weighted mean +- sqrt(covariance)
-Teff = 3166 +/- 37
-logg = 5.0 +/- 0.2
-R = 0.56 +/- 0.01
+Teff = 3270 +/- 41
+logg = 4.6 +/- 0.2
+R = 0.53 +/- 0.01
 Av = 1.8 +/- 0.1
 
-Hist bins = 28
+Hist bins = 90
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3003,38 +3000,38 @@ Hist bins = 28
 <div class="highlight"><pre>
 
 Confidence intervals
-percentage for Teff: 72.25102941021323%
-percentage for logg: 70.80675188204253%
-percentage for R: 72.21570245103074%
-percentage for Av: 69.30442141313974%
+percentage for Teff: 68.27900385965715%
+percentage for logg: 69.72496193678042%
+percentage for R: 68.93479691695418%
+percentage for Av: 69.71393071627826%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3158.9382114518676 [-37.31330939760937,50.88178554219439]
+Teff: 3257.7008081262916 [-42.92902316465643,53.3360590833604]
 Gaussian fit results:
-Teff: 3165.9259554667246 +-33.31403671739215
+Teff: 3269.982447657821 +-37.27212745781069
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.997272363420294 [-0.20368475044161638,0.24071834143100101]
+logg: 4.533052935771381 [-0.0889501603941989,0.2773152059348538]
 Gaussian fit results:
-logg: 5.024117486245867 +-0.1821947892624436
+logg: 4.630121610847072 +-0.1481415565702006
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5600255209124116 [-0.010247379696598946,0.012110539641435158]
+R: 0.5289320699074699 [-0.014559869274777815,0.010496649942281722]
 Gaussian fit results:
-R: 0.5603280289451887 +-0.008239106295569421
+R: 0.5269072620596366 +-0.009518351298518909
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.8170210849995598 [-0.09416329377611432,0.03138776459203818]
+Av: 1.8284410252204149 [-0.10838916334971094,0.060803677001057155]
 Gaussian fit results:
-Av: 1.7931503195825318 +-0.056403123266996834
+Av: 1.803581227771543 +-0.06824569317965123
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -3061,9 +3058,9 @@ Av: 1.7931503195825318 +-0.056403123266996834
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Teff: 3166+/-37 K
-logg: 5.0+/-0.2
-R: 0.56+/-0.01 $R_J$
+Teff: 3270+/-41 K
+logg: 4.6+/-0.2
+R: 0.53+/-0.01 $R_J$
 Av: 1.8+/-0.1 mag
 </pre></div></div>
 </div>
@@ -3076,7 +3073,7 @@ Av: 1.8+/-0.1 mag
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;multi&#39;</span>
-<span class="n">npoints</span><span class="o">=</span><span class="mi">300</span>
+<span class="n">npoints</span><span class="o">=</span><span class="mi">2000</span>
 <span class="n">dlogz</span><span class="o">=</span><span class="mf">0.5</span>
 <span class="n">decline_factor</span><span class="o">=</span><span class="kc">None</span>
 <span class="n">rstate</span><span class="o">=</span><span class="kc">None</span>
@@ -3095,7 +3092,7 @@ Av: 1.8+/-0.1 mag
 </pre></div>
 </div>
 </div>
-<p>Now let’s run the nested sampler (<strong>Warning: the next cell may take up to a few minutes to complete</strong>):</p>
+<p>Now let’s run the nested sampler. <strong>Warning: the next cell may take up to a few minutes to complete</strong> - reduce the number of active points for a faster calculation.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[125]:
 </pre></div>
@@ -3114,7 +3111,7 @@ Av: 1.8+/-0.1 mag
 <div class="highlight"><pre>
 Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-02-24 00:07:11
+Starting time: 2022-02-26 12:55:11
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 Prior bounds on parameters:
 Teff [2000,4000]
@@ -3122,10 +3119,10 @@ logg [2.5,5.5]
 R [0.1,5]
 Av [0.0,5]
 
-Using 300 active points
+Using 2000 active points
 
 Total running time:
-Running time:  0:00:58.404617
+Running time:  0:07:22.920508
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 </pre></div></div>
 </div>
@@ -3147,11 +3144,11 @@ Running time:  0:00:58.404617
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-niter: 4688
-ncall: 13572
-nsamples: 4988
-logz: -80.721 +/-  0.207
-h: 12.898
+niter: 31373
+ncall: 110086
+nsamples: 33373
+logz: -94.284 +/-  0.080
+h: 12.913
 
 Natural log of prior volume and Weight corresponding to each sample
 </pre></div></div>
@@ -3202,12 +3199,12 @@ Walk plots after the burnin
 <div class="highlight"><pre>
 
 Weighted mean +- sqrt(covariance)
-Teff = 3167 +/- 42
-logg = 5.0 +/- 0.2
-R = 0.56 +/- 0.01
+Teff = 3269 +/- 45
+logg = 4.7 +/- 0.2
+R = 0.53 +/- 0.01
 Av = 1.8 +/- 0.1
 
-Hist bins = 38
+Hist bins = 100
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3224,38 +3221,38 @@ Hist bins = 38
 <div class="highlight"><pre>
 
 Confidence intervals
-percentage for Teff: 70.34423301587171%
-percentage for logg: 71.0697909492108%
-percentage for R: 68.4953107216636%
-percentage for Av: 70.04788197560795%
+percentage for Teff: 69.7626493380321%
+percentage for logg: 69.39148727975666%
+percentage for R: 69.14810684704524%
+percentage for Av: 68.93576037604635%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3176.2265092999996 [-54.2228121821031,32.53368730926195]
+Teff: 3262.969916400201 [-41.94171939265652,51.26210147991242]
 Gaussian fit results:
-Teff: 3168.050967781139 +-48.25419785147604
+Teff: 3269.2082825772345 +-50.94634376306685
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 5.071391344562933 [-0.30020849685726514,0.17380491923315322]
+logg: 4.575249859483149 [-0.1579328461524927,0.24637523999789046]
 Gaussian fit results:
-logg: 4.995837099458828 +-0.23067233387611963
+logg: 4.667536209068205 +-0.2023845077539731
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5580633610377336 [-0.0069373593409435275,0.012883667347466599]
+R: 0.5289974368033514 [-0.01426796124878893,0.01195423780303928]
 Gaussian fit results:
-R: 0.5589083737270827 +-0.011683365181188708
+R: 0.5276433121472347 +-0.012872005384862304
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.7956425718448945 [-0.0767826940391616,0.07678269403916183]
+Av: 1.8090063257884277 [-0.0842761333400388,0.09051880988374528]
 Gaussian fit results:
-Av: 1.7867577840924127 +-0.07848244046150588
+Av: 1.8088400041270487 +-0.0945324850758184
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -3327,7 +3324,7 @@ Av: 1.7867577840924127 +-0.07848244046150588
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[131]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">search_mode</span> <span class="o">=</span> <span class="s1">&#39;simplex&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">search_mode</span> <span class="o">=</span> <span class="s1">&#39;simplex&#39;</span> <span class="c1">#&#39;grid&#39;</span>
 <span class="n">simplex_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;xatol&#39;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">&#39;fatol&#39;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;maxfev&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}</span>
 <span class="n">AV_range</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span> <span class="c1"># min, max, step. Note: in simplex mode, min and max values are only used to set a chi=np.inf outside of these bounds.</span>
 
@@ -3339,26 +3336,35 @@ Av: 1.7867577840924127 +-0.07848244046150588
 </div>
 </div>
 <p>Alternatively, one can set <code class="docutils literal notranslate"><span class="pre">search_mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'grid'</span></code>, which will simply use a grid search to find the optimal <span class="math notranslate nohighlight">\(A_V\)</span> and flux scaling factors to be applied to the template spectra for comparison to the measured spectrum. This is slower but avoids the risk of a failed minimization. In this case, both the <code class="docutils literal notranslate"><span class="pre">AV_range</span></code> and <code class="docutils literal notranslate"><span class="pre">scale_range</span></code> parameters have to be set.</p>
-<p>Some template spectra may be corrupted or unusable for this specific spectrum (e.g. wrong wavelength coverage), let’s force the algorithm to continue instead of raising an error. Let’s also discard any NaN points from the template spectra:</p>
+<p>Some template spectra may be corrupted or unusable for this specific spectrum (e.g. wrong wavelength coverage), let’s force the algorithm to continue instead of raising an error.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[132]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">force_continue</span><span class="o">=</span><span class="kc">True</span>
-<span class="n">remove_nan</span><span class="o">=</span><span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<p>Some template spectra will have a sufficient wavelength coverage (Y to K), but with missing points (NaN values) in between bands (e.g. between J and H bands, or H and K bands). For a given template spectrum to be considered valid, it is recommeded to set a minimum threshold in terms of number of non-NaN resampled points. The risk of not doing that is to end up with best-fit template spectra with very few - but very well fitting - points minimizing our <span class="math notranslate nohighlight">\(\chi_r^2\)</span> metric.</p>
+<p>Let’s set this threshold to cover &gt;80% of our observed spectrum, e.g. 34 points:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[133]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_npts</span> <span class="o">=</span> <span class="mi">34</span>
 </pre></div>
 </div>
 </div>
 <p>Now let’s find the best-fit templates:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[133]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[134]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.template_fit</span> <span class="kn">import</span> <span class="n">best_fit_tmp</span>
 
 <span class="n">final_res</span> <span class="o">=</span> <span class="n">best_fit_tmp</span><span class="p">(</span><span class="n">lbda_crop</span><span class="p">,</span> <span class="n">spec_crop</span><span class="p">,</span> <span class="n">spec_err_crop</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_crop</span><span class="p">,</span> <span class="n">n_best</span><span class="o">=</span><span class="n">n_best</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">tmp_params</span><span class="p">,</span> <span class="o">**</span><span class="n">search_opt</span><span class="p">,</span> <span class="o">**</span><span class="n">instru_params</span><span class="p">,</span> <span class="n">force_continue</span><span class="o">=</span><span class="n">force_continue</span><span class="p">,</span>
-                         <span class="n">remove_nan</span><span class="o">=</span><span class="n">remove_nan</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                         <span class="n">verbosity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_npts</span><span class="o">=</span><span class="n">min_npts</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -3368,17 +3374,23 @@ Av: 1.7867577840924127 +-0.07848244046150588
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-02-24 00:08:11
+Starting time: 2022-02-26 13:02:36
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 424 template spectra will be tested.
-
 ****************************************
 
-0/424: done in 0:00:00.550965s
-Based on the first fit, it may take ~4min to test the whole library
-
-1/424: done in 0:00:00.398344s
-2/424: done in 0:00:00.395894s
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+1/424 (2MASSJ0428+1839_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+2/424 (2MASSJ0313-2447_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+3/424: SIMPJ2215+2110_NIR_SpeX_Robert2016, chi_r^2 = 52.5, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+4/424 (2MASSJ2353-1844A_NIR_SpeX_Gagne2015c.fits) FAILED
+Wavelength range of template SIMPJ1150+0520_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+5/424 (SIMPJ1150+0520_NIR_NIRI_Robert2016.fits) FAILED
+No indices match the constraint (floor w.r.t 0.93)
+Issue with resampling of template SIMPJ2238+2304_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
+6/424 (SIMPJ2238+2304_NIR_SpeX_Robert2016.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3395,14 +3407,10 @@ I_R_A_FNAME= &#39;J2353A_merge&#39;       /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-3/424: done in 0:00:00.458781s
-Wavelength range of template SIMPJ1150+0520_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-4/424 (SIMPJ1150+0520_NIR_NIRI_Robert2016.fits) FAILED
-No indices match the constraint (floor w.r.t 0.93)
-Issue with resampling of template SIMPJ2238+2304_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-5/424 (SIMPJ2238+2304_NIR_SpeX_Robert2016.fits) FAILED
-6/424: done in 0:00:00.483217s
-7/424: done in 0:00:00.369481s
+7/424: 2MASSJ1045-2819_NIR_SpeX_Gagne2015c, chi_r^2 = 5.8, ndof=33
+8/424: SIMPJ1501-1831_NIR_SpeX_Robert2016, chi_r^2 = 14.9, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+9/424 (2MASSJ2251-6811_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3419,13 +3427,15 @@ I_R_A_FNAME= &#39;J2251-6811_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-8/424: done in 0:00:00.397562s
-9/424: done in 0:00:00.382962s
-10/424: done in 0:00:00.417756s
-11/424: done in 0:00:00.387112s
-12/424: done in 0:00:00.432677s
+10/424: SIMPJ0429+0607_NIR_GNIRS_Robert2016, chi_r^2 = 50.6, ndof=39
+11/424: SIMPJ1058+1339_NIR_SIMON_Robert2016, chi_r^2 = 28.7, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+12/424 (2MASSJ0752-7947_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+13/424: 2MASSJ0443+0002_NIR_SpeX_Gagne2015c, chi_r^2 = 18.1, ndof=39
 Wavelength range of template SIMPJ2148+2239_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-13/424 (SIMPJ2148+2239_NIR_NIRI_Robert2016.fits) FAILED
+14/424 (SIMPJ2148+2239_NIR_NIRI_Robert2016.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+15/424 (2MASSJ2202-5605_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3442,17 +3452,18 @@ I_R_A_FNAME= &#39;J2202-5605_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-14/424: done in 0:00:00.433309s
-15/424: done in 0:00:00.407151s
-16/424: done in 0:00:00.442868s
-17/424: done in 0:00:00.355052s
-18/424: done in 0:00:00.417400s
+16/424: SIMPJ0951-1343_NIR_SIMON_Robert2016, chi_r^2 = 39.0, ndof=39
+17/424: 2MASSJ1119-3917_NIR_SpeX_Gagne2015c, chi_r^2 = 2.6, ndof=33
+18/424: SIMPJ1627+0836_NIR_SpeX_Robert2016, chi_r^2 = 15.1, ndof=39
+19/424: 2MASSJ0344+0716B_NIR_SpeX_Gagne2015c, chi_r^2 = 3.2, ndof=33
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ1510-1147_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-19/424 (SIMPJ1510-1147_NIR_SpeX_Robert2016.fits) FAILED
-20/424: done in 0:00:00.448485s
+20/424 (SIMPJ1510-1147_NIR_SpeX_Robert2016.fits) FAILED
+21/424: SIMPJ1415+2635_NIR_SpeX_Robert2016, chi_r^2 = 17.8, ndof=39
 Wavelength range of template SIMPJ1613-0747_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-21/424 (SIMPJ1613-0747_NIR_NIRI_Robert2016.fits) FAILED
+22/424 (SIMPJ1613-0747_NIR_NIRI_Robert2016.fits) FAILED
+Unsufficient number of good points (30 &lt; 34). Tmp discarded.
+23/424 (2MASSJ2240+0532_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3469,40 +3480,28 @@ I_R_A_FNAME= &#39;J2240+0532_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-22/424: done in 0:00:00.411015s
-23/424: done in 0:00:00.265716s
+24/424: SIMPJ2322-1407_NIR_SpeX_Robert2016, chi_r^2 = 33.4, ndof=39
 Wavelength range of template SIMPJ1225-1013_NIR_GNIRS_Robert2016.fits (1.00, 2.52)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-24/424 (SIMPJ1225-1013_NIR_GNIRS_Robert2016.fits) FAILED
+25/424 (SIMPJ1225-1013_NIR_GNIRS_Robert2016.fits) FAILED
 No indices match the constraint (ceil w.r.t 2.31)
 Issue with resampling of template SIMPJ2318-1301_NIR_SIMON_Robert2016.fits. Does the wavelength range extend far enough (0.80, 2.27)mu?
-25/424 (SIMPJ2318-1301_NIR_SIMON_Robert2016.fits) FAILED
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/valentin/GitHub/special/special/model_resampling.py:719: RuntimeWarning: invalid value encountered in multiply
-  num = np.sum(interp_trans*dlbda_mod[idx_ini:idx_fin]*spec_mod[idx_ini:idx_fin])
-/Users/valentin/opt/miniconda3/envs/spec_env/lib/python3.9/site-packages/numpy/core/fromnumeric.py:86: RuntimeWarning: invalid value encountered in reduce
-  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-26/424 (SIMPJ1217+0708_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-27/424 (SIMPJ0858+2710_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-28/424: done in 0:00:21.936539s
-29/424: done in 0:00:00.376009s
-30/424: done in 0:00:00.393715s
-31/424: done in 0:00:00.462755s
+26/424 (SIMPJ2318-1301_NIR_SIMON_Robert2016.fits) FAILED
+27/424: SIMPJ1217+0708_NIR_GNIRS_Robert2016, chi_r^2 = 18.2, ndof=35
+28/424: SIMPJ0858+2710_NIR_GNIRS_Robert2016, chi_r^2 = 152.5, ndof=35
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+29/424 (2MASSJ0120-5200_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+30/424: SIMPJ0150+3827_NIR_SpeX_Robert2016, chi_r^2 = 37.8, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+31/424 (2MASSJ0103-2805B_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+32/424 (2MASSJ0041-5621_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 Wavelength range of template SIMPJ1756+2815_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-32/424 (SIMPJ1756+2815_NIR_NIRI_Robert2016.fits) FAILED
-33/424: done in 0:00:00.467715s
+33/424 (SIMPJ1756+2815_NIR_NIRI_Robert2016.fits) FAILED
+34/424: SIMPJ1031+3349_NIR_SpeX_Robert2016, chi_r^2 = 21.5, ndof=39
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+35/424 (2MASSJ2041-3506_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+36/424 (2MASSJ2219-6828_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3512,21 +3511,6 @@ Wavelength range of template SIMPJ1756+2815_NIR_NIRI_Robert2016.fits (0.98, 2.45
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J2041-3506_ALLCOMB_merge&#39; /                                        [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-34/424: done in 0:00:00.444484s
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J22191486-6828018_ALLCOMB_merge&#39; /                                 [astropy.io.fits.card]
 </pre></div></div>
@@ -3536,22 +3520,21 @@ I_R_A_FNAME= &#39;J22191486-6828018_ALLCOMB_merge&#39; /                        
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-35/424: done in 0:00:00.458515s
-36/424: done in 0:00:00.507436s
-37/424: done in 0:00:00.401349s
-38/424: done in 0:00:00.408882s
-39/424 (SIMPJ0851+1043_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-40/424: done in 0:00:11.459940s
-41/424: done in 0:00:00.453456s
-42/424: done in 0:00:00.415972s
+37/424: SIMPJ1211+0406_NIR_SIMON_Robert2016, chi_r^2 = 22.0, ndof=39
+38/424: SIMPJ0148+3712_NIR_SpeX_Robert2016, chi_r^2 = 22.8, ndof=39
+39/424: SIMPJ1308+0818_NIR_SpeX_Robert2016, chi_r^2 = 12.2, ndof=39
+40/424: SIMPJ0851+1043_NIR_GNIRS_Robert2016, chi_r^2 = 247.2, ndof=39
+41/424: 2MASSJ0226-5327_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 17.0, ndof=32
+42/424: 2MASSJ0335+2342_NIR_SpeX_Gagne2015c, chi_r^2 = 9.7, ndof=39
+43/424: SIMPJ2150-0412_NIR_SIMON_Robert2016, chi_r^2 = 30.6, ndof=39
 Wavelength range of template SIMPJ1755+3618_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-43/424 (SIMPJ1755+3618_NIR_NIRI_Robert2016.fits) FAILED
-44/424: done in 0:00:00.567020s
+44/424 (SIMPJ1755+3618_NIR_NIRI_Robert2016.fits) FAILED
+45/424: 2MASSJ0541-0217_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 94.6, ndof=32
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ0042+1142_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-45/424 (2MASSJ0042+1142_NIR_SpeX_Gagne2015c.fits) FAILED
-46/424: done in 0:00:00.438209s
-47/424: done in 0:00:00.430337s
+46/424 (2MASSJ0042+1142_NIR_SpeX_Gagne2015c.fits) FAILED
+47/424: SIMPJ0417-1838_NIR_SpeX_Robert2016, chi_r^2 = 18.1, ndof=39
+48/424: SIMPJ0947+0617_NIR_SIMON_Robert2016, chi_r^2 = 10.8, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3568,25 +3551,30 @@ I_R_A_FNAME= &#39;J2244-3045_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-48/424: done in 0:00:00.456478s
+49/424: 2MASSJ2244-3045_NIR_SpeX_Gagne2015c, chi_r^2 = 14.8, ndof=35
 Wavelength range of template SIMPJ1414+0107_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-49/424 (SIMPJ1414+0107_NIR_NIRI_Robert2016.fits) FAILED
-50/424: done in 0:00:00.472526s
-51/424: done in 0:00:00.414303s
-52/424 (SIMPJ1058+1339_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-53/424: done in 0:00:11.410178s
-54/424: done in 0:00:00.494682s
-55/424: done in 0:00:00.449454s
-56/424: done in 0:00:00.399874s
+50/424 (SIMPJ1414+0107_NIR_NIRI_Robert2016.fits) FAILED
+51/424: 2MASSJ0758+15301A_NIR_SpeX_Gagne2015c, chi_r^2 = 3.1, ndof=32
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+52/424 (2MASSJ0038-6403_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+53/424: SIMPJ1058+1339_NIR_GNIRS_Robert2016, chi_r^2 = 58.0, ndof=39
+54/424: SIMPJ0429+0607_NIR_SIMON_Robert2016, chi_r^2 = 48.3, ndof=39
+55/424: 2MASSJ1411-2119_NIR_SpeX_Gagne2015c, chi_r^2 = 11.8, ndof=39
+56/424: 2MASSJ0856-1342_NIR_SpeX_Gagne2015c, chi_r^2 = 12.5, ndof=39
+57/424: 2MASSJ1207-3900_NIR_SpeX_Gagne2015c, chi_r^2 = 26.6, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ0418+1121_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-57/424 (SIMPJ0418+1121_NIR_SpeX_Robert2016.fits) FAILED
-58/424: done in 0:00:00.473392s
-59/424: done in 0:00:00.402355s
-60/424: done in 0:00:00.364772s
-61/424: done in 0:00:00.341495s
-62/424 (SIMPJ1453-2744_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-63/424: done in 0:00:11.371247s
+58/424 (SIMPJ0418+1121_NIR_SpeX_Robert2016.fits) FAILED
+59/424: 2MASSJ0337-3709_NIR_SpeX_Gagne2015c, chi_r^2 = 3.5, ndof=33
+60/424: SIMPJ2155+2345_NIR_SpeX_Robert2016, chi_r^2 = 20.3, ndof=39
+61/424: SIMPJ2249-1628_NIR_SpeX_Robert2016, chi_r^2 = 33.2, ndof=39
+62/424: SIMPJ1411+2948_NIR_SpeX_Robert2016, chi_r^2 = 47.3, ndof=39
+63/424: SIMPJ1453-2744_NIR_GNIRS_Robert2016, chi_r^2 = 85.1, ndof=39
+64/424: 2MASSJ0046+0715_NIR_SpeX_Gagne2015c, chi_r^2 = 15.8, ndof=32
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+65/424 (2MASSJ2335-3401_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+66/424 (2MASSJ0309-3014_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3603,15 +3591,17 @@ I_R_A_FNAME= &#39;J2335-3401_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-64/424: done in 0:00:00.435717s
-65/424: done in 0:00:00.402772s
-66/424: done in 0:00:00.452244s
-67/424: done in 0:00:00.570082s
+67/424: 2MASSJ0019-6226_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 26.4, ndof=39
+68/424: 2MASSJ0404+2616B_NIR_SpeX_Gagne2015c, chi_r^2 = 7.9, ndof=32
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ1547-1626B_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-68/424 (2MASSJ1547-1626B_NIR_SpeX_Gagne2015c.fits) FAILED
-69/424: done in 0:00:00.471967s
-70/424: done in 0:00:00.493733s
+69/424 (2MASSJ1547-1626B_NIR_SpeX_Gagne2015c.fits) FAILED
+70/424: 2MASSJ1227-0636_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 11.8, ndof=32
+71/424: 2MASSJ1948+5944B_NIR_SpeX_Gagne2015c, chi_r^2 = 3.6, ndof=35
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+72/424 (2MASSJ2011-5048_NIR_FIRE_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+73/424 (2MASSJ0259-4232_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3628,31 +3618,31 @@ I_R_A_FNAME= &#39;W2011-5048_tc.fits&#39; /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-71/424: done in 0:00:00.366275s
-72/424: done in 0:00:00.355822s
-73/424: done in 0:00:00.443078s
-74/424: done in 0:00:00.345989s
-75/424: done in 0:00:00.390501s
-76/424 (SIMPJ1211+0406_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-77/424: done in 0:00:11.156385s
+74/424: 2MASSJ1153-3015_NIR_SpeX_Gagne2015c, chi_r^2 = 2.8, ndof=33
+75/424: SIMPJ2303+3150_NIR_SpeX_Robert2016, chi_r^2 = 81.0, ndof=39
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+76/424 (2MASSJ1156-4043_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+77/424: SIMPJ1211+0406_NIR_GNIRS_Robert2016, chi_r^2 = 139.0, ndof=36
+78/424: 2MASSJ1035-2058_NIR_SpeX_Gagne2015c, chi_r^2 = 3.6, ndof=33
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ0314+1603_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-78/424 (2MASSJ0314+1603_NIR_SpeX_Gagne2015c.fits) FAILED
-79/424: done in 0:00:00.431940s
-80/424: done in 0:00:00.421758s
-81/424: done in 0:00:00.411011s
+79/424 (2MASSJ0314+1603_NIR_SpeX_Gagne2015c.fits) FAILED
+80/424: SIMPJ1317+0448_NIR_SpeX_Robert2016, chi_r^2 = 19.2, ndof=39
+81/424: 2MASSJ0001+1535_NIR_FIRE_Gagne2015c, chi_r^2 = 27.7, ndof=39
+82/424: SIMPJ1343-1216_NIR_SIMON_Robert2016, chi_r^2 = 38.3, ndof=39
 2MASSJ0039+1330B_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
-82/424 (2MASSJ0039+1330B_NIR_SpeX_Gagne2015c.fits) FAILED
-83/424: done in 0:00:00.443581s
-84/424: done in 0:00:00.413381s
+83/424 (2MASSJ0039+1330B_NIR_SpeX_Gagne2015c.fits) FAILED
+84/424: 2MASSJ1013-1706A_NIR_SpeX_Gagne2015c, chi_r^2 = 3.3, ndof=39
+85/424: SIMPJ0417+1634_NIR_SIMON_Robert2016, chi_r^2 = 16.7, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ0422+1033_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-85/424 (SIMPJ0422+1033_NIR_SpeX_Robert2016.fits) FAILED
-86/424: done in 0:00:00.458336s
-87/424: done in 0:00:00.482146s
-88/424: done in 0:00:00.523616s
-89/424: done in 0:00:00.450691s
-90/424: done in 0:00:00.386252s
+86/424 (SIMPJ0422+1033_NIR_SpeX_Robert2016.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+87/424 (2MASSJ1846+5246B_NIR_SpeX_Gagne2015c.fits) FAILED
+88/424: 2MASSJ0602-1413_NIR_SpeX_Gagne2015c, chi_r^2 = 13.9, ndof=39
+89/424: 2MASSJ1106-3715_NIR_SpeX_Gagne2015c, chi_r^2 = 12.0, ndof=33
+90/424: 2MASSJ0527+0007B_NIR_SpeX_Gagne2015c, chi_r^2 = 3.0, ndof=33
+91/424: 2MASSJ1148-2836_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 21.0, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3669,12 +3659,23 @@ I_R_A_FNAME= &#39;J2244-6650_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-91/424: done in 0:00:00.379430s
-92/424: done in 0:00:00.385305s
-93/424: done in 0:00:00.370226s
-94/424: done in 0:00:00.399188s
-95/424: done in 0:00:00.378416s
-96/424: done in 0:00:00.381476s
+92/424: 2MASSJ2244-6650_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.5, ndof=32
+93/424: SIMPJ1039-1904_NIR_SpeX_Robert2016, chi_r^2 = 19.2, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+94/424 (2MASSJ1133-7807_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+95/424: 2MASSJ1207-3900_NIR_SpeX_Gagne2014b, chi_r^2 = 26.6, ndof=39
+96/424: SIMPJ0135+0205_NIR_SIMON_Robert2016, chi_r^2 = 34.6, ndof=39
+97/424: SIMPJ0956-1447_NIR_SpeX_Robert2016, chi_r^2 = 45.1, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+98/424 (2MASSJ2335-1908_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+99/424 (2MASSJ0819-0450_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Wavelength range of template SIMPJ1158+0435_NIR_SpeX_Robert2016.fits (1.13, 2.43)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+100/424 (SIMPJ1158+0435_NIR_SpeX_Robert2016.fits) FAILED
+2MASSJ0002+0408A_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
+101/424 (2MASSJ0002+0408A_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+102/424 (2MASSJ2343-3646_NIR_FIRE_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3684,26 +3685,6 @@ I_R_A_FNAME= &#39;J2244-6650_ALLCOMB_merge&#39; /                               
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J2335-1908_merge&#39;   /                                              [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-97/424: done in 0:00:00.417464s
-98/424: done in 0:00:00.440879s
-Wavelength range of template SIMPJ1158+0435_NIR_SpeX_Robert2016.fits (1.13, 2.43)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-99/424 (SIMPJ1158+0435_NIR_SpeX_Robert2016.fits) FAILED
-2MASSJ0002+0408A_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
-100/424 (2MASSJ0002+0408A_NIR_SpeX_Gagne2015c.fits) FAILED
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;W2343-3646_tc.fits&#39; /                                              [astropy.io.fits.card]
 </pre></div></div>
@@ -3713,10 +3694,12 @@ I_R_A_FNAME= &#39;W2343-3646_tc.fits&#39; /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-101/424: done in 0:00:00.352370s
-102/424 (SIMPJ0006-1319_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-103/424 (SIMPJ0532-3253_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-104/424: done in 0:00:22.635250s
+103/424: SIMPJ0006-1319_NIR_GNIRS_Robert2016, chi_r^2 = 142.1, ndof=35
+104/424: SIMPJ0532-3253_NIR_GNIRS_Robert2016, chi_r^2 = 235.7, ndof=38
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+105/424 (2MASSJ0148-5201_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+106/424 (2MASSJ2028-5637_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3733,11 +3716,12 @@ I_R_A_FNAME= &#39;J2028-5637_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-105/424: done in 0:00:00.418264s
-106/424: done in 0:00:00.411382s
-107/424: done in 0:00:00.592454s
-Wavelength range of template 2MASSJ2235-5906_NIR_Flamingos-2_Gagne2015c.fits (0.89, 1.77)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-108/424 (2MASSJ2235-5906_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+107/424: 2MASSJ0758+15300_NIR_SpeX_Gagne2015c, chi_r^2 = 2.7, ndof=32
+108/424: SIMPJ1324+1906_NIR_GNIRS_Robert2016, chi_r^2 = 103.5, ndof=39
+Wavelength range of template 2MASSJ2235-5906_NIR_Flamingos-2_Gagne2015c.fits (0.89, 1.89)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+109/424 (2MASSJ2235-5906_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+110/424 (2MASSJ0129-0823_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3754,19 +3738,21 @@ I_R_A_FNAME= &#39;J2235-5906_BEAMS_AB_140710_386_387_388_389_comb.fits&#39; /   
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-109/424: done in 0:00:00.575307s
-110/424: done in 0:00:00.379437s
-111/424: done in 0:00:00.467553s
-112/424 (SIMPJ1307-0558_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-113/424: done in 0:00:11.789503s
+111/424: 2MASSJ0819-7401_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 2.8, ndof=33
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+112/424 (2MASSJ0537-0623_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+113/424: SIMPJ1307-0558_NIR_GNIRS_Robert2016, chi_r^2 = 260.4, ndof=36
+114/424: 2MASSJ1207-3932_NIR_SpeX_Gagne2015c, chi_r^2 = 11.7, ndof=33
 Wavelength range of template SIMPJ1118-0856_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-114/424 (SIMPJ1118-0856_NIR_NIRI_Robert2016.fits) FAILED
-115/424: done in 0:00:00.582817s
-116/424: done in 0:00:00.846217s
-117/424 (SIMPJ0400-1322_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+115/424 (SIMPJ1118-0856_NIR_NIRI_Robert2016.fits) FAILED
+116/424: SIMPJ1629+0335_NIR_SIMON_Robert2016, chi_r^2 = 58.5, ndof=39
+117/424: SIMPJ0357+1529_NIR_GNIRS_Robert2016, chi_r^2 = 27.7, ndof=39
+118/424: SIMPJ0400-1322_NIR_GNIRS_Robert2016, chi_r^2 = 160.6, ndof=38
 Wavelength range of template 2MASSJ1207-3900_OPT_MAGE_Gagne2014b.fits (38240.71, 43051.20)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-118/424 (2MASSJ1207-3900_OPT_MAGE_Gagne2014b.fits) FAILED
-119/424: done in 0:00:13.124367s
+119/424 (2MASSJ1207-3900_OPT_MAGE_Gagne2014b.fits) FAILED
+120/424: SIMPJ1627+0546_NIR_SpeX_Robert2016, chi_r^2 = 11.5, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+121/424 (2MASSJ2000-7523_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3776,21 +3762,6 @@ Wavelength range of template 2MASSJ1207-3900_OPT_MAGE_Gagne2014b.fits (38240.71,
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J20004841-7523070_ALLCOMB_merge&#39; /                                 [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-120/424: done in 0:00:00.374794s
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: non-ASCII characters are present in the FITS file header and have been replaced by &#34;?&#34; characters [astropy.io.fits.util]
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;spc0070.a.fits&#39;                                                    [astropy.io.fits.card]
@@ -3801,12 +3772,14 @@ I_R_A_FNAME= &#39;spc0070.a.fits&#39;                                           
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-121/424: done in 0:00:00.441934s
-122/424: done in 0:00:00.323633s
-123/424: done in 0:00:00.369961s
+122/424: 2MASSJ2154-1055_NIR_SpeX_Gagne2015c, chi_r^2 = 27.0, ndof=39
+123/424: 2MASSJ0536-1920_NIR_SpeX_Gagne2015c, chi_r^2 = 43.7, ndof=32
+124/424: SIMPJ0422+1033_NIR_SIMON_Robert2016, chi_r^2 = 11.0, ndof=39
 Wavelength range of template SIMPJ1333-0215_NIR_SpeX_Robert2016.fits (1.13, 2.43)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-124/424 (SIMPJ1333-0215_NIR_SpeX_Robert2016.fits) FAILED
-125/424: done in 0:00:00.432600s
+125/424 (SIMPJ1333-0215_NIR_SpeX_Robert2016.fits) FAILED
+126/424: SIMPJ1452+1114_NIR_SpeX_Robert2016, chi_r^2 = 20.4, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+127/424 (2MASSJ2310-0748_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3823,13 +3796,13 @@ I_R_A_FNAME= &#39;J2310-0748_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-126/424: done in 0:00:00.422035s
-127/424: done in 0:00:00.406225s
-128/424 (SIMPJ1613-0747_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-129/424 (SIMPJ0552+0210_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-130/424: done in 0:00:22.344974s
-131/424: done in 0:00:00.422269s
-132/424: done in 0:00:00.469305s
+128/424: 2MASSJ0649-3823_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.2, ndof=32
+129/424: SIMPJ1613-0747_NIR_GNIRS_Robert2016, chi_r^2 = 25.8, ndof=38
+130/424: SIMPJ0552+0210_NIR_GNIRS_Robert2016, chi_r^2 = 222.2, ndof=36
+131/424: SIMPJ0417-1345_NIR_SpeX_Robert2016, chi_r^2 = 14.4, ndof=39
+132/424: 2MASSJ0018-6703_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 22.0, ndof=39
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+133/424 (2MASSJ0300-5459_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3846,12 +3819,18 @@ I_R_A_FNAME= &#39;W2315-4747_tc.fits&#39; /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-133/424: done in 0:00:00.402940s
-134/424: done in 0:00:00.358859s
-135/424: done in 0:00:00.410161s
-Wavelength range of template 2MASSJ0320-3313_NIR_Flamingos-2_Gagne2015c.fits (1.00, 2.42)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-136/424 (2MASSJ0320-3313_NIR_Flamingos-2_Gagne2015c.fits) FAILED
-137/424: done in 0:00:00.464893s
+134/424: 2MASSJ2315-4747_NIR_FIRE_Gagne2015c, chi_r^2 = 18.2, ndof=33
+135/424: SIMPJ0316+2650_NIR_SpeX_Robert2016, chi_r^2 = 76.5, ndof=39
+Unsufficient number of good points (30 &lt; 34). Tmp discarded.
+136/424 (2MASSJ1621-2346_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (30 &lt; 34). Tmp discarded.
+137/424 (2MASSJ0320-3313_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+138/424 (2MASSJ1101-7735_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+139/424 (2MASSJ2048-5127_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Wavelength range of template SIMPJ1004-1127_NIR_GNIRS_Robert2016.fits (1.00, 2.52)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+140/424 (SIMPJ1004-1127_NIR_GNIRS_Robert2016.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3868,17 +3847,16 @@ I_R_A_FNAME= &#39;W2048-5127_tc.fits&#39; /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-138/424: done in 0:00:00.397498s
-Wavelength range of template SIMPJ1004-1127_NIR_GNIRS_Robert2016.fits (1.00, 2.52)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-139/424 (SIMPJ1004-1127_NIR_GNIRS_Robert2016.fits) FAILED
-140/424: done in 0:00:00.400547s
-141/424: done in 0:00:00.430415s
-142/424: done in 0:00:00.394625s
-143/424: done in 0:00:00.379749s
-144/424: done in 0:00:00.353829s
+141/424: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c, chi_r^2 = 4.2, ndof=38
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+142/424 (2MASSJ1529+6312_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+143/424 (2MASSJ0355-1032_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+144/424: SIMPJ0414+1529_NIR_SpeX_Robert2016, chi_r^2 = 10.8, ndof=39
+145/424: 2MASSJ1257-4111_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 8.3, ndof=32
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ2048-3255_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-145/424 (2MASSJ2048-3255_NIR_SpeX_Gagne2015c.fits) FAILED
+146/424 (2MASSJ2048-3255_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3895,11 +3873,11 @@ I_R_A_FNAME= &#39;J2048-3255_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-146/424: done in 0:00:00.476342s
+147/424: SIMPJ1147+2153_NIR_SpeX_Robert2016, chi_r^2 = 15.7, ndof=39
 SIMPJ2332-1249_NIR_SpeX_Robert2016.fits could not be opened. Corrupt file?
-147/424 (SIMPJ2332-1249_NIR_SpeX_Robert2016.fits) FAILED
-148/424: done in 0:00:00.413131s
-149/424: done in 0:00:00.402007s
+148/424 (SIMPJ2332-1249_NIR_SpeX_Robert2016.fits) FAILED
+149/424: 2MASSJ0635-6234_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.8, ndof=32
+150/424: SIMPJ0008+0806_NIR_SIMON_Robert2016, chi_r^2 = 28.9, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3916,33 +3894,41 @@ I_R_A_FNAME= &#39;J2327+3858_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-150/424: done in 0:00:00.400297s
-151/424: done in 0:00:00.435834s
-152/424: done in 0:00:00.395564s
-153/424: done in 0:00:00.402030s
-154/424: done in 0:00:00.419028s
-155/424: done in 0:00:00.408384s
-156/424: done in 0:00:00.417780s
-157/424: done in 0:00:00.389834s
-No indices match the constraint (ceil w.r.t 2.31)
-Issue with resampling of template 2MASSJ0342-2904_NIR_FIRE_Gagne2015c.fits. Does the wavelength range extend far enough (0.83, 2.30)mu?
-158/424 (2MASSJ0342-2904_NIR_FIRE_Gagne2015c.fits) FAILED
-159/424: done in 0:00:00.432195s
-160/424: done in 0:00:00.460123s
-161/424: done in 0:00:00.363011s
-162/424 (SIMPJ0921-1534_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+151/424: 2MASSJ2327+3858_NIR_SpeX_Gagne2015c, chi_r^2 = 5.3, ndof=32
+152/424: 2MASSJ1358-0046_NIR_SpeX_Gagne2015c, chi_r^2 = 5.4, ndof=39
+153/424: SIMPJ2327+1517_NIR_SpeX_Robert2016, chi_r^2 = 26.4, ndof=39
+154/424: SIMPJ0049+0440_NIR_GNIRS_Robert2016, chi_r^2 = 47.4, ndof=39
+155/424: 2MASSJ0825-0029_NIR_FIRE_Gagne2015c, chi_r^2 = 11.6, ndof=32
+156/424: SIMPJ2154-1055_NIR_SpeX_Gagne2014c, chi_r^2 = 27.0, ndof=39
+157/424: SIMPJ0006-1319_NIR_SIMON_Robert2016, chi_r^2 = 44.2, ndof=39
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+158/424 (2MASSJ0244-3548_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (29 &lt; 34). Tmp discarded.
+159/424 (2MASSJ0342-2904_NIR_FIRE_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+160/424 (2MASSJ0311+0106_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+161/424: SIMPJ1628+0517_NIR_SIMON_Robert2016, chi_r^2 = 63.2, ndof=39
+162/424: SIMPJ1324+1906_NIR_SIMON_Robert2016, chi_r^2 = 82.8, ndof=39
+163/424: SIMPJ0921-1534_NIR_GNIRS_Robert2016, chi_r^2 = 103.2, ndof=35
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ1706-1314_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-163/424 (2MASSJ1706-1314_NIR_SpeX_Gagne2015c.fits) FAILED
-164/424: done in 0:00:11.649976s
-165/424: done in 0:00:00.383753s
-166/424: done in 0:00:00.403327s
-167/424: done in 0:00:00.490177s
-168/424: done in 0:00:00.473191s
-169/424 (SIMPJ1629+0335_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+164/424 (2MASSJ1706-1314_NIR_SpeX_Gagne2015c.fits) FAILED
+165/424: SIMPJ1004-1318_NIR_GNIRS_Robert2016, chi_r^2 = 33.2, ndof=39
+166/424: 2MASSJ0322-7940_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.3, ndof=32
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+167/424 (2MASSJ0051-6227_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+168/424 (2MASSJ1642-1942_NIR_FIRE_Gagne2015c.fits) FAILED
+169/424: 2MASSJ0953-1014_NIR_SpeX_Gagne2015c, chi_r^2 = 17.6, ndof=39
+170/424: SIMPJ1629+0335_NIR_GNIRS_Robert2016, chi_r^2 = 66.9, ndof=37
 Wavelength range of template SIMPJ2132-1452_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-170/424 (SIMPJ2132-1452_NIR_NIRI_Robert2016.fits) FAILED
-171/424: done in 0:00:11.421720s
+171/424 (SIMPJ2132-1452_NIR_NIRI_Robert2016.fits) FAILED
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+172/424 (2MASSJ0825+0340_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+173/424 (2MASSJ2149-6413_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Wavelength range of template SIMPJ1039-2829_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+174/424 (SIMPJ1039-2829_NIR_NIRI_Robert2016.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3959,20 +3945,17 @@ I_R_A_FNAME= &#39;J2149-6413_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-172/424: done in 0:00:00.456015s
-Wavelength range of template SIMPJ1039-2829_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-173/424 (SIMPJ1039-2829_NIR_NIRI_Robert2016.fits) FAILED
-174/424: done in 0:00:00.445408s
-175/424: done in 0:00:00.420493s
-176/424: done in 0:00:00.363355s
-177/424: done in 0:00:00.308029s
-178/424: done in 0:00:00.301674s
+175/424: 2MASSJ0820-7514_NIR_FIRE_Gagne2015c, chi_r^2 = 18.2, ndof=33
+176/424: SIMPJ2309+1003_NIR_GNIRS_Robert2016, chi_r^2 = 176.5, ndof=39
+177/424: 2MASSJ0805+2505B_NIR_SpeX_Gagne2015c, chi_r^2 = 5.0, ndof=39
+178/424: SIMPJ1613-0747_NIR_SIMON_Robert2016, chi_r^2 = 19.8, ndof=39
+179/424: 2MASSJ0951+3558_NIR_SpeX_Gagne2015c, chi_r^2 = 4.3, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ2325-0259_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-179/424 (2MASSJ2325-0259_NIR_SpeX_Gagne2015c.fits) FAILED
+180/424 (2MASSJ2325-0259_NIR_SpeX_Gagne2015c.fits) FAILED
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ0407+1546_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-180/424 (2MASSJ0407+1546_NIR_SpeX_Gagne2015c.fits) FAILED
+181/424 (2MASSJ0407+1546_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3989,17 +3972,19 @@ I_R_A_FNAME= &#39;J2325-0259&#39;         /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-181/424: done in 0:00:00.423037s
-182/424: done in 0:00:00.473594s
+182/424: SIMPJ2254+1640_NIR_SpeX_Robert2016, chi_r^2 = 19.2, ndof=39
+183/424: 2MASSJ1623-2353_NIR_SpeX_Gagne2015c, chi_r^2 = 14.8, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template GUPscb_NIR_GNIRS_Naud2014.fits. Does the wavelength range extend far enough (0.94, 2.35)mu?
-183/424 (GUPscb_NIR_GNIRS_Naud2014.fits) FAILED
+184/424 (GUPscb_NIR_GNIRS_Naud2014.fits) FAILED
 Wavelength range of template SIMPJ1132-3809_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-184/424 (SIMPJ1132-3809_NIR_NIRI_Robert2016.fits) FAILED
-185/424: done in 0:00:00.482249s
-186/424: done in 0:00:00.400055s
-187/424: done in 0:00:00.410672s
-188/424: done in 0:00:00.401389s
+185/424 (SIMPJ1132-3809_NIR_NIRI_Robert2016.fits) FAILED
+186/424: 2MASSJ0526-1824_NIR_SpeX_Gagne2015c, chi_r^2 = 5.8, ndof=34
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+187/424 (2MASSJ1204-2806_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+188/424 (2MASSJ0540-0923_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+189/424: 2MASSJ0507+1430A_NIR_SpeX_Gagne2015c, chi_r^2 = 4.2, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4016,8 +4001,12 @@ I_R_A_FNAME= &#39;J2112-8128_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-189/424: done in 0:00:00.373017s
-190/424: done in 0:00:00.395590s
+190/424: 2MASSJ2112-8128_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.6, ndof=32
+191/424: SIMPJ0013+0841_NIR_SIMON_Robert2016, chi_r^2 = 27.1, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+192/424 (2MASSJ1939-5216_NIR_FIRE_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+193/424 (2MASSJ2148-4736_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4027,21 +4016,6 @@ I_R_A_FNAME= &#39;J2112-8128_ALLCOMB_merge&#39; /                               
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;W1939-5216_tc.fits&#39; /                                              [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-191/424: done in 0:00:00.417783s
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J2148-4736_ALLCOMB_merge&#39; /                                        [astropy.io.fits.card]
 </pre></div></div>
@@ -4051,11 +4025,15 @@ I_R_A_FNAME= &#39;J2148-4736_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-192/424: done in 0:00:00.379529s
-193/424 (SIMPJ1117+1857_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+194/424: SIMPJ1117+1857_NIR_GNIRS_Robert2016, chi_r^2 = 289.9, ndof=36
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ0355+1133_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-194/424 (2MASSJ0355+1133_NIR_SpeX_Gagne2015c.fits) FAILED
+195/424 (2MASSJ0355+1133_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+196/424 (2MASSJ2005-6258_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+No indices match the constraint (floor w.r.t 0.93)
+Issue with resampling of template SIMPJ0211-1427_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
+197/424 (SIMPJ0211-1427_NIR_SpeX_Robert2016.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4072,14 +4050,12 @@ I_R_A_FNAME= &#39;J2005-6258_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-195/424: done in 0:00:11.439056s
-No indices match the constraint (floor w.r.t 0.93)
-Issue with resampling of template SIMPJ0211-1427_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-196/424 (SIMPJ0211-1427_NIR_SpeX_Robert2016.fits) FAILED
-197/424 (SIMPJ1041-0429_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-198/424: done in 0:00:11.245609s
+198/424: SIMPJ1041-0429_NIR_GNIRS_Robert2016, chi_r^2 = 27.7, ndof=39
+199/424: 2MASSJ0804-6346_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 4.4, ndof=32
 Wavelength range of template SIMPJ1343-1216_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-199/424 (SIMPJ1343-1216_NIR_NIRI_Robert2016.fits) FAILED
+200/424 (SIMPJ1343-1216_NIR_NIRI_Robert2016.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+201/424 (2MASSJ1903-3723_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4089,21 +4065,6 @@ Wavelength range of template SIMPJ1343-1216_NIR_NIRI_Robert2016.fits (0.98, 2.45
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J1903-3723_ALLCOMB_merge&#39; /                                        [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-200/424: done in 0:00:00.438834s
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J1948+5944A_merge&#39;  /                                              [astropy.io.fits.card]
 </pre></div></div>
@@ -4113,35 +4074,37 @@ I_R_A_FNAME= &#39;J1948+5944A_merge&#39;  /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-201/424: done in 0:00:00.405153s
-Wavelength range of template 2MASSJ1846-5706_NIR_Flamingos-2_Gagne2015c.fits (0.90, 1.88)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-202/424 (2MASSJ1846-5706_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+202/424: 2MASSJ1948+5944A_NIR_SpeX_Gagne2015c, chi_r^2 = 3.1, ndof=32
+Wavelength range of template 2MASSJ1846-5706_NIR_Flamingos-2_Gagne2015c.fits (0.90, 1.90)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+203/424 (2MASSJ1846-5706_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ0453-1751_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-203/424 (2MASSJ0453-1751_NIR_SpeX_Gagne2015c.fits) FAILED
-204/424: done in 0:00:00.501226s
-205/424 (SIMPJ1537-0800_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+204/424 (2MASSJ0453-1751_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+205/424 (2MASSJ2048-5127_NIR_FIRE_Gagne2015c.fits) FAILED
+206/424: SIMPJ1537-0800_NIR_GNIRS_Robert2016, chi_r^2 = 207.9, ndof=36
 Wavelength range of template SIMPJ2322-1407_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-206/424 (SIMPJ2322-1407_NIR_NIRI_Robert2016.fits) FAILED
-207/424: done in 0:00:10.997802s
-208/424: done in 0:00:00.463886s
+207/424 (SIMPJ2322-1407_NIR_NIRI_Robert2016.fits) FAILED
+208/424: SIMPJ2132-1452_NIR_SIMON_Robert2016, chi_r^2 = 114.5, ndof=39
+209/424: 2MASSJ0404+2616A_NIR_SpeX_Gagne2015c, chi_r^2 = 6.8, ndof=33
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ1547-1626A_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-209/424 (2MASSJ1547-1626A_NIR_SpeX_Gagne2015c.fits) FAILED
-210/424 (SIMPJ0425-1900_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-211/424: done in 0:00:12.169934s
-212/424: done in 0:00:00.396936s
-213/424: done in 0:00:00.346030s
-214/424: done in 0:00:00.371781s
-215/424: done in 0:00:00.346394s
-216/424 (SIMPJ0421-1133_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-217/424: done in 0:00:11.177275s
-218/424: done in 0:00:00.516700s
-219/424: done in 0:00:00.356396s
-220/424: done in 0:00:00.387175s
-221/424 (SIMPJ0936+0528_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-222/424: done in 0:00:11.022330s
-223/424: done in 0:00:00.366914s
+210/424 (2MASSJ1547-1626A_NIR_SpeX_Gagne2015c.fits) FAILED
+211/424: SIMPJ0425-1900_NIR_GNIRS_Robert2016, chi_r^2 = 47.1, ndof=39
+212/424: 2MASSJ1249-2035_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.3, ndof=32
+213/424: SIMPJ0120+1518_NIR_SpeX_Robert2016, chi_r^2 = 15.0, ndof=39
+214/424: SIMPJ2239+1617_NIR_SIMON_Robert2016, chi_r^2 = 68.6, ndof=39
+215/424: SIMPJ1708+2606_NIR_SpeX_Robert2016, chi_r^2 = 29.3, ndof=39
+216/424: SIMPJ1036+0306_NIR_SIMON_Robert2016, chi_r^2 = 32.3, ndof=39
+217/424: SIMPJ0421-1133_NIR_GNIRS_Robert2016, chi_r^2 = 196.6, ndof=35
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+218/424 (2MASSJ1221+0257_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+219/424: SIMPJ1014+1900_NIR_GNIRS_Robert2016, chi_r^2 = 61.4, ndof=36
+220/424: 2MASSJ0910-7552_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 7.2, ndof=32
+221/424: 2MASSJ0520+0511_NIR_SpeX_Gagne2015c, chi_r^2 = 6.9, ndof=32
+222/424: SIMPJ0936+0528_NIR_GNIRS_Robert2016, chi_r^2 = 251.6, ndof=38
+223/424: SIMPJ1052+1722_NIR_SIMON_Robert2016, chi_r^2 = 20.3, ndof=39
+224/424: SIMPJ2117-0611_NIR_SIMON_Robert2016, chi_r^2 = 30.7, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4158,8 +4121,8 @@ I_R_A_F-TLM= &#39;2013-07-18T21:19:33&#39; / Time of last modification          
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-224/424: done in 0:00:00.578650s
-225/424: done in 0:00:00.351763s
+225/424: 2MASSJ1625-2358_NIR_GNIRS_Gagne2015c, chi_r^2 = 9.6, ndof=32
+226/424: SIMPJ0251-0818_NIR_SIMON_Robert2016, chi_r^2 = 21.9, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4176,9 +4139,11 @@ I_R_A_FNAME= &#39;J1846+5246_A_merge&#39; /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-226/424: done in 0:00:00.486143s
+227/424: 2MASSJ1846+5246A_NIR_SpeX_Gagne2015c, chi_r^2 = 7.9, ndof=32
 2MASSJ0039+1330A_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
-227/424 (2MASSJ0039+1330A_NIR_SpeX_Gagne2015c.fits) FAILED
+228/424 (2MASSJ0039+1330A_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+229/424 (2MASSJ1257-3635_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4195,14 +4160,18 @@ I_R_A_FNAME= &#39;J12574463-3635431_ALLCOMB_merge&#39; /                        
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-228/424: done in 0:00:00.387912s
-229/424: done in 0:00:00.393150s
-230/424: done in 0:00:00.345789s
-231/424 (SIMPJ1141+1941_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+230/424: SIMPJ1150+0520_NIR_SpeX_Robert2016, chi_r^2 = 26.6, ndof=39
+231/424: 2MASSJ1013-1706B_NIR_SpeX_Gagne2015c, chi_r^2 = 3.4, ndof=39
+232/424: SIMPJ1141+1941_NIR_GNIRS_Robert2016, chi_r^2 = 18.1, ndof=35
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ1003-1441_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-232/424 (SIMPJ1003-1441_NIR_SpeX_Robert2016.fits) FAILED
-233/424: done in 0:00:11.175260s
+233/424 (SIMPJ1003-1441_NIR_SpeX_Robert2016.fits) FAILED
+234/424: SIMPJ1631-1922_NIR_SpeX_Robert2016, chi_r^2 = 3.6, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+235/424 (2MASSJ2235-3844_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+No indices match the constraint (floor w.r.t 0.93)
+Issue with resampling of template 2MASSJ0326-0617_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
+236/424 (2MASSJ0326-0617_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4219,14 +4188,10 @@ I_R_A_FNAME= &#39;J2235-3844_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-234/424: done in 0:00:00.461598s
-No indices match the constraint (floor w.r.t 0.93)
-Issue with resampling of template 2MASSJ0326-0617_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-235/424 (2MASSJ0326-0617_NIR_SpeX_Gagne2015c.fits) FAILED
-236/424: done in 0:00:00.474967s
-237/424: done in 0:00:00.379381s
+237/424: 2MASSJ0518-3101_NIR_SpeX_Gagne2015c, chi_r^2 = 8.7, ndof=37
+238/424: SIMPJ1422+0827_NIR_SIMON_Robert2016, chi_r^2 = 52.4, ndof=39
 2MASSJ2331-0406_NIR_Flamingos-2_Gagne2015c.fits could not be opened. Corrupt file?
-238/424 (2MASSJ2331-0406_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+239/424 (2MASSJ2331-0406_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4244,30 +4209,37 @@ There may be extra bytes after the last HDU or the file is corrupted. [astropy.i
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-239/424: done in 0:00:00.403177s
-240/424: done in 0:00:00.435607s
-241/424: done in 0:00:00.497739s
-242/424: done in 0:00:00.410610s
-243/424: done in 0:00:00.423182s
-244/424: done in 0:00:00.374003s
-245/424: done in 0:00:00.489074s
+240/424: SIMPJ1339+1523_NIR_SIMON_Robert2016, chi_r^2 = 16.3, ndof=39
+241/424: 2MASSJ1226-3316_NIR_SpeX_Gagne2015c, chi_r^2 = 3.5, ndof=32
+242/424: SIMPJ1615+1340_NIR_SIMON_Robert2016, chi_r^2 = 143.5, ndof=39
+243/424: 2MASSJ0758+15301B_NIR_SpeX_Gagne2015c, chi_r^2 = 3.6, ndof=32
+244/424: 2MASSJ1247-3816_NIR_SpeX_Gagne2014b, chi_r^2 = 11.4, ndof=39
+245/424: SIMPJ0026-0936_NIR_SpeX_Robert2016, chi_r^2 = 11.5, ndof=39
+246/424: 2MASSJ1005+1703_NIR_SpeX_Gagne2015c, chi_r^2 = 4.5, ndof=39
 2MASSJ0017-3219_NIR_Flamingos-2_Gagne2015c.fits could not be opened. Corrupt file?
-246/424 (2MASSJ0017-3219_NIR_Flamingos-2_Gagne2015c.fits) FAILED
-247/424: done in 0:00:00.411054s
-248/424: done in 0:00:00.521418s
-249/424: done in 0:00:00.401616s
-250/424: done in 0:00:00.427319s
-251/424: done in 0:00:00.390679s
-252/424: done in 0:00:00.404093s
-253/424: done in 0:00:00.387570s
-254/424: done in 0:00:00.394857s
-255/424: done in 0:00:00.371344s
-256/424: done in 0:00:00.376281s
-257/424: done in 0:00:00.365331s
+247/424 (2MASSJ0017-3219_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+248/424: SIMPJ1318-0632_NIR_SIMON_Robert2016, chi_r^2 = 19.4, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+249/424 (2MASSJ0945-7753_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+250/424: 2MASSJ0240-4253_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 5.2, ndof=32
+251/424: SIMPJ2257-0140_NIR_SIMON_Robert2016, chi_r^2 = 132.9, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+252/424 (2MASSJ0126-5505_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+253/424 (2MASSJ1510-2818_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+254/424: 2MASSJ1148-2836_NIR_SpeX_Gagne2015c, chi_r^2 = 21.0, ndof=39
+255/424: 2MASSJ1028-2830_NIR_SpeX_Gagne2015c, chi_r^2 = 3.4, ndof=33
+256/424: SIMPJ1344-1614_NIR_SpeX_Robert2016, chi_r^2 = 44.9, ndof=39
+257/424: SIMPJ1122+0343_NIR_SIMON_Robert2016, chi_r^2 = 19.1, ndof=39
+258/424: SIMPJ0103+1940_NIR_SpeX_Robert2016, chi_r^2 = 12.0, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ0417+1634_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-258/424 (SIMPJ0417+1634_NIR_SpeX_Robert2016.fits) FAILED
-259/424: done in 0:00:00.425649s
+259/424 (SIMPJ0417+1634_NIR_SpeX_Robert2016.fits) FAILED
+260/424: SIMPJ1308+0432_NIR_SIMON_Robert2016, chi_r^2 = 22.8, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+261/424 (2MASSJ1935-6200_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+SIMPJ2344+0909_NIR_GNIRS_Robert2016.fits could not be opened. Corrupt file?
+262/424 (SIMPJ2344+0909_NIR_GNIRS_Robert2016.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4277,23 +4249,6 @@ Issue with resampling of template SIMPJ0417+1634_NIR_SpeX_Robert2016.fits. Does 
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J19350976-6200473_ALLCOMB_merge&#39; /                                 [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-260/424: done in 0:00:00.446697s
-SIMPJ2344+0909_NIR_GNIRS_Robert2016.fits could not be opened. Corrupt file?
-261/424 (SIMPJ2344+0909_NIR_GNIRS_Robert2016.fits) FAILED
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J2202-1109_merge&#39;   /                                              [astropy.io.fits.card]
 </pre></div></div>
@@ -4303,22 +4258,24 @@ I_R_A_FNAME= &#39;J2202-1109_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-262/424: done in 0:00:00.547233s
+263/424: 2MASSJ2202-1109_NIR_SpeX_Gagne2015c, chi_r^2 = 6.2, ndof=32
 2MASSJ0103-2805A_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
-263/424 (2MASSJ0103-2805A_NIR_SpeX_Gagne2015c.fits) FAILED
-264/424: done in 0:00:00.439825s
-265/424: done in 0:00:00.365238s
-266/424: done in 0:00:00.405195s
+264/424 (2MASSJ0103-2805A_NIR_SpeX_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+265/424 (2MASSJ0019+4614_NIR_SpeX_Gagne2015c.fits) FAILED
+266/424: SIMPJ1537-0800_NIR_SIMON_Robert2016, chi_r^2 = 22.6, ndof=39
+267/424: SIMPJ0858+2214_NIR_SIMON_Robert2016, chi_r^2 = 22.0, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ1654+3747_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-267/424 (SIMPJ1654+3747_NIR_SpeX_Robert2016.fits) FAILED
-268/424: done in 0:00:00.519927s
-269/424: done in 0:00:00.401164s
-270/424: done in 0:00:00.434383s
-271/424 (SIMPJ0946+0922_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-272/424 (SIMPJ0307+0852_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-Wavelength range of template 2MASSJ2336-3541_NIR_Flamingos-2_Gagne2015c.fits (0.90, 1.77)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-273/424 (2MASSJ2336-3541_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+268/424 (SIMPJ1654+3747_NIR_SpeX_Robert2016.fits) FAILED
+269/424: SIMPJ1044+0620_NIR_SIMON_Robert2016, chi_r^2 = 13.7, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+270/424 (2MASSJ0210-3015_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+271/424: SIMPJ2203-0301_NIR_SpeX_Robert2016, chi_r^2 = 14.2, ndof=39
+272/424: SIMPJ0946+0922_NIR_GNIRS_Robert2016, chi_r^2 = 272.8, ndof=36
+273/424: SIMPJ0307+0852_NIR_GNIRS_Robert2016, chi_r^2 = 266.9, ndof=38
+Wavelength range of template 2MASSJ2336-3541_NIR_Flamingos-2_Gagne2015c.fits (0.90, 1.89)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+274/424 (2MASSJ2336-3541_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4335,7 +4292,11 @@ I_R_A_FNAME= &#39;J2336-3541_BEAMS_AB_140710_397_398_399_400_comb.fits&#39; /   
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-274/424 (SIMPJ1036+0306_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+275/424: SIMPJ1036+0306_NIR_GNIRS_Robert2016, chi_r^2 = 77.5, ndof=38
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+276/424 (2MASSJ2033-3733_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+277/424 (2MASSJ1256-2718_NIR_FIRE_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4352,15 +4313,15 @@ I_R_A_FNAME= &#39;J2033-3733_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-275/424: done in 0:00:31.443600s
-276/424: done in 0:00:00.403662s
-277/424 (SIMPJ1052+1722_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-278/424: done in 0:00:10.273698s
-279/424: done in 0:00:00.437733s
-280/424: done in 0:00:00.365918s
-281/424: done in 0:00:00.407793s
-282/424: done in 0:00:00.369618s
-283/424: done in 0:00:00.345676s
+278/424: SIMPJ1052+1722_NIR_GNIRS_Robert2016, chi_r^2 = 213.8, ndof=38
+279/424: SIMPJ1605+1931_NIR_SpeX_Robert2016, chi_r^2 = 23.6, ndof=39
+280/424: 2MASSJ0058-0651_NIR_SpeX_Gagne2015c, chi_r^2 = 13.6, ndof=32
+281/424: 2MASSJ0708-4701_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 10.0, ndof=32
+282/424: SIMPJ0423+1212_NIR_GNIRS_Robert2016, chi_r^2 = 22.2, ndof=39
+283/424: SIMPJ0422+0723_NIR_SpeX_Robert2016, chi_r^2 = 19.1, ndof=39
+284/424: 2MASSJ2033-5635_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 36.7, ndof=39
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+285/424 (2MASSJ2114-4339_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4377,8 +4338,9 @@ I_R_A_FNAME= &#39;J2114-4339_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-284/424: done in 0:00:00.403562s
-285/424: done in 0:00:00.387947s
+286/424: SIMPJ0915+0514_NIR_SpeX_Robert2016, chi_r^2 = 18.3, ndof=39
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+287/424 (2MASSJ2050-3639_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4395,13 +4357,13 @@ I_R_A_FNAME= &#39;J20505221-3639552_ALLCOMB_merge&#39; /                        
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-286/424: done in 0:00:00.326041s
-287/424 (SIMPJ2304+0749_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-288/424 (SIMPJ0136+0933_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-289/424: done in 0:00:20.872968s
-290/424: done in 0:00:00.359919s
-291/424: done in 0:00:00.379533s
-292/424 (SIMPJ2330+1006_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+288/424: SIMPJ2304+0749_NIR_GNIRS_Robert2016, chi_r^2 = 21.1, ndof=36
+289/424: SIMPJ0136+0933_NIR_GNIRS_Robert2016, chi_r^2 = 107.6, ndof=36
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+290/424 (2MASSJ0034-4102_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+291/424: SIMPJ1627+0546_NIR_SIMON_Robert2016, chi_r^2 = 15.3, ndof=39
+292/424: SIMPJ0013-1816_NIR_SpeX_Robert2016, chi_r^2 = 30.1, ndof=39
+293/424: SIMPJ2330+1006_NIR_GNIRS_Robert2016, chi_r^2 = 248.7, ndof=38
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4418,21 +4380,22 @@ I_R_A_FNAME= &#39;J2322-6151_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-293/424: done in 0:00:10.519500s
-294/424: done in 0:00:00.430685s
-295/424: done in 0:00:00.411753s
+294/424: 2MASSJ2322-6151A_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.0, ndof=32
+295/424: SIMPJ1138+0748_NIR_SIMON_Robert2016, chi_r^2 = 63.3, ndof=39
+296/424: 2MASSJ0548-2942_NIR_SpeX_Gagne2015c, chi_r^2 = 9.7, ndof=36
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ1622-2346_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-296/424 (2MASSJ1622-2346_NIR_SpeX_Gagne2015c.fits) FAILED
-297/424 (SIMPJ1343+1312_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+297/424 (2MASSJ1622-2346_NIR_SpeX_Gagne2015c.fits) FAILED
+298/424: SIMPJ1343+1312_NIR_GNIRS_Robert2016, chi_r^2 = 21.9, ndof=39
 Wavelength range of template SIMPJ0006-2158_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-298/424 (SIMPJ0006-2158_NIR_NIRI_Robert2016.fits) FAILED
-299/424: done in 0:00:10.842007s
+299/424 (SIMPJ0006-2158_NIR_NIRI_Robert2016.fits) FAILED
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+300/424 (2MASSJ2353-1844B_NIR_SpeX_Gagne2015c.fits) FAILED
 Wavelength range of template SIMPJ1615+1340_NIR_GNIRS_Robert2016.fits (1.00, 2.52)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-300/424 (SIMPJ1615+1340_NIR_GNIRS_Robert2016.fits) FAILED
+301/424 (SIMPJ1615+1340_NIR_GNIRS_Robert2016.fits) FAILED
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ0501-0010_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-301/424 (2MASSJ0501-0010_NIR_SpeX_Gagne2015c.fits) FAILED
+302/424 (2MASSJ0501-0010_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4449,22 +4412,28 @@ I_R_A_FNAME= &#39;J2329_tell.fits&#39;    /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-302/424: done in 0:00:00.378820s
-303/424: done in 0:00:00.388424s
+303/424: 2MASSJ2329+0329_NIR_SpeX_Gagne2015c, chi_r^2 = 8.5, ndof=39
+304/424: 2MASSJ0540-0906_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 17.3, ndof=32
 Wavelength range of template DENISJ0817-6155_NIR_OSIRIS_Artigau2010.fits (1.13, 2.36)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-304/424 (DENISJ0817-6155_NIR_OSIRIS_Artigau2010.fits) FAILED
-305/424: done in 0:00:00.372202s
+305/424 (DENISJ0817-6155_NIR_OSIRIS_Artigau2010.fits) FAILED
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+306/424 (2MASSJ0228+0218_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template 2MASSJ1051-1916_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-306/424 (2MASSJ1051-1916_NIR_SpeX_Gagne2015c.fits) FAILED
+307/424 (2MASSJ1051-1916_NIR_SpeX_Gagne2015c.fits) FAILED
 SIMPJ2351+3010_NIR_SpeX_Robert2016.fits could not be opened. Corrupt file?
-307/424 (SIMPJ2351+3010_NIR_SpeX_Robert2016.fits) FAILED
-308/424 (SIMPJ1339+1523_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-309/424: done in 0:00:10.485362s
-310/424 (SIMPJ1422+0827_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-311/424: done in 0:00:10.495399s
-312/424: done in 0:00:00.324919s
-313/424: done in 0:00:00.388634s
+308/424 (SIMPJ2351+3010_NIR_SpeX_Robert2016.fits) FAILED
+309/424: SIMPJ1339+1523_NIR_GNIRS_Robert2016, chi_r^2 = 283.2, ndof=37
+310/424: SIMPJ0812+3721_NIR_SpeX_Robert2016, chi_r^2 = 12.6, ndof=39
+311/424: SIMPJ1422+0827_NIR_GNIRS_Robert2016, chi_r^2 = 139.3, ndof=38
+312/424: SIMPJ2143-1544_NIR_SpeX_Robert2016, chi_r^2 = 11.3, ndof=39
+313/424: SIMPJ2245+1722_NIR_SIMON_Robert2016, chi_r^2 = 24.5, ndof=39
+314/424: GUPscA_NIR_SpeX_Naud2014, chi_r^2 = 3.2, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+315/424 (2MASSJ1839+2952_NIR_SpeX_Gagne2015c.fits) FAILED
+No indices match the constraint (floor w.r.t 0.93)
+Issue with resampling of template 2MASSJ2002-1316_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
+316/424 (2MASSJ2002-1316_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4474,24 +4443,6 @@ SIMPJ2351+3010_NIR_SpeX_Robert2016.fits could not be opened. Corrupt file?
 <div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J1839+2952_merge&#39;   /                                              [astropy.io.fits.card]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-314/424: done in 0:00:00.376811s
-No indices match the constraint (floor w.r.t 0.93)
-Issue with resampling of template 2MASSJ2002-1316_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-315/424 (2MASSJ2002-1316_NIR_SpeX_Gagne2015c.fits) FAILED
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
 WARNING: The following header keyword is invalid or follows an unrecognized non-standard convention:
 I_R_A_FNAME= &#39;J2002-1316_merge&#39;   /                                              [astropy.io.fits.card]
 </pre></div></div>
@@ -4501,29 +4452,31 @@ I_R_A_FNAME= &#39;J2002-1316_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-316/424 (SIMPJ1147-1032_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+317/424: SIMPJ1147-1032_NIR_GNIRS_Robert2016, chi_r^2 = 206.1, ndof=39
 Wavelength range of template SIMPJ1039+2440_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-317/424 (SIMPJ1039+2440_NIR_NIRI_Robert2016.fits) FAILED
-318/424: done in 0:00:10.765531s
+318/424 (SIMPJ1039+2440_NIR_NIRI_Robert2016.fits) FAILED
+319/424: 2MASSJ0344+0716A_NIR_SpeX_Gagne2015c, chi_r^2 = 3.0, ndof=33
 Wavelength range of template SIMPJ0004-2007_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-319/424 (SIMPJ0004-2007_NIR_NIRI_Robert2016.fits) FAILED
-320/424: done in 0:00:00.421960s
-321/424: done in 0:00:00.336844s
-322/424: done in 0:00:00.405547s
-323/424: done in 0:00:00.320273s
-324/424 (SIMPJ1308+0432_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+320/424 (SIMPJ0004-2007_NIR_NIRI_Robert2016.fits) FAILED
+321/424: 2MASSJ0336-2619_NIR_SpeX_Gagne2015c, chi_r^2 = 5.7, ndof=39
+322/424: SIMPJ0946+1808_NIR_SIMON_Robert2016, chi_r^2 = 15.5, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+323/424 (2MASSJ0545-0121_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+324/424: SIMPJ1003-1441_NIR_SIMON_Robert2016, chi_r^2 = 9.6, ndof=39
+325/424: SIMPJ1308+0432_NIR_GNIRS_Robert2016, chi_r^2 = 292.2, ndof=37
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ1623-0508_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-325/424 (SIMPJ1623-0508_NIR_SpeX_Robert2016.fits) FAILED
-326/424: done in 0:00:10.451500s
+326/424 (SIMPJ1623-0508_NIR_SpeX_Robert2016.fits) FAILED
+327/424: CFBDSIR2149_OPT+NIR_X-Shooter_Delorme2012, chi_r^2 = 180.5, ndof=39
 Wavelength range of template SIMPJ1533+2044_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-327/424 (SIMPJ1533+2044_NIR_NIRI_Robert2016.fits) FAILED
-328/424: done in 0:00:00.374589s
-329/424: done in 0:00:00.331778s
-330/424: done in 0:00:00.327394s
-331/424: done in 0:00:00.400068s
-332/424: done in 0:00:00.344322s
-333/424: done in 0:00:00.420101s
+328/424 (SIMPJ1533+2044_NIR_NIRI_Robert2016.fits) FAILED
+329/424: SIMPJ1200-2836_NIR_SpeX_Robert2016, chi_r^2 = 39.6, ndof=39
+330/424: SIMPJ2250+0808_NIR_SpeX_Robert2016, chi_r^2 = 36.1, ndof=39
+331/424: SIMPJ1510-1147_NIR_SIMON_Robert2016, chi_r^2 = 22.8, ndof=39
+332/424: 2MASSJ0814+0253_NIR_SpeX_Gagne2015c, chi_r^2 = 3.4, ndof=32
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+333/424 (2MASSJ1200-3405_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+334/424: SIMPJ1035+3655_NIR_SpeX_Robert2016, chi_r^2 = 11.2, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4540,12 +4493,14 @@ I_R_A_FNAME= &#39;J2039-1126_merge&#39;   /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-334/424: done in 0:00:00.413597s
-335/424: done in 0:00:00.462830s
-336/424: done in 0:00:00.350870s
-337/424: done in 0:00:00.364221s
-338/424: done in 0:00:00.362896s
-339/424: done in 0:00:00.361082s
+335/424: 2MASSJ2039-1126_NIR_SpeX_Gagne2015c, chi_r^2 = 7.1, ndof=35
+336/424: 2MASSJ0803+0827_NIR_SpeX_Gagne2015c, chi_r^2 = 4.1, ndof=33
+337/424: SIMPJ2157-0130_NIR_SIMON_Robert2016, chi_r^2 = 24.6, ndof=39
+338/424: 2MASSJ0805+2505A_NIR_SpeX_Gagne2015c, chi_r^2 = 4.0, ndof=39
+339/424: SIMPJ1256-1002_NIR_SpeX_Robert2016, chi_r^2 = 8.2, ndof=39
+340/424: SIMPJ1118-0856_NIR_SpeX_Robert2016, chi_r^2 = 34.5, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+341/424 (2MASSJ2313-6127_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4562,16 +4517,17 @@ I_R_A_FNAME= &#39;J2313-6127_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-340/424: done in 0:00:00.416784s
-341/424: done in 0:00:00.321627s
-342/424 (SIMPJ1009+1559_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-343/424: done in 0:00:10.435554s
-344/424: done in 0:00:00.416737s
-345/424: done in 0:00:00.414730s
-346/424: done in 0:00:00.386199s
-347/424: done in 0:00:00.335646s
-348/424: done in 0:00:00.403181s
-349/424: done in 0:00:00.342314s
+342/424: SIMPJ0410+1459_NIR_SpeX_Robert2016, chi_r^2 = 16.7, ndof=39
+343/424: SIMPJ1009+1559_NIR_GNIRS_Robert2016, chi_r^2 = 254.4, ndof=35
+344/424: SIMPJ2213+1255_NIR_SpeX_Robert2016, chi_r^2 = 8.2, ndof=39
+345/424: 2MASSJ0027-0806_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 7.2, ndof=32
+346/424: 2MASSJ0507+1430B_NIR_SpeX_Gagne2015c, chi_r^2 = 3.7, ndof=39
+347/424: SIMPJ0138-0322_NIR_SIMON_Robert2016, chi_r^2 = 69.3, ndof=39
+348/424: SIMPJ0155+0950_NIR_SIMON_Robert2016, chi_r^2 = 22.4, ndof=39
+349/424: 2MASSJ1252-3415_NIR_GNIRS_Gagne2015c, chi_r^2 = 63.5, ndof=39
+350/424: 2MASSJ0153-6744_NIR_FIRE_Gagne2015c, chi_r^2 = 16.9, ndof=32
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+351/424 (2MASSJ2322-6151B_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4588,8 +4544,7 @@ I_R_A_FNAME= &#39;J2322-6151B_ALLCOMB_merge&#39; /                              
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-350/424: done in 0:00:00.377995s
-351/424: done in 0:00:00.315666s
+352/424: SIMPJ1811+2728_NIR_SpeX_Robert2016, chi_r^2 = 27.9, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4606,8 +4561,10 @@ I_R_A_F-TLM= &#39;2013-07-18T20:09:23&#39; / Time of last modification          
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-352/424: done in 0:00:00.456339s
-353/424: done in 0:00:00.440531s
+353/424: 2MASSJ1627-2411_NIR_GNIRS_Gagne2015c, chi_r^2 = 30.4, ndof=32
+354/424: 2MASSJ0021-4244_NIR_SpeX_Gagne2015c, chi_r^2 = 15.1, ndof=34
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+355/424 (2MASSJ2206-6116_NIR_FIRE_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4624,16 +4581,16 @@ I_R_A_FNAME= &#39;W2206-6116_tc.fits&#39; /                                     
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-354/424: done in 0:00:00.391086s
-355/424: done in 0:00:00.386461s
+356/424: SIMPJ2255-0725_NIR_SIMON_Robert2016, chi_r^2 = 93.6, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ1455+2619_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-356/424 (SIMPJ1455+2619_NIR_SpeX_Robert2016.fits) FAILED
-357/424: done in 0:00:00.370933s
-358/424 (SIMPJ1127+1234_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+357/424 (SIMPJ1455+2619_NIR_SpeX_Robert2016.fits) FAILED
+Unsufficient number of good points (29 &lt; 34). Tmp discarded.
+358/424 (2MASSJ0258-1520_NIR_FIRE_Gagne2015c.fits) FAILED
+359/424: SIMPJ1127+1234_NIR_GNIRS_Robert2016, chi_r^2 = 98.5, ndof=36
 Wavelength range of template SIMPJ1756+3343_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-359/424 (SIMPJ1756+3343_NIR_NIRI_Robert2016.fits) FAILED
-360/424: done in 0:00:10.294411s
+360/424 (SIMPJ1756+3343_NIR_NIRI_Robert2016.fits) FAILED
+361/424: SIMPJ0358+1039_NIR_SIMON_Robert2016, chi_r^2 = 18.2, ndof=39
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4650,15 +4607,14 @@ I_R_A_FNAME= &#39;J2257-5041_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-361/424: done in 0:00:00.355091s
+362/424: 2MASSJ2257-5041_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 8.2, ndof=32
 No indices match the constraint (floor w.r.t 0.93)
-Issue with resampling of template 2MASSJ1301-1510_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.95, 2.42)mu?
-362/424 (2MASSJ1301-1510_NIR_SpeX_Gagne2015c.fits) FAILED
-363/424: done in 0:00:00.396525s
-364/424: done in 0:00:00.335324s
-No indices match the constraint (floor w.r.t 0.93)
-Issue with resampling of template 2MASSJ2154-7459_NIR_Flamingos-2_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-365/424 (2MASSJ2154-7459_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Issue with resampling of template 2MASSJ1301-1510_NIR_SpeX_Gagne2015c.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
+363/424 (2MASSJ1301-1510_NIR_SpeX_Gagne2015c.fits) FAILED
+364/424: SIMPJ1130+2341_NIR_SpeX_Robert2016, chi_r^2 = 30.3, ndof=39
+365/424: SIMPJ0357-1937_NIR_SpeX_Robert2016, chi_r^2 = 11.9, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+366/424 (2MASSJ2154-7459_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4675,31 +4631,37 @@ I_R_A_FNAME= &#39;J2154-7459_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-366/424: done in 0:00:00.404885s
+367/424: 2MASSJ2206-4217_NIR_SpeX_Gagne2015c, chi_r^2 = 22.3, ndof=39
 Wavelength range of template SIMPJ1143+1905_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-367/424 (SIMPJ1143+1905_NIR_NIRI_Robert2016.fits) FAILED
+368/424 (SIMPJ1143+1905_NIR_NIRI_Robert2016.fits) FAILED
 Wavelength range of template SIMPJ2315+2235_NIR_NIRI_Robert2016.fits (0.98, 2.45)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-368/424 (SIMPJ2315+2235_NIR_NIRI_Robert2016.fits) FAILED
-369/424: done in 0:00:00.389927s
-370/424: done in 0:00:00.424673s
-371/424: done in 0:00:00.303943s
-372/424: done in 0:00:00.303544s
-373/424: done in 0:00:00.381679s
-374/424: done in 0:00:00.343591s
-375/424: done in 0:00:00.380747s
+369/424 (SIMPJ2315+2235_NIR_NIRI_Robert2016.fits) FAILED
+370/424: SIMPJ2248-0126_NIR_SpeX_Robert2016, chi_r^2 = 23.7, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+371/424 (2MASSJ1542-3358_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+372/424: SIMPJ0432-0639_NIR_SpeX_Robert2016, chi_r^2 = 16.4, ndof=39
+373/424: SIMPJ1644+2600_NIR_SpeX_Robert2016, chi_r^2 = 21.3, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+374/424 (2MASSJ0006-6436_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+375/424: 2MASSJ0253-7959_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 6.1, ndof=32
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+376/424 (2MASSJ0241-5511_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 Wavelength range of template SIMPJ0102+0355_NIR_GNIRS_Robert2016.fits (1.00, 2.52)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-376/424 (SIMPJ0102+0355_NIR_GNIRS_Robert2016.fits) FAILED
-377/424: done in 0:00:00.442665s
+377/424 (SIMPJ0102+0355_NIR_GNIRS_Robert2016.fits) FAILED
+378/424: 2MASSJ0449+1607_NIR_SpeX_Gagne2015c, chi_r^2 = 18.7, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ0940+2946_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-378/424 (SIMPJ0940+2946_NIR_SpeX_Robert2016.fits) FAILED
-379/424: done in 0:00:00.426017s
-380/424: done in 0:00:00.399087s
-381/424: done in 0:00:00.367248s
-382/424: done in 0:00:00.447496s
+379/424 (SIMPJ0940+2946_NIR_SpeX_Robert2016.fits) FAILED
+380/424: 2MASSJ0512-3041_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 4.3, ndof=32
+381/424: 2MASSJ0250-0151_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 12.6, ndof=32
+382/424: SIMPJ0155+0950_NIR_GNIRS_Robert2016, chi_r^2 = 31.9, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+383/424 (2MASSJ0046+0252_NIR_SpeX_Gagne2015c.fits) FAILED
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ0956-1910_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.43)mu?
-383/424 (SIMPJ0956-1910_NIR_SpeX_Robert2016.fits) FAILED
+384/424 (SIMPJ0956-1910_NIR_SpeX_Robert2016.fits) FAILED
+Unsufficient number of good points (32 &lt; 34). Tmp discarded.
+385/424 (2MASSJ2038-4118_NIR_Flamingos-2_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4716,8 +4678,7 @@ I_R_A_FNAME= &#39;J2038-4118_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-384/424: done in 0:00:00.382791s
-385/424 (SIMPJ1013-1946_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
+386/424: SIMPJ1013-1946_NIR_GNIRS_Robert2016, chi_r^2 = 275.3, ndof=37
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4734,17 +4695,24 @@ I_R_A_FNAME= &#39;J2314-5405_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-386/424: done in 0:00:10.860821s
-387/424: done in 0:00:00.440462s
-388/424 (SIMPJ1108+0838_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-389/424: done in 0:00:10.402625s
-390/424: done in 0:00:00.401881s
-391/424: done in 0:00:00.357411s
+387/424: 2MASSJ2314-5405_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.4, ndof=32
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+388/424 (2MASSJ0440-1820_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+389/424: SIMPJ1108+0838_NIR_GNIRS_Robert2016, chi_r^2 = 65.5, ndof=36
+390/424: 2MASSJ0004-1709_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 6.1, ndof=39
+391/424: 2MASSJ1325+0600_NIR_SpeX_Gagne2015c, chi_r^2 = 12.0, ndof=39
+392/424: SIMPJ2235+0418_NIR_SIMON_Robert2016, chi_r^2 = 26.5, ndof=39
 2MASSJ0017-0316_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
-392/424 (2MASSJ0017-0316_NIR_SpeX_Gagne2015c.fits) FAILED
-393/424 (SIMPJ0421-1950_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-394/424: done in 0:00:10.517240s
-395/424: done in 0:00:00.440231s
+393/424 (2MASSJ0017-0316_NIR_SpeX_Gagne2015c.fits) FAILED
+394/424: SIMPJ0421-1950_NIR_GNIRS_Robert2016, chi_r^2 = 76.4, ndof=35
+395/424: 2MASSJ0417-1140_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.3, ndof=32
+396/424: 2MASSJ0541-0737_NIR_SpeX_Gagne2015c, chi_r^2 = 13.3, ndof=32
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+397/424 (2MASSJ2134-1840_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Wavelength range of template 2MASSJ1253-4211_NIR_Flamingos-2_Gagne2015c.fits (0.90, 1.89)mu too short compared to that of observed spectrum (0.95, 2.25)mu
+398/424 (2MASSJ1253-4211_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+Unsufficient number of good points (29 &lt; 34). Tmp discarded.
+399/424 (2MASSJ1633-2425_NIR_SpeX_Gagne2015c.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4761,34 +4729,33 @@ I_R_A_FNAME= &#39;J2134-1840_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-396/424: done in 0:00:00.350674s
-Wavelength range of template 2MASSJ1253-4211_NIR_Flamingos-2_Gagne2015c.fits (0.90, 1.75)mu too short compared to that of observed spectrum (0.95, 2.25)mu
-397/424 (2MASSJ1253-4211_NIR_Flamingos-2_Gagne2015c.fits) FAILED
-398/424: done in 0:00:00.406669s
-399/424 (SIMPJ1102+1629_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-400/424: done in 0:00:10.724042s
-401/424: done in 0:00:00.399334s
-402/424: done in 0:00:00.350190s
-403/424: done in 0:00:00.360358s
-404/424: done in 0:00:00.385463s
-405/424 (SIMPJ1218-1332_NIR_GNIRS_Robert2016.fits) FAILED (simplex did not converge)
-406/424: done in 0:00:10.274905s
-407/424: done in 0:00:00.347630s
-408/424: done in 0:00:00.380562s
-409/424: done in 0:00:00.323067s
+400/424: SIMPJ1102+1629_NIR_GNIRS_Robert2016, chi_r^2 = 86.4, ndof=36
+401/424: SIMPJ0945-0757_NIR_SpeX_Robert2016, chi_r^2 = 22.6, ndof=39
+402/424: SIMPJ2322+1300_NIR_SIMON_Robert2016, chi_r^2 = 24.9, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+403/424 (2MASSJ0318-3708_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+404/424: SIMPJ1343-1216_NIR_SpeX_Robert2016, chi_r^2 = 44.5, ndof=39
+405/424: 2MASSJ0527+0007A_NIR_SpeX_Gagne2015c, chi_r^2 = 7.0, ndof=39
+406/424: SIMPJ1218-1332_NIR_GNIRS_Robert2016, chi_r^2 = 294.7, ndof=36
+407/424: 2MASSJ0854-3051_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 3.3, ndof=32
+408/424: 2MASSJ0720-5617_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 5.9, ndof=32
+409/424: SIMPJ0006-0852_NIR_GNIRS_Robert2016, chi_r^2 = 25.4, ndof=39
+410/424: SIMPJ0331+1944_NIR_SIMON_Robert2016, chi_r^2 = 58.3, ndof=39
 2MASSJ0002+0408B_NIR_SpeX_Gagne2015c.fits could not be opened. Corrupt file?
-410/424 (2MASSJ0002+0408B_NIR_SpeX_Gagne2015c.fits) FAILED
-411/424: done in 0:00:00.403932s
-412/424: done in 0:00:00.391807s
-413/424: done in 0:00:00.449213s
-414/424: done in 0:00:00.340611s
-415/424: done in 0:00:00.352992s
-416/424: done in 0:00:00.362636s
-417/424: done in 0:00:00.394638s
-418/424: done in 0:00:00.543005s
+411/424 (2MASSJ0002+0408B_NIR_SpeX_Gagne2015c.fits) FAILED
+412/424: 2MASSJ0524+0640_NIR_SpeX_Gagne2015c, chi_r^2 = 4.6, ndof=35
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+413/424 (2MASSJ0440-5126_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+414/424: 2MASSJ0720-0846_NIR_SpeX_Gagne2015c, chi_r^2 = 16.8, ndof=39
+415/424: SIMPJ1118-0856_NIR_SIMON_Robert2016, chi_r^2 = 21.0, ndof=39
+Unsufficient number of good points (31 &lt; 34). Tmp discarded.
+416/424 (2MASSJ0134-5707_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+417/424: SIMPJ2233-1331_NIR_SIMON_Robert2016, chi_r^2 = 58.4, ndof=39
+418/424: 2MASSJ0333-3215_NIR_SpeX_Gagne2015c, chi_r^2 = 4.4, ndof=33
+419/424: SIMPJ0430+1035_NIR_GNIRS_Robert2016, chi_r^2 = 258.3, ndof=39
 No indices match the constraint (floor w.r.t 0.93)
 Issue with resampling of template SIMPJ0151+3824_NIR_SpeX_Robert2016.fits. Does the wavelength range extend far enough (0.94, 2.42)mu?
-419/424 (SIMPJ0151+3824_NIR_SpeX_Robert2016.fits) FAILED
+420/424 (SIMPJ0151+3824_NIR_SpeX_Robert2016.fits) FAILED
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -4805,33 +4772,34 @@ I_R_A_FNAME= &#39;J2022-5645_ALLCOMB_merge&#39; /                               
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-420/424: done in 0:00:00.444064s
-421/424: done in 0:00:00.399248s
-422/424: done in 0:00:00.384418s
-423/424: done in 0:00:00.403806s
+421/424: 2MASSJ2022-5645_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 4.8, ndof=32
+422/424: 2MASSJ1247-3816_NIR_SpeX_Gagne2015c, chi_r^2 = 11.4, ndof=39
+Unsufficient number of good points (33 &lt; 34). Tmp discarded.
+423/424 (2MASSJ0418-4507_NIR_Flamingos-2_Gagne2015c.fits) FAILED
+424/424: 2MASSJ0423-1533_NIR_Flamingos-2_Gagne2015c, chi_r^2 = 4.1, ndof=33
 ****************************************
 
-308/424 template spectra were fitted.
+265/424 template spectra were fitted.
 
-Running time:  0:09:11.705892
+Running time:  0:09:42.351962
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-best chi:  [2.88768921 2.99549636 3.20434253]
-best scale fac:  [0.02401384 0.0112894  0.01819982]
-n_dof:  [39. 39. 39.]
-The best template #1 is: 2MASSJ0507+1430B_NIR_SpeX_Gagne2015c.fits (Delta A_V=1.7mag)
+best chi:  [2.56454217 2.72167256 2.77657102]
+best scale fac:  [8.93245112e-05 9.15374422e-03 5.63105890e-05]
+n_dof:  [33. 32. 33.]
+The best template #1 is: 2MASSJ1119-3917_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.4mag)
 
-The best template #2 is: GUPscA_NIR_SpeX_Naud2014.fits (Delta A_V=2.2mag)
+The best template #2 is: 2MASSJ0758+15300_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.2mag)
 
-The best template #3 is: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.0mag)
+The best template #3 is: 2MASSJ1153-3015_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.4mag)
 
 </pre></div></div>
 </div>
 <p>Let’s load the results, and prepare a list of short template names (for display; i.e. without the suffix):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[134]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_tmpname</span><span class="p">,</span> <span class="n">final_tmp</span><span class="p">,</span> <span class="n">final_chi</span><span class="p">,</span> <span class="n">final_params</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">final_res</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_tmpname</span><span class="p">,</span> <span class="n">final_tmp</span><span class="p">,</span> <span class="n">final_chi</span><span class="p">,</span> <span class="n">final_params</span><span class="p">,</span> <span class="n">final_ndof</span> <span class="o">=</span> <span class="n">final_res</span>
 
 <span class="n">n_end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_endswith</span><span class="p">)</span>
 <span class="n">short_tmpname</span> <span class="o">=</span> <span class="p">[</span><span class="n">final_tmpname</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="o">-</span><span class="n">n_end</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">final_tmpname</span><span class="p">))]</span>
@@ -4840,28 +4808,29 @@ The best template #3 is: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.0
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[134]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&#39;2MASSJ0507+1430B_NIR_SpeX_Gagne2015c&#39;,
- &#39;GUPscA_NIR_SpeX_Naud2014&#39;,
- &#39;2MASSJ0339-2434_NIR_SpeX_Gagne2015c&#39;]
+[&#39;2MASSJ1119-3917_NIR_SpeX_Gagne2015c&#39;,
+ &#39;2MASSJ0758+15300_NIR_SpeX_Gagne2015c&#39;,
+ &#39;2MASSJ1153-3015_NIR_SpeX_Gagne2015c&#39;]
 </pre></div></div>
 </div>
 <p>Checking in the <a class="reference external" href="https://docs.google.com/spreadsheets/d/1136rRdcjHZJoe00mt4kPeWU8ZNORcPe-w4cipkDKGRc/edit#gid=0">online table of the MSL</a>, these spectra turn out to correspond to the following types of objects:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[136]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_tmp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;young M5.5&quot;</span><span class="p">,</span> <span class="s2">&quot;young M3&quot;</span><span class="p">,</span> <span class="s2">&quot;young M5&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_tmp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;M3&quot;</span><span class="p">,</span> <span class="s2">&quot;M4&quot;</span><span class="p">,</span> <span class="s2">&quot;M4.5&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
+<p>Feel free to repeat the fit after changing the exact value of <code class="docutils literal notranslate"><span class="pre">min_npts</span></code> (e.g.~lower this value to allow more templates to be considered in the search). Although the best-fit templates may change a little, you should mostly retrieve M3-M5 spectral types as top-3 template spectra for reasonable values of <code class="docutils literal notranslate"><span class="pre">min_npts</span></code>.</p>
 <p>Let’s finally plot the best-fit template spectra, at native resolution and resampled, respectively:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[136]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[137]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.model_resampling</span> <span class="kn">import</span> <span class="n">resample_model</span>
@@ -4910,16 +4879,6 @@ The best template #3 is: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.0
     <span class="n">dlbda_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lbda_tmp_crop</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">lbda_tmp_crop</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="c1">## Convolving + resampling template spectrum</span>
-    <span class="c1">### only consider non-zero and non-nan values</span>
-    <span class="n">cond1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">flux_tmp</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">cond2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">flux_tmp_err</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">cond3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">flux_tmp</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">all_conds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">cond1</span><span class="p">,</span><span class="n">cond2</span><span class="p">,</span><span class="n">cond3</span><span class="p">))))</span>
-    <span class="n">ngood_ch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_conds</span><span class="p">)</span>
-    <span class="n">good_ch</span> <span class="o">=</span> <span class="p">(</span><span class="n">all_conds</span><span class="p">,)</span>
-    <span class="n">lbda_tmp</span> <span class="o">=</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="n">good_ch</span><span class="p">]</span>
-    <span class="n">flux_tmp</span> <span class="o">=</span> <span class="n">flux_tmp</span><span class="p">[</span><span class="n">good_ch</span><span class="p">]</span>
-    <span class="n">flux_tmp_err</span> <span class="o">=</span> <span class="n">flux_tmp_err</span><span class="p">[</span><span class="n">good_ch</span><span class="p">]</span>
     <span class="n">tmp_res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_crop</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">flux_tmp</span><span class="p">,</span>
                              <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_crop</span><span class="p">,</span>
                              <span class="n">instru_fwhm</span><span class="o">=</span><span class="n">instru_fwhm_crop</span><span class="p">,</span>
@@ -4930,7 +4889,7 @@ The best template #3 is: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.0
     <span class="c1">## formatting labels</span>
     <span class="n">lab_str_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels_tmp</span><span class="p">[</span><span class="n">ll</span><span class="p">]]</span>
     <span class="k">if</span> <span class="n">AV_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">lab_str</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\Delta A_V$={0:.</span><span class="si">{1}</span><span class="s1">f}</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">final_params</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">ll</span><span class="p">],</span><span class="n">ndig</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">lab_str</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\Delta A_V$={0:.</span><span class="si">{1}</span><span class="s1">f}</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">final_params</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">ll</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;mag&#39;</span><span class="p">)</span>
         <span class="n">lab_str_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lab_str</span><span class="p">)</span>
     <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;; &#39;</span>
     <span class="k">if</span> <span class="n">n_best</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
@@ -4942,9 +4901,9 @@ The best template #3 is: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.0
 
     <span class="c1">## plotting</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lbda_tmp_crop</span><span class="p">,</span> <span class="n">lbda_tmp_crop</span><span class="o">*</span><span class="n">flux_tmp_crop</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="n">ll</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
-             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lbda_tmp_res</span><span class="p">,</span> <span class="n">lbda_tmp_res</span><span class="o">*</span><span class="n">flux_tmp_res</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="n">ll</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
-             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 
     <span class="c1">## ticks</span>
     <span class="n">min_tick</span> <span class="o">=</span> <span class="n">lbda_crop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dlbda_crop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="p">((</span><span class="n">lbda_crop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dlbda_crop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">%</span><span class="k">0</span>.2)
@@ -4978,16 +4937,16 @@ The best template #3 is: 2MASSJ0339-2434_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.0
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Fits HDU-0 data and header successfully loaded. Data shape: (3, 4110)
-Fits HDU-0 data and header successfully loaded. Data shape: (3, 4166)
-Fits HDU-0 data and header successfully loaded. Data shape: (3, 4169)
+Fits HDU-0 data and header successfully loaded. Data shape: (3, 4142)
+Fits HDU-0 data and header successfully loaded. Data shape: (3, 4153)
+Fits HDU-0 data and header successfully loaded. Data shape: (3, 4145)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_315_1.png" src="../_images/tutorials_walkthrough_315_1.png" />
+<img alt="../_images/tutorials_walkthrough_318_1.png" src="../_images/tutorials_walkthrough_318_1.png" />
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>

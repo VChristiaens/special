@@ -194,7 +194,6 @@
 <span class="sd">        Goodness of fit indicator.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">lbda_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
     <span class="n">spec_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spec_obs</span><span class="p">)</span>
     <span class="n">err_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">err_obs</span><span class="p">)</span>
@@ -221,9 +220,12 @@
     <span class="n">n_ch</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
              
     <span class="c1"># interpolate OR convolve+bin model spectrum if not same sampling</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
-        <span class="n">spec_mod_fin</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
-                                      <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">spec_mod_fin</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                                        <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">spec_mod_fin</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                                        <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">spec_mod_fin</span> <span class="o">=</span> <span class="n">spec_mod</span>
         
@@ -237,8 +239,24 @@
         <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_ch</span><span class="p">):</span>
             <span class="n">cov</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">instru_corr</span><span class="p">[</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">]</span><span class="o">*</span><span class="n">err_obs</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">*</span><span class="n">err_obs</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> 
 
+
+    <span class="c1"># replace potential NaN values</span>
+    <span class="n">nnan_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">spec_mod_fin</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nnan_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">cov_crop</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nnan_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">cov</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">cov_crop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">nnan_idx</span><span class="p">])</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_crop</span><span class="p">)</span>    
+        <span class="n">spec_obs</span> <span class="o">=</span> <span class="n">spec_obs</span><span class="p">[</span><span class="n">nnan_idx</span><span class="p">]</span>
+        <span class="n">spec_mod_fin</span> <span class="o">=</span> <span class="n">spec_mod_fin</span><span class="p">[</span><span class="n">nnan_idx</span><span class="p">]</span>
+        <span class="n">dlbda_obs</span> <span class="o">=</span> <span class="n">dlbda_obs</span><span class="p">[</span><span class="n">nnan_idx</span><span class="p">]</span>
+        <span class="n">lbda_obs</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">nnan_idx</span><span class="p">]</span>
+        
     <span class="n">delta</span> <span class="o">=</span> <span class="n">spec_obs</span><span class="o">-</span><span class="n">spec_mod_fin</span>
     <span class="n">wi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">dlbda_obs</span><span class="p">)</span>
+    
     <span class="k">if</span> <span class="n">dlbda_obs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">/</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span><span class="o">-</span><span class="p">(</span><span class="n">dlbda_obs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">lbda_obs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="mi">2</span><span class="p">))</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
             <span class="c1"># normalize weights for their sum to be equal to the number of points</span>
@@ -267,7 +285,7 @@
     <span class="k">return</span> <span class="n">chi_sq</span></div>
 
 
-<div class="viewcode-block" id="gof_scal"><a class="viewcode-back" href="../../special.html#special.chi.gof_scal">[docs]</a><span class="k">def</span> <span class="nf">gof_scal</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+<div class="viewcode-block" id="gof_scal"><a class="viewcode-back" href="../../special.html#special.chi.gof_scal">[docs]</a><span class="k">def</span> <span class="nf">gof_scal</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
              <span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">,</span> <span class="n">ext_range</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Wrapper for the goodness of fit routine to search for best template </span>
 <span class="sd">    library fitting spectrum. The only difference with `goodness_of_fit` is </span>
@@ -289,9 +307,9 @@
 <span class="sd">        Uncertainties on the observed spectrum. If 2d array, should be [2,n_ch]</span>
 <span class="sd">        where the first (resp. second) column corresponds to lower (upper) </span>
 <span class="sd">        uncertainty, and n_ch is the length of lbda_obs and spec_obs.</span>
-<span class="sd">    lbda_mod : numpy 1d ndarray or list</span>
-<span class="sd">        Wavelength of tested model. Should have a wider wavelength extent than </span>
-<span class="sd">        the observed spectrum.</span>
+<span class="sd">    lbda_tmp : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelength of tested template or model. Should have a wider wavelength </span>
+<span class="sd">        extent than the observed spectrum.</span>
 <span class="sd">    spec_mod : numpy 1d ndarray</span>
 <span class="sd">        Model spectrum. It does not require the same wavelength sampling as the</span>
 <span class="sd">        observed spectrum. If higher spectral resolution, it will be convolved</span>
@@ -358,7 +376,7 @@
             <span class="n">thr</span> <span class="o">=</span> <span class="n">ext_range</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">AV</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">thr</span><span class="p">:</span>
                 <span class="n">AV</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">Albdas</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">AV</span><span class="p">))</span>
+            <span class="n">Albdas</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_tmp</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">AV</span><span class="p">))</span>
             <span class="n">extinc_fac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">Albdas</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">AV</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
                 <span class="n">tmp_spec</span> <span class="o">*=</span> <span class="n">extinc_fac</span>
@@ -368,7 +386,7 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;params tuple should have length 1 or 2&quot;</span><span class="p">)</span>
     
     
-    <span class="k">return</span> <span class="n">goodness_of_fit</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">tmp_spec</span><span class="p">,</span> 
+    <span class="k">return</span> <span class="n">goodness_of_fit</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">tmp_spec</span><span class="p">,</span> 
                            <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="n">instru_corr</span><span class="p">,</span> 
                            <span class="n">instru_fwhm</span><span class="o">=</span><span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span> 
                            <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">)</span></div>

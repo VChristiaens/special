@@ -104,7 +104,8 @@
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Module with configuration parameters and timing functions (inspired from VIP).</span>
+<span class="sd">Module with configuration parameters, timing functions and multiprocessing </span>
+<span class="sd">utilities (inspired from VIP).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Valentin Christiaens, C. A. Gomez Gonzalez&#39;</span>
@@ -116,7 +117,13 @@
            <span class="s1">&#39;figsize&#39;</span><span class="p">,</span>
            <span class="s1">&#39;figdpi&#39;</span><span class="p">]</span>
 
+
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">itt</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="n">multiprocessing</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s1">&#39;fork&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;―&#39;</span> <span class="o">*</span> <span class="mi">80</span>
 <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -159,6 +166,257 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span><span class="p">)</span></div>
 
+
+<span class="k">class</span> <span class="nc">Progressbar</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Show progress bars. Supports multiple backends.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        from vip_hci.var import Progressbar</span>
+<span class="sd">        Progressbar.backend = &quot;tqdm&quot;</span>
+
+<span class="sd">        from time import sleep</span>
+
+<span class="sd">        for i in Progressbar(range(50)):</span>
+<span class="sd">            sleep(0.02)</span>
+
+<span class="sd">        # or:</span>
+
+<span class="sd">        bar = Progressbar(total=50):</span>
+<span class="sd">        for i in range(50):</span>
+<span class="sd">            sleep(0.02)</span>
+<span class="sd">            bar.update()</span>
+
+<span class="sd">        # Progressbar can be disabled globally using</span>
+<span class="sd">        Progressbar.backend = &quot;hide&quot;</span>
+
+<span class="sd">        # or locally using the ``verbose`` keyword:</span>
+<span class="sd">        Progressbar(iterable, verbose=False)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - `leave` keyword is natively supported by tqdm, support could be added to</span>
+<span class="sd">      other backends too?</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;pyprind&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">backend</span> <span class="o">=</span> <span class="n">Progressbar</span><span class="o">.</span><span class="n">backend</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;hide&quot;</span>
+
+        <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;tqdm&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+            <span class="k">return</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="n">iterable</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="n">leave</span><span class="p">,</span>
+                        <span class="n">ascii</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
+                        <span class="n">bar_format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{l_bar}{bar}</span><span class="s2">| </span><span class="si">{n_fmt}</span><span class="s2">/</span><span class="si">{total_fmt}</span><span class="s2"> [{elapsed&quot;</span>
+                                   <span class="s2">&quot;}&lt;</span><span class="si">{remaining}{postfix}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="c1"># remove rate_fmt</span>
+        <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;tqdm_notebook&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm_notebook</span>
+            <span class="k">return</span> <span class="n">tqdm_notebook</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="n">iterable</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">,</span>
+                                 <span class="n">leave</span><span class="o">=</span><span class="n">leave</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;pyprind&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pyprind</span> <span class="kn">import</span> <span class="n">ProgBar</span><span class="p">,</span> <span class="n">prog_bar</span>
+            <span class="n">ProgBar</span><span class="o">.</span><span class="n">_adjust_width</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="kc">None</span>  <span class="c1"># keep constant width</span>
+            <span class="k">if</span> <span class="n">iterable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ProgBar</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">prog_bar</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">iterations</span><span class="o">=</span><span class="n">total</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;hide&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">NoProgressbar</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="n">iterable</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;unknown backend&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+        <span class="n">Progressbar</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">b</span>
+        
+        
+<span class="k">class</span> <span class="nc">NoProgressbar</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Wraps an ``iterable`` to behave like ``Progressbar``, but without</span>
+<span class="sd">    producing output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span> <span class="o">=</span> <span class="n">iterable</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">key</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    
+<span class="k">def</span> <span class="nf">eval_func_tuple</span><span class="p">(</span><span class="n">f_args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Takes a tuple of a function and args, evaluates and returns result&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">f_args</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">f_args</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+
+<span class="k">class</span> <span class="nc">FixedObj</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span>
+
+
+<span class="k">def</span> <span class="nf">iterable</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Helper function for ``pool_map``: prevents the argument from being</span>
+<span class="sd">    wrapped in ``itertools.repeat()``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        # we have a worker function whic processes a word:</span>
+
+<span class="sd">        def worker(word, method):</span>
+<span class="sd">            # ...</span>
+
+<span class="sd">        # we want to process these words in parallel fasion:</span>
+<span class="sd">        words = [&quot;lorem&quot;, &quot;ipsum&quot;, &quot;esse&quot;, &quot;ea&quot;, &quot;eiusmod&quot;]</span>
+
+<span class="sd">        # but all with</span>
+<span class="sd">        method = 1</span>
+
+<span class="sd">        # we then would use</span>
+<span class="sd">        pool_map(3, worker, iterable(words), method)</span>
+
+<span class="sd">        # this results in calling</span>
+<span class="sd">        #</span>
+<span class="sd">        # worker(words[0], 1)</span>
+<span class="sd">        # worker(words[1], 1)</span>
+<span class="sd">        # worker(words[2], 1)</span>
+<span class="sd">        # ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">FixedObj</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">pool_map</span><span class="p">(</span><span class="n">nproc</span><span class="p">,</span> <span class="n">fkt</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstraction layer for multiprocessing. When ``nproc=1``, the builtin</span>
+<span class="sd">    ``map()`` is used. For ``nproc&gt;1`` a ``multiprocessing.Pool`` is created.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nproc : int</span>
+<span class="sd">        Number of processes to use.</span>
+<span class="sd">    fkt : callable</span>
+<span class="sd">        The function to be called with each ``*args``</span>
+<span class="sd">    *args : function arguments</span>
+<span class="sd">        Arguments passed to ``fkt`` By default, ``itertools.repeat`` is applied</span>
+<span class="sd">        on all the arguments, except when you wrap the argument in</span>
+<span class="sd">        ``iterable()``.</span>
+<span class="sd">    msg : str or None, optional</span>
+<span class="sd">        Description to be displayed.</span>
+<span class="sd">    progressbar_single : bool, optional</span>
+<span class="sd">        Display a progress bar when single-processing is used. Defaults to</span>
+<span class="sd">        ``False``.</span>
+<span class="sd">    verbose : bool, optional</span>
+<span class="sd">        Show more output. Also disables the progress bar when set to ``False``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res : list</span>
+<span class="sd">        A list with the results.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;msg&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">progressbar_single</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;progressbar_single&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">_generator</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_generator&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># not exposed in docstring</span>
+
+    <span class="n">args_r</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">FixedObj</span><span class="p">)</span> <span class="k">else</span> <span class="n">itt</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">itt</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">fkt</span><span class="p">),</span> <span class="o">*</span><span class="n">args_r</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">nproc</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">progressbar_single</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">v</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">FixedObj</span><span class="p">)][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">Progressbar</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">eval_func_tuple</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_generator</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> with </span><span class="si">{}</span><span class="s2"> processes&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">nproc</span><span class="p">))</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">nproc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_generator</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">eval_func_tuple</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">eval_func_tuple</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span> <span class="nf">pool_imap</span><span class="p">(</span><span class="n">nproc</span><span class="p">,</span> <span class="n">fkt</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generator version of ``pool_map``. Useful when showing a progress bar for</span>
+<span class="sd">    multiprocessing (see examples).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nproc : int</span>
+<span class="sd">        Number of processes to use.</span>
+<span class="sd">    fkt : callable</span>
+<span class="sd">        The function to be called with each ``*args``</span>
+<span class="sd">    *args : function arguments</span>
+<span class="sd">        Arguments passed to ``fkt``</span>
+<span class="sd">    msg : str or None, optional</span>
+<span class="sd">        Description to be displayed.</span>
+<span class="sd">    progressbar_single : bool, optional</span>
+<span class="sd">        Display a progress bar when single-processing is used. Defaults to</span>
+<span class="sd">        ``True``.</span>
+<span class="sd">    verbose : bool, optional</span>
+<span class="sd">        Show more output. Also disables the progress bar when set to ``False``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        # using pool_map</span>
+
+<span class="sd">        res = pool_map(2, my_worker_function, *args)</span>
+
+<span class="sd">        # using pool_imap with a progessbar:</span>
+
+<span class="sd">        res = list(Progressbar(pool_imap(2, my_worker_function, *args)))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;_generator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">pool_map</span><span class="p">(</span><span class="n">nproc</span><span class="p">,</span> <span class="n">fkt</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">repeat</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies ``itertools.repeat`` to every ``args``.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    # instead of using</span>
+
+<span class="sd">    import itertools as itt</span>
+
+<span class="sd">    my_fkt(itt.repeat(a), itt.repeat(b), itt.repeat(c), d, itt.repeat(e))</span>
+
+<span class="sd">    # you could use `repeat`:</span>
+
+<span class="sd">    my_fkt(*repeat(a, b, c), d, *repeat(e))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">itt</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
 </pre></div>
 
            </div>
