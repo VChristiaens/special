@@ -9,10 +9,11 @@ __all__ = ['best_fit_tmp',
            'get_chi']
 
 from datetime import datetime
+from multiprocessing import cpu_count
 import numpy as np
 import os
 from scipy.optimize import minimize
-from .config import time_ini, timing, time_fin
+from .config import time_ini, timing, time_fin, pool_map, iterable
 from .chi import gof_scal
 from .model_resampling import resample_model
 from .utils_spec import extinction, find_nearest
@@ -24,7 +25,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
             search_mode='simplex', lambda_scal=None, scale_range=(0.1,10,0.01), 
             ext_range=None, dlbda_obs=None, instru_corr=None, instru_fwhm=None, 
             instru_idx=None, filter_reader=None, simplex_options=None,
-            red_chi2=True, remove_nan=False, force_continue=False, 
+            red_chi2=True, remove_nan=False, force_continue=False, min_npts=1,
             verbose=False, **kwargs):
     """ Routine calculating chi^2, optimal scaling factor and optimal 
     extinction for a given template spectrum to match an observed spectrum.
@@ -113,7 +114,11 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         be useful in an uneven spectral library, where some templates have too
         few points for the fit to be performed).
     verbose: str, optional
-        Whether to print more information when fit fails.
+        Whether to print more information when fit fails. 
+    min_npts: int or None, optional
+        Iinimum number of (resampled) points to consider a template spectrum 
+        valid in the minimization search. A Nan value will be returned for chi 
+        if the condition is not met.
     **kwargs: optional
         Optional arguments to the scipy.optimize.minimize function.
         
@@ -143,13 +148,13 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
     # look for any nan and replace
     if remove_nan:
         if np.isnan(spec_tmp).any() or np.isnan(spec_tmp_err).any():
-            bad_idx1 = np.where(np.isnan(spec_tmp))[0]
-            bad_idx2 = np.where(np.isnan(spec_tmp_err))[0]
-            all_bad = np.concatenate((bad_idx1,bad_idx2))
+            bad_idx = np.where(np.isnan(spec_tmp))[0]
+            #bad_idx2 = np.where(np.isnan(spec_tmp_err))[0]
+            #all_bad = np.concatenate((bad_idx1,bad_idx2))
             nch = len(lbda_tmp)
-            new_lbda = [lbda_tmp[i] for i in range(nch) if i not in all_bad]
-            new_spec = [spec_tmp[i] for i in range(nch) if i not in all_bad]
-            new_err = [spec_tmp_err[i] for i in range(nch) if i not in all_bad]
+            new_lbda = [lbda_tmp[i] for i in range(nch) if i not in bad_idx]
+            new_spec = [spec_tmp[i] for i in range(nch) if i not in bad_idx]
+            new_err = [spec_tmp_err[i] for i in range(nch) if i not in bad_idx]
             lbda_tmp = np.array(new_lbda)
             spec_tmp = np.array(new_spec)
             spec_tmp_err = np.array(new_err)
@@ -167,19 +172,19 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
             raise ValueError(msg.format(tmp_name, lbda_tmp[0],lbda_tmp[-1],
                                         lbda_obs[0],lbda_obs[-1]))
     
-    # resample as observed spectrum
+    # try to resample tmp as observed spectrum - just used to raise error early
     try:
-        _, spec_tmp = resample_model(lbda_obs, lbda_tmp, spec_tmp, 
+        _, spec_res = resample_model(lbda_obs, lbda_tmp, spec_tmp, 
                                      dlbda_obs=dlbda_obs, 
                                      instru_fwhm=instru_fwhm, 
-                                     instru_idx=instru_idx, 
+                                     instru_idx=instru_idx,
                                      filter_reader=filter_reader)
-        lbda_tmp, spec_tmp_err = resample_model(lbda_obs, lbda_tmp, 
-                                                spec_tmp_err, 
-                                                dlbda_obs=dlbda_obs, 
-                                                instru_fwhm=instru_fwhm, 
-                                                instru_idx=instru_idx, 
-                                                filter_reader=filter_reader)
+        # lbda_tmp, spec_tmp_err = resample_model(lbda_obs, lbda_tmp, 
+        #                                         spec_tmp_err, 
+        #                                         dlbda_obs=dlbda_obs, 
+        #                                         instru_fwhm=instru_fwhm, 
+        #                                         instru_idx=instru_idx, 
+        #                                         filter_reader=filter_reader)
     except:
         msg = "Issue with resampling of template {}. Does the wavelength "
         msg+= "range extend far enough ({:.2f}, {:.2f})mu?"
@@ -194,26 +199,28 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
     if not lambda_scal:
         lambda_scal = (lbda_obs[0]+lbda_obs[-1])/2
     idx_cen = find_nearest(lbda_obs, lambda_scal)
-    scal_fac = spec_obs[idx_cen]/spec_tmp[idx_cen]
+    idx_tmp = find_nearest(lbda_tmp, lambda_scal)
+    scal_fac = spec_obs[idx_cen]/spec_tmp[idx_tmp]
     spec_tmp*=scal_fac
-    spec_tmp_err*=scal_fac
+    #spec_tmp_err*=scal_fac
     
-    # combine observed and template uncertainties
-    # EDIT: Don't: the  best fit will be the most noisy tmp of the library!)
+    # EDIT: Don't combine observed and template uncertainties;
+    # the best fit would be the most noisy tmp of the library!)
     #err_obs = np.sqrt(np.power(spec_tmp_err,2)+np.power(err_obs,2))
     
     
     # only consider non-zero and non-nan values for chi^2 calculation
-    cond1 = np.where(np.isfinite(spec_tmp))[0]
-    cond2 = np.where(np.isfinite(err_obs))[0] 
-    cond3 = np.where(spec_tmp>0)[0]
-    all_conds = np.sort(np.unique(np.concatenate((cond1,cond2,cond3))))
+    all_conds = np.where(np.isfinite(spec_res))[0]
+    # cond2 = np.where(np.isfinite(err_obs))[0] 
+    # cond3 = np.where(spec_tmp>0)[0]
+    # all_conds = np.sort(np.unique(np.concatenate((cond1,cond2,cond3))))
     ngood_ch = len(all_conds)
-    good_ch = (all_conds,)
-    lbda_obs = lbda_obs[good_ch]
-    spec_obs = spec_obs[good_ch]
-    err_obs = err_obs[good_ch]
-    spec_tmp = spec_tmp[good_ch]
+    #good_ch = (all_conds,)
+    # lbda_obs = lbda_obs[good_ch]
+    # spec_obs = spec_obs[good_ch]
+    # err_obs = err_obs[good_ch]
+    #lbda_tmp = lbda_tmp[good_ch]
+    #spec_tmp = spec_tmp[good_ch]
     
     n_dof = ngood_ch-1-(ext_range is not None)
     if n_dof <= 0:
@@ -225,6 +232,15 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         else:
             raise ValueError(msg.format(tmp_name))
     
+    best_chi = np.inf
+    best_scal = np.nan
+    best_ext = np.nan
+    if ngood_ch < min_npts:
+        msg = "Unsufficient number of good points ({} < {}). Tmp discarded."
+        if verbose:
+            print(msg.format(ngood_ch,min_npts))
+        return best_chi, best_scal, best_ext, n_dof
+    
     # simplex search
     if search_mode == 'simplex':
         if simplex_options is None:
@@ -235,9 +251,10 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         else:
             AV_ini = (ext_range[0]+ext_range[1])/2
             p = (1,AV_ini)
+        
         try:
             res = minimize(gof_scal, p, args=(lbda_obs, spec_obs, err_obs, 
-                                              lbda_obs, spec_tmp, dlbda_obs, 
+                                              lbda_tmp, spec_tmp, dlbda_obs, 
                                               instru_corr, instru_fwhm, 
                                               instru_idx, filter_reader,
                                               ext_range),
@@ -279,7 +296,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         for cc, scal in enumerate(test_scale):
             for ee, AV in enumerate(test_ext):
                 p = (scal,AV)
-                chi[cc,ee] = gof_scal(p, lbda_obs, spec_obs, err_obs, lbda_obs, 
+                chi[cc,ee] = gof_scal(p, lbda_obs, spec_obs, err_obs, lbda_tmp, 
                                       spec_tmp, dlbda_obs=dlbda_obs, 
                                       instru_corr=instru_corr, 
                                       instru_fwhm=instru_fwhm, 
@@ -294,9 +311,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
             best_ext = test_ext[best_idx[1]]
         except:
             if force_continue:
-                best_chi = np.inf
-                best_scal = np.nan
-                best_ext = np.nan
+                return best_chi, best_scal, best_ext, n_dof
             else:
                 msg = "Issue with grid search minimization for template {}. "
                 print(msg.format(tmp_name))
@@ -321,7 +336,7 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                  instru_corr=None, instru_fwhm=None, instru_idx=None, 
                  filter_reader=None, lib_dir='tmp_lib/', tmp_endswith='.fits', 
                  red_chi2=True, remove_nan=False, nproc=1, verbosity=0, 
-                 force_continue=False, **kwargs):
+                 force_continue=False, min_npts=1, **kwargs):
     """ Finds the best fit template spectrum to a given observed spectrum, 
     within a spectral library.  By default, a single free parameter is 
     considered: the scaling factor of the spectrum. A first automatic scaling 
@@ -417,14 +432,18 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         to the wavelength sampling of the observed spectrum. Whether it is set
         to True or False, a check is made just before chi^2 is calculated 
         (after resampling), and only non-NaN values will be considered.
-    nproc: int, optional
-        The number of processes to use for parallelization.
+    nproc: None or int, optional
+        The number of processes to use for parallelization. If set to None, 
+        will automatically use half of the available CPUs on the machine.
     verbosity: 0, 1 or 2, optional
         Verbosity level. 0 for no output and 2 for full information.
     force_continue: bool, optional
         In case of issue with the fit, whether to continue regardless (this may
         be useful in an uneven spectral library, where some templates have too
         few points for the fit to be performed).
+    min_npts: int or None, optional
+        Minimum number of (resampled) points to consider a 
+        template spectrum valid in the minimization search.
     **kwargs: optional
         Optional arguments to the scipy.optimize.minimize function
          
@@ -448,14 +467,20 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
     if verbosity > 0:
         start_time = time_ini()
         int_time = start_time
-        print("{:.0f} template spectra will be tested. \n".format(n_tmp))
-        print("****************************************\n")
+        print("{:.0f} template spectra will be tested.".format(n_tmp))
     
     chi = np.ones(n_tmp)
     scal = np.ones_like(chi)
     ext = np.zeros_like(chi)
     n_dof =  np.ones_like(chi)
-    counter = 0
+    
+    if nproc is None:
+        nproc = cpu_count()//2
+        if verbosity:
+            print("{:.0f} CPUs will be used".format(nproc))
+
+    if verbosity:
+        print("****************************************\n")
     
     if nproc == 1:
         for tt in range(n_tmp):
@@ -469,21 +494,26 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                           instru_idx=instru_idx, filter_reader=filter_reader,
                           simplex_options=simplex_options, red_chi2=red_chi2,
                           remove_nan=remove_nan, force_continue=force_continue,
-                          verbose=verbosity, **kwargs)
+                          verbose=verbosity, min_npts=min_npts, **kwargs)
             chi[tt], scal[tt], ext[tt], n_dof[tt] = res
             
+            shortname = tmp_filelist[tt][:-len(tmp_endswith)]
             if not np.isfinite(chi[tt]):
                 if verbosity>0:
                     msg_err = "{:.0f}/{:.0f} ({}) FAILED"
                     if np.isnan(chi[tt]):
                         msg_err += " (simplex did not converge)"
-                    print(msg_err.format(tt, n_tmp, tmp_filelist[tt]))
+                    print(msg_err.format(tt+1, n_tmp, tmp_filelist[tt]))
             else:
-                counter +=1
                 if verbosity > 0 and tt==0:
-                    msg = "{:.0f}/{:.0f}: chi_r^2 = {:.1f}, done in {}s"
-                    indiv_time = time_fin(start_time)
-                    print(msg.format(tt+1, n_tmp, chi[tt], indiv_time))
+                    msg = "{:.0f}/{:.0f}: {}, chi_r^2 = {:.1f}, ndof={:.0f}"
+                    if verbosity>1:
+                        msg+=", done in {}s."
+                        indiv_time = time_fin(start_time)
+                        print(msg.format(tt+1, n_tmp, shortname, chi[tt], 
+                                         n_dof[tt], indiv_time))
+                    else:
+                        print(msg.format(tt+1, n_tmp, shortname, chi[tt], n_dof[tt]))
                     now = datetime.now()
                     delta_t = now.timestamp()-start_time.timestamp()
                     tot_time = np.ceil(n_tmp*delta_t/60)
@@ -492,21 +522,42 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                     print(msg.format(tot_time))
                     int_time = time_ini(verbose=False)
                 elif verbosity > 0:
-                    msg = "{:.0f}/{:.0f}: chi_r^2 = {:.1f}, done in {}s"
-                    indiv_time = time_fin(int_time)
-                    int_time = time_ini(verbose=False)
-                    print(msg.format(tt+1, n_tmp, chi[tt], indiv_time))
+                    msg = "{:.0f}/{:.0f}: {}, chi_r^2 = {:.1f}, ndof={:.0f}"
+                    if verbosity>1:
+                        msg+=" done in {}s."                    
+                        indiv_time = time_fin(int_time)
+                        int_time = time_ini(verbose=False)
+                        print(msg.format(tt+1, n_tmp, shortname, chi[tt], 
+                                         n_dof[tt], indiv_time))
+                    else:
+                        print(msg.format(tt+1, n_tmp, shortname, chi[tt],
+                                         n_dof[tt]))
+                        
+
     else:
-        raise ValueError("multiprocessing mode yet to be implemented")
+        res = pool_map(nproc, get_chi, lbda_obs, spec_obs, err_obs, 
+                       iterable(tmp_filelist), tmp_reader, search_mode, 
+                       lambda_scal, scale_range, ext_range, dlbda_obs, 
+                       instru_corr, instru_fwhm, instru_idx, filter_reader,
+                       simplex_options, red_chi2, remove_nan, force_continue,
+                       verbosity, min_npts)
+
+        res = np.array(res, dtype=object)
+        chi = res[:,0]
+        scal = res[:,1]
+        ext = res[:,2]
+        n_dof = res[:,3]
+        
+    n_success = np.sum(np.isfinite(chi))
         
     if verbosity > 0:
         print("****************************************\n")
         msg = "{:.0f}/{:.0f} template spectra were fitted. \n"
-        print(msg.format(counter, n_tmp))
+        print(msg.format(n_success, n_tmp))
         timing(start_time)
         
     return best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, 
-                      n_best=n_best, verbose=True)
+                      n_best=n_best, verbose=verbosity)
     
     
 def best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, n_best=1, 

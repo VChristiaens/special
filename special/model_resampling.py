@@ -694,7 +694,8 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                 if isinstance(instru_fwhm[i-1], (float,int)):
                     ifwhm = instru_fwhm[i-1]/(1000*np.mean(dlbda_mod))
                     gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
-                    spec_mod_conv = convolve_fft(spec_mod, gau_ker)
+                    spec_mod_conv = convolve_fft(spec_mod, gau_ker, 
+                                                 preserve_nan=True)
                     tmp = np.zeros_like(lbda_obs[np.where(instru_idx==i)])
                     for ll, lbda in enumerate(lbda_obs[np.where(instru_idx==i)]):
                         mid_lbda_f = lbda_obs-dlbda_obs/2.

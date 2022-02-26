@@ -92,7 +92,6 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         Goodness of fit indicator.
 
     """
-
     lbda_obs = np.array(lbda_obs)
     spec_obs = np.array(spec_obs)
     err_obs = np.array(err_obs)
@@ -119,9 +118,12 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
     n_ch = lbda_obs.shape[0]
              
     # interpolate OR convolve+bin model spectrum if not same sampling
-    if not np.allclose(lbda_obs, lbda_mod):
-        spec_mod_fin = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
-                                      instru_fwhm, instru_idx, filter_reader)    
+    if len(lbda_obs) != len(lbda_mod):
+        _,spec_mod_fin = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
+                                        instru_fwhm, instru_idx, filter_reader)
+    elif not np.allclose(lbda_obs, lbda_mod):
+        _,spec_mod_fin = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
+                                        instru_fwhm, instru_idx, filter_reader)
     else:
         spec_mod_fin = spec_mod
         
@@ -135,8 +137,24 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         for jj in range(n_ch):
             cov[ii,jj] = instru_corr[ii,jj]*err_obs[ii]*err_obs[jj] 
 
+
+    # replace potential NaN values
+    nnan_idx = np.where(np.isfinite(spec_mod_fin))
+    if len(nnan_idx[0])>0:
+        cov_crop = []
+        for i in range(len(lbda_obs)):
+            if i in nnan_idx[0]:
+                tmp = cov[i]
+                cov_crop.append(tmp[nnan_idx])
+        cov = np.array(cov_crop)    
+        spec_obs = spec_obs[nnan_idx]
+        spec_mod_fin = spec_mod_fin[nnan_idx]
+        dlbda_obs = dlbda_obs[nnan_idx]
+        lbda_obs = lbda_obs[nnan_idx]
+        
     delta = spec_obs-spec_mod_fin
     wi = np.ones_like(dlbda_obs)
+    
     if dlbda_obs is not None:
         if np.sum(np.power((dlbda_obs[1:]/lbda_obs[1:])-(dlbda_obs[:-1]/lbda_obs[:-1]),2))!=0:
             # normalize weights for their sum to be equal to the number of points
@@ -165,7 +183,7 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
     return chi_sq
 
 
-def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, dlbda_obs, 
+def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs, 
              instru_corr, instru_fwhm, instru_idx, filter_reader, ext_range):
     """ Wrapper for the goodness of fit routine to search for best template 
     library fitting spectrum. The only difference with `goodness_of_fit` is 
@@ -187,9 +205,9 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, dlbda_obs,
         Uncertainties on the observed spectrum. If 2d array, should be [2,n_ch]
         where the first (resp. second) column corresponds to lower (upper) 
         uncertainty, and n_ch is the length of lbda_obs and spec_obs.
-    lbda_mod : numpy 1d ndarray or list
-        Wavelength of tested model. Should have a wider wavelength extent than 
-        the observed spectrum.
+    lbda_tmp : numpy 1d ndarray or list
+        Wavelength of tested template or model. Should have a wider wavelength 
+        extent than the observed spectrum.
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
         observed spectrum. If higher spectral resolution, it will be convolved
@@ -256,7 +274,7 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, dlbda_obs,
             thr = ext_range[-1]
             if abs(AV) < thr:
                 AV = 0
-            Albdas = extinction(lbda_obs,abs(AV))
+            Albdas = extinction(lbda_tmp,abs(AV))
             extinc_fac = np.power(10.,-Albdas/2.5)
             if AV>0:
                 tmp_spec *= extinc_fac
@@ -266,7 +284,7 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, dlbda_obs,
         raise TypeError("params tuple should have length 1 or 2")
     
     
-    return goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_obs, tmp_spec, 
+    return goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_tmp, tmp_spec, 
                            dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
                            instru_fwhm=instru_fwhm, instru_idx=instru_idx, 
                            filter_reader=filter_reader)
