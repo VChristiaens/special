@@ -505,9 +505,12 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
     dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
+        Spectral channel width for the observed spectrum. It is used to infer 
+        which part(s) of a combined spectro+photometric spectrum should involve
+        convolution+subsampling (model resolution higher than measurements) or 
+        interpolation (the opposite). If not provided, will be inferred from 
+        half-difference between consecutive lbda_obs points (i.e. inaccurate 
+        for a combined spectrum).
     instru_fwhm : float or list, optional
         The instrumental spectral fwhm provided in nm. This is used to convolve
         the model spectrum. If several instruments are used, provide a list of 
