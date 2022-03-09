@@ -109,7 +109,6 @@
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Valentin Christiaens&#39;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;akaike&#39;</span><span class="p">,</span>
            <span class="s1">&#39;blackbody&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;combine_spec_corrs&#39;</span><span class="p">,</span>
            <span class="s1">&#39;convert_F_units&#39;</span><span class="p">,</span>
            <span class="s1">&#39;convert_F_vs_mag&#39;</span><span class="p">,</span>
            <span class="s1">&#39;extinction&#39;</span><span class="p">,</span>
@@ -168,52 +167,6 @@
     <span class="c1"># convert from W m-3 Sr-1 to W m-2 mu-1 Sr-1 </span>
     <span class="n">conv</span> <span class="o">=</span> <span class="mf">1e-6</span>
     <span class="k">return</span> <span class="n">fac</span><span class="o">*</span><span class="n">div</span><span class="o">*</span><span class="n">conv</span></div>
-
-
-<div class="viewcode-block" id="combine_spec_corrs"><a class="viewcode-back" href="../../special.html#special.utils_spec.combine_spec_corrs">[docs]</a><span class="k">def</span> <span class="nf">combine_spec_corrs</span><span class="p">(</span><span class="n">arr_list</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Combines the spectral correlation matrices of different instruments </span>
-<span class="sd">    into a single square matrix (required for input of spectral fit).</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    arr_list : list or tuple of numpy ndarrays</span>
-<span class="sd">        List/tuple containing the distinct square spectral correlation matrices </span>
-<span class="sd">        OR ones (for independent photometric measurements). </span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    combi_corr : numpy 2d ndarray</span>
-<span class="sd">        2d square ndarray representing the combined spectral correlation.</span>
-<span class="sd">        </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">n_arr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr_list</span><span class="p">)</span>
-    
-    <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_arr</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Arrays of the tuple should be 2d&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Arrays of the tuple should be square&quot;</span><span class="p">)</span>
-            <span class="n">size</span><span class="o">+=</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">size</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Tuple can only have square 2d arrays or ones&quot;</span><span class="p">)</span>
-            
-    <span class="n">combi_corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">size</span><span class="p">,</span><span class="n">size</span><span class="p">])</span>
-    
-    <span class="n">size_tmp</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_arr</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">mm</span> <span class="o">=</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">combi_corr</span><span class="p">[</span><span class="n">size_tmp</span><span class="p">:</span><span class="n">size_tmp</span><span class="o">+</span><span class="n">mm</span><span class="p">,</span><span class="n">size_tmp</span><span class="p">:</span><span class="n">size_tmp</span><span class="o">+</span><span class="n">mm</span><span class="p">]</span><span class="o">=</span><span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
-            <span class="n">size_tmp</span><span class="o">+=</span><span class="n">mm</span>
-        <span class="k">elif</span> <span class="n">arr_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">combi_corr</span><span class="p">[</span><span class="n">size_tmp</span><span class="p">,</span><span class="n">size_tmp</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-            <span class="n">size_tmp</span><span class="o">+=</span><span class="mi">1</span>      
-        
-    <span class="k">return</span> <span class="n">combi_corr</span></div>
 
 
 <div class="viewcode-block" id="convert_F_units"><a class="viewcode-back" href="../../special.html#special.utils_spec.convert_F_units">[docs]</a><span class="k">def</span> <span class="nf">convert_F_units</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">in_unit</span><span class="o">=</span><span class="s1">&#39;cgs&#39;</span><span class="p">,</span> <span class="n">out_unit</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">):</span>

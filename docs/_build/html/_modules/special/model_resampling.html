@@ -607,9 +607,12 @@
 <span class="sd">        linear interpolation is performed to infer the value at the observed </span>
 <span class="sd">        spectrum wavelength sampling.</span>
 <span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
-<span class="sd">        Spectral channel width for the observed spectrum. It should be provided </span>
-<span class="sd">        IF one wants to weigh each point based on the spectral </span>
-<span class="sd">        resolution of the respective instruments (as in Olofsson et al. 2016).</span>
+<span class="sd">        Spectral channel width for the observed spectrum. It is used to infer </span>
+<span class="sd">        which part(s) of a combined spectro+photometric spectrum should involve</span>
+<span class="sd">        convolution+subsampling (model resolution higher than measurements) or </span>
+<span class="sd">        interpolation (the opposite). If not provided, will be inferred from </span>
+<span class="sd">        half-difference between consecutive lbda_obs points (i.e. inaccurate </span>
+<span class="sd">        for a combined spectrum).</span>
 <span class="sd">    instru_fwhm : float or list, optional</span>
 <span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
 <span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
