@@ -1674,16 +1674,16 @@ each measured spectral correlation matrix. Dims: n_rad</p></li>
 <p>Module with utilities to estimate the spectral type and gravity of an object
 based on spectral indices.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="special.spec_indices.idx_to_spt">
-<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">idx_to_spt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'splat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#idx_to_spt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.idx_to_spt" title="Permalink to this definition"></a></dt>
-<dd><p>Converts an integer index into spectral type.
-Convention (from splat): K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
-Convention (from Allers+07): M5 = 5, L5 = 15</p>
+<dt class="sig sig-object py" id="special.spec_indices.digit_to_spt">
+<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">digit_to_spt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'splat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#digit_to_spt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.digit_to_spt" title="Permalink to this definition"></a></dt>
+<dd><p>Converts an integer index into spectral type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>idx</strong> (<em>float</em><em> or </em><em>int</em>) – Index value of the spectral type</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whther to print more information.</p></li>
+<li><p><strong>convention</strong> (<em>str</em><em>, </em><em>optional {'splat'</em><em>, </em><em>'Allers+07'}</em>) – Which convention to use to convert digit into spectral type.
+Convention from splat: K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
+Convention from Allers+07: M0 = 0, L0 = 10, …</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1696,23 +1696,46 @@ Convention (from Allers+07): M5 = 5, L5 = 15</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="special.spec_indices.sp_idx_to_spt">
-<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">sp_idx_to_spt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2O-1.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#sp_idx_to_spt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.sp_idx_to_spt" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Estimates a spectral type from a spectral index. Implemented so far:</dt><dd><ul class="simple">
-<li><p>the H2O 1.5 mu index (Allers et al. 2007)</p></li>
+<dt class="sig sig-object py" id="special.spec_indices.sp_idx_to_gravity">
+<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">sp_idx_to_gravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Na-1.1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#sp_idx_to_gravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.sp_idx_to_gravity" title="Permalink to this definition"></a></dt>
+<dd><p>Provides a qualitative estimate of the gravity/youth based on a
+gravity-sensitive spectral index. Implemented so far:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the Na-1.1 index (Allers et al. 2007)</p></li>
+<li><p>the CO-2.3 index (Gorlova et al. 2003)</p></li>
 </ul>
-</dd>
-<dt>Note on scale of SpT:</dt><dd><p>5 = M5
-15 = L5</p>
-</dd>
-</dl>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>idx</strong> (<em>float</em>) – Value of spectral index</p></li>
-<li><p><strong>line</strong> (<em>str</em><em>, </em><em>optional {'H2O-1.5'}</em>) – The line corresponding to the spectral index.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional {'Na-1.1'</em><em>, </em><em>'CO-2.3'}</em>) – The name of the spectral index.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="special.spec_indices.sp_idx_to_spt">
+<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">sp_idx_to_spt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2O-1.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">young</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#sp_idx_to_spt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.sp_idx_to_spt" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Estimates a spectral type from a spectral index. Implemented so far:</dt><dd><ul class="simple">
+<li><p>the H2O 1.3 mu index (Gorlova et al. 2003)</p></li>
+<li><p>the H2O 1.5 mu index (Allers et al. 2007)</p></li>
+<li><p>the H2O-2 index (Slesnick et al. 2004)</p></li>
+</ul>
+</dd>
+</dl>
+<p>Note on scale of SpT: 0 = M0, 10 = L0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> (<em>float</em>) – Value of spectral index</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional {'H2O-1.3'</em><em>, </em><em>'H2O-1.5</em><em>, </em><em>'H2O-2'}</em>) – The name of the spectral index.</p></li>
 <li><p><strong>idx_err</strong> (<em>float</em><em>, </em><em>optional</em>) – Uncertainty on the spectral index value</p></li>
+<li><p><strong>young</strong> (<em>bool</em><em>, </em><em>opt</em>) – Whether the object is likely young (only used for ‘H2O-1.3’ index, which
+is gravity dependent)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1727,11 +1750,14 @@ Convention (from Allers+07): M5 = 5, L5 = 15</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="special.spec_indices.spectral_idx">
-<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">spectral_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lbda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2O-1.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#spectral_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.spectral_idx" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">spectral_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lbda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2O-1.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#spectral_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.spectral_idx" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Computes a spectral index. Implemented so far:</dt><dd><ul class="simple">
-<li><p>the H2O 1.5 mu index (Allers et al. 2007)</p></li>
 <li><p>the Na 1.1 mu index (Allers et al. 2007)</p></li>
+<li><p>the H2O 1.3 mu index (Gorlova et al. 2003)</p></li>
+<li><p>the H2O 1.5 mu index (Allers et al. 2007)</p></li>
+<li><p>the H2O 2 index (Slesnick et al. 2004)</p></li>
+<li><p>the CO 2.3 index (Gorlova et al. 2003).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1740,7 +1766,8 @@ Convention (from Allers+07): M5 = 5, L5 = 15</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lbda</strong> (<em>numpy ndarray</em>) – 1d numpy array containing the wavelengths of the spectrum in microns.</p></li>
 <li><p><strong>spec</strong> (<em>numpy ndarray</em>) – 1d numpy array containing the measured flux (arbitrary units accepted).</p></li>
-<li><p><strong>line</strong> (<em>str</em><em>, </em><em>optional {'H2O-1.5'</em><em>, </em><em>'Na-1.1'}</em>) – Which line to use for the calculation of the spectral index.</p></li>
+<li><p><strong>band</strong> (<em>str</em><em>, </em><em>optional {'H2O-1.5'</em><em>, </em><em>'H2O-1.3'</em><em>, </em><em>'H2O-2'</em><em>, </em><em>'Na-1.1'</em><em>, </em><em>'CO-2.3'}</em>) – Name of the band where the spectral index is defined (spectral feature
++ wavelength in mu)</p></li>
 <li><p><strong>spec_err</strong> (<em>numpy ndarray</em><em>, </em><em>optional</em>) – 1d numpy array containing the uncertainties on the measured flux
 (arbitrary units accepted). If provided the uncertainty on the spectral
 index will also be returned.</p></li>
@@ -1758,15 +1785,17 @@ index will also be returned.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="special.spec_indices.spt_to_idx">
-<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">spt_to_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#spt_to_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.spt_to_idx" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="special.spec_indices.spt_to_digit">
+<span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">spt_to_digit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convention</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'splat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#spt_to_digit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.spt_to_digit" title="Permalink to this definition"></a></dt>
 <dd><p>Converts a string representing spectral type into an integer index.
 Convention (from splat): K0 = 0, M0=10, L0=20, T0=30, Y9 = 49</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spt</strong> (<em>str</em>) – String representing the spectral index</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whther to print more information.</p></li>
+<li><p><strong>convention</strong> (<em>str</em><em>, </em><em>optional {'splat'</em><em>, </em><em>'Allers+07'}</em>) – Which convention to use to convert digit into spectral type.
+Convention from splat: K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
+Convention from Allers+07: M0 = 0, L0 = 10, …</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

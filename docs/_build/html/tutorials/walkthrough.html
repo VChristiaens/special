@@ -876,7 +876,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </section>
 <section id="3.2-Spectral-indices">
 <h2>3.2 Spectral indices<a class="headerlink" href="#3.2-Spectral-indices" title="Permalink to this headline"></a></h2>
-<p>(Sub)stellar objects of M, L and T types have been extensively studied, such that some empirical spectral indices. Some standard spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code>. An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
+<p>(Sub)stellar objects of M, L and T types have been extensively studied. Some empirical spectral indices have been proposed to estimate either their spectral type or their gravity type from the measured flux in two parts of their spectrum. Some of these spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code> (additional inputs are welcome). An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
 <p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to the following works: Allers et al. (2007); Bonnefoy et al. (2014) and references therein.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
@@ -912,10 +912,10 @@ Na index:  (1.0142473, 0.007491888724907396)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_spt</span><span class="p">,</span> <span class="n">idx_to_spt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_spt</span><span class="p">,</span> <span class="n">digit_to_spt</span>
 
 <span class="n">spt</span><span class="p">,</span> <span class="n">spt_err</span> <span class="o">=</span> <span class="n">sp_idx_to_spt</span><span class="p">(</span><span class="n">H2O_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;H2O-1.5&#39;</span><span class="p">,</span> <span class="n">H2O_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">spt_str</span> <span class="o">=</span> <span class="n">idx_to_spt</span><span class="p">(</span><span class="n">spt</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="s1">&#39;Allers07&#39;</span><span class="p">)</span>
+<span class="n">spt_str</span> <span class="o">=</span> <span class="n">digit_to_spt</span><span class="p">(</span><span class="n">spt</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="s1">&#39;Allers07&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SpT: </span><span class="si">{}</span><span class="s2">+-</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spt_str</span><span class="p">,</span> <span class="n">spt_err</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -928,15 +928,14 @@ Na index:  (1.0142473, 0.007491888724907396)
 SpT: M5.1+-0.8
 </pre></div></div>
 </div>
-<p>The Na index on the other hand can be used to estimate the gravity (hence the youth) of an object:</p>
+<p>The Na index on the other hand can be used to provide a qualitative estimate on the gravity (hence the youth) of an object:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">Na_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">1.4</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The object&#39;s gravity is consistent with being very young (Na index less than 1.4)&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Na index does not suggest a very low gravity (i.e. it is unlikely to be very young)&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_gravity</span>
+
+<span class="n">sp_idx_to_gravity</span><span class="p">(</span><span class="n">Na_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Na-1.1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
