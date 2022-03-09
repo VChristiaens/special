@@ -119,9 +119,7 @@ def sp_idx_to_spt(idx, name='H2O-1.5', idx_err=None, young=True):
         - the H2O 1.5 mu index (Allers et al. 2007)
         - the H2O-2 index (Slesnick et al. 2004)
         
-    Note on scale of SpT:
-        5 = M5
-        15 = L5
+    Note on scale of SpT: 0 = M0, 10 = L0.
         
     Parameters
     ----------
@@ -201,10 +199,6 @@ def sp_idx_to_gravity(idx, name='Na-1.1'):
     gravity-sensitive spectral index. Implemented so far:
         - the Na-1.1 index (Allers et al. 2007)
         - the CO-2.3 index (Gorlova et al. 2003)
-        
-    Note on scale of SpT:
-        5 = M5
-        15 = L5
         
     Parameters
     ----------
