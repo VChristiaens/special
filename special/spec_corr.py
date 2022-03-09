@@ -4,8 +4,9 @@
 Module to estimate the spectral correlation between channels of an IFS datacube.
 """
 
-__author__ = 'V. Christiaens, C. Gomez Gonzalez'
-__all__ = ['spectral_correlation']
+__author__ = 'V. Christiaens'
+__all__ = ['spectral_correlation',
+           'combine_spec_corrs']
 
 from astropy.stats import gaussian_fwhm_to_sigma
 import numpy as np
@@ -138,6 +139,53 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
         return sp_corr, sp_fwhm, sp_rad
     else:
         return sp_corr
+    
+
+def combine_spec_corrs(arr_list):
+    """ Combines the spectral correlation matrices of different instruments 
+    into a single square matrix (required for input of spectral fits).
+    
+    Parameters
+    ----------
+    arr_list : list or tuple of numpy ndarrays
+        List/tuple containing the distinct square spectral correlation matrices 
+        OR ones (for independent photometric measurements). 
+
+    Returns
+    -------
+    combi_corr : numpy 2d ndarray
+        2d square ndarray representing the combined spectral correlation.
+        
+    """
+    n_arr = len(arr_list)
+    
+    size = 0
+    for nn in range(n_arr):
+        if isinstance(arr_list[nn],np.ndarray):
+            if arr_list[nn].ndim != 2:
+                raise TypeError("Arrays of the tuple should be 2d")
+            elif arr_list[nn].shape[0] != arr_list[nn].shape[1]:
+                raise TypeError("Arrays of the tuple should be square")
+            size+=arr_list[nn].shape[0]
+        elif arr_list[nn] == 1:
+            size+=1
+        else:
+            raise TypeError("Tuple can only have square 2d arrays or ones")
+            
+    combi_corr = np.zeros([size,size])
+    
+    size_tmp = 0
+    for nn in range(n_arr):
+        if isinstance(arr_list[nn],np.ndarray):
+            mm = arr_list[nn].shape[0]
+            combi_corr[size_tmp:size_tmp+mm,size_tmp:size_tmp+mm]=arr_list[nn]
+            size_tmp+=mm
+        elif arr_list[nn] == 1:
+            combi_corr[size_tmp,size_tmp]=1
+            size_tmp+=1      
+        
+    return combi_corr
+
     
     
 def get_annulus_segments(data, inner_radius, width, nsegm=1, theta_init=0,
