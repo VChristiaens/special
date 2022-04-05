@@ -32,7 +32,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                          grid_param_list, labels, bounds, resamp_before=True, 
                          model_grid=None, model_reader=None, em_lines={}, 
                          em_grid={}, dlbda_obs=None, instru_corr=None, 
-                         instru_fwhm=None, instru_idx=None, use_weights=True,
+                         instru_res=None, instru_idx=None, use_weights=True,
                          filter_reader=None, AV_bef_bb=False, units_obs='si', 
                          units_mod='si', interp_order=1, priors=None, 
                          physical=True, interp_nonexist=True, 
@@ -159,20 +159,16 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float OR list of either floats or strings, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band filter FWHM if 
-        relevant.
-        If strings are provided, they should correspond to filenames (including 
-        full paths) of text files containing the filter information for each 
-        observed wavelength. Strict format: 
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -184,7 +180,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default file reader will be used. 
+        are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
         - first row containing header
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
@@ -453,7 +449,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
             model_grid = make_resampled_models(lbda_obs, grid_param_list, 
                                                model_grid, model_reader, 
                                                em_lines, em_grid, dlbda_obs, 
-                                               instru_fwhm, instru_idx, 
+                                               instru_res, instru_idx, 
                                                filter_reader, interp_nonexist)
             if output_dir and grid_name:
                 write_fits(output_dir+grid_name, model_grid)
@@ -507,7 +503,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                       err_obs, dist, model_grid=model_grid,
                       model_reader=model_reader, em_lines=em_lines, 
                       em_grid=em_grid, dlbda_obs=dlbda_obs, 
-                      instru_corr=instru_corr, instru_fwhm=instru_fwhm, 
+                      instru_corr=instru_corr, instru_res=instru_res, 
                       instru_idx=instru_idx, use_weights=use_weights,
                       filter_reader=filter_reader, AV_bef_bb=AV_bef_bb, 
                       units_obs=units_obs, units_mod=units_mod, 

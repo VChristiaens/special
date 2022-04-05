@@ -26,7 +26,7 @@ from .utils_spec import (convert_F_units, blackbody, find_nearest, extinction,
 
 def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None, 
                            model_grid=None, model_reader=None, em_lines={}, 
-                           em_grid={}, dlbda_obs=None, instru_fwhm=None, 
+                           em_grid={}, dlbda_obs=None, instru_res=None, 
                            instru_idx=None, filter_reader=None, AV_bef_bb=False,
                            units_obs='si', units_mod='si', interp_order=1):
     """
@@ -100,24 +100,23 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         interpolation (the opposite). If not provided, will be inferred from 
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header;
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -197,7 +196,7 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
                 cond = True
             if cond:
                 lbda_mod, spec_mod = resample_model(lbda_obs, lbda_mod, spec_mod, 
-                                                    dlbda_obs, instru_fwhm, 
+                                                    dlbda_obs, instru_res, 
                                                     instru_idx, filter_reader)
             
         # convert model to same units as observed spectrum if necessary
@@ -259,7 +258,7 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
 
 def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
                           model_reader=None, em_lines={}, em_grid=None, 
-                          dlbda_obs=None, instru_fwhm=None, instru_idx=None, 
+                          dlbda_obs=None, instru_res=None, instru_idx=None, 
                           filter_reader=None, interp_nonexist=True):
     """
     Returns a cube of models after convolution and resampling as in the 
@@ -313,7 +312,7 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
         observed spectrum. If higher spectral resolution, it will be convolved
-        with the instrumental spectral psf (if instru_fwhm is provided) and 
+        with the instrumental spectral psf (if instru_res is provided) and 
         then binned to the same sampling. If lower spectral resolution, a 
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
@@ -324,24 +323,23 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
         interpolation (the opposite). If not provided, will be inferred from 
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -458,11 +456,11 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
                 # interpolate OR convolve+bin model spectrum if required
                 if len(lbda_obs) != len(lbda_mod):
                     res = resample_model(lbda_obs, lbda_mod, spec_mod, 
-                                         dlbda_obs, instru_fwhm, instru_idx, 
+                                         dlbda_obs, instru_res, instru_idx, 
                                          filter_reader)
                 elif not np.allclose(lbda_obs, lbda_mod):
                     res = resample_model(lbda_obs, lbda_mod, spec_mod, 
-                                         dlbda_obs, instru_fwhm, instru_idx, 
+                                         dlbda_obs, instru_res, instru_idx, 
                                          filter_reader)
                 else:
                     res = np.array([lbda_obs, spec_mod])
@@ -472,10 +470,10 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
             # interpolate OR convolve+bin model spectrum if not same sampling
             if len(lbda_obs) != len(lbda_mod):
                 res = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
-                                     instru_fwhm, instru_idx, filter_reader)
+                                     instru_res, instru_idx, filter_reader)
             elif not np.allclose(lbda_obs, lbda_mod):
                 res = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
-                                     instru_fwhm, instru_idx, filter_reader)
+                                     instru_res, instru_idx, filter_reader)
             else:
                 res = np.array([lbda_obs, spec_mod])
                 
@@ -506,7 +504,7 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
         observed spectrum. If higher spectral resolution, it will be convolved
-        with the instrumental spectral psf (if instru_fwhm is provided) and 
+        with the instrumental spectral psf (if instru_res is provided) and 
         then binned to the same sampling. If lower spectral resolution, a 
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
@@ -525,15 +523,15 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -669,7 +667,7 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     ## convolve+bin where the model spectrum has higher resolution (most likely)
     if np.sum(do_interp) < n_ch or dlbda_obs_min > 0:
     # Note: if dlbda_obs_min < 0, it means several instruments are used with 
-    # overlapping WL ranges. instru_fwhm should be provided!
+    # overlapping WL ranges. instru_res should be provided!
         if instru_res is None:
             msg = "Warning! No spectral resolution nor filter file provided"
             msg+= " => binning without convolution"

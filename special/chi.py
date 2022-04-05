@@ -15,7 +15,7 @@ from .model_resampling import resample_model
 from .utils_spec import extinction
 
 def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, 
-                    dlbda_obs=None, instru_corr=None, instru_fwhm=None, 
+                    dlbda_obs=None, instru_corr=None, instru_res=None, 
                     instru_idx=None, use_weights=True, filter_reader=None, 
                     plot=False, outfile=None):
     """ Function to estimate the goodness of fit indicator defined as 
@@ -43,7 +43,7 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
         observed spectrum. If higher spectral resolution, it will be convolved
-        with the instrumental spectral psf (if instru_fwhm is provided) and 
+        with the instrumental spectral psf (if instru_res is provided) and 
         then binned to the same sampling. If lower spectral resolution, a 
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
@@ -60,17 +60,16 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -82,7 +81,7 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -125,10 +124,10 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
     # interpolate OR convolve+bin model spectrum if not same sampling
     if len(lbda_obs) != len(lbda_mod):
         _,spec_mod_fin = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
-                                        instru_fwhm, instru_idx, filter_reader)
+                                        instru_res, instru_idx, filter_reader)
     elif not np.allclose(lbda_obs, lbda_mod):
         _,spec_mod_fin = resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs, 
-                                        instru_fwhm, instru_idx, filter_reader)
+                                        instru_res, instru_idx, filter_reader)
     else:
         spec_mod_fin = spec_mod
         
@@ -190,7 +189,7 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
 
 
 def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs, 
-             instru_corr, instru_fwhm, instru_idx, use_weights, filter_reader, 
+             instru_corr, instru_res, instru_idx, use_weights, filter_reader, 
              ext_range):
     """ Wrapper for the goodness of fit routine to search for best template 
     library fitting spectrum. The only difference with `goodness_of_fit` is 
@@ -218,7 +217,7 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
         observed spectrum. If higher spectral resolution, it will be convolved
-        with the instrumental spectral psf (if instru_fwhm is provided) and 
+        with the instrumental spectral psf (if instru_res is provided) and 
         then binned to the same sampling. If lower spectral resolution, a 
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
@@ -235,17 +234,16 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -257,7 +255,7 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -298,5 +296,5 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
     
     return goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_tmp, tmp_spec, 
                            dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
-                           instru_fwhm=instru_fwhm, instru_idx=instru_idx, 
+                           instru_res=instru_res, instru_idx=instru_idx, 
                            use_weights=use_weights, filter_reader=filter_reader)

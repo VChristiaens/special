@@ -116,7 +116,7 @@ def lnprior(params, labels, bounds, priors=None):
 
 def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist, 
            model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
-           dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
+           dlbda_obs=None, instru_corr=None, instru_res=None, instru_idx=None, 
            use_weights=True, filter_reader=None, AV_bef_bb=False, 
            units_obs='si', units_mod='si', interp_order=1):
     """ Define the likelihood log-function.
@@ -206,17 +206,16 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -228,7 +227,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -265,7 +264,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
     lbda_mod, spec_mod = make_model_from_params(params, labels, grid_param_list, 
                                                 dist, lbda_obs, model_grid, 
                                                 model_reader, em_lines, em_grid, 
-                                                dlbda_obs, instru_fwhm, 
+                                                dlbda_obs, instru_res, 
                                                 instru_idx, filter_reader, 
                                                 AV_bef_bb, units_obs, units_mod, 
                                                 interp_order)
@@ -273,7 +272,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
     # evaluate the goodness of fit indicator
     chi = goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, 
                           dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
-                          instru_fwhm=instru_fwhm, instru_idx=instru_idx, 
+                          instru_res=instru_res, instru_idx=instru_idx, 
                           use_weights=use_weights, filter_reader=filter_reader, 
                           plot=False, outfile=None)
     
@@ -285,7 +284,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
 
 def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs, 
            dist, model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
-           dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
+           dlbda_obs=None, instru_corr=None, instru_res=None, instru_idx=None, 
            use_weights=True, filter_reader=None, AV_bef_bb=False, 
            units_obs='si', units_mod='si', interp_order=1, priors=None, 
            physical=True):
@@ -386,17 +385,16 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -408,7 +406,7 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -491,7 +489,7 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         
     return lp + lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, 
                             err_obs, dist, model_grid, model_reader, em_lines,
-                            em_grid, dlbda_obs, instru_corr, instru_fwhm, 
+                            em_grid, dlbda_obs, instru_corr, instru_res, 
                             instru_idx, use_weights, filter_reader, AV_bef_bb, 
                             units_obs, units_mod, interp_order)
 
@@ -500,7 +498,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                        initial_state, labels, bounds, resamp_before=True, 
                        model_grid=None, model_reader=None, em_lines={}, 
                        em_grid={}, dlbda_obs=None, instru_corr=None, 
-                       instru_fwhm=None, instru_idx=None, use_weights=True,
+                       instru_res=None, instru_idx=None, use_weights=True,
                        filter_reader=None, AV_bef_bb=False, units_obs='si',
                        units_mod='si', interp_order=1, priors=None, 
                        physical=True, interp_nonexist=True, ini_ball=1e-1, 
@@ -525,7 +523,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     * Spectral correlation between measurements will be taken into account \ 
     if provided in 'instru_corr'.
     * Convolution of the model spectra with instrumental FWHM or \
-    photometric filter can be performed using 'instru_fwhm' and/or \
+    photometric filter can be performed using 'instru_res' and/or \
     'filter_reader' (done before resampling to observed).
     * The weight of each observed point will be directly proportional to \
     Delta lbda_i/lbda_i, where Delta lbda_i is either the FWHM of the \
@@ -653,20 +651,16 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         `spec_corr.combine_corrs()`. If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float OR list of either floats or strings, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band filter FWHM if 
-        relevant.
-        If strings are provided, they should correspond to filenames (including 
-        full paths) of text files containing the filter information for each 
-        observed wavelength. Strict format: 
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -678,7 +672,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default file reader will be used. 
+        are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
         - first row containing header
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
@@ -926,7 +920,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
             model_grid = make_resampled_models(lbda_obs, grid_param_list, 
                                                model_grid, model_reader, 
                                                em_lines, em_grid, dlbda_obs, 
-                                               instru_fwhm, instru_idx, 
+                                               instru_res, instru_idx, 
                                                filter_reader, interp_nonexist)
             if output_dir and grid_name:
                 write_fits(output_dir+grid_name, model_grid)
@@ -982,7 +976,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                                            lbda_obs, spec_obs, err_obs, dist,
                                            model_grid, model_reader, em_lines,
                                            em_grid, dlbda_obs, instru_corr, 
-                                           instru_fwhm,instru_idx, use_weights,
+                                           instru_res, instru_idx, use_weights,
                                            filter_reader, AV_bef_bb, units_obs, 
                                            units_mod, interp_order, priors, 
                                            physical]),

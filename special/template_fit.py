@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader, 
             search_mode='simplex', lambda_scal=None, scale_range=(0.1,10,0.01), 
-            ext_range=None, dlbda_obs=None, instru_corr=None, instru_fwhm=None, 
+            ext_range=None, dlbda_obs=None, instru_corr=None, instru_res=None, 
             instru_idx=None, use_weights=True, filter_reader=None, 
             simplex_options=None, red_chi2=True, remove_nan=False, 
             force_continue=False, min_npts=1, verbose=False, **kwargs):
@@ -79,17 +79,16 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     use_weights: bool, optional
@@ -101,7 +100,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default format assumed for the files:
+        are detected in instru_res, the default format assumed for the files:
         - first row containing header
         - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
         Note: files should all have the same format and wavelength units.
@@ -181,15 +180,9 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
     try:
         _, spec_res = resample_model(lbda_obs, lbda_tmp, spec_tmp, 
                                      dlbda_obs=dlbda_obs, 
-                                     instru_fwhm=instru_fwhm, 
+                                     instru_res=instru_res, 
                                      instru_idx=instru_idx,
                                      filter_reader=filter_reader)
-        # lbda_tmp, spec_tmp_err = resample_model(lbda_obs, lbda_tmp, 
-        #                                         spec_tmp_err, 
-        #                                         dlbda_obs=dlbda_obs, 
-        #                                         instru_fwhm=instru_fwhm, 
-        #                                         instru_idx=instru_idx, 
-        #                                         filter_reader=filter_reader)
     except:
         msg = "Issue with resampling of template {}. Does the wavelength "
         msg+= "range extend far enough ({:.2f}, {:.2f})mu?"
@@ -260,7 +253,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         try:
             res = minimize(gof_scal, p, args=(lbda_obs, spec_obs, err_obs, 
                                               lbda_tmp, spec_tmp, dlbda_obs, 
-                                              instru_corr, instru_fwhm, 
+                                              instru_corr, instru_res, 
                                               instru_idx, use_weights, 
                                               filter_reader, ext_range),
                            method='Nelder-Mead', options=simplex_options, 
@@ -304,7 +297,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
                 chi[cc,ee] = gof_scal(p, lbda_obs, spec_obs, err_obs, lbda_tmp, 
                                       spec_tmp, dlbda_obs=dlbda_obs, 
                                       instru_corr=instru_corr, 
-                                      instru_fwhm=instru_fwhm, 
+                                      instru_res=instru_res, 
                                       instru_idx=instru_idx, 
                                       use_weights=use_weights,
                                       filter_reader=filter_reader,
@@ -339,7 +332,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
 def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                  n_best=1, lambda_scal=None, scale_range=(0.1,10,0.01), 
                  ext_range=None, simplex_options=None, dlbda_obs=None, 
-                 instru_corr=None, instru_fwhm=None, instru_idx=None, 
+                 instru_corr=None, instru_res=None, instru_idx=None, 
                  filter_reader=None, lib_dir='tmp_lib/', tmp_endswith='.fits', 
                  red_chi2=True, remove_nan=False, nproc=1, verbosity=0, 
                  force_continue=False, min_npts=1, **kwargs):
@@ -401,27 +394,23 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         distances.combine_corrs(). If not provided, it will consider the 
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
-    instru_fwhm : float OR list of either floats or strings, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band filter FWHM if 
-        relevant.
-        If strings are provided, they should correspond to filenames (including 
-        full paths) of text files containing the filter information for each 
-        observed wavelength. Strict format: 
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_fwhm provided above, and i in 
-        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
+        that don't correspond to any instru_res provided above, and i in 
+        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_fwhm, the default file reader will be used. 
+        are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
         - first row containing header
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
@@ -496,7 +485,7 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
                           tmp_reader, search_mode=search_mode, 
                           scale_range=scale_range, ext_range=ext_range,
                           lambda_scal=lambda_scal, dlbda_obs=dlbda_obs, 
-                          instru_corr=instru_corr, instru_fwhm=instru_fwhm, 
+                          instru_corr=instru_corr, instru_res=instru_res, 
                           instru_idx=instru_idx, filter_reader=filter_reader,
                           simplex_options=simplex_options, red_chi2=red_chi2,
                           remove_nan=remove_nan, force_continue=force_continue,
@@ -544,7 +533,7 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         res = pool_map(nproc, get_chi, lbda_obs, spec_obs, err_obs, 
                        iterable(tmp_filelist), tmp_reader, search_mode, 
                        lambda_scal, scale_range, ext_range, dlbda_obs, 
-                       instru_corr, instru_fwhm, instru_idx, filter_reader,
+                       instru_corr, instru_res, instru_idx, filter_reader,
                        simplex_options, red_chi2, remove_nan, force_continue,
                        verbosity, min_npts)
 
