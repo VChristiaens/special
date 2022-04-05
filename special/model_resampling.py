@@ -94,9 +94,12 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         grid during the MCMC sampling. Dict entries should match labels and 
         em_lines.
     dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
+        Spectral channel width for the observed spectrum. It is used to infer 
+        which part(s) of a combined spectro+photometric spectrum should involve
+        convolution+subsampling (model resolution higher than measurements) or 
+        interpolation (the opposite). If not provided, will be inferred from 
+        half-difference between consecutive lbda_obs points (i.e. inaccurate 
+        for a combined spectrum).
     instru_fwhm : float or list, optional
         The instrumental spectral fwhm provided in nm. This is used to convolve
         the model spectrum. If several instruments are used, provide a list of 
@@ -315,9 +318,12 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
     dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
+        Spectral channel width for the observed spectrum. It is used to infer 
+        which part(s) of a combined spectro+photometric spectrum should involve
+        convolution+subsampling (model resolution higher than measurements) or 
+        interpolation (the opposite). If not provided, will be inferred from 
+        half-difference between consecutive lbda_obs points (i.e. inaccurate 
+        for a combined spectrum).
     instru_fwhm : float or list, optional
         The instrumental spectral fwhm provided in nm. This is used to convolve
         the model spectrum. If several instruments are used, provide a list of 
@@ -398,9 +404,9 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
             except:
                 msg= "Model does not exist for param combination ({})"
                 print(msg.format(params_tmp))
-                print("Press c if you wish to interpolate that model from neighbours")
-                pdb.set_trace()
                 if interp_nonexist:
+                    print("Press c if you wish to interpolate that model from neighbours")
+                    pdb.set_trace()
                     # find for which dimension the model doesn't exist;
                     for qq in range(n_params):
                         interp_params1=[]
@@ -482,7 +488,7 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
 
  
 def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None, 
-                   instru_fwhm=None, instru_idx=None, filter_reader=None,
+                   instru_res=None, instru_idx=None, filter_reader=None,
                    no_constraint=False, verbose=False):
     """
     Convolve, interpolate and resample a model spectrum to match observed 
@@ -511,12 +517,11 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         interpolation (the opposite). If not provided, will be inferred from 
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
-    instru_fwhm : float or list, optional
-        The instrumental spectral fwhm provided in nm. This is used to convolve
-        the model spectrum. If several instruments are used, provide a list of 
-        instru_fwhm values, one for each instrument whose spectral resolution
-        is coarser than the model - including broad band
-        filter FWHM if relevant.
+    instru_res : float or list of floats/strings, optional
+        The instrumental spectral resolution or filter names. This is used to 
+        convolve the model spectrum. If several instruments are used, provide a 
+        list of spectral resolution values / filter names, one for each 
+        instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
@@ -581,24 +586,16 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     if verbose:
         print("checking whether WL samplings are the same for obs and model")        
         
-    if isinstance(instru_fwhm, float) or isinstance(instru_fwhm, int):
-        instru_fwhm = [instru_fwhm]
+    if isinstance(instru_res, float) or isinstance(instru_res, int):
+        instru_res = [instru_res]
     cond = False
     if len(lbda_obs) != len(lbda_mod):
         cond = True
     elif not np.allclose(lbda_obs, lbda_mod):
         cond = True
     if cond:
-        lbda_min = lbda_obs[0]-dlbda_obs[0]
-        lbda_max = lbda_obs[-1]+dlbda_obs[-1]
-        try:
-            lbda_min_tmp = min(lbda_min,lbda_obs[0]-3*np.amax(instru_fwhm)/1000)
-            lbda_max_tmp = max(lbda_max,lbda_obs[-1]+3*np.amax(instru_fwhm)/1000)
-            if lbda_min_tmp > 0:
-                lbda_min = lbda_min_tmp
-                lbda_max = lbda_max_tmp
-        except:
-            pass
+        lbda_min = lbda_obs[0]-1.5*dlbda_obs[0]
+        lbda_max = lbda_obs[-1]+1.5*dlbda_obs[-1]
             
         if no_constraint:
             idx_ini = find_nearest(lbda_mod, lbda_min)
@@ -673,8 +670,8 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     if np.sum(do_interp) < n_ch or dlbda_obs_min > 0:
     # Note: if dlbda_obs_min < 0, it means several instruments are used with 
     # overlapping WL ranges. instru_fwhm should be provided!
-        if instru_fwhm is None:
-            msg = "Warning! No spectral FWHM nor filter file provided"
+        if instru_res is None:
+            msg = "Warning! No spectral resolution nor filter file provided"
             msg+= " => binning without convolution"
             print(msg)
             for ll, lbda in enumerate(lbda_obs):
@@ -693,27 +690,41 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
             elif not isinstance(instru_idx, np.ndarray):
                 instru_idx = np.array([1]*n_ch)
     
-            for i in range(1,len(instru_fwhm)+1):
-                if isinstance(instru_fwhm[i-1], (float,int)):
-                    ifwhm = instru_fwhm[i-1]/(1000*np.mean(dlbda_mod))
-                    gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
-                    spec_mod_conv = convolve_fft(spec_mod, gau_ker, 
-                                                 preserve_nan=True)
+            for i in range(1,len(instru_res)+1):
+                # MODIFY HERE: use SPECTRAL RESOLUTION INSTEAD OF FIXED FWHM!!
+                if isinstance(instru_res[i-1], (float,int)):
                     tmp = np.zeros_like(lbda_obs[np.where(instru_idx==i)])
                     for ll, lbda in enumerate(lbda_obs[np.where(instru_idx==i)]):
+                        # crop spec_mod to relevant wavelengths only
+                        mid_lbda_0 = lbda_obs-dlbda_obs
+                        mid_lbda_N = lbda_obs+dlbda_obs
+                        i_0 = find_nearest(lbda_mod,
+                                           mid_lbda_0[np.where(instru_idx==i)][ll])
+                        i_N = find_nearest(lbda_mod,
+                                           mid_lbda_N[np.where(instru_idx==i)][ll])
+                        spec_mod_tmp = spec_mod[i_0:i_N]
+                        lbda_mod_tmp = lbda_mod[i_0:i_N]
+                        # infer local dlbda_mod
+                        dlbda_mod = np.mean(lbda_mod_tmp[1:]-lbda_mod_tmp[:-1])
+                        # determine FWHM
+                        ifwhm = instru_res[i-1]*lbda/dlbda_mod # FWHM in # channels
+                        gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
+                        # actual convolution
+                        spec_mod_conv = convolve_fft(spec_mod_tmp, gau_ker, 
+                                                     preserve_nan=True)
                         mid_lbda_f = lbda_obs-dlbda_obs/2.
                         mid_lbda_l = lbda_obs+dlbda_obs/2.
-                        i_f = find_nearest(lbda_mod,
+                        i_f = find_nearest(lbda_mod_tmp,
                                            mid_lbda_f[np.where(instru_idx==i)][ll])
-                        i_l = find_nearest(lbda_mod,
+                        i_l = find_nearest(lbda_mod_tmp,
                                            mid_lbda_l[np.where(instru_idx==i)][ll])
                         tmp[ll] = np.mean(spec_mod_conv[i_f:i_l+1])
                     spec_mod_res[np.where(instru_idx==i)] = tmp  
-                elif isinstance(instru_fwhm[i-1], str):
+                elif isinstance(instru_res[i-1], str):
                     if filter_reader is not None:
-                        lbda_filt, trans = filter_reader(instru_fwhm[i-1])
+                        lbda_filt, trans = filter_reader(instru_res[i-1])
                     else:
-                        lbda_filt, trans = _default_file_reader(instru_fwhm[i-1])
+                        lbda_filt, trans = _default_file_reader(instru_res[i-1])
                     idx_ini = find_nearest(lbda_mod, lbda_filt[0], 
                                            constraint='ceil')
                     idx_fin = find_nearest(lbda_mod, lbda_filt[-1], 
@@ -724,9 +735,9 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                     denom = np.sum(interp_trans*dlbda_mod[idx_ini:idx_fin])
                     spec_mod_res[np.where(instru_idx==i)] = num/denom
                 else:
-                    msg = "instru_fwhm is a {}, while it should be either a"
+                    msg = "instru_res is a {}, while it should be either a"
                     msg+= " scalar or a string"
-                    raise TypeError(msg.format(type(instru_fwhm[i-1])))
+                    raise TypeError(msg.format(type(instru_res[i-1])))
 
     return np.array([lbda_obs, spec_mod_res])
 
