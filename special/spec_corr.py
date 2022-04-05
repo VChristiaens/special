@@ -33,10 +33,10 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
     r_in: int, optional
         Innermost radius where the spectral correlation starts to be computed.
     r_out: int, optional
-        Outermost radius where the spectral correlation is computed.If left as 
+        Outermost radius where the spectral correlation is computed. If left as 
         None, it will automatically be computed up to the edge of the frame. 
     pl_xy: tuple of tuples of 2 floats, optional
-        x,y coordiantes of all companions present in the images. If provided, 
+        x,y coordinates of all companions present in the images. If provided, 
         a circle centered on the location of each companion will be masked out 
         for the spectral correlation computation.
     mask_r: float, optional
@@ -83,7 +83,7 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
         r_out = n_r
 
     test_rads = np.arange(r_in-1,r_out-1)
-    n_rad = int(np.floor(test_rads.shape[0]/awidth))
+    n_rad = max(1,int(np.floor(test_rads.shape[0]/awidth)))
     
     #n_rad = int(np.ceil(n_r/ann_width)) # effective number of annuli probed
     
