@@ -117,8 +117,8 @@ def lnprior(params, labels, bounds, priors=None):
 def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist, 
            model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
            dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
-           filter_reader=None, AV_bef_bb=False, units_obs='si', units_mod='si', 
-           interp_order=1):
+           use_weights=True, filter_reader=None, AV_bef_bb=False, 
+           units_obs='si', units_mod='si', interp_order=1):
     """ Define the likelihood log-function.
     
     Parameters
@@ -219,6 +219,11 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -269,7 +274,8 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
     chi = goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, 
                           dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
                           instru_fwhm=instru_fwhm, instru_idx=instru_idx, 
-                          filter_reader=filter_reader, plot=False, outfile=None)
+                          use_weights=use_weights, filter_reader=filter_reader, 
+                          plot=False, outfile=None)
     
     # log likelihood
     lnlikelihood = -0.5 * chi
@@ -280,8 +286,9 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
 def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs, 
            dist, model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
            dlbda_obs=None, instru_corr=None, instru_fwhm=None, instru_idx=None, 
-           filter_reader=None, AV_bef_bb=False, units_obs='si', units_mod='si', 
-           interp_order=1, priors=None, physical=True):
+           use_weights=True, filter_reader=None, AV_bef_bb=False, 
+           units_obs='si', units_mod='si', interp_order=1, priors=None, 
+           physical=True):
     """ Define the probability log-function as the sum between the prior and
     likelihood log-functions.
     
@@ -392,6 +399,11 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.        
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -480,24 +492,25 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
     return lp + lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, 
                             err_obs, dist, model_grid, model_reader, em_lines,
                             em_grid, dlbda_obs, instru_corr, instru_fwhm, 
-                            instru_idx, filter_reader, AV_bef_bb, units_obs, 
-                            units_mod, interp_order)
+                            instru_idx, use_weights, filter_reader, AV_bef_bb, 
+                            units_obs, units_mod, interp_order)
 
 
 def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list, 
                        initial_state, labels, bounds, resamp_before=True, 
                        model_grid=None, model_reader=None, em_lines={}, 
                        em_grid={}, dlbda_obs=None, instru_corr=None, 
-                       instru_fwhm=None, instru_idx=None, filter_reader=None, 
-                       AV_bef_bb=False, units_obs='si', units_mod='si', 
-                       interp_order=1, priors=None, physical=True, 
-                       interp_nonexist=True, ini_ball=1e-1, a=2.0, 
-                       nwalkers=1000, niteration_min=10, niteration_limit=1000, 
-                       niteration_supp=0, check_maxgap=20, conv_test='ac', 
-                       ac_c=50, ac_count_thr=3, burnin=0.3, rhat_threshold=1.01, 
-                       rhat_count_threshold=1, grid_name='resamp_grid.fits', 
-                       output_dir='special/', output_file=None, nproc=1, 
-                       display=False, verbosity=0, save=False):
+                       instru_fwhm=None, instru_idx=None, use_weights=True,
+                       filter_reader=None, AV_bef_bb=False, units_obs='si',
+                       units_mod='si', interp_order=1, priors=None, 
+                       physical=True, interp_nonexist=True, ini_ball=1e-1, 
+                       a=2.0, nwalkers=1000, niteration_min=10, 
+                       niteration_limit=1000, niteration_supp=0, 
+                       check_maxgap=20, conv_test='ac', ac_c=50, ac_count_thr=3, 
+                       burnin=0.3, rhat_threshold=1.01, rhat_count_threshold=1, 
+                       grid_name='resamp_grid.fits', output_dir='special/', 
+                       output_file=None, nproc=1, display=False, verbosity=0, 
+                       save=False):
     """ Runs an affine invariant MCMC sampling algorithm in order to determine
     the most likely parameters for given spectral model and observed spectrum. 
     Allowed features:
@@ -623,9 +636,14 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         grid during the MCMC sampling. Dict entries should match labels and 
         em_lines.
     dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
+        Respective spectral channel width and FWHM of the photometric filters 
+        used for the input spectrum. It is used to infer which part(s) of a 
+        combined spectro+photometric spectrum should involve 
+        convolution+subsampling (model resolution higher than measurements),
+        interpolation (the opposite), or convolution by the transmission curve
+        of a photometric filter. If not provided, it will be inferred from the
+        difference between consecutive lbda_obs points (i.e. inaccurate for a 
+        combined spectrum).
     instru_corr : numpy 2d ndarray or list, optional
         Spectral correlation throughout post-processed images in which the 
         spectrum is measured. It is specific to the combination of instrument, 
@@ -651,6 +669,11 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -959,9 +982,10 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                                            lbda_obs, spec_obs, err_obs, dist,
                                            model_grid, model_reader, em_lines,
                                            em_grid, dlbda_obs, instru_corr, 
-                                           instru_fwhm,instru_idx,filter_reader, 
-                                           AV_bef_bb, units_obs, units_mod, 
-                                           interp_order, priors, physical]),
+                                           instru_fwhm,instru_idx, use_weights,
+                                           filter_reader, AV_bef_bb, units_obs, 
+                                           units_mod, interp_order, priors, 
+                                           physical]),
                                     threads=nproc)
                                     
     start = datetime.datetime.now()

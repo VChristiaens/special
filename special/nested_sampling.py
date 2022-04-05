@@ -2,19 +2,24 @@
 
 """
 Module with functions for posterior sampling of the model spectra parameters 
-using nested sampling (``nestle``).
+using nested sampling (either ``nestle`` or ``ultranest`` samplers).
 """
 
 
 
-__author__ = 'V. Christiaens, C. A. Gomez Gonzalez',
+__author__ = 'V. Christiaens',
 __all__ = ['nested_spec_sampling',
-           'nested_sampling_results']
+           'show_nestle_results',
+           'show_ultranest_results']
 
 from astropy import constants as con
 import nestle
+import ultranest
+from ultranest.plot import cornerplot, PredictionBand
 import numpy as np
 from matplotlib import pyplot as plt
+import pandas as pd
+
 from .config import time_ini, timing
 from .fits import open_fits, write_fits
 from .mcmc_sampling import lnlike, confidence, show_walk_plot, show_corner_plot
@@ -27,21 +32,21 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                          grid_param_list, labels, bounds, resamp_before=True, 
                          model_grid=None, model_reader=None, em_lines={}, 
                          em_grid={}, dlbda_obs=None, instru_corr=None, 
-                         instru_fwhm=None, instru_idx=None, filter_reader=None, 
-                         AV_bef_bb=False, units_obs='si', units_mod='si', 
-                         interp_order=1, priors=None, physical=True, 
-                         interp_nonexist=True, output_dir='special/', 
-                         grid_name='resamp_grid.fits', method='single', 
-                         npoints=100, dlogz=0.1, decline_factor=None, 
-                         rstate=None, verbose=True, **kwargs):
+                         instru_fwhm=None, instru_idx=None, use_weights=True,
+                         filter_reader=None, AV_bef_bb=False, units_obs='si', 
+                         units_mod='si', interp_order=1, priors=None, 
+                         physical=True, interp_nonexist=True, 
+                         output_dir='special/', grid_name='resamp_grid.fits', 
+                         sampler='ultranest', method='single', npoints=100, 
+                         dlogz=0.1, decline_factor=None, rstate=None, verbose=True, 
+                         **kwargs):
                             
     
-    """ Runs a nested sampling algorithm in order to determine the position and
-    the flux of the planet using the 'Negative Fake Companion' technique. The
-    result of this procedure is a a ``nestle`` object containing the samples
-    from the posterior distributions of each of the 3 parameters. It provides
-    pretty good results (value plus error bars) compared to a more CPU intensive
-    Monte Carlo approach with the affine invariant sampler (``emcee``).
+    """ Runs a nested sampling algorithm in order to retrieve the best-fit 
+    parameters for given spectral model and observed spectrum.. The
+    result of this procedure is either a ``nestle`` or ``ultranest`` object 
+    (depending on the chosen sampler) containing the samples from the posterior 
+    distributions of each of the parameters. 
 
     Parameters
     ----------
@@ -137,9 +142,14 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         grid during the MCMC sampling. Dict entries should match labels and 
         em_lines.
     dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
+        Respective spectral channel width and FWHM of the photometric filters 
+        used for the input spectrum. It is used to infer which part(s) of a 
+        combined spectro+photometric spectrum should involve 
+        convolution+subsampling (model resolution higher than measurements),
+        interpolation (the opposite), or convolution by the transmission curve
+        of a photometric filter. If not provided, it will be inferred from the
+        difference between consecutive lbda_obs points (i.e. inaccurate for a 
+        combined spectrum).
     instru_corr : numpy 2d ndarray or list, optional
         Spectral correlation throughout post-processed images in which the 
         spectrum is measured. It is specific to the combination of instrument, 
@@ -165,6 +175,11 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -493,9 +508,10 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                       model_reader=model_reader, em_lines=em_lines, 
                       em_grid=em_grid, dlbda_obs=dlbda_obs, 
                       instru_corr=instru_corr, instru_fwhm=instru_fwhm, 
-                      instru_idx=instru_idx, filter_reader=filter_reader, 
-                      AV_bef_bb=AV_bef_bb, units_obs=units_obs, 
-                      units_mod=units_mod, interp_order=interp_order)
+                      instru_idx=instru_idx, use_weights=use_weights,
+                      filter_reader=filter_reader, AV_bef_bb=AV_bef_bb, 
+                      units_obs=units_obs, units_mod=units_mod, 
+                      interp_order=interp_order)
         
         
     # ------------------------ Actual sampling --------------------------------
@@ -509,22 +525,30 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
             print('{} [{},{}]'.format(labels[p], pmin, pmax))
         print('\nUsing {} active points'.format(npoints))
 
-    res = nestle.sample(f, prior_transform, ndim=nparams, method=method,
-                        npoints=npoints, rstate=rstate, dlogz=dlogz,
-                        decline_factor=decline_factor, **kwargs)
+
+    if sampler == 'nestle':
+        final_res = nestle.sample(f, prior_transform, ndim=nparams, method=method,
+                            npoints=npoints, rstate=rstate, dlogz=dlogz,
+                            decline_factor=decline_factor, **kwargs)
+    elif sampler == 'ultranest':
+        un_sampler = ultranest.ReactiveNestedSampler(labels, f, prior_transform,
+                                                     log_dir=output_dir, 
+                                                     resume=True)
+        res = un_sampler.run()
+        final_res = (un_sampler, res)
 
     if verbose:
         print('\nTotal running time:')
         timing(start)
         
-    return res
+    return final_res
 
 
-def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
-                            units=None, ndig=None, labels_plot=None, save=False, 
-                            output_dir='/', plot=False,  **kwargs):
+def show_nestle_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
+                        units=None, ndig=None, labels_plot=None, save=False, 
+                        output_dir='/', plot=False,  **kwargs):
     """ 
-    Shows the results of the Nested Sampling, summary, parameters with 
+    Show the results obtained with the Nestle sampler: summary, parameters with 
     errors, walk and corner plots. Returns best-fit values and uncertatinties.
     
     Parameters
@@ -552,7 +576,7 @@ def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
         mcmc_res will be printed on top of each 1d posterior distribution along 
         with these units.
     ndig: tuple, opt
-        Number of digits precision for each printed parameter
+        Number of digits precision for each printed parameter.
     labels_plot: tuple, opt
         Labels corresponding to parameter names, used for the plot. If None,
         will use "labels" passed in kwargs.
@@ -577,6 +601,207 @@ def nested_sampling_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
     res = ns_object
     nsamples = res.samples.shape[0]
     indburnin = int(np.percentile(np.array(range(nsamples)), burnin * 100))
+    nparams = len(labels)
+
+    print(res.summary())
+
+    print(
+        '\nNatural log of prior volume and Weight corresponding to each sample')
+    if save or plot:
+        plt.figure(figsize=(12, 4))
+        plt.subplot(1, 2, 1)
+        plt.plot(res.logvol, '.', alpha=0.5, color='gray')
+        plt.xlabel('samples')
+        plt.ylabel('logvol')
+        plt.vlines(indburnin, res.logvol.min(), res.logvol.max(),
+                   linestyles='dotted')
+        plt.subplot(1, 2, 2)
+        plt.plot(res.weights, '.', alpha=0.5, color='gray')
+        plt.xlabel('samples')
+        plt.ylabel('weights')
+        plt.vlines(indburnin, res.weights.min(), res.weights.max(),
+                   linestyles='dotted')
+        if save:
+            plt.savefig(output_dir+'Nestle_results.pdf')
+        if plot:
+            plt.show()
+            
+        print("\nWalk plots before the burnin")
+        show_walk_plot(np.expand_dims(res.samples, axis=0), labels)
+        if burnin > 0:
+            print("\nWalk plots after the burnin")
+            show_walk_plot(np.expand_dims(res.samples[indburnin:], axis=0),
+                           labels)
+        if save:
+            plt.savefig(output_dir+'Nestle_walk_plots.pdf')
+        
+    mean, cov = nestle.mean_and_cov(res.samples[indburnin:],
+                                    res.weights[indburnin:])
+    print("\nWeighted mean +- sqrt(covariance)")
+    if ndig is None:
+        ndig = [3]*len(labels)   
+    for p in range(nparams):
+        fmt = "{{:.{0}f}}".format(ndig[p]).format
+        print(r"{0} = {1} +/- {2}".format(labels[p], fmt(mean[p]), 
+                                          fmt(np.sqrt(cov[p, p]))))
+    if save:
+        with open(output_dir+'Nested_sampling.txt', "w") as f:
+            f.write('#################################\n')
+            f.write('####   CONFIDENCE INTERVALS   ###\n')
+            f.write('#################################\n')
+            f.write(' \n')
+            f.write('Results of the NESTLE SAMPLING fit\n')
+            f.write('----------------------------------\n ')
+            f.write(' \n')
+            f.write("\nWeighted mean +- sqrt(covariance)\n")
+            for p in range(nparams):
+                fmt = "{{:.{0}f}}".format(ndig[p]).format
+                f.write(r"{0} = {1} +/- {2}\n".format(labels[p], fmt(mean[p]), 
+                                                      fmt(np.sqrt(cov[p, p]))))
+                        
+    final_res = np.zeros([nparams,2]) 
+    for p in range(nparams):     
+        final_res[p] = [mean[p], np.sqrt(cov[p, p])]
+
+    if bins is None:
+        bins = int(np.sqrt(res.samples[indburnin:].shape[0]))
+        print("\nHist bins =", bins)
+    
+    if save or plot:
+        show_corner_plot(res.samples[indburnin:], burnin=burnin, save=save, 
+                         output_dir=output_dir, mcmc_res=final_res, units=units, 
+                         ndig=ndig, labels_plot=labels_plot, 
+                         plot_name='corner_plot.pdf', labels=labels)
+    if save:
+        plt.savefig(output_dir+'Nestle_corner.pdf')
+    if plot:
+        plt.show()
+            
+    print('\nConfidence intervals')
+    if save or plot:
+        _ = confidence(res.samples[indburnin:], labels, cfd=cfd, bins=bins,
+                       weights=res.weights[indburnin:],
+                       gaussian_fit=True, verbose=True, save=False, **kwargs)        
+     
+    if save:
+        plt.savefig(output_dir+'Nestle_confi_hist_flux_r_theta_gaussfit.pdf')
+
+    if plot:
+        plt.show()
+        
+    return final_res
+
+
+def show_ultranest_results(un_object, bins=None, cfd=68.27,
+                           units=None, ndig=None, labels_plot=None, save=False, 
+                           output_dir='/', plot=False, lbda_obs=None, 
+                           spec_obs=None, spec_obs_err=None, **kwargs):
+    """ 
+    Shows the results obtained with the Ultranest sampler: summary, parameters 
+    with errors, walk and corner plots. Returns best-fit values and 
+    uncertatinties.
+    
+    Parameters
+    ----------
+    un_object: object
+        The UltraNest Sampler object returned by nested_spec_sampling.
+    labels: Tuple of strings
+        Tuple of labels in the same order as initial_state, that is:
+        - first all parameters related to loaded models (e.g. 'Teff', 'logg')
+        - then the planet photometric radius 'R', in Jupiter radius
+        - (optionally) the flux of emission lines (labels should match those \
+        in the em_lines dictionary), in units of the model spectrum (times mu)
+        - (optionally) the optical extinction 'Av', in mag
+        - (optionally) the ratio of total to selective optical extinction 'Rv'
+        - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
+        contribution. 
+    burnin: float, default: 0
+        The fraction of a walker we want to discard.
+    bins: int, optional
+        The number of bins used to sample the posterior distributions.
+    cfd: float, optional
+        The confidence level given in percentage.
+    units: tuple, opt
+        Tuple of strings containing units for each parameter. If provided,
+        mcmc_res will be printed on top of each 1d posterior distribution along 
+        with these units.
+    ndig: tuple, opt
+        Number of digits precision for each printed parameter.
+    labels_plot: tuple, opt
+        Labels corresponding to parameter names, used for the plot. If None,
+        will use "labels" passed in kwargs.
+    save: boolean, default: False
+        If True, a pdf file is created.
+    output_dir: str, optional
+        The name of the output directory which contains the output files in the 
+        case  ``save`` is True. 
+    plot: bool, optional
+        Whether to show the best-fit model against data.
+    kwargs:
+        Additional optional arguments passed to `confidence` (matplotlib 
+        optional arguments for histograms).
+                    
+    Returns
+    -------
+    final_res: numpy ndarray
+         Best-fit parameters and uncertainties (corresponding to 68% confidence
+         interval). Dimensions: nparams x 2.
+    
+    """
+    res, un_sampler = un_object
+    
+    # print results
+    un_sampler.print_results()
+    
+    # show run
+    un_sampler.plot_run()
+    
+    # show trace
+    un_sampler.plot_trace()
+    
+    # show corner plot
+    #un_sampler.plot_corner()
+    cornerplot(res)
+    
+    # show results as table
+    df = pd.DataFrame(data=res['samples'], columns=res['paramnames'])
+    df.describe()
+    
+    # plot the best fit
+    if plot:
+        if lbda_obs is None or spec_obs is None or spec_obs_err is None:
+            msg = "For the plot to be made, lbda_obs, spec_obs and spec_obs_err"
+            msg += " must be provided"
+            raise ValueError(msg)
+        plt.figure()
+        plt.title("1-sine fit")
+        plt.xlabel('x')
+        plt.ylabel('y')
+        plt.errorbar(x=t, y=y, yerr=yerr,
+                     marker='o', ls=' ', color='orange')
+        
+        
+        t_grid = np.linspace(0, 5, 400)
+        
+        from ultranest.plot import PredictionBand
+        band = PredictionBand(t_grid)
+        
+        # go through the solutions
+        for B, A1, P1, t1 in un_sampler.results['samples']:
+            # compute for each time the y value
+            band.add(sine_model1(t_grid, B=B, A1=A1, P1=P1, t1=t1))
+        
+        band.line(color='k')
+        # add 1 sigma quantile
+        band.shade(color='k', alpha=0.3)
+        # add wider quantile (0.01 .. 0.99)
+        band.shade(q=0.49, color='gray', alpha=0.2)
+        if save:
+            plt.savefig(output_dir+"Best-fit_UltraNest.pdf", 
+                        bbox_inches='tight')
+
+        
+    nsamples = len(un_sampler.results['samples'])
     nparams = len(labels)
 
     print(res.summary())
