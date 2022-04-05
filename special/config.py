@@ -19,8 +19,6 @@ __all__ = ['time_ini',
 from datetime import datetime
 import itertools as itt
 import multiprocessing
-multiprocessing.set_start_method('fork')
-from multiprocessing import Pool
 import sys
 
 sep = '―' * 80
@@ -227,6 +225,9 @@ def pool_map(nproc, fkt, *args, **kwargs):
         A list with the results.
 
     """
+    multiprocessing.set_start_method('fork', force=True)
+    from multiprocessing import Pool
+    
     msg = kwargs.get("msg", None)
     verbose = kwargs.get("verbose", True)
     progressbar_single = kwargs.get("progressbar_single", False)

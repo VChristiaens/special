@@ -16,8 +16,8 @@ from .utils_spec import extinction
 
 def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, 
                     dlbda_obs=None, instru_corr=None, instru_fwhm=None, 
-                    instru_idx=None, filter_reader=None, plot=False, 
-                    outfile=None):
+                    instru_idx=None, use_weights=True, filter_reader=None, 
+                    plot=False, outfile=None):
     """ Function to estimate the goodness of fit indicator defined as 
     in Olofsson et al. 2016 (Eq. 8). In addition, if a spectral 
     correlation matrix is provided, it is used to take into account the 
@@ -73,6 +73,11 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -149,13 +154,14 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         cov = np.array(cov_crop)    
         spec_obs = spec_obs[nnan_idx]
         spec_mod_fin = spec_mod_fin[nnan_idx]
-        dlbda_obs = dlbda_obs[nnan_idx]
+        if dlbda_obs is not None:
+            dlbda_obs = dlbda_obs[nnan_idx]
         lbda_obs = lbda_obs[nnan_idx]
         
     delta = spec_obs-spec_mod_fin
-    wi = np.ones_like(dlbda_obs)
+    wi = np.ones_like(lbda_obs)
     
-    if dlbda_obs is not None:
+    if use_weights and dlbda_obs is not None:
         if np.sum(np.power((dlbda_obs[1:]/lbda_obs[1:])-(dlbda_obs[:-1]/lbda_obs[:-1]),2))!=0:
             # normalize weights for their sum to be equal to the number of points
             wi = np.sqrt(((dlbda_obs/lbda_obs)/np.sum(dlbda_obs/lbda_obs))*dlbda_obs.shape[0])    
@@ -184,7 +190,8 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
 
 
 def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs, 
-             instru_corr, instru_fwhm, instru_idx, filter_reader, ext_range):
+             instru_corr, instru_fwhm, instru_idx, use_weights, filter_reader, 
+             ext_range):
     """ Wrapper for the goodness of fit routine to search for best template 
     library fitting spectrum. The only difference with `goodness_of_fit` is 
     the "params" argument.
@@ -241,6 +248,11 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -287,4 +299,4 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
     return goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_tmp, tmp_spec, 
                            dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
                            instru_fwhm=instru_fwhm, instru_idx=instru_idx, 
-                           filter_reader=filter_reader)
+                           use_weights=use_weights, filter_reader=filter_reader)

@@ -24,9 +24,9 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader, 
             search_mode='simplex', lambda_scal=None, scale_range=(0.1,10,0.01), 
             ext_range=None, dlbda_obs=None, instru_corr=None, instru_fwhm=None, 
-            instru_idx=None, filter_reader=None, simplex_options=None,
-            red_chi2=True, remove_nan=False, force_continue=False, min_npts=1,
-            verbose=False, **kwargs):
+            instru_idx=None, use_weights=True, filter_reader=None, 
+            simplex_options=None, red_chi2=True, remove_nan=False, 
+            force_continue=False, min_npts=1, verbose=False, **kwargs):
     """ Routine calculating chi^2, optimal scaling factor and optimal 
     extinction for a given template spectrum to match an observed spectrum.
     
@@ -92,6 +92,11 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter 
         must be provided if the spectrum consists of points obtained with 
         different instruments.
+    use_weights: bool, optional
+        For the likelihood calculation, whether to weigh each point of the 
+        spectrum based on the spectral resolution or bandwith of photometric
+        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
+        dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
@@ -256,8 +261,8 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
             res = minimize(gof_scal, p, args=(lbda_obs, spec_obs, err_obs, 
                                               lbda_tmp, spec_tmp, dlbda_obs, 
                                               instru_corr, instru_fwhm, 
-                                              instru_idx, filter_reader,
-                                              ext_range),
+                                              instru_idx, use_weights, 
+                                              filter_reader, ext_range),
                            method='Nelder-Mead', options=simplex_options, 
                            **kwargs)
         except:
@@ -301,6 +306,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
                                       instru_corr=instru_corr, 
                                       instru_fwhm=instru_fwhm, 
                                       instru_idx=instru_idx, 
+                                      use_weights=use_weights,
                                       filter_reader=filter_reader,
                                       ext_range=ext_range)
         try:
