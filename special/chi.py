@@ -61,10 +61,10 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
@@ -235,10 +235,10 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_mod, dlbda_obs,
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 

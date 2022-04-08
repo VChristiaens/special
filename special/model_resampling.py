@@ -101,10 +101,10 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
@@ -324,10 +324,10 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
@@ -516,10 +516,10 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
@@ -689,35 +689,24 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                 instru_idx = np.array([1]*n_ch)
     
             for i in range(1,len(instru_res)+1):
-                # MODIFY HERE: use SPECTRAL RESOLUTION INSTEAD OF FIXED FWHM!!
+                # MODIFY HERE: FIND FWHM based on mean SPECTRAL RESOLUTION!
                 if isinstance(instru_res[i-1], (float,int)):
+                    lbda_instru = lbda_obs[np.where(instru_idx==i)]
+                    instru_fwhm = instru_res[i-1]*np.mean(lbda_instru)
+                    ifwhm = instru_fwhm/(np.mean(dlbda_mod))
+                    gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
+                    spec_mod_conv = convolve_fft(spec_mod, gau_ker, 
+                                                 preserve_nan=True)
                     tmp = np.zeros_like(lbda_obs[np.where(instru_idx==i)])
                     for ll, lbda in enumerate(lbda_obs[np.where(instru_idx==i)]):
-                        # crop spec_mod to relevant wavelengths only
-                        mid_lbda_0 = lbda_obs-dlbda_obs
-                        mid_lbda_N = lbda_obs+dlbda_obs
-                        i_0 = find_nearest(lbda_mod,
-                                           mid_lbda_0[np.where(instru_idx==i)][ll])
-                        i_N = find_nearest(lbda_mod,
-                                           mid_lbda_N[np.where(instru_idx==i)][ll])
-                        spec_mod_tmp = spec_mod[i_0:i_N]
-                        lbda_mod_tmp = lbda_mod[i_0:i_N]
-                        # infer local dlbda_mod
-                        dlbda_mod = np.mean(lbda_mod_tmp[1:]-lbda_mod_tmp[:-1])
-                        # determine FWHM
-                        ifwhm = instru_res[i-1]*lbda/dlbda_mod # FWHM in # channels
-                        gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
-                        # actual convolution
-                        spec_mod_conv = convolve_fft(spec_mod_tmp, gau_ker, 
-                                                     preserve_nan=True)
                         mid_lbda_f = lbda_obs-dlbda_obs/2.
                         mid_lbda_l = lbda_obs+dlbda_obs/2.
-                        i_f = find_nearest(lbda_mod_tmp,
+                        i_f = find_nearest(lbda_mod,
                                            mid_lbda_f[np.where(instru_idx==i)][ll])
-                        i_l = find_nearest(lbda_mod_tmp,
+                        i_l = find_nearest(lbda_mod,
                                            mid_lbda_l[np.where(instru_idx==i)][ll])
                         tmp[ll] = np.mean(spec_mod_conv[i_f:i_l+1])
-                    spec_mod_res[np.where(instru_idx==i)] = tmp  
+                    spec_mod_res[np.where(instru_idx==i)] = tmp
                 elif isinstance(instru_res[i-1], str):
                     if filter_reader is not None:
                         lbda_filt, trans = filter_reader(instru_res[i-1])

@@ -80,10 +80,10 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
@@ -395,10 +395,10 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The instrumental spectral resolution or filter names. This is used to 
-        convolve the model spectrum. If several instruments are used, provide a 
-        list of spectral resolution values / filter names, one for each 
-        instrument used.
+        The mean instrumental spectral resolution(s) OR filter names. This is 
+        used to convolve the model spectrum. If several instruments are used, 
+        provide a list of spectral resolution values / filter names, one for 
+        each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
         to obtain the spectrum, label them from 0 to n_instru. Zero for points 
