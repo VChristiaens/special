@@ -592,9 +592,15 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     elif not np.allclose(lbda_obs, lbda_mod):
         cond = True
     if cond:
-        lbda_min = lbda_obs[0]-1.5*dlbda_obs[0]
+        lbda_min = lbda_obs[0]-1.5*dlbda_obs[-1]
+        if instru_res[0] is not None:
+            if np.isscalar(instru_res[0] ):
+                lbda_min = lbda_obs[0]-10*lbda_obs[0]/instru_res[0]
         lbda_max = lbda_obs[-1]+1.5*dlbda_obs[-1]
-            
+        if instru_res[-1] is not None:
+            if np.isscalar(instru_res[-1] ):
+                lbda_max = lbda_obs[-1]+10*lbda_obs[-1]/instru_res[-1]
+                
         if no_constraint:
             idx_ini = find_nearest(lbda_mod, lbda_min)
             idx_fin = find_nearest(lbda_mod, lbda_max)
@@ -689,10 +695,9 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                 instru_idx = np.array([1]*n_ch)
     
             for i in range(1,len(instru_res)+1):
-                # MODIFY HERE: FIND FWHM based on mean SPECTRAL RESOLUTION!
                 if isinstance(instru_res[i-1], (float,int)):
                     lbda_instru = lbda_obs[np.where(instru_idx==i)]
-                    instru_fwhm = instru_res[i-1]*np.mean(lbda_instru)
+                    instru_fwhm = np.mean(lbda_instru)/instru_res[i-1]
                     ifwhm = instru_fwhm/(np.mean(dlbda_mod))
                     gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
                     spec_mod_conv = convolve_fft(spec_mod, gau_ker, 
