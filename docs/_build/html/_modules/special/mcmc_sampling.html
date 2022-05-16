@@ -67,10 +67,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.fits">special.fits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.model_resampling">special.model_resampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.nested_sampling">special.nested_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-nested-sampling">special.nested_sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_corr">special.spec_corr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_indices">special.spec_indices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.template_fit">special.template_fit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-template-fit">special.template_fit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_spec">special.utils_spec</a></li>
 </ul>
@@ -218,9 +218,9 @@
 
 <div class="viewcode-block" id="lnlike"><a class="viewcode-back" href="../../special.html#special.mcmc_sampling.lnlike">[docs]</a><span class="k">def</span> <span class="nf">lnlike</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> 
            <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> 
-           <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-           <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> 
-           <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+           <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+           <span class="n">use_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+           <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Define the likelihood log-function.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -308,24 +308,28 @@
 <span class="sd">        distances.combine_corrs(). If not provided, it will consider the </span>
 <span class="sd">        uncertainties in each spectral channels are independent. See Greco &amp; </span>
 <span class="sd">        Brandt (2017) for details.</span>
-<span class="sd">    instru_fwhm : float or list, optional</span>
-<span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
-<span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
-<span class="sd">        instru_fwhm values, one for each instrument whose spectral resolution</span>
-<span class="sd">        is coarser than the model - including broad band</span>
-<span class="sd">        filter FWHM if relevant.</span>
+<span class="sd">    instru_res : float or list of floats/strings, optional</span>
+<span class="sd">        The mean instrumental spectral resolution(s) OR filter names. This is </span>
+<span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
+<span class="sd">        provide a list of spectral resolution values / filter names, one for </span>
+<span class="sd">        each instrument used.</span>
 <span class="sd">    instru_idx: numpy 1d array, optional</span>
 <span class="sd">        1d array containing an index representing each instrument used </span>
 <span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
-<span class="sd">        that don&#39;t correspond to any instru_fwhm provided above, and i in </span>
-<span class="sd">        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter </span>
+<span class="sd">        that don&#39;t correspond to any instru_res provided above, and i in </span>
+<span class="sd">        [1,n_instru] for points associated to instru_res[i-1]. This parameter </span>
 <span class="sd">        must be provided if the spectrum consists of points obtained with </span>
 <span class="sd">        different instruments.</span>
+<span class="sd">    use_weights: bool, optional</span>
+<span class="sd">        For the likelihood calculation, whether to weigh each point of the </span>
+<span class="sd">        spectrum based on the spectral resolution or bandwith of photometric</span>
+<span class="sd">        filters used. Weights will be proportional to dlbda_obs/lbda_obs if </span>
+<span class="sd">        dlbda_obs is provided, or set to 1 for all points otherwise.</span>
 <span class="sd">    filter_reader: python routine, optional</span>
 <span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
-<span class="sd">        are detected in instru_fwhm, the default format assumed for the files:</span>
+<span class="sd">        are detected in instru_res, the default format assumed for the files:</span>
 <span class="sd">        - first row containing header</span>
 <span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
 <span class="sd">        Note: files should all have the same format and wavelength units.</span>
@@ -362,7 +366,7 @@
     <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">make_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> 
                                                 <span class="n">dist</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">,</span> 
                                                 <span class="n">model_reader</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">,</span> <span class="n">em_grid</span><span class="p">,</span> 
-                                                <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="p">,</span> 
+                                                <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> 
                                                 <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">,</span> 
                                                 <span class="n">AV_bef_bb</span><span class="p">,</span> <span class="n">units_obs</span><span class="p">,</span> <span class="n">units_mod</span><span class="p">,</span> 
                                                 <span class="n">interp_order</span><span class="p">)</span>
@@ -370,8 +374,9 @@
     <span class="c1"># evaluate the goodness of fit indicator</span>
     <span class="n">chi</span> <span class="o">=</span> <span class="n">goodness_of_fit</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
                           <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="n">instru_corr</span><span class="p">,</span> 
-                          <span class="n">instru_fwhm</span><span class="o">=</span><span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span> 
-                          <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                          <span class="n">instru_res</span><span class="o">=</span><span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span> 
+                          <span class="n">use_weights</span><span class="o">=</span><span class="n">use_weights</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">,</span> 
+                          <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     
     <span class="c1"># log likelihood</span>
     <span class="n">lnlikelihood</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">chi</span>
@@ -381,9 +386,10 @@
 
 <div class="viewcode-block" id="lnprob"><a class="viewcode-back" href="../../special.html#special.mcmc_sampling.lnprob">[docs]</a><span class="k">def</span> <span class="nf">lnprob</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> 
            <span class="n">dist</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> 
-           <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-           <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> 
-           <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+           <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+           <span class="n">use_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+           <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+           <span class="n">physical</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Define the probability log-function as the sum between the prior and</span>
 <span class="sd">    likelihood log-functions.</span>
 <span class="sd">    </span>
@@ -481,24 +487,28 @@
 <span class="sd">        distances.combine_corrs(). If not provided, it will consider the </span>
 <span class="sd">        uncertainties in each spectral channels are independent. See Greco &amp; </span>
 <span class="sd">        Brandt (2017) for details.</span>
-<span class="sd">    instru_fwhm : float or list, optional</span>
-<span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
-<span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
-<span class="sd">        instru_fwhm values, one for each instrument whose spectral resolution</span>
-<span class="sd">        is coarser than the model - including broad band</span>
-<span class="sd">        filter FWHM if relevant.</span>
+<span class="sd">    instru_res : float or list of floats/strings, optional</span>
+<span class="sd">        The mean instrumental spectral resolution(s) OR filter names. This is </span>
+<span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
+<span class="sd">        provide a list of spectral resolution values / filter names, one for </span>
+<span class="sd">        each instrument used.</span>
 <span class="sd">    instru_idx: numpy 1d array, optional</span>
 <span class="sd">        1d array containing an index representing each instrument used </span>
 <span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
-<span class="sd">        that don&#39;t correspond to any instru_fwhm provided above, and i in </span>
-<span class="sd">        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter </span>
+<span class="sd">        that don&#39;t correspond to any instru_res provided above, and i in </span>
+<span class="sd">        [1,n_instru] for points associated to instru_res[i-1]. This parameter </span>
 <span class="sd">        must be provided if the spectrum consists of points obtained with </span>
 <span class="sd">        different instruments.</span>
+<span class="sd">    use_weights: bool, optional</span>
+<span class="sd">        For the likelihood calculation, whether to weigh each point of the </span>
+<span class="sd">        spectrum based on the spectral resolution or bandwith of photometric</span>
+<span class="sd">        filters used. Weights will be proportional to dlbda_obs/lbda_obs if </span>
+<span class="sd">        dlbda_obs is provided, or set to 1 for all points otherwise.        </span>
 <span class="sd">    filter_reader: python routine, optional</span>
 <span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
-<span class="sd">        are detected in instru_fwhm, the default format assumed for the files:</span>
+<span class="sd">        are detected in instru_res, the default format assumed for the files:</span>
 <span class="sd">        - first row containing header</span>
 <span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
 <span class="sd">        Note: files should all have the same format and wavelength units.</span>
@@ -581,25 +591,26 @@
         
     <span class="k">return</span> <span class="n">lp</span> <span class="o">+</span> <span class="n">lnlike</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> 
                             <span class="n">err_obs</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">,</span> <span class="n">model_reader</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">,</span>
-                            <span class="n">em_grid</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_fwhm</span><span class="p">,</span> 
-                            <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="p">,</span> <span class="n">units_obs</span><span class="p">,</span> 
-                            <span class="n">units_mod</span><span class="p">,</span> <span class="n">interp_order</span><span class="p">)</span></div>
+                            <span class="n">em_grid</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> 
+                            <span class="n">instru_idx</span><span class="p">,</span> <span class="n">use_weights</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="p">,</span> 
+                            <span class="n">units_obs</span><span class="p">,</span> <span class="n">units_mod</span><span class="p">,</span> <span class="n">interp_order</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="mcmc_spec_sampling"><a class="viewcode-back" href="../../special.html#special.mcmc_sampling.mcmc_spec_sampling">[docs]</a><span class="k">def</span> <span class="nf">mcmc_spec_sampling</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> 
                        <span class="n">initial_state</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">resamp_before</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                        <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> 
                        <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                       <span class="n">instru_fwhm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                       <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> 
-                       <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                       <span class="n">interp_nonexist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ini_ball</span><span class="o">=</span><span class="mf">1e-1</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> 
-                       <span class="n">nwalkers</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">niteration_min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">niteration_limit</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> 
-                       <span class="n">niteration_supp</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_maxgap</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">conv_test</span><span class="o">=</span><span class="s1">&#39;ac&#39;</span><span class="p">,</span> 
-                       <span class="n">ac_c</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ac_count_thr</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">burnin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">rhat_threshold</span><span class="o">=</span><span class="mf">1.01</span><span class="p">,</span> 
-                       <span class="n">rhat_count_threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">grid_name</span><span class="o">=</span><span class="s1">&#39;resamp_grid.fits&#39;</span><span class="p">,</span> 
-                       <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;special/&#39;</span><span class="p">,</span> <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-                       <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                       <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span>
+                       <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                       <span class="n">physical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interp_nonexist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ini_ball</span><span class="o">=</span><span class="mf">1e-1</span><span class="p">,</span> 
+                       <span class="n">a</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">nwalkers</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">niteration_min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                       <span class="n">niteration_limit</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">niteration_supp</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                       <span class="n">check_maxgap</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">conv_test</span><span class="o">=</span><span class="s1">&#39;ac&#39;</span><span class="p">,</span> <span class="n">ac_c</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ac_count_thr</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+                       <span class="n">burnin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">rhat_threshold</span><span class="o">=</span><span class="mf">1.01</span><span class="p">,</span> <span class="n">rhat_count_threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                       <span class="n">grid_name</span><span class="o">=</span><span class="s1">&#39;resamp_grid.fits&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;special/&#39;</span><span class="p">,</span> 
+                       <span class="n">output_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                       <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Runs an affine invariant MCMC sampling algorithm in order to determine</span>
 <span class="sd">    the most likely parameters for given spectral model and observed spectrum. </span>
 <span class="sd">    Allowed features:</span>
@@ -614,7 +625,7 @@
 <span class="sd">    * Spectral correlation between measurements will be taken into account \ </span>
 <span class="sd">    if provided in &#39;instru_corr&#39;.</span>
 <span class="sd">    * Convolution of the model spectra with instrumental FWHM or \</span>
-<span class="sd">    photometric filter can be performed using &#39;instru_fwhm&#39; and/or \</span>
+<span class="sd">    photometric filter can be performed using &#39;instru_res&#39; and/or \</span>
 <span class="sd">    &#39;filter_reader&#39; (done before resampling to observed).</span>
 <span class="sd">    * The weight of each observed point will be directly proportional to \</span>
 <span class="sd">    Delta lbda_i/lbda_i, where Delta lbda_i is either the FWHM of the \</span>
@@ -725,9 +736,14 @@
 <span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
 <span class="sd">        em_lines.</span>
 <span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
-<span class="sd">        Spectral channel width for the observed spectrum. It should be provided </span>
-<span class="sd">        IF one wants to weigh each point based on the spectral </span>
-<span class="sd">        resolution of the respective instruments (as in Olofsson et al. 2016).</span>
+<span class="sd">        Respective spectral channel width and FWHM of the photometric filters </span>
+<span class="sd">        used for the input spectrum. It is used to infer which part(s) of a </span>
+<span class="sd">        combined spectro+photometric spectrum should involve </span>
+<span class="sd">        convolution+subsampling (model resolution higher than measurements),</span>
+<span class="sd">        interpolation (the opposite), or convolution by the transmission curve</span>
+<span class="sd">        of a photometric filter. If not provided, it will be inferred from the</span>
+<span class="sd">        difference between consecutive lbda_obs points (i.e. inaccurate for a </span>
+<span class="sd">        combined spectrum).</span>
 <span class="sd">    instru_corr : numpy 2d ndarray or list, optional</span>
 <span class="sd">        Spectral correlation throughout post-processed images in which the </span>
 <span class="sd">        spectrum is measured. It is specific to the combination of instrument, </span>
@@ -737,27 +753,28 @@
 <span class="sd">        `spec_corr.combine_corrs()`. If not provided, it will consider the </span>
 <span class="sd">        uncertainties in each spectral channels are independent. See Greco &amp; </span>
 <span class="sd">        Brandt (2017) for details.</span>
-<span class="sd">    instru_fwhm : float OR list of either floats or strings, optional</span>
-<span class="sd">        The instrumental spectral fwhm provided in nm. This is used to convolve</span>
-<span class="sd">        the model spectrum. If several instruments are used, provide a list of </span>
-<span class="sd">        instru_fwhm values, one for each instrument whose spectral resolution</span>
-<span class="sd">        is coarser than the model - including broad band filter FWHM if </span>
-<span class="sd">        relevant.</span>
-<span class="sd">        If strings are provided, they should correspond to filenames (including </span>
-<span class="sd">        full paths) of text files containing the filter information for each </span>
-<span class="sd">        observed wavelength. Strict format: </span>
+<span class="sd">    instru_res : float or list of floats/strings, optional</span>
+<span class="sd">        The mean instrumental spectral resolution(s) OR filter names. This is </span>
+<span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
+<span class="sd">        provide a list of spectral resolution values / filter names, one for </span>
+<span class="sd">        each instrument used.</span>
 <span class="sd">    instru_idx: numpy 1d array, optional</span>
 <span class="sd">        1d array containing an index representing each instrument used </span>
 <span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
-<span class="sd">        that don&#39;t correspond to any instru_fwhm provided above, and i in </span>
-<span class="sd">        [1,n_instru] for points associated to instru_fwhm[i-1]. This parameter </span>
+<span class="sd">        that don&#39;t correspond to any instru_res provided above, and i in </span>
+<span class="sd">        [1,n_instru] for points associated to instru_res[i-1]. This parameter </span>
 <span class="sd">        must be provided if the spectrum consists of points obtained with </span>
 <span class="sd">        different instruments.</span>
+<span class="sd">    use_weights: bool, optional</span>
+<span class="sd">        For the likelihood calculation, whether to weigh each point of the </span>
+<span class="sd">        spectrum based on the spectral resolution or bandwith of photometric</span>
+<span class="sd">        filters used. Weights will be proportional to dlbda_obs/lbda_obs if </span>
+<span class="sd">        dlbda_obs is provided, or set to 1 for all points otherwise.</span>
 <span class="sd">    filter_reader: python routine, optional</span>
 <span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
-<span class="sd">        are detected in instru_fwhm, the default file reader will be used. </span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
 <span class="sd">        - first row containing header</span>
 <span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
@@ -1005,7 +1022,7 @@
             <span class="n">model_grid</span> <span class="o">=</span> <span class="n">make_resampled_models</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> 
                                                <span class="n">model_grid</span><span class="p">,</span> <span class="n">model_reader</span><span class="p">,</span> 
                                                <span class="n">em_lines</span><span class="p">,</span> <span class="n">em_grid</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
-                                               <span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
+                                               <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
                                                <span class="n">filter_reader</span><span class="p">,</span> <span class="n">interp_nonexist</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">and</span> <span class="n">grid_name</span><span class="p">:</span>
                 <span class="n">write_fits</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">)</span>
@@ -1061,9 +1078,10 @@
                                            <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span>
                                            <span class="n">model_grid</span><span class="p">,</span> <span class="n">model_reader</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">,</span>
                                            <span class="n">em_grid</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_corr</span><span class="p">,</span> 
-                                           <span class="n">instru_fwhm</span><span class="p">,</span><span class="n">instru_idx</span><span class="p">,</span><span class="n">filter_reader</span><span class="p">,</span> 
-                                           <span class="n">AV_bef_bb</span><span class="p">,</span> <span class="n">units_obs</span><span class="p">,</span> <span class="n">units_mod</span><span class="p">,</span> 
-                                           <span class="n">interp_order</span><span class="p">,</span> <span class="n">priors</span><span class="p">,</span> <span class="n">physical</span><span class="p">]),</span>
+                                           <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">use_weights</span><span class="p">,</span>
+                                           <span class="n">filter_reader</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="p">,</span> <span class="n">units_obs</span><span class="p">,</span> 
+                                           <span class="n">units_mod</span><span class="p">,</span> <span class="n">interp_order</span><span class="p">,</span> <span class="n">priors</span><span class="p">,</span> 
+                                           <span class="n">physical</span><span class="p">]),</span>
                                     <span class="n">threads</span><span class="o">=</span><span class="n">nproc</span><span class="p">)</span>
                                     
     <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>

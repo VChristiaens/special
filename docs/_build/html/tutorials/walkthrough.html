@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>special tutorial &mdash; special  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -99,10 +98,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.fits">special.fits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.model_resampling">special.model_resampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.nested_sampling">special.nested_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#special-nested-sampling">special.nested_sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.spec_corr">special.spec_corr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.spec_indices">special.spec_indices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.template_fit">special.template_fit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../special.html#special-template-fit">special.template_fit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../special.html#module-special.utils_spec">special.utils_spec</a></li>
 </ul>
@@ -401,12 +400,12 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="special-tutorial">
+<div class="section" id="special-tutorial">
 <h1><em>special</em> tutorial<a class="headerlink" href="#special-tutorial" title="Permalink to this headline"></a></h1>
 <p>Written by: <em>Valentin Christiaens</em>.</p>
 <p>Last update: <em>2022/02/25</em></p>
 <p>This jupyter notebook tutorial is available in the <code class="docutils literal notranslate"><span class="pre">special-extras</span></code> <a class="reference external" href="https://github.com/VChristiaens/special_extras">repository</a>. Alternatively, you can execute this repository on <a class="reference external" href="https://mybinder.org/v2/gh/VChristiaens/special_extras/main">Binder</a> (in the tutorials directory).</p>
-<section id="Table-of-contents">
+<div class="section" id="Table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#Table-of-contents" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="#1.-Loading-the-data">1. Loading the data</a></p></li>
@@ -475,9 +474,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-</section>
-<section id="1.-Loading-the-data">
+</div>
+</div>
+<div class="section" id="1.-Loading-the-data">
 <h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline"></a></h1>
 <p>In the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">special_extras</span></code> repository you can find:</p>
 <ul class="simple">
@@ -642,10 +641,10 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-<section id="2.-Spectral-correlation-matrix">
+</div>
+<div class="section" id="2.-Spectral-correlation-matrix">
 <h1>2. Spectral correlation matrix<a class="headerlink" href="#2.-Spectral-correlation-matrix" title="Permalink to this headline"></a></h1>
-<section id="2.1-Estimating-the-spectral-correlation-between-IFS-channels">
+<div class="section" id="2.1-Estimating-the-spectral-correlation-between-IFS-channels">
 <h2>2.1 Estimating the spectral correlation between IFS channels<a class="headerlink" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels" title="Permalink to this headline"></a></h2>
 <p>Before fitting different models to the spectrum, let’s first estimate the spectral correlation between the IFS channels. By design of the IFS, the flux at a given wavelength leaks on/overlaps with neighbouring channels. These can therefore not be considered as independent measurements. The spectral correlation matrix has therefore to be considered when fitting a given IFS spectrum. Not taking it into account can indeed lead to significant biases, and in particular to erroneous results in terms
 of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
@@ -745,8 +744,8 @@ of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 </div>
 </div>
 <p>Here we used a high number of principal components for PCA, and the companion is far away from the star, such that the correlated speckle noise is efficiently subtracted from each reduced channel. Consequently, not much correlation can be seen between channels. Each spectral channel is most correlated to itself, and at most to its 2 closest neighbouring channels. Note that zero is adopted for uncorrelated channels.</p>
-</section>
-<section id="2.2-Concatenating-spectral-correlation-matrices">
+</div>
+<div class="section" id="2.2-Concatenating-spectral-correlation-matrices">
 <h2>2.2 Concatenating spectral correlation matrices<a class="headerlink" href="#2.2-Concatenating-spectral-correlation-matrices" title="Permalink to this headline"></a></h2>
 <p>Since our full spectrum of CrA-9b/B also contains photometric points measured by SPHERE/IRDIS (2) and NACO (1), we need to pad the IFS spectral correlation matrix with 3 additional rows and columns of zeroes + ones on the diagonal, in order to get the final spectral correlation matrix.</p>
 <p>This can easily be done with the <code class="docutils literal notranslate"><span class="pre">combine_spec_corrs</span></code> routine:</p>
@@ -793,12 +792,12 @@ of best-fit model parameters (see e.g. Greco &amp; Brant 2017).</p>
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-</section>
-<section id="3.-Preliminary-spectral-analysis">
+</div>
+</div>
+<div class="section" id="3.-Preliminary-spectral-analysis">
 <h1>3. Preliminary spectral analysis<a class="headerlink" href="#3.-Preliminary-spectral-analysis" title="Permalink to this headline"></a></h1>
 <p>A number of utilities are implemented in the <code class="docutils literal notranslate"><span class="pre">utils_spec</span></code> module, which allow for a preliminary qualitative analysis of the spectrum of the companion. However, to avoid biased conclusions due to extinction in this preliminary analysis, let’s first deredden the observed spectrum using the value quoted in the literature for CrA-9 (<span class="math notranslate nohighlight">\(A_V = 1.6\)</span> mag; Dunham et a. 2015).</p>
-<section id="3.1-Dereddening">
+<div class="section" id="3.1-Dereddening">
 <h2>3.1 Dereddening<a class="headerlink" href="#3.1-Dereddening" title="Permalink to this headline"></a></h2>
 <p>Provided a given <span class="math notranslate nohighlight">\(A_V\)</span> extinction value, the <code class="docutils literal notranslate"><span class="pre">extinction</span></code> routine can estimate the corresponding extinction factor at different wavelengths following the Cardelli et al. (1989) law, and for a desired <span class="math notranslate nohighlight">\(R_V\)</span> value. Let’s consider the standard ISM value of <span class="math notranslate nohighlight">\(R_V = 3.1\)</span> mag (default if not provided).</p>
 <div class="nbinput nblast docutils container">
@@ -873,8 +872,8 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 <img alt="../_images/tutorials_walkthrough_54_1.png" src="../_images/tutorials_walkthrough_54_1.png" />
 </div>
 </div>
-</section>
-<section id="3.2-Spectral-indices">
+</div>
+<div class="section" id="3.2-Spectral-indices">
 <h2>3.2 Spectral indices<a class="headerlink" href="#3.2-Spectral-indices" title="Permalink to this headline"></a></h2>
 <p>(Sub)stellar objects of M, L and T types have been extensively studied. Some empirical spectral indices have been proposed to estimate either their spectral type or their gravity type from the measured flux in two parts of their spectrum. Some of these spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code> (additional inputs are welcome). An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
 <p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to the following works: Allers et al. (2007); Bonnefoy et al. (2014) and references therein.</p>
@@ -948,13 +947,13 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div></div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-</section>
-<section id="4.-MCMC-sampler-examples">
+</div>
+</div>
+<div class="section" id="4.-MCMC-sampler-examples">
 <h1>4. MCMC sampler examples<a class="headerlink" href="#4.-MCMC-sampler-examples" title="Permalink to this headline"></a></h1>
 <p>Now let’s fit different models to the observed spectrum of CrA-9 b/B.</p>
 <p>In that purpose, let’s first define some parameters that will be common to all MCMC sampler runs on this measured spectrum.</p>
-<section id="4.1.-Parameters">
+<div class="section" id="4.1.-Parameters">
 <h2>4.1. Parameters<a class="headerlink" href="#4.1.-Parameters" title="Permalink to this headline"></a></h2>
 <p>Let’s first define the distance to the system, which will be used to scale the models (along with the companion radius):</p>
 <div class="nbinput nblast docutils container">
@@ -1083,8 +1082,8 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 </div>
 <p>Note that for the purpose of this tutorial, we set a low number of walkers and a low maximum number of iterations. It is recommended to set it large enough (&gt;&gt;1000, depends on number of parameters and model) such that the convergence criterion will break the chain once it is met.</p>
-</section>
-<section id="4.2.-Blackbody-model">
+</div>
+<div class="section" id="4.2.-Blackbody-model">
 <h2>4.2. Blackbody model<a class="headerlink" href="#4.2.-Blackbody-model" title="Permalink to this headline"></a></h2>
 <p>This model does not involve any grid:</p>
 <div class="nbinput nblast docutils container">
@@ -1316,8 +1315,8 @@ Rbb1: 0.7635579346034969 [-0.011310764759267844,0.008391857724618146]
 array([2.53985199e+03, 7.61128071e-01])
 </pre></div></div>
 </div>
-</section>
-<section id="4.3.-BT-SETTL-model">
+</div>
+<div class="section" id="4.3.-BT-SETTL-model">
 <h2>4.3. BT-SETTL model<a class="headerlink" href="#4.3.-BT-SETTL-model" title="Permalink to this headline"></a></h2>
 <p>Let’s now consider a grid of BT-SETTL models. In addition, let’s also consider extinction as a free parameter, since for young objects it is possible that different amounts of dust surround the companion than the central star.</p>
 <p>In the case of BT-SETTL models, there are 2 free parameters in the grid: effective temperature and surface gravity. Let’s define the grid of parameter values covered by the models in our possession (in the <code class="docutils literal notranslate"><span class="pre">models/btsettl15/</span></code> directory).</p>
@@ -1645,8 +1644,8 @@ array([3.26716826e+03, 4.52016129e+00, 5.25820763e-01, 1.78470308e+00])
 </pre></div></div>
 </div>
 <p>The results above are puzzling: a ~3000 K effective temperature combined with a ~0.5 <span class="math notranslate nohighlight">\(R_J\)</span> photometric radius. See Christiaens et al. (2021) for a discussion on the different hypotheses put forward to reconcile these results.</p>
-</section>
-<section id="4.4.-BT-SETTL-+-BB-model">
+</div>
+<div class="section" id="4.4.-BT-SETTL-+-BB-model">
 <h2>4.4. BT-SETTL + BB model<a class="headerlink" href="#4.4.-BT-SETTL-+-BB-model" title="Permalink to this headline"></a></h2>
 <p>Although this is not necessarily a good model for the NIR spectrum of CrA-9 B/b, let’s illustrate how to set up a photospheric + extra blackbody component model to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>.</p>
 <p>Let’s set Gaussian priors on the temperatures of each Blackbody component, to replicate the kinds of constraints that could potentially be obtained from past works.</p>
@@ -1987,8 +1986,8 @@ array([3.15522362e+03, 4.01692631e+00, 4.60215160e-01, 8.32223893e-01,
        1.66376083e+03, 8.23991450e-01])
 </pre></div></div>
 </div>
-</section>
-<section id="4.5.-BT-SETTL-model-+-BrG-line-model">
+</div>
+<div class="section" id="4.5.-BT-SETTL-model-+-BrG-line-model">
 <h2>4.5. BT-SETTL model + BrG line model<a class="headerlink" href="#4.5.-BT-SETTL-model-+-BrG-line-model" title="Permalink to this headline"></a></h2>
 <p>In order to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>, let’s now consider a BT-SETTL + Brackett Gamma line model for the spectrum. Let’s also consider <span class="math notranslate nohighlight">\(R_V\)</span> as a free parameter, and finally consider Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(R_V\)</span>: <span class="math notranslate nohighlight">\(\mu_{\mathrm{log}(g)}=3.5\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{log}(g)} = 0.2\)</span> and <span class="math notranslate nohighlight">\(\mu_{R_V}=3.1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{R_V} = 0.2\)</span>.</p>
 <p>This time, we have a total of 6 free parameters, including 2 captured by the BT-SETTL grid:</p>
@@ -2388,11 +2387,11 @@ array([ 3.21274170e+03,  4.16411256e+00,  5.15590750e-01,  1.57144523e+00,
 </pre></div></div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-</section>
-<section id="5.-Comparison-of-results">
+</div>
+</div>
+<div class="section" id="5.-Comparison-of-results">
 <h1>5. Comparison of results<a class="headerlink" href="#5.-Comparison-of-results" title="Permalink to this headline"></a></h1>
-<section id="5.1.-Akaike-Information-Criterion">
+<div class="section" id="5.1.-Akaike-Information-Criterion">
 <h2>5.1. Akaike Information Criterion<a class="headerlink" href="#5.1.-Akaike-Information-Criterion" title="Permalink to this headline"></a></h2>
 <p>For each of the tested type of model above (Secs. 4.2 to 4.5), let’s compute the Akaike Information Criterion (AIC) in order to assess which one is likely the best model for our observations. The 4 tested models are:</p>
 <ul class="simple">
@@ -2457,8 +2456,8 @@ array([ 3.21274170e+03,  4.16411256e+00,  5.15590750e-01,  1.57144523e+00,
 <p>The values above suggest that the most likely types of model that we considered are the BT-SETTL alone, the BT-SETTL+BB and BT-SETTL+BrG line models.</p>
 <p>Since the difference is &gt;&gt;10 for the BB model, we can conclude that there is no support for that kind of model (Burnham &amp; Anderson 2002).</p>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-<section id="5.2.-Best-fit-models">
+</div>
+<div class="section" id="5.2.-Best-fit-models">
 <h2>5.2. Best-fit models<a class="headerlink" href="#5.2.-Best-fit-models" title="Permalink to this headline"></a></h2>
 <p>Let’s first assemble all the relevant parameters from the different models considered above in different lists:</p>
 <div class="nbinput nblast docutils container">
@@ -2667,8 +2666,8 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-<section id="5.3.-Models-from-the-posterior-distribution">
+</div>
+<div class="section" id="5.3.-Models-from-the-posterior-distribution">
 <h2>5.3. Models from the posterior distribution<a class="headerlink" href="#5.3.-Models-from-the-posterior-distribution" title="Permalink to this headline"></a></h2>
 <p>It can be useful to plot a large number of models randomly picked from the posterior distribution in order to have an idea of the uncertainty in different parts of the spectrum. Let’s consider 200 samples from the posterior distribution:</p>
 <div class="nbinput nblast docutils container">
@@ -2801,9 +2800,9 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
-</section>
-<section id="6.-Nested-sampler-examples">
+</div>
+</div>
+<div class="section" id="6.-Nested-sampler-examples">
 <h1>6. Nested sampler examples<a class="headerlink" href="#6.-Nested-sampler-examples" title="Permalink to this headline"></a></h1>
 <p>The procedure is very similar to set the MCMC and the nested sampler routines as most parameters of <code class="docutils literal notranslate"><span class="pre">mcmc_spec_sampling</span></code> and <code class="docutils literal notranslate"><span class="pre">nested_spec_sampling</span></code> are identical.</p>
 <p>The only differences are the <code class="docutils literal notranslate"><span class="pre">method</span></code>, <code class="docutils literal notranslate"><span class="pre">npoints</span></code>, <code class="docutils literal notranslate"><span class="pre">dlogz</span></code>, <code class="docutils literal notranslate"><span class="pre">decline_factor</span></code> and <code class="docutils literal notranslate"><span class="pre">rstate</span></code> parameters for the nested sampler. Most importantly the <code class="docutils literal notranslate"><span class="pre">method</span></code> can be set to <code class="docutils literal notranslate"><span class="pre">'classic'</span></code> (mcmc; Skilling 2004), <code class="docutils literal notranslate"><span class="pre">'single'</span></code> (single ellipsoid; Mutherjee et al. 2006) or <code class="docutils literal notranslate"><span class="pre">'multi'</span></code> (original multinest implementation as in Feroz et al. 2009, with conservative ellipsoid splitting).</p>
@@ -2845,7 +2844,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </pre></div>
 </div>
 </div>
-<section id="6.1.-Single-ellipsoid-method">
+<div class="section" id="6.1.-Single-ellipsoid-method">
 <h2>6.1. Single ellipsoid method<a class="headerlink" href="#6.1.-Single-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Now let’s set the parameters that are specific to the nested sampler:</p>
 <div class="nbinput nblast docutils container">
@@ -3065,8 +3064,8 @@ R: 0.53+/-0.01 $R_J$
 Av: 1.8+/-0.1 mag
 </pre></div></div>
 </div>
-</section>
-<section id="6.2.-Multi-ellipsoid-method">
+</div>
+<div class="section" id="6.2.-Multi-ellipsoid-method">
 <h2>6.2. Multi-ellipsoid method<a class="headerlink" href="#6.2.-Multi-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Let’s adapt the method and number of active points:</p>
 <div class="nbinput nblast docutils container">
@@ -3264,9 +3263,9 @@ Av: 1.8088400041270487 +-0.0945324850758184
 </div>
 </div>
 <p>We see that for the case of the spectrum of CrA-9B/b with a BT-SETTL + extinction model, even when we allow for multiple nests, the highest likelihood area in the parameter space still corresponds to an individual ellipsoid.</p>
-</section>
-</section>
-<section id="7.-Best-fit-template-spectrum">
+</div>
+</div>
+<div class="section" id="7.-Best-fit-template-spectrum">
 <h1>7. Best-fit template spectrum<a class="headerlink" href="#7.-Best-fit-template-spectrum" title="Permalink to this headline"></a></h1>
 <p>In this section, we will find the best-fit template spectra to our measured spectrum in the Montreal Spectral Library of observed M-L-T type low-mass objects. Since the template spectra from this library typically do not cover wavelengths longward of the K band, we will discard the NACO L’ point from the spectrum, just for the sake of this exercise:</p>
 <div class="nbinput nblast docutils container">
@@ -4951,7 +4950,7 @@ Fits HDU-0 data and header successfully loaded. Data shape: (3, 4145)
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</section>
+</div>
 
 
            </div>

@@ -67,10 +67,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.fits">special.fits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.model_resampling">special.model_resampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.nested_sampling">special.nested_sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-nested-sampling">special.nested_sampling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_corr">special.spec_corr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_indices">special.spec_indices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.template_fit">special.template_fit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-template-fit">special.template_fit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_spec">special.utils_spec</a></li>
 </ul>
@@ -135,10 +135,10 @@
 <span class="sd">    r_in: int, optional</span>
 <span class="sd">        Innermost radius where the spectral correlation starts to be computed.</span>
 <span class="sd">    r_out: int, optional</span>
-<span class="sd">        Outermost radius where the spectral correlation is computed.If left as </span>
+<span class="sd">        Outermost radius where the spectral correlation is computed. If left as </span>
 <span class="sd">        None, it will automatically be computed up to the edge of the frame. </span>
 <span class="sd">    pl_xy: tuple of tuples of 2 floats, optional</span>
-<span class="sd">        x,y coordiantes of all companions present in the images. If provided, </span>
+<span class="sd">        x,y coordinates of all companions present in the images. If provided, </span>
 <span class="sd">        a circle centered on the location of each companion will be masked out </span>
 <span class="sd">        for the spectral correlation computation.</span>
 <span class="sd">    mask_r: float, optional</span>
@@ -185,7 +185,7 @@
         <span class="n">r_out</span> <span class="o">=</span> <span class="n">n_r</span>
 
     <span class="n">test_rads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">r_in</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">r_out</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">n_rad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">test_rads</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">awidth</span><span class="p">))</span>
+    <span class="n">n_rad</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">test_rads</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">awidth</span><span class="p">)))</span>
     
     <span class="c1">#n_rad = int(np.ceil(n_r/ann_width)) # effective number of annuli probed</span>
     
