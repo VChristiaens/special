@@ -3,6 +3,44 @@
 """
 Module with functions for posterior sampling of the model spectra parameters 
 using nested sampling (either ``nestle`` or ``ultranest`` samplers).
+
+.. [nes13]
+   | Barbary 2013
+   | **nestle**
+   | *GitHub*
+   | `https://github.com/kbarbary/nestle
+     <https://github.com/kbarbary/nestle>`_
+
+.. [SKI04]
+   | Skilling 2004
+   | **Bayesian Inference and Maximum Entropy Methods in Science and Engineering: 
+     24th International Workshop on Bayesian Inference and Maximum Entropy 
+     Methods in Science and Engineering**
+   | *American Institute of Physics Conference Series, Volume 735, pp. 395-405*
+   | `https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S
+     <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S>`_
+
+.. [MUK06]
+   | Mukherjee et al. 2006
+   | **A Nested Sampling Algorithm for Cosmological Model Selection**
+   | *ApJL, Volume 638, Issue 2, pp. 51-54*
+   | `https://arxiv.org/abs/astro-ph/0508461
+     <https://arxiv.org/abs/astro-ph/0508461>`_
+
+.. [FER09]
+   | Feroz et al. 2009
+   | **MULTINEST: an efficient and robust Bayesian inference tool for cosmology 
+     and particle physics**
+   | *MNRAS, Volume 398, Issue 4, pp. 1601-1614*
+   | `https://arxiv.org/abs/astro-ph/0809.3437
+     <https://arxiv.org/abs/astro-ph/0809.3437>`_
+     
+.. [BUC21]
+   | Buchner 2021
+   | **UltraNest - a robust, general purpose Bayesian inference engine**
+   | *JOSS, Volume 6, Issue 60, p. 3001*
+   | `https://arxiv.org/abs/astro-ph/2101.09604
+     <https://arxiv.org/abs/astro-ph/2101.09604>`_
 """
 
 
@@ -38,15 +76,17 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                          physical=True, interp_nonexist=True, 
                          output_dir='special/', grid_name='resamp_grid.fits', 
                          sampler='ultranest', method='single', npoints=100, 
-                         dlogz=0.1, decline_factor=None, rstate=None, verbose=True, 
-                         **kwargs):
+                         dlogz=0.1, decline_factor=None, rstate=None, 
+                         verbose=True, **kwargs):
                             
     
     """ Runs a nested sampling algorithm in order to retrieve the best-fit 
     parameters for given spectral model and observed spectrum.. The
-    result of this procedure is either a ``nestle`` or ``ultranest`` object 
-    (depending on the chosen sampler) containing the samples from the posterior 
-    distributions of each of the parameters. 
+    result of this procedure is either a ``nestle`` [nes13] or ``ultranest`` 
+    [BUC21] object (depending on the chosen sampler) containing the samples 
+    from the posterior distributions of each of the parameters.
+    For the ``nestle`` sampler, several methods are available corresponding to
+    MCMC [SKI04], single ellipsoid [MUK06] or multiple ellipsoid [FER09].
 
     Parameters
     ----------
@@ -688,8 +728,8 @@ def show_nestle_results(ns_object, labels, burnin=0.4, bins=None, cfd=68.27,
     return final_res
 
 
-def show_ultranest_results(un_object, bins=None, cfd=68.27,
-                           units=None, ndig=None, labels_plot=None, save=False, 
+def show_ultranest_results(un_object, bins=None, cfd=68.27, units=None, 
+                           ndig=None, labels_plot=None, save=False, 
                            output_dir='/', plot=False, lbda_obs=None, 
                            spec_obs=None, spec_obs_err=None, **kwargs):
     """ 

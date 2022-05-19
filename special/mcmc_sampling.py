@@ -3,6 +3,21 @@
 """
 Module with the MCMC (``emcee``) sampling for model spectra parameter 
 estimation.
+
+.. [FOR13]
+   | Foreman-Mackey et al. 2013
+   | **emcee: The MCMC Hammer**
+   | *PASP, Volume 125, Issue 925, p. 306*
+   | `https://arxiv.org/abs/astro-ph/1202.3665
+     <https://arxiv.org/abs/astro-ph/1202.3665>`_
+     
+.. [FOR19]
+   | Foreman-Mackey et al. 2019
+   | **emcee v3: A Python ensemble sampling toolkit for affine-invariant MCMC**
+   | *JOSS, Volume 4, Issue 43, p. 1864*
+   | `https://arxiv.org/abs/astro-ph/1911.07688
+     <https://arxiv.org/abs/astro-ph/1911.07688>`_
+     
 """
 
 __author__ = 'V. Christiaens'
@@ -511,6 +526,8 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                        save=False):
     """ Runs an affine invariant MCMC sampling algorithm in order to determine
     the most likely parameters for given spectral model and observed spectrum. 
+    The code relies on emcee [FOR13]; [FOR19].
+    
     Allowed features:
     * Spectral models can either be read from a grid (e.g. BT-SETTL) or \
     be purely parametric (e.g. a blackbody model).
@@ -533,7 +550,6 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         
     The result of this procedure is a chain with the samples from the posterior 
     distributions of each of the free parameters in the model.
-    More details in Christiaens et al. (2021).
     
     Parameters
     ----------

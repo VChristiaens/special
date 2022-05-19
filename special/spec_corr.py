@@ -2,6 +2,14 @@
 
 """
 Module to estimate the spectral correlation between channels of an IFS datacube.
+
+.. [GRE16]
+   | Greco & Brandt 2016
+   | **The Measurement, Treatment, and Impact of Spectral Covariance and 
+     Bayesian Priors in Integral-field Spectroscopy of Exoplanets**
+   | *The Astrophysical Journal, Volume 833, Issue 1, p. 134*
+   | `https://arxiv.org/abs/1602.00691
+     <https://arxiv.org/abs/1602.00691>`_
 """
 
 __author__ = 'V. Christiaens'
@@ -16,9 +24,9 @@ from scipy.optimize import curve_fit
 def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
                          mask_r=4, fwhm=4, sp_fwhm_guess=3, full_output=False):
     """ Computes the spectral correlation between (post-processed) IFS frames, 
-    as a function of radius, implemented as Eq. 7 of Greco & Brandt 2017. This 
-    is a crucial step for an unbias fit of a measured IFS spectrum to either 
-    synthetic or template spectra.
+    as a function of radius, implemented as Eq. 7 of [GRE16]. This is a crucial 
+    step for an unbiased fit of a measured IFS spectrum to either synthetic or 
+    template spectra.
     
     Parameters
     ----------

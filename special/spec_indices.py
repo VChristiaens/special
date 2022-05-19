@@ -3,6 +3,29 @@
 """
 Module with utilities to estimate the spectral type and gravity of an object 
 based on spectral indices.
+
+.. [GOR03]
+   | Gorlova et al. 2003
+   | **Gravity Indicators in the Near-Infrared Spectra of Brown Dwarfs**
+   | *The Astrophysical Journal, Volume 593, Issue 1, pp. 1074-1092*
+   | `https://arxiv.org/abs/astro-ph/0305147
+     <https://arxiv.org/abs/astro-ph/0305147>`_
+     
+.. [SLE04]
+   | Slesnick et al. 2004
+   | **The Spectroscopically Determined Substellar Mass Function of the Orion 
+     Nebula Cluster**
+   | *The Astrophysical Journal, Volume 610, Issue 1, pp. 1045-1063*
+   | `https://arxiv.org/abs/astro-ph/0404292
+     <https://arxiv.org/abs/astro-ph/0404292>`_
+          
+.. [ALL07]
+   | Allers et al. 2007
+   | **Characterizing Young Brown Dwarfs Using Low-Resolution Near-Infrared 
+     Spectra**
+   | *The Astrophysical Journal, Volume 657, Issue 1, pp. 511-520*
+   | `https://arxiv.org/abs/astro-ph/0611408
+     <https://arxiv.org/abs/astro-ph/0611408>`_          
 """
 
 __author__ = 'V. Christiaens'
@@ -18,11 +41,11 @@ from .utils_spec import find_nearest
 def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
     """
     Computes a spectral index. Implemented so far:
-        - the Na 1.1 mu index (Allers et al. 2007)
-        - the H2O 1.3 mu index (Gorlova et al. 2003)
-        - the H2O 1.5 mu index (Allers et al. 2007)
-        - the H2O 2 index (Slesnick et al. 2004)
-        - the CO 2.3 index (Gorlova et al. 2003).
+        - the Na 1.1 mu index [ALL07]
+        - the H2O 1.3 mu index [GOR03]
+        - the H2O 1.5 mu index [ALL07]
+        - the H2O 2 index [SLE04]
+        - the CO 2.3 index [GOR03].
         
     Parameters
     ----------
@@ -115,9 +138,9 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
 def sp_idx_to_spt(idx, name='H2O-1.5', idx_err=None, young=True):
     """
     Estimates a spectral type from a spectral index. Implemented so far:
-        - the H2O 1.3 mu index (Gorlova et al. 2003)
-        - the H2O 1.5 mu index (Allers et al. 2007)
-        - the H2O-2 index (Slesnick et al. 2004)
+        - the H2O 1.3 mu index [GOR03]
+        - the H2O 1.5 mu index [ALL07]
+        - the H2O-2 index [SLE04]
         
     Note on scale of SpT: 0 = M0, 10 = L0.
         
@@ -197,8 +220,8 @@ def sp_idx_to_gravity(idx, name='Na-1.1'):
     """
     Provides a qualitative estimate of the gravity/youth based on a 
     gravity-sensitive spectral index. Implemented so far:
-        - the Na-1.1 index (Allers et al. 2007)
-        - the CO-2.3 index (Gorlova et al. 2003)
+        - the Na-1.1 index [ALL07]
+        - the CO-2.3 index [GOR03]
         
     Parameters
     ----------
@@ -235,7 +258,6 @@ def sp_idx_to_gravity(idx, name='Na-1.1'):
 def spt_to_digit(spt, convention='splat'):
     """
     Converts a string representing spectral type into an integer index.
-    Convention (from splat): K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
     
     Parameters
     ----------
@@ -244,7 +266,7 @@ def spt_to_digit(spt, convention='splat'):
     convention: str, optional {'splat', 'Allers+07'}
         Which convention to use to convert digit into spectral type.
         Convention from splat: K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
-        Convention from Allers+07: M0 = 0, L0 = 10, ...
+        Convention from [ALL07]: M0 = 0, L0 = 10, ...
 
     Returns
     -------
