@@ -79,7 +79,7 @@ instruments (e.g. photometry+spectroscopy):
 \begin{equation}
 \label{Eq:logL}
 \log \mathcal{L}(D|M) = - \frac{1}{2} \big[\mathbf{W}(\mathbf{F_{\rm obs}}-\mathbf{F_{\rm mod}})^T\big] \mathbf{C^{-1}} \big[\mathbf{W}^T(\mathbf{F_{\rm obs}}-\mathbf{F_{\rm mod}})\big]
-\end{align}
+\end{equation}
 
 where $\mathbf{F_{\rm obs}}$ and $\mathbf{F_{\rm mod}}$ are the fluxes of the 
 observed and model spectra respectively, $\mathbf{C}$ is the spectral 
