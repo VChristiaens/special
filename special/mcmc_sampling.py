@@ -210,7 +210,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         em_lines.
     dlbda_obs: numpy 1d ndarray or list, optional
         Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral resolution of 
+        IF one wants to weigh each point based on the resolving power of 
         the respective instruments (as in Olofsson et al. 2016).
     instru_corr : numpy 2d ndarray or list, optional
         Spectral correlation throughout post-processed images in which the 
@@ -222,9 +222,9 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
@@ -235,7 +235,7 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         different instruments.
     use_weights: bool, optional
         For the likelihood calculation, whether to weigh each point of the 
-        spectrum based on the spectral resolution or bandwith of photometric
+        spectrum based on the resolving power or bandwith of photometric
         filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
         dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
@@ -401,9 +401,9 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
@@ -414,7 +414,7 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         different instruments.
     use_weights: bool, optional
         For the likelihood calculation, whether to weigh each point of the 
-        spectrum based on the spectral resolution or bandwith of photometric
+        spectrum based on the resolving power or bandwith of photometric
         filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
         dlbda_obs is provided, or set to 1 for all points otherwise.        
     filter_reader: python routine, optional
@@ -668,9 +668,9 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         uncertainties in each spectral channels are independent. See Greco & 
         Brandt (2017) for details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
@@ -681,7 +681,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         different instruments.
     use_weights: bool, optional
         For the likelihood calculation, whether to weigh each point of the 
-        spectrum based on the spectral resolution or bandwith of photometric
+        spectrum based on the resolving power or bandwith of photometric
         filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
         dlbda_obs is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
