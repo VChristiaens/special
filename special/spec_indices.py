@@ -112,15 +112,40 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
         idx_den0 = find_nearest(lbda, lbda_den0, constraint='floor')
         idx_den1 = find_nearest(lbda, lbda_den1, constraint='ceil')
         
+    raise_flag = False
+    # Check if enough spectral resolution
+    err_msg = "Indices overlap for num and den: not enough spectral resolution"
+    if idx_den0 == idx_num1:
+        raise_flag = True
+        if abs(lbda[idx_den0]-lbda_den0)<abs(lbda[idx_num1]-lbda_num1):
+            idx_num1 -= 1
+            if idx_num0 == idx_num1+1:
+                raise ValueError(err_msg)
+        else:
+            idx_den0 += 1
+            if idx_den0 == idx_den1+1:
+                raise ValueError(err_msg)  
+    if idx_den1 == idx_num0:
+        raise_flag = True
+        if abs(lbda[idx_den1]-lbda_den1)<abs(lbda[idx_num0]-lbda_num0):
+            idx_num0 += 1
+            if idx_num0 == idx_num1+1:
+                raise ValueError(err_msg)
+        else:
+            idx_den1 -= 1
+            if idx_den0 == idx_den1+1:
+                raise ValueError(err_msg)
+        
     if verbose:
-        msg = "Closest indices to {}, {}, {} and {} mu"
-        msg+= " correspond to {}, {}, {} and {} resp."
+        if raise_flag:
+            msg = "*WARNING*: spectral resolution is barely sufficient for "
+            msg += "non-overlapping indices - results to be taken with caution!"
+            print(msg)
+        msg = "Closest (non-overlapping) wavelengths to {:.3f}, {:.3f}, {:.3f} and"
+        msg+= " {:.3f} mu correspond to {:.3f}, {:.3f}, {:.3f} and {:.3f} mu resp."
         print(msg.format(lbda_num0, lbda_num1, lbda_den0, lbda_den1, 
                          lbda[idx_num0], lbda[idx_num1], lbda[idx_den0],
                          lbda[idx_den1]))
-    
-    if idx_den0 == idx_num1 or idx_den1 == idx_num0:
-        raise ValueError("Indices overlap for num and den: not enough spec res")
     
     num = np.mean(spec[idx_num0:idx_num1+1])
     den = np.mean(spec[idx_den0:idx_den1+1])
@@ -283,7 +308,7 @@ def spt_to_digit(spt, convention='splat'):
         idx = 0-sub
         loc = spt_str.find('K')
         if convention == 'Allers+07':
-            msg="WARNING: Allers+07 convention does not consider SpT earlier than M"
+            msg="WARNING: Allers+07 convention doesn't handle SpT earlier than M"
             print(msg)        
     elif 'M' in spt_str:
         idx = 10-sub
@@ -299,7 +324,7 @@ def spt_to_digit(spt, convention='splat'):
         loc = spt_str.find('Y')
     else:
         idx = np.nan
-        print("WARNING: Spectral type not between K0 and Y9. Idx set to nan.")
+        print("WARNING: Spectral type not between K0 and Y9. Idx set to NaN.")
 
     if len(spt)>1:
         if len(spt[loc+1:]) > 2:
