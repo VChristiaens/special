@@ -10,3 +10,4 @@ pandas
 matplotlib<=3.4.3
 nbsphinx
 pandoc
+h5py
