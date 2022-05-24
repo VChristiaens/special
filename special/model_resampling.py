@@ -101,9 +101,9 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
@@ -311,9 +311,9 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
         the observed spectrum.
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
-        observed spectrum. If higher spectral resolution, it will be convolved
+        observed spectrum. If higher resolving power, it will be convolved
         with the instrumental spectral psf (if instru_res is provided) and 
-        then binned to the same sampling. If lower spectral resolution, a 
+        then binned to the same sampling. If lower resolving power, a 
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
     dlbda_obs: numpy 1d ndarray or list, optional
@@ -324,9 +324,9 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
@@ -503,9 +503,9 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         the observed spectrum.
     spec_mod : numpy 1d ndarray
         Model spectrum. It does not require the same wavelength sampling as the
-        observed spectrum. If higher spectral resolution, it will be convolved
+        observed spectrum. If higher resolving power, it will be convolved
         with the instrumental spectral psf (if instru_res is provided) and 
-        then binned to the same sampling. If lower spectral resolution, a 
+        then binned to the same sampling. If lower resolving power, a 
         linear interpolation is performed to infer the value at the observed 
         spectrum wavelength sampling.
     dlbda_obs: numpy 1d ndarray or list, optional
@@ -516,9 +516,9 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         half-difference between consecutive lbda_obs points (i.e. inaccurate 
         for a combined spectrum).
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
@@ -592,14 +592,18 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     elif not np.allclose(lbda_obs, lbda_mod):
         cond = True
     if cond:
-        lbda_min = lbda_obs[0]-1.5*dlbda_obs[-1]
-        if instru_res[0] is not None:
-            if np.isscalar(instru_res[0] ):
-                lbda_min = lbda_obs[0]-10*lbda_obs[0]/instru_res[0]
-        lbda_max = lbda_obs[-1]+1.5*dlbda_obs[-1]
-        if instru_res[-1] is not None:
-            if np.isscalar(instru_res[-1] ):
-                lbda_max = lbda_obs[-1]+10*lbda_obs[-1]/instru_res[-1]
+        lbda_min = lbda_obs[0]-2*dlbda_obs[0]
+        if instru_res is not None:
+            if np.isscalar(instru_res[0]) and not isinstance(instru_res[0], str):
+                lbda_instru = lbda_obs[np.where(instru_idx==1)]
+                instru_fwhm = np.mean(lbda_instru)/instru_res[0]
+                lbda_min = lbda_obs[0]-3*instru_fwhm
+        lbda_max = lbda_obs[-1]+2*dlbda_obs[-1]
+        if instru_res is not None:
+            if np.isscalar(instru_res[-1]) and not isinstance(instru_res[-1], str):
+                lbda_instru = lbda_obs[np.where(instru_idx==np.amax(instru_idx))]
+                instru_fwhm = np.mean(lbda_instru)/instru_res[-1]
+                lbda_min = lbda_obs[-1]+3*instru_fwhm
                 
         if no_constraint:
             idx_ini = find_nearest(lbda_mod, lbda_min)
@@ -658,11 +662,10 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                 idx_0=-1
                 if nc != nchunks_i-1:
                     pdb.set_trace() # should not happen
-            idx_ini = find_nearest(lbda_mod,lbda_obs[idx_1],
+            idx_ini = find_nearest(lbda_mod, lbda_obs[idx_1],
                                    constraint='floor')
-            idx_fin = find_nearest(lbda_mod,lbda_obs[idx_0],
+            idx_fin = find_nearest(lbda_mod, lbda_obs[idx_0],
                                    constraint='ceil')
-
 
             spl = InterpolatedUnivariateSpline(lbda_mod[idx_ini:idx_fin], 
                                                spec_mod[idx_ini:idx_fin],
@@ -671,11 +674,9 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
 
             
     ## convolve+bin where the model spectrum has higher resolution (most likely)
-    if np.sum(do_interp) < n_ch or dlbda_obs_min > 0:
-    # Note: if dlbda_obs_min < 0, it means several instruments are used with 
-    # overlapping WL ranges. instru_res should be provided!
+    if np.sum(do_interp) < n_ch or dlbda_obs_min < 0:
         if instru_res is None:
-            msg = "Warning! No spectral resolution nor filter file provided"
+            msg = "Warning! No resolving power nor filter file provided"
             msg+= " => binning without convolution"
             print(msg)
             for ll, lbda in enumerate(lbda_obs):
@@ -686,6 +687,10 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                 i_l = find_nearest(lbda_mod,
                                    mid_lbda_l[ll])
                 spec_mod_res[ll] = np.mean(spec_mod[i_f:i_l+1])
+            if dlbda_obs_min < 0:
+                msg = "instru_res not provided, but dlbda_obs_min < 0 means " 
+                msg += "several instruments are used with overlapping WL ranges"
+                raise ValueError(msg)
         else:
             if verbose:
                 print("convolving+binning where model spectrum has higher res")   
