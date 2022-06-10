@@ -25,6 +25,7 @@ clean:
 
 docs:
 	rm -rf docs/api
+	rm -f docs/special.rst
 	python helpers/update_docs_rst_from_README.py
 	sphinx-apidoc -o docs special
 	cd docs/
