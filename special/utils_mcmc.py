@@ -9,9 +9,6 @@ parameter estimation.
 __author__ = 'V. Christiaens, O. Wertz, Carlos Alberto Gomez Gonzalez'
 __all__ = ['gelman_rubin',
            'gelman_rubin_from_chain',
-           'autocorr_func_1d',
-           'auto_window',
-           'autocorr',
            'autocorr_test']
 
 import numpy as np
@@ -149,6 +146,23 @@ def autocorr(y, c=5.0):
 
 
 def autocorr_test(chain):
+    """
+    Function to measure the auto-correlation 'timescale' of the chain, 
+    normalized by the length of the whole chain up to that point. This metrics 
+    can then be used to check if the chain has likely converged. More details
+    here: https://emcee.readthedocs.io/en/stable/tutorials/autocorr/
+    
+    Parameters
+    ----------
+    chain: numpy.array
+        The numpy.array on which the auto-correlation is calculated.
+        
+    Returns
+    -------
+    tau/N: float
+        The normalized auto-correlation timescale.
+    """
+    
     N = chain.shape[1]
     tau = autocorr(chain)
     return tau/N

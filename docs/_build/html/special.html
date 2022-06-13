@@ -2670,24 +2670,24 @@ must all have the same format and wavelength units (for reading by the same
 <p>Module with utility functions to the MCMC (<code class="docutils literal notranslate"><span class="pre">emcee</span></code>) sampling for
 parameter estimation.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="special.utils_mcmc.auto_window">
-<span class="sig-prename descclassname"><span class="pre">special.utils_mcmc.</span></span><span class="sig-name descname"><span class="pre">auto_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">taus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/utils_mcmc.html#auto_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.utils_mcmc.auto_window" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="special.utils_mcmc.autocorr">
-<span class="sig-prename descclassname"><span class="pre">special.utils_mcmc.</span></span><span class="sig-name descname"><span class="pre">autocorr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/utils_mcmc.html#autocorr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.utils_mcmc.autocorr" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="special.utils_mcmc.autocorr_func_1d">
-<span class="sig-prename descclassname"><span class="pre">special.utils_mcmc.</span></span><span class="sig-name descname"><span class="pre">autocorr_func_1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/utils_mcmc.html#autocorr_func_1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.utils_mcmc.autocorr_func_1d" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="special.utils_mcmc.autocorr_test">
 <span class="sig-prename descclassname"><span class="pre">special.utils_mcmc.</span></span><span class="sig-name descname"><span class="pre">autocorr_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/utils_mcmc.html#autocorr_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.utils_mcmc.autocorr_test" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Function to measure the auto-correlation ‘timescale’ of the chain,
+normalized by the length of the whole chain up to that point. This metrics
+can then be used to check if the chain has likely converged. More details
+here: <a class="reference external" href="https://emcee.readthedocs.io/en/stable/tutorials/autocorr/">https://emcee.readthedocs.io/en/stable/tutorials/autocorr/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chain</strong> (<em>numpy.array</em>) – The numpy.array on which the auto-correlation is calculated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tau/N</strong> – The normalized auto-correlation timescale.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="special.utils_mcmc.gelman_rubin">
