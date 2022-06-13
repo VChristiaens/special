@@ -6,7 +6,7 @@ This package provides the following tools for the analysis of measured spectra:
 * calculation of the spectral correlation between channels of an IFS datacube;
 * calculation of empirical spectral indices for MLT-dwarfs;
 * fitting of input spectra to different grids of models, including additional parameters such as (extra) black body component(s) and extinction;
-* using either MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) or nested (`nestle <http://github.com/kbarbary/nestle>`_ or `UltraNest <https://johannesbuchner.github.io/UltraNest/>`_)) samplers to infer posterior distributions on spectral model parameters;
+* using either MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) or nested (`nestle <http://github.com/kbarbary/nestle>`_ or `UltraNest <https://johannesbuchner.github.io/UltraNest/>`_) samplers to infer posterior distributions on spectral model parameters;
 * searching for the best-fit template spectrum within a given template library, with up to two free parameters (flux scaling and relative extinction).
 
 

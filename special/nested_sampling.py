@@ -41,6 +41,7 @@ using nested sampling (either ``nestle`` or ``ultranest`` samplers).
    | *JOSS, Volume 6, Issue 60, p. 3001*
    | `https://arxiv.org/abs/2101.09604
      <https://arxiv.org/abs/2101.09604>`_
+     
 """
 
 
@@ -248,12 +249,12 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
         
     AV_bef_bb: bool, optional
         If both extinction and an extra bb component are free parameters, 
@@ -277,11 +278,19 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         If not None, sets prior estimates for each parameter of the model. Each 
         entry should be set to either None (no prior) or a tuple of 2 elements 
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in bounds dictionary but not here) will
-        be associated no prior.
-        e.g. priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1), 
-        'Av':(1.8,0.2), 'M':(10,3)}
-        Important: dictionary entry names should match exactly those of bounds.
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        will be associated no prior.
+        'M' can be used for a prior on the mass of the planet. In that case the
+        corresponding prior log probability is computed from the values for 
+        parameters 'logg' and 'R'.
+        
+        Examples:
+            >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
+            >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
+            >>>           'Av':(1.8,0.2), 'M':(10,3)}
+        
+        Important: dictionary entry names should match exactly those of 
+        ``bounds``.
     physical: bool, opt
         In case of extra black body component(s) to a photosphere, whether to 
         force lower temperature than the photosphere effective temperature.
@@ -346,51 +355,51 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     finding global maxima.
 
     Nestle documentation:
-    http://kbarbary.github.io/nestle/
+        http://kbarbary.github.io/nestle/
 
     Convergence:
-    http://kbarbary.github.io/nestle/stopping.html
-    Nested sampling has no well-defined stopping point. As iterations continue,
-    the active points sample a smaller and smaller region of prior space.
-    This can continue indefinitely. Unlike typical MCMC methods, we don't gain
-    any additional precision on the results by letting the algorithm run longer;
-    the precision is determined at the outset by the number of active points.
-    So, we want to stop iterations as soon as we think the active points are
-    doing a pretty good job sampling the remaining prior volume - once we've
-    converged to the highest-likelihood regions such that the likelihood is
-    relatively flat within the remaining prior volume.
+        http://kbarbary.github.io/nestle/stopping.html
+        Nested sampling has no well-defined stopping point. As iterations continue,
+        the active points sample a smaller and smaller region of prior space.
+        This can continue indefinitely. Unlike typical MCMC methods, we don't gain
+        any additional precision on the results by letting the algorithm run longer;
+        the precision is determined at the outset by the number of active points.
+        So, we want to stop iterations as soon as we think the active points are
+        doing a pretty good job sampling the remaining prior volume - once we've
+        converged to the highest-likelihood regions such that the likelihood is
+        relatively flat within the remaining prior volume.
 
     Method:
-    The trick in nested sampling is to, at each step in the algorithm,
-    efficiently choose a new point in parameter space drawn with uniform
-    probability from the parameter space with likelihood greater than the
-    current likelihood constraint. The different methods all use the
-    current set of active points as an indicator of where the target
-    parameter space lies, but differ in how they select new points from  it.
-        "classic" is close to the method described in [SKI04]_.
-        "single" [MUK06]_ determines a single ellipsoid that bounds all active 
-            points, enlarges the ellipsoid by a user-settable factor, and 
-            selects a new point at random from within the ellipsoid.
-        "multiple" [FER09]_ (Multinest). In cases where the posterior is 
-            multi-modal, the single-ellipsoid method can be extremely inefficient. 
-            In such situations, there are clusters of active points on separate
-            high-likelihood regions separated by regions of lower likelihood.
-    Bounding all points in a single ellipsoid means that the ellipsoid
-    includes the lower-likelihood regions we wish to avoid
-    sampling from.
-    The solution is to detect these clusters and bound them in separate
-    ellipsoids. For this, we use a recursive process where we perform
-    K-means clustering with K=2. If the resulting two ellipsoids have a
-    significantly lower total volume than the parent ellipsoid (less than half),
-    we accept the split and repeat the clustering and volume test on each of
-    the two subset of points. This process continues recursively.
-    Alternatively, if the total ellipse volume is significantly greater
-    than expected (based on the expected density of points) this indicates
-    that there may be more than two clusters and that K=2 was not an
-    appropriate cluster division.
-    We therefore still try to subdivide the clusters recursively. However,
-    we still only accept the final split into N clusters if the total volume
-    decrease is significant.
+        The trick in nested sampling is to, at each step in the algorithm,
+        efficiently choose a new point in parameter space drawn with uniform
+        probability from the parameter space with likelihood greater than the
+        current likelihood constraint. The different methods all use the
+        current set of active points as an indicator of where the target
+        parameter space lies, but differ in how they select new points from it:
+        
+        - "classic" is close to the method described in [SKI04]_.
+        - "single" [MUK06]_ determines a single ellipsoid that bounds all active \
+        points, enlarges the ellipsoid by a user-settable factor, and \
+        selects a new point at random from within the ellipsoid.
+        - "multiple" [FER09]_ (Multinest). In cases where the posterior is \
+        multi-modal, the single-ellipsoid method can be extremely inefficient. \
+        In such situations, there are clusters of active points on separate \
+        high-likelihood regions separated by regions of lower likelihood. Bounding \
+        all points in a single ellipsoid means that the ellipsoid includes the \
+        lower-likelihood regions we wish to avoid sampling from.\
+        The solution is to detect these clusters and bound them in separate\
+        ellipsoids. For this, we use a recursive process where we perform\
+        K-means clustering with K=2. If the resulting two ellipsoids have a\
+        significantly lower total volume than the parent ellipsoid (less than half),\
+        we accept the split and repeat the clustering and volume test on each of\
+        the two subset of points. This process continues recursively.\
+        Alternatively, if the total ellipse volume is significantly greater\
+        than expected (based on the expected density of points) this indicates\
+        that there may be more than two clusters and that K=2 was not an\
+        appropriate cluster division.\
+        We therefore still try to subdivide the clusters recursively. However,\
+        we still only accept the final split into N clusters if the total volume\
+        decrease is significant.
 
     Note
     ----

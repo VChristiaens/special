@@ -2,13 +2,6 @@
 
 """
 Functions useful for spectral fitting of companions, and model interpolation.
-
-.. [OLO16]
-   | Olofsson et al. 2016
-   | **Azimuthal asymmetries in the debris disk around HD 61005. A massive collision of planetesimals?**
-   | *Astronomy & Astrophysics, Volume 591, p. 108*
-   | `https://arxiv.org/abs/1601.07861
-     <https://arxiv.org/abs/1601.07861>`_
      
 """
 
@@ -148,12 +141,12 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
      
     AV_bef_bb: bool, optional
         If both extinction and an extra bb component are free parameters, 
@@ -408,12 +401,12 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
      
     interp_nonexist: bool, opt
         Whether to interpolate if models do not exist, based on closest model(s)
@@ -618,12 +611,12 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
      
     no_constraint: bool, optional
         If set to True, will not use 'floor' and 'ceil' constraints when
@@ -895,6 +888,7 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
             contribution. 
+            
         Note: only necessary if an emission line dictionary ``em_lines`` is provided.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each

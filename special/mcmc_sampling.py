@@ -24,21 +24,6 @@ estimation.
    | *Comm. App. Math. Comp. Sci., Vol. 5, Issue 1, pp. 65-80.*
    | `https://ui.adsabs.harvard.edu/abs/2010CAMCS...5...65G
      <https://ui.adsabs.harvard.edu/abs/2010CAMCS...5...65G>`_
-
-.. [GRE16]
-   | Greco & Brandt 2016
-   | **The Measurement, Treatment, and Impact of Spectral Covariance and 
-     Bayesian Priors in Integral-field Spectroscopy of Exoplanets**
-   | *The Astrophysical Journal, Volume 833, Issue 1, p. 134*
-   | `https://arxiv.org/abs/1602.00691
-     <https://arxiv.org/abs/1602.00691>`_     
-
-.. [OLO16]
-   | Olofsson et al. 2016
-   | **Azimuthal asymmetries in the debris disk around HD 61005. A massive collision of planetesimals?**
-   | *Astronomy & Astrophysics, Volume 591, p. 108*
-   | `https://arxiv.org/abs/1601.07861
-     <https://arxiv.org/abs/1601.07861>`_
      
 """
 
@@ -111,11 +96,19 @@ def lnprior(params, labels, bounds, priors=None):
         If not None, sets prior estimates for each parameter of the model. Each 
         entry should be set to either None (no prior) or a tuple of 2 elements 
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in bounds dictionary but not here) will
-        be associated no prior.
-        e.g. priors = {'Teff':(1600,100), 'logg':(3.5,0.5),
-                       'R':(1.6,0.1), 'Av':(1.8,0.2), 'M':(10,3)}
-        Important: dictionary entry names should match exactly those of bounds.
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        will be associated no prior.
+        'M' can be used for a prior on the mass of the planet. In that case the
+        corresponding prior log probability is computed from the values for 
+        parameters 'logg' and 'R'.
+        
+        Examples:
+            >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
+            >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
+            >>>           'Av':(1.8,0.2), 'M':(10,3)}
+        
+        Important: dictionary entry names should match exactly those of 
+        ``bounds``.
     
     Returns
     -------
@@ -293,12 +286,12 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
         
     AV_bef_bb: bool, optional
         If both extinction and an extra bb component are free parameters, 
@@ -505,12 +498,13 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
         contains transmission values. Important: if not provided, but strings 
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+            
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
         
     AV_bef_bb: bool, optional
         If both extinction and an extra bb component are free parameters, 
@@ -817,12 +811,12 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
         
     AV_bef_bb: bool, optional
         If both extinction and an extra bb component are free parameters, 
@@ -846,16 +840,16 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         If not None, sets prior estimates for each parameter of the model. Each 
         entry should be set to either None (no prior) or a tuple of 2 elements 
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in bounds dictionary but not here) will
-        be associated no prior.
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        will be associated no prior.
         'M' can be used for a prior on the mass of the planet. In that case the
         corresponding prior log probability is computed from the values for 
         parameters 'logg' and 'R'.
         
         Examples:
             >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
-            >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1), \
-                        'Av':(1.8,0.2), 'M':(10,3)}
+            >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
+            >>>           'Av':(1.8,0.2), 'M':(10,3)}
         
         Important: dictionary entry names should match exactly those of 
         ``bounds``.

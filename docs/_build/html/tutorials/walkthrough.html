@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>special tutorial &mdash; special  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,8 +16,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -391,12 +392,12 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="special-tutorial">
+<section id="special-tutorial">
 <h1><em>special</em> tutorial<a class="headerlink" href="#special-tutorial" title="Permalink to this headline"></a></h1>
 <p>Written by: <em>Valentin Christiaens</em>.</p>
 <p>Last update: <em>2022/06/09</em></p>
 <p>This jupyter notebook tutorial is available in the <code class="docutils literal notranslate"><span class="pre">special-extras</span></code> <a class="reference external" href="https://github.com/VChristiaens/special_extras">repository</a>. Alternatively, you can execute this repository on <a class="reference external" href="https://mybinder.org/v2/gh/VChristiaens/special_extras/main">Binder</a> (in the tutorials directory).</p>
-<div class="section" id="Table-of-contents">
+<section id="Table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#Table-of-contents" title="Permalink to this headline"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="#1.-Loading-the-data">1. Loading the data</a></p></li>
@@ -418,7 +419,7 @@ div.rendered_html tbody tr:hover {
 <li><p><a class="reference external" href="#4.2.-Blackbody-model">4.2. Blackbody model</a></p></li>
 <li><p><a class="reference external" href="#4.3.-BT-SETTL-model">4.3. BT-SETTL model</a></p></li>
 <li><p><a class="reference external" href="#4.4.-BT-SETTL-+-BB-model">4.4. BT-SETTL + BB model</a></p></li>
-<li><p><a class="reference external" href="#4.5.-BT-SETTL-+-BrG-line-model">4.5. BT-SETTL + BrG line model</a></p></li>
+<li><p><a class="reference external" href="#4.5.-BT-SETTL-model-+-BrG-line-model">4.5. BT-SETTL + BrG line model</a></p></li>
 </ul>
 </li>
 <li><p><a class="reference external" href="#5.-Comparison-of-results">5. Comparison of results</a></p>
@@ -466,9 +467,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="1.-Loading-the-data">
+</section>
+</section>
+<section id="1.-Loading-the-data">
 <h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline"></a></h1>
 <p>In the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">special_extras</span></code> repository you can find:</p>
 <ul class="simple">
@@ -543,7 +544,7 @@ Fits HDU-0 data successfully loaded. Data shape: (39, 291, 291)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x7fa06b6a6fa0&gt;
+&lt;matplotlib.image.AxesImage at 0x7fdbd1459ca0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -600,7 +601,7 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </pre></div></div>
 </div>
-<p>The flux units follow the SI convention (W m<span class="math notranslate nohighlight">\(^{-2}\)</span>). Let’s set it for later. Note that <code class="docutils literal notranslate"><span class="pre">special</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if units are provided for observed and model spectra. If not specified, <code class="docutils literal notranslate"><span class="pre">special</span></code> assumes SI units.</p>
+<p>The flux units follow the SI convention (W m<span class="math notranslate nohighlight">\(^{-2} \mu\)</span>m<span class="math notranslate nohighlight">\(^{-1}\)</span>). Let’s set it for later. Note that <code class="docutils literal notranslate"><span class="pre">special</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if units are provided for observed and model spectra. If not specified, <code class="docutils literal notranslate"><span class="pre">special</span></code> assumes SI units.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -633,7 +634,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fa06962df40&gt;
+&lt;matplotlib.legend.Legend at 0x7fdbb0080f70&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -644,14 +645,14 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-<div class="section" id="2.-Spectral-correlation-matrix">
+</section>
+<section id="2.-Spectral-correlation-matrix">
 <h1>2. Spectral correlation matrix<a class="headerlink" href="#2.-Spectral-correlation-matrix" title="Permalink to this headline"></a></h1>
-<div class="section" id="2.1-Estimating-the-spectral-correlation-between-IFS-channels">
+<section id="2.1-Estimating-the-spectral-correlation-between-IFS-channels">
 <h2>2.1 Estimating the spectral correlation between IFS channels<a class="headerlink" href="#2.1-Estimating-the-spectral-correlation-between-IFS-channels" title="Permalink to this headline"></a></h2>
 <p>Before fitting different models to the spectrum, let’s first estimate the spectral correlation between the IFS channels. By design of the IFS, the flux at a given wavelength leaks on/overlaps with neighbouring channels. These can therefore not be considered as independent measurements. The spectral correlation matrix has therefore to be considered when fitting a given IFS spectrum. Not taking it into account can indeed lead to significant biases, and in particular to erroneous results in terms
 of best-fit model parameters (see e.g. <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt 2016</a>).</p>
-<p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">special</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt 2016</a>. For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
+<p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">special</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt (2016)</a>. For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -747,8 +748,8 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 </div>
 <p>Here we used a high number of principal components for PCA, and the companion is far away from the star, such that the correlated speckle noise is efficiently subtracted from each reduced channel. Consequently, not much correlation can be seen between channels. Each spectral channel is most correlated to itself, and at most to its 2 closest neighbouring channels. Note that zero is adopted for uncorrelated channels.</p>
-</div>
-<div class="section" id="2.2-Concatenating-spectral-correlation-matrices">
+</section>
+<section id="2.2-Concatenating-spectral-correlation-matrices">
 <h2>2.2 Concatenating spectral correlation matrices<a class="headerlink" href="#2.2-Concatenating-spectral-correlation-matrices" title="Permalink to this headline"></a></h2>
 <p>Since our full spectrum of CrA-9b/B also contains photometric points measured by SPHERE/IRDIS (2) and NACO (1), we need to pad the IFS spectral correlation matrix with 3 additional rows and columns of zeroes + ones on the diagonal, in order to get the final spectral correlation matrix.</p>
 <p>This can easily be done with the <code class="docutils literal notranslate"><span class="pre">combine_spec_corrs</span></code> routine:</p>
@@ -795,14 +796,14 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-</div>
-<div class="section" id="3.-Preliminary-spectral-analysis">
+</section>
+</section>
+<section id="3.-Preliminary-spectral-analysis">
 <h1>3. Preliminary spectral analysis<a class="headerlink" href="#3.-Preliminary-spectral-analysis" title="Permalink to this headline"></a></h1>
-<p>A number of utilities are implemented in the <code class="docutils literal notranslate"><span class="pre">utils_spec</span></code> module, which allow for a preliminary qualitative analysis of the spectrum of the companion. However, to avoid biased conclusions due to extinction in this preliminary analysis, let’s first deredden the observed spectrum using the value quoted in the literature for CrA-9 (<span class="math notranslate nohighlight">\(A_V = 1.6\)</span> mag; Dunham et a. 2015).</p>
-<div class="section" id="3.1-Dereddening">
+<p>A number of utilities are implemented in the <code class="docutils literal notranslate"><span class="pre">utils_spec</span></code> and <code class="docutils literal notranslate"><span class="pre">spec_indices</span></code> module, which allow for a preliminary qualitative analysis of the spectrum of the companion. However, to avoid biased conclusions due to extinction in this preliminary analysis, let’s first deredden the observed spectrum using the value quoted in the literature for CrA-9 (<span class="math notranslate nohighlight">\(A_V = 1.6\)</span> mag; <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2015ApJS..220...11D/abstract">Dunham et al. 2015</a>).</p>
+<section id="3.1-Dereddening">
 <h2>3.1 Dereddening<a class="headerlink" href="#3.1-Dereddening" title="Permalink to this headline"></a></h2>
-<p>Provided a given <span class="math notranslate nohighlight">\(A_V\)</span> extinction value, the <code class="docutils literal notranslate"><span class="pre">extinction</span></code> routine can estimate the corresponding extinction factor at different wavelengths following the Cardelli et al. (1989) law, and for a desired <span class="math notranslate nohighlight">\(R_V\)</span> value. Let’s consider the standard ISM value of <span class="math notranslate nohighlight">\(R_V = 3.1\)</span> mag (default if not provided).</p>
+<p>Provided a given <span class="math notranslate nohighlight">\(A_V\)</span> extinction value, the <code class="docutils literal notranslate"><span class="pre">extinction</span></code> routine can estimate the corresponding extinction factor at different wavelengths following the <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1989ApJ...345..245C/abstract">Cardelli et al. (1989)</a> law, and for a desired <span class="math notranslate nohighlight">\(R_V\)</span> value. Let’s consider the standard ISM value of <span class="math notranslate nohighlight">\(R_V = 3.1\)</span> mag (default if not provided).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
@@ -865,7 +866,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fa0584ed700&gt;
+&lt;matplotlib.legend.Legend at 0x7fdbf4600730&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -875,11 +876,11 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 <img alt="../_images/tutorials_walkthrough_56_1.png" src="../_images/tutorials_walkthrough_56_1.png" />
 </div>
 </div>
-</div>
-<div class="section" id="3.2-Spectral-indices">
+</section>
+<section id="3.2-Spectral-indices">
 <h2>3.2 Spectral indices<a class="headerlink" href="#3.2-Spectral-indices" title="Permalink to this headline"></a></h2>
 <p>(Sub)stellar objects of M, L and T types have been extensively studied. Some empirical spectral indices have been proposed to estimate either their spectral type or their gravity type from the measured flux in two parts of their spectrum. Some of these spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code> (additional inputs are welcome). An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
-<p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to the following works: Allers et al. (2007); Bonnefoy et al. (2014) and references therein.</p>
+<p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2007ApJ...657..511A/abstract">Allers et al. (2007)</a> and references therein.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
@@ -951,13 +952,13 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div></div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-</div>
-<div class="section" id="4.-MCMC-sampler-examples">
+</section>
+</section>
+<section id="4.-MCMC-sampler-examples">
 <h1>4. MCMC sampler examples<a class="headerlink" href="#4.-MCMC-sampler-examples" title="Permalink to this headline"></a></h1>
 <p>Now let’s fit different models to the observed spectrum of CrA-9 b/B.</p>
 <p>In that purpose, let’s first define some parameters that will be common to all MCMC sampler runs on this measured spectrum.</p>
-<div class="section" id="4.1.-Parameters">
+<section id="4.1.-Parameters">
 <h2>4.1. Parameters<a class="headerlink" href="#4.1.-Parameters" title="Permalink to this headline"></a></h2>
 <p>Let’s first define the distance to the system, which will be used to scale the models (along with the companion radius):</p>
 <div class="nbinput nblast docutils container">
@@ -968,7 +969,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div>
 </div>
 </div>
-<p>The internal workings of <code class="docutils literal notranslate"><span class="pre">special</span></code> allow for the convolution with the spectral PSF of (in the case of an IFS), or the integration over a filter transmission curve (in the case of photometric points). For these options to be considered, let’s provide the nominal spectral FWHM in nm for IFS (19.15 nm), and the name of the filenames where the filter transmission curves are encoded.</p>
+<p>The internal workings of <code class="docutils literal notranslate"><span class="pre">special</span></code> allow for the convolution with the spectral PSF of an IFS, or the integration over a filter transmission curve (in the case of photometric points). For these options to be considered, let’s provide the average resolving power of the IFS in YJH mode (34.5), and the name of the filenames where the filter transmission curves are encoded.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
@@ -1049,7 +1050,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div>
 </div>
 </div>
-<p>Let’s set the MCMC parameters identically for all runs shown in the next subsections (see more details in <code class="docutils literal notranslate"><span class="pre">emcee</span></code> documentation):</p>
+<p>Let’s set the MCMC parameters identically for all runs shown in the next subsections (see more details in <code class="docutils literal notranslate"><span class="pre">emcee</span></code> <a class="reference external" href="https://emcee.readthedocs.io/en/stable/index.html">documentation</a>):</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
@@ -1083,9 +1084,9 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </pre></div>
 </div>
 </div>
-<p>Note that for the purpose of this tutorial, we set a low number of walkers and a low maximum number of iterations. It is recommended to set it large enough (&gt;&gt;1000, depends on number of parameters and model) such that the convergence criterion will break the chain once it is met.</p>
-</div>
-<div class="section" id="4.2.-Blackbody-model">
+<p>Note that for the purpose of this tutorial, we set a low number of walkers and a low maximum number of iterations. It is recommended to set it large enough (e.g. &gt;&gt;1000, although it depends on the considered number of parameters and model) such that the convergence criterion will break the chain once it is met.</p>
+</section>
+<section id="4.2.-Blackbody-model">
 <h2>4.2. Blackbody model<a class="headerlink" href="#4.2.-Blackbody-model" title="Permalink to this headline"></a></h2>
 <p>This model does not involve any grid:</p>
 <div class="nbinput nblast docutils container">
@@ -1218,18 +1219,18 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Tbb1: 68.72857142857143%
-percentage for Rbb1: 69.55142857142857%
+percentage for Tbb1: 69.74857142857142%
+percentage for Rbb1: 70.00285714285712%
 ******* Results for Tbb1 *****
 
 
 Confidence intervals:
-Tbb1: 2537.7400493630957 [-12.792700205536221,17.24233505963548]
+Tbb1: 2536.3008598304377 [-12.575947606552745,19.762203381726067]
 ******* Results for Rbb1 *****
 
 
 Confidence intervals:
-Rbb1: 0.7611845929296133 [-0.0093733577473053,0.009373357747305189]
+Rbb1: 0.761942432794374 [-0.010879437962803107,0.008071841069176466]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1314,13 +1315,13 @@ Rbb1: 0.7611845929296133 [-0.0093733577473053,0.009373357747305189]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([2.53977904e+03, 7.61103568e-01])
+array([2.53988657e+03, 7.61135491e-01])
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="4.3.-BT-SETTL-model">
+</section>
+<section id="4.3.-BT-SETTL-model">
 <h2>4.3. BT-SETTL model<a class="headerlink" href="#4.3.-BT-SETTL-model" title="Permalink to this headline"></a></h2>
-<p>Let’s now consider a grid of BT-SETTL models. In addition, let’s also consider extinction as a free parameter, since for young objects it is possible that different amounts of dust surround the companion than the central star.</p>
+<p>Let’s now consider a grid of BT-SETTL models. In addition, let’s also consider extinction as a free parameter, since for young objects it is possible that different amounts of dust surround the companion and the central star.</p>
 <p>In the case of BT-SETTL models, there are 2 free parameters in the grid: effective temperature and surface gravity. Let’s define the grid of parameter values covered by the models in our possession (in the <code class="docutils literal notranslate"><span class="pre">models/btsettl15/</span></code> directory).</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
@@ -1367,7 +1368,7 @@ array([2.53977904e+03, 7.61103568e-01])
 </pre></div>
 </div>
 </div>
-<p>Since the snippet function already performs the conversion to SI flux units (W m<span class="math notranslate nohighlight">\(^{-2}\)</span>), we will the model units to ‘si’. Note that ‘cgs’ units or ‘jy’ are also accepted - the conversion to match the observed flux would then be made internally.</p>
+<p>Since the snippet function already performs the conversion to SI flux units (W m<span class="math notranslate nohighlight">\(^{-2} \mu\)</span>m<span class="math notranslate nohighlight">\(^{-1}\)</span>), we will set the model units to ‘si’. Note that ‘cgs’ units or ‘jy’ are also accepted - the conversion to match the observed flux would then be made internally.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
@@ -1376,8 +1377,7 @@ array([2.53977904e+03, 7.61103568e-01])
 </pre></div>
 </div>
 </div>
-<p>Considering also the extinction <code class="docutils literal notranslate"><span class="pre">A_V</span></code> as a free parameter, we have a total of 4 free parameters, including 2 captured by the grid:</p>
-<p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">special</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
+<p>Considering the extinction <code class="docutils literal notranslate"><span class="pre">A_V</span></code> and photometric radius <code class="docutils literal notranslate"><span class="pre">R</span></code> (in Jovian radii) as free parameters, we have a total of 4 free parameters, including 2 captured by the grid: the temperature and surface gravity.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
@@ -1426,7 +1426,7 @@ array([2.53977904e+03, 7.61103568e-01])
 </pre></div>
 </div>
 </div>
-<p><strong>Important</strong>: if a file named <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>+<code class="docutils literal notranslate"><span class="pre">grid_name</span></code> already exists it will be used, instead of creating a new resmpled grid (this is to save time when a given MCMC sampling is performed multiple times with different options). Make sure to change either <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">grid_name</span></code> when considering different models or a different range of parameter values in the grid (i.e. differente <code class="docutils literal notranslate"><span class="pre">grid_list</span></code>).</p>
+<p><strong>Important</strong>: if a file named <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>+<code class="docutils literal notranslate"><span class="pre">grid_name</span></code> already exists it will be used, instead of creating a new resampled grid (this is to save time when a given MCMC sampling is performed multiple times with different options). Make sure to change either <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">grid_name</span></code> when considering different models or a different range of parameter values in the grid (i.e. differente <code class="docutils literal notranslate"><span class="pre">grid_list</span></code>).</p>
 <p>We also set a filename where the MCMC results will be written as a pickle, such that they can be accessed without having to run again the MCMC.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
@@ -1492,7 +1492,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_140_0.png" src="../_images/tutorials_walkthrough_140_0.png" />
+<img alt="../_images/tutorials_walkthrough_139_0.png" src="../_images/tutorials_walkthrough_139_0.png" />
 </div>
 </div>
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
@@ -1536,37 +1536,37 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 69.50285714285714%
-percentage for logg: 69.94000000000003%
-percentage for R: 69.45428571428572%
-percentage for Av: 69.20857142857142%
+percentage for Teff: 69.82285714285716%
+percentage for logg: 68.3142857142857%
+percentage for R: 68.4857142857143%
+percentage for Av: 68.61428571428569%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3250.786950363903 [-37.35389427426344,58.69897671669969]
+Teff: 3270.829245690103 [-59.65741460139634,45.195011061663536]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.50766009803268 [-0.07043724567424547,0.32657268448968146]
+logg: 4.538874497516283 [-0.07804634980545355,0.3050902765122254]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5303496899941924 [-0.014883690882466882,0.009780711151335386]
+R: 0.5256716693427763 [-0.010108226808505982,0.014503108029595535]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.7968786311798544 [-0.06570945637997183,0.09337659590838099]
+Av: 1.822672341952537 [-0.08899298718587989,0.08187354821100934]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_146_1.png" src="../_images/tutorials_walkthrough_146_1.png" />
+<img alt="../_images/tutorials_walkthrough_145_1.png" src="../_images/tutorials_walkthrough_145_1.png" />
 </div>
 </div>
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
@@ -1621,7 +1621,7 @@ Av: 1.7968786311798544 [-0.06570945637997183,0.09337659590838099]
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_153_0.png" src="../_images/tutorials_walkthrough_153_0.png" />
+<img alt="../_images/tutorials_walkthrough_152_0.png" src="../_images/tutorials_walkthrough_152_0.png" />
 </div>
 </div>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
@@ -1643,17 +1643,17 @@ Av: 1.7968786311798544 [-0.06570945637997183,0.09337659590838099]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([3.27438395e+03, 4.53069471e+00, 5.24606418e-01, 1.78571833e+00])
+array([3.27098736e+03, 4.50439061e+00, 5.24752000e-01, 1.78647168e+00])
 </pre></div></div>
 </div>
-<p>The results above are puzzling: a ~3000 K effective temperature combined with a ~0.5 <span class="math notranslate nohighlight">\(R_J\)</span> photometric radius. See Christiaens et al. (2021) for a discussion on the different hypotheses put forward to reconcile these results.</p>
-</div>
-<div class="section" id="4.4.-BT-SETTL-+-BB-model">
+<p>The results above are puzzling: a ~3000 K effective temperature combined with a ~0.5 <span class="math notranslate nohighlight">\(R_J\)</span> photometric radius. See <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a> for a discussion on the different hypotheses put forward to reconcile these results.</p>
+</section>
+<section id="4.4.-BT-SETTL-+-BB-model">
 <h2>4.4. BT-SETTL + BB model<a class="headerlink" href="#4.4.-BT-SETTL-+-BB-model" title="Permalink to this headline"></a></h2>
 <p>Although this is not necessarily a good model for the NIR spectrum of CrA-9 B/b, let’s illustrate how to set up a photospheric + extra blackbody component model to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>.</p>
 <p>Let’s set Gaussian priors on the temperatures of each Blackbody component, to replicate the kinds of constraints that could potentially be obtained from past works.</p>
 <p>Note that a single extra BB component is considered here, but <code class="docutils literal notranslate"><span class="pre">special</span></code> does not limit the number of components you wish to incorporate in the model (just add the desired number of parameters ‘Tbb<em>n</em>’ and ‘Rbb<em>n</em>’, where <em>n</em>&gt;0).</p>
-<p>This time, we have a total of 8 free parameters, including 2 captured by the BT-SETTL grid:</p>
+<p>This time, we have a total of 8 free parameters, with again only 2 captured by the BT-SETTL grid:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
@@ -1683,7 +1683,7 @@ array([3.27438395e+03, 4.53069471e+00, 5.24606418e-01, 1.78571833e+00])
 </pre></div>
 </div>
 </div>
-<p>Let’s set Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>), <span class="math notranslate nohighlight">\(T_{bb1}\)</span> and <span class="math notranslate nohighlight">\(T_{bb2}\)</span> in a dictionary. By default, uniform priors are considered for parameters not mentioned in this dictionary. Be sure to use the same dictionary labels as for parameter <code class="docutils literal notranslate"><span class="pre">labels</span></code>.</p>
+<p>Let’s set Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(T_{bb1}\)</span> in a dictionary. By default, uniform priors are considered for parameters not mentioned in this dictionary. Be sure to use the same dictionary labels as for parameter <code class="docutils literal notranslate"><span class="pre">labels</span></code>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
 </pre></div>
@@ -1823,7 +1823,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_182_0.png" src="../_images/tutorials_walkthrough_182_0.png" />
+<img alt="../_images/tutorials_walkthrough_181_0.png" src="../_images/tutorials_walkthrough_181_0.png" />
 </div>
 </div>
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
@@ -1866,49 +1866,49 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 68.503%
-percentage for logg: 69.26299999999999%
-percentage for R: 69.08899999999998%
-percentage for Av: 68.58800000000002%
-percentage for Tbb1: 69.62400000000002%
-percentage for Rbb1: 69.352%
+percentage for Teff: 69.27499999999999%
+percentage for logg: 68.33399999999999%
+percentage for R: 69.61599999999999%
+percentage for Av: 68.55699999999999%
+percentage for Tbb1: 68.715%
+percentage for Rbb1: 70.32499999999999%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3179.1785449734407 [-41.65231601788446,51.64887186217675]
+Teff: 3169.9441761943363 [-39.081718683527015,57.840943651619]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.097255365739974 [-0.11113489859716541,0.10290268388626522]
+logg: 4.082828671943028 [-0.09676340319755461,0.1336256520347172]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.46647988854985856 [-0.011996911701873392,0.015126540841492564]
+R: 0.46622569273500925 [-0.012904351097031919,0.01496904727255699]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 0.9517543658581642 [-0.1318767230916329,0.13187672309163267]
+Av: 0.9411954747888757 [-0.12438100710157596,0.13519674684953886]
 ******* Results for Tbb1 *****
 
 
 Confidence intervals:
-Tbb1: 1608.5978861884005 [-110.943584125082,110.943584125082]
+Tbb1: 1652.7696012976703 [-146.88980411775992,65.84715357003006]
 ******* Results for Rbb1 *****
 
 
 Confidence intervals:
-Rbb1: 0.8197854927372121 [-0.08465402895968444,0.11851564054355834]
+Rbb1: 0.8285719036051671 [-0.10146663427052083,0.10146663427052072]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_188_1.png" src="../_images/tutorials_walkthrough_188_1.png" />
+<img alt="../_images/tutorials_walkthrough_187_1.png" src="../_images/tutorials_walkthrough_187_1.png" />
 </div>
 </div>
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
@@ -1963,7 +1963,7 @@ Rbb1: 0.8197854927372121 [-0.08465402895968444,0.11851564054355834]
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_195_0.png" src="../_images/tutorials_walkthrough_195_0.png" />
+<img alt="../_images/tutorials_walkthrough_194_0.png" src="../_images/tutorials_walkthrough_194_0.png" />
 </div>
 </div>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
@@ -1985,12 +1985,12 @@ Rbb1: 0.8197854927372121 [-0.08465402895968444,0.11851564054355834]
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([3.15072127e+03, 4.03666853e+00, 4.62826463e-01, 8.81503072e-01,
-       1.67077406e+03, 8.20375657e-01])
+array([3.16464005e+03, 4.05686487e+00, 4.58098702e-01, 8.56715633e-01,
+       1.66572699e+03, 8.26535770e-01])
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="4.5.-BT-SETTL-model-+-BrG-line-model">
+</section>
+<section id="4.5.-BT-SETTL-model-+-BrG-line-model">
 <h2>4.5. BT-SETTL model + BrG line model<a class="headerlink" href="#4.5.-BT-SETTL-model-+-BrG-line-model" title="Permalink to this headline"></a></h2>
 <p>In order to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>, let’s now consider a BT-SETTL + Brackett Gamma line model for the spectrum. Let’s also consider <span class="math notranslate nohighlight">\(R_V\)</span> as a free parameter, and finally consider Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(R_V\)</span>: <span class="math notranslate nohighlight">\(\mu_{\mathrm{log}(g)}=3.5\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{log}(g)} = 0.2\)</span> and <span class="math notranslate nohighlight">\(\mu_{R_V}=3.1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{R_V} = 0.2\)</span>.</p>
 <p>This time, we have a total of 6 free parameters, including 2 captured by the BT-SETTL grid:</p>
@@ -2008,7 +2008,7 @@ array([3.15072127e+03, 4.03666853e+00, 4.62826463e-01, 8.81503072e-01,
 </pre></div>
 </div>
 </div>
-<p>Provide estimate for BrG flux:</p>
+<p>We first provide an estimate for the possible BrG flux:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
@@ -2020,8 +2020,8 @@ array([3.15072127e+03, 4.03666853e+00, 4.62826463e-01, 8.81503072e-01,
 </pre></div>
 </div>
 </div>
-<p>Conversion of F_BrG into LSun - do not change:</p>
-<div class="nbinput nblast docutils container">
+<p>We then convert it into log Solar luminosity by setting the <code class="docutils literal notranslate"><span class="pre">input_unit</span></code> to ‘LogL’. Other formats are accepted, such as flux ‘F’ in SI units, or Solar luminosity ‘L’.</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
 </pre></div>
 </div>
@@ -2034,13 +2034,23 @@ array([3.15072127e+03, 4.03666853e+00, 4.62826463e-01, 8.81503072e-01,
     <span class="c1"># set min and max of BrG list of initial grid of tested values</span>
     <span class="n">BrG_min</span> <span class="o">=</span> <span class="n">L_BrG_estimate</span><span class="o">-</span><span class="mi">5</span>
     <span class="n">BrG_max</span> <span class="o">=</span> <span class="n">L_BrG_estimate</span><span class="o">+</span><span class="mi">5</span>
-<span class="k">else</span><span class="p">:</span>
+<span class="k">elif</span> <span class="n">input_unit</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span>
     <span class="n">BrG_min</span> <span class="o">=</span> <span class="n">F_BrG_estimate</span><span class="o">*</span><span class="mf">1e-5</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">RB_est</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">BrG_max</span> <span class="o">=</span> <span class="n">F_BrG_estimate</span><span class="o">*</span><span class="mf">1e5</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="n">RB_est</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">BrG_min</span><span class="p">,</span><span class="n">BrG_max</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-9.076277167361013 0.9237228326389868
+</pre></div></div>
+</div>
+<p>Let’s set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
 </pre></div>
@@ -2056,17 +2066,17 @@ array([3.15072127e+03, 4.03666853e+00, 4.62826463e-01, 8.81503072e-01,
           <span class="s1">&#39;R&#39;</span><span class="p">:(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
           <span class="s1">&#39;Av&#39;</span><span class="p">:(</span><span class="mf">0.</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
           <span class="s1">&#39;Rv&#39;</span><span class="p">:(</span><span class="mf">1.</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
-          <span class="s1">&#39;BrG&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">L_BrG_estimate</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="n">L_BrG_estimate</span><span class="o">+</span><span class="mi">5</span><span class="p">)}</span>
+          <span class="s1">&#39;BrG&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">BrG_min</span><span class="p">,</span><span class="n">BrG_max</span><span class="p">)}</span>
 </pre></div>
 </div>
 </div>
-<p>Provide details for each of the line(s). Add an entry in the <code class="docutils literal notranslate"><span class="pre">em_lines</span></code> and <code class="docutils literal notranslate"><span class="pre">em_grid</span></code> dictionaries for each line you’d like to include in the model. Lines can be included in the model without necessarily fitting for their flux with MCMC (e.g. for a known emission line luminosity to be included in the model):</p>
+<p>Then provide details for each of the line(s), and add an entry in the <code class="docutils literal notranslate"><span class="pre">em_lines</span></code> and <code class="docutils literal notranslate"><span class="pre">em_grid</span></code> dictionaries for each spectral line you’d like to include in the model. Lines can be included in the model without necessarily fitting for their flux with MCMC (e.g. for a known emission line luminosity to be included in the model):</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">em_lines</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">em_lines</span><span class="p">[</span><span class="s1">&#39;BrG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.1667</span><span class="p">,</span> <span class="n">input_unit</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="c1"># WL, unit and flux (if known). Flux can be None if to be sampled by MCMC.</span>
+<span class="n">em_lines</span><span class="p">[</span><span class="s1">&#39;BrG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.1667</span><span class="p">,</span> <span class="n">input_unit</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="c1"># WL, unit and flux (if known). Flux should be None if to be sampled by MCMC.</span>
 
 <span class="n">em_grid</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">em_grid</span><span class="p">[</span><span class="s1">&#39;BrG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BrG_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -2126,7 +2136,7 @@ array([3.15072127e+03, 4.03666853e+00, 4.62826463e-01, 8.81503072e-01,
 </pre></div>
 </div>
 </div>
-<p>Finally, given the larger number of parameters, let’s increase the number of iterations and walkers:</p>
+<p>Finally, given the larger number of parameters, we increase the number of iterations and walkers:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
 </pre></div>
@@ -2195,7 +2205,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_225_0.png" src="../_images/tutorials_walkthrough_225_0.png" />
+<img alt="../_images/tutorials_walkthrough_224_0.png" src="../_images/tutorials_walkthrough_224_0.png" />
 </div>
 </div>
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
@@ -2278,7 +2288,7 @@ BrG: -5.5345416458961365 [-0.08169321020093534,0.04248046930448712]
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_231_1.png" src="../_images/tutorials_walkthrough_231_1.png" />
+<img alt="../_images/tutorials_walkthrough_230_1.png" src="../_images/tutorials_walkthrough_230_1.png" />
 </div>
 </div>
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
@@ -2333,7 +2343,7 @@ BrG: -5.5345416458961365 [-0.08169321020093534,0.04248046930448712]
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_238_0.png" src="../_images/tutorials_walkthrough_238_0.png" />
+<img alt="../_images/tutorials_walkthrough_237_0.png" src="../_images/tutorials_walkthrough_237_0.png" />
 </div>
 </div>
 <p>Compared to the results obtained without the inclusion of a potential BrG line (affecting the K1 photometry of the point source), we now get a lower value of log(g), more consistent with a young object. Nonetheless, the required BrG line luminosity is significant. This would likely imply the presence of more H recombination lines - which may or may not be present near ~1.09 and ~1.22 <span class="math notranslate nohighlight">\(\mu\)</span>m (see below).</p>
@@ -2363,7 +2373,7 @@ BrG: -5.5345416458961365 [-0.08169321020093534,0.04248046930448712]
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_240_1.png" src="../_images/tutorials_walkthrough_240_1.png" />
+<img alt="../_images/tutorials_walkthrough_239_1.png" src="../_images/tutorials_walkthrough_239_1.png" />
 </div>
 </div>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
@@ -2390,11 +2400,11 @@ array([ 3.21297292e+03,  4.15539197e+00,  5.15276653e-01,  1.57341610e+00,
 </pre></div></div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-</div>
-<div class="section" id="5.-Comparison-of-results">
+</section>
+</section>
+<section id="5.-Comparison-of-results">
 <h1>5. Comparison of results<a class="headerlink" href="#5.-Comparison-of-results" title="Permalink to this headline"></a></h1>
-<div class="section" id="5.1.-Akaike-Information-Criterion">
+<section id="5.1.-Akaike-Information-Criterion">
 <h2>5.1. Akaike Information Criterion<a class="headerlink" href="#5.1.-Akaike-Information-Criterion" title="Permalink to this headline"></a></h2>
 <p>For each of the tested type of model above (Secs. 4.2 to 4.5), let’s compute the Akaike Information Criterion (AIC) in order to assess which one is likely the best model for our observations. The 4 tested models are:</p>
 <ul class="simple">
@@ -2459,8 +2469,8 @@ array([ 3.21297292e+03,  4.15539197e+00,  5.15276653e-01,  1.57341610e+00,
 <p>The values above suggest that the most likely types of model that we considered are the BT-SETTL alone, the BT-SETTL+BB and BT-SETTL+BrG line models.</p>
 <p>Since the difference is &gt;&gt;10 for the BB model, we can conclude that there is no support for that kind of model (Burnham &amp; Anderson 2002).</p>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-<div class="section" id="5.2.-Best-fit-models">
+</section>
+<section id="5.2.-Best-fit-models">
 <h2>5.2. Best-fit models<a class="headerlink" href="#5.2.-Best-fit-models" title="Permalink to this headline"></a></h2>
 <p>Let’s first assemble all the relevant parameters from the different models considered above in different lists:</p>
 <div class="nbinput nblast docutils container">
@@ -2512,7 +2522,7 @@ array([ 3.21297292e+03,  4.15539197e+00,  5.15276653e-01,  1.57341610e+00,
          3.10480904e+00, -5.54897892e+00])]
 </pre></div></div>
 </div>
-<p>Now for each type of model considered above, let’s now generate the spectrum corresponding to the most likely parameters inferred with the MCMC. By providing <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> to <code class="docutils literal notranslate"><span class="pre">make_model_from_params</span></code>, the returned model will be resampled to match the spectral resolution of the measured spectrum. If provided, the instrumental spectral FWHM and/or photometric filter(s) will also be used. If <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> is left to None, the model is returned at the native resolution of the grid used as input.
+<p>Now for each type of model considered above, let’s now generate the spectrum corresponding to the most likely parameters inferred with the MCMC. By providing <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> to <code class="docutils literal notranslate"><span class="pre">make_model_from_params</span></code>, the returned model will be resampled to match the spectral resolution of the measured spectrum. If provided, the instrumental resolving power and/or photometric filter(s) will also be used. If <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> is left to None, the model is returned at the native resolution of the grid used as input.
 Let’s leverage this to have both high-res and resampled spectra.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
@@ -2665,12 +2675,13 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_265_0.png" src="../_images/tutorials_walkthrough_265_0.png" />
+<img alt="../_images/tutorials_walkthrough_264_0.png" src="../_images/tutorials_walkthrough_264_0.png" />
 </div>
 </div>
+<p>Visually, it looks like a combination of a <span class="math notranslate nohighlight">\(T_{\rm eff}\sim 3200\)</span> K BT-SETTL model, an extra black-body component (<span class="math notranslate nohighlight">\(T_{\rm eff}\sim 1700\)</span> K) and several emission lines may be able to reproduce the entire observed spectrum. However, one has to be cautious of not overfitting the data …</p>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-<div class="section" id="5.3.-Models-from-the-posterior-distribution">
+</section>
+<section id="5.3.-Models-from-the-posterior-distribution">
 <h2>5.3. Models from the posterior distribution<a class="headerlink" href="#5.3.-Models-from-the-posterior-distribution" title="Permalink to this headline"></a></h2>
 <p>It can be useful to plot a large number of models randomly picked from the posterior distribution in order to have an idea of the uncertainty in different parts of the spectrum. Let’s consider 200 samples from the posterior distribution:</p>
 <div class="nbinput nblast docutils container">
@@ -2803,9 +2814,9 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
-</div>
-<div class="section" id="6.-Nested-sampler-examples">
+</section>
+</section>
+<section id="6.-Nested-sampler-examples">
 <h1>6. Nested sampler examples<a class="headerlink" href="#6.-Nested-sampler-examples" title="Permalink to this headline"></a></h1>
 <p>The procedure to set the nested sampler routines is similar to what we saw with the MCMC, as most parameters of <code class="docutils literal notranslate"><span class="pre">mcmc_spec_sampling</span></code> and <code class="docutils literal notranslate"><span class="pre">nested_spec_sampling</span></code> are identical.</p>
 <p>The main differences are the <code class="docutils literal notranslate"><span class="pre">sampler</span></code>, <code class="docutils literal notranslate"><span class="pre">method</span></code>, <code class="docutils literal notranslate"><span class="pre">npoints</span></code> or <code class="docutils literal notranslate"><span class="pre">dlogz</span></code> parameters for the nested samplers:</p>
@@ -2853,7 +2864,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="6.1.-Nestle---single-ellipsoid-method">
+<section id="6.1.-Nestle---single-ellipsoid-method">
 <h2>6.1. Nestle - single ellipsoid method<a class="headerlink" href="#6.1.-Nestle---single-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Now let’s set the parameters that are specific to the nested sampler:</p>
 <div class="nbinput nblast docutils container">
@@ -3071,8 +3082,8 @@ R: 0.53+/-0.01 $R_J$
 Av: 1.8+/-0.1 mag
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="6.2.-Nestle---multi-ellipsoid-method">
+</section>
+<section id="6.2.-Nestle---multi-ellipsoid-method">
 <h2>6.2. Nestle - multi-ellipsoid method<a class="headerlink" href="#6.2.-Nestle---multi-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Let’s adapt the method and number of active points:</p>
 <div class="nbinput nblast docutils container">
@@ -3268,8 +3279,8 @@ Av: 1.8084930469893075 +-0.09345267969663529
 </div>
 </div>
 <p>We see that for the case of the spectrum of CrA-9B/b with a BT-SETTL + extinction model, even when we allow for multiple nests, the highest likelihood area in the parameter space still corresponds to an individual ellipsoid.</p>
-</div>
-<div class="section" id="6.3.-UltraNest">
+</section>
+<section id="6.3.-UltraNest">
 <h2>6.3. UltraNest<a class="headerlink" href="#6.3.-UltraNest" title="Permalink to this headline"></a></h2>
 <p>Let’s adapt the sampler and number of active points:</p>
 <div class="nbinput nblast docutils container">
@@ -3493,9 +3504,9 @@ Av = 1.8 +/- 0.3
 </div>
 </div>
 <p>We see that for the case of the spectrum of CrA-9B/b with a BT-SETTL + extinction model, UltraNest also finds that the highest likelihood area in the parameter space corresponds to an individual ellipsoid.</p>
-</div>
-</div>
-<div class="section" id="7.-Best-fit-template-spectrum">
+</section>
+</section>
+<section id="7.-Best-fit-template-spectrum">
 <h1>7. Best-fit template spectrum<a class="headerlink" href="#7.-Best-fit-template-spectrum" title="Permalink to this headline"></a></h1>
 <p>In this section, we will find the best-fit template spectra to our measured spectrum in the Montreal Spectral Library of observed M-L-T type low-mass objects. Since the template spectra from this library typically do not cover wavelengths longward of the K band, we will discard the NACO L’ point from the spectrum, just for the sake of this exercise:</p>
 <div class="nbinput nblast docutils container">
@@ -5312,7 +5323,7 @@ Fits HDU-0 data and header successfully loaded. Data shape: (3, 4153)
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
-</div>
+</section>
 
 
            </div>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>What makes it special? &mdash; special  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -115,14 +116,14 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="what-makes-it-special">
+<section id="what-makes-it-special">
 <h1>What makes it <cite>special</cite>?<a class="headerlink" href="#what-makes-it-special" title="Permalink to this headline"></a></h1>
 <p>This package provides the following tools for the analysis of measured spectra:</p>
 <ul class="simple">
 <li><p>calculation of the spectral correlation between channels of an IFS datacube;</p></li>
 <li><p>calculation of empirical spectral indices for MLT-dwarfs;</p></li>
 <li><p>fitting of input spectra to different grids of models, including additional parameters such as (extra) black body component(s) and extinction;</p></li>
-<li><p>using either MCMC (<a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract">emcee</a>) or nested (<a class="reference external" href="http://github.com/kbarbary/nestle">nestle</a> or <a class="reference external" href="https://johannesbuchner.github.io/UltraNest/">UltraNest</a>)) samplers to infer posterior distributions on spectral model parameters;</p></li>
+<li><p>using either MCMC (<a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract">emcee</a>) or nested (<a class="reference external" href="http://github.com/kbarbary/nestle">nestle</a> or <a class="reference external" href="https://johannesbuchner.github.io/UltraNest/">UltraNest</a>) samplers to infer posterior distributions on spectral model parameters;</p></li>
 <li><p>searching for the best-fit template spectrum within a given template library, with up to two free parameters (flux scaling and relative extinction).</p></li>
 </ul>
 <p>The MCMC and nested sampler routines have been adapted to:</p>
@@ -137,7 +138,7 @@
 <li><p>use a log-likelihood expression that can include i) spectral correlation between measurements of adjacent channels of a given instrument, and ii) additional weights that are proportional to the relative spectral bandwidth of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).</p></li>
 </ul>
 <p>More details are available in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a> (note it was originally implemented as <code class="docutils literal notranslate"><span class="pre">specfit</span></code>, a former module of the <code class="docutils literal notranslate"><span class="pre">VIP</span></code> package, before undergoing significant expansion).</p>
-</div>
+</section>
 
 
            </div>

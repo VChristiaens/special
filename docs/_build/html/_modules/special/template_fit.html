@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>special.template_fit &mdash; special  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html">
+            <img src="../../_static/Special_logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">What makes it <cite>special</cite>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html">TL;DR setup guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html#installation-and-dependencies">Installation and dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html"><em>special</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#1.-Loading-the-data">1. Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#4.-MCMC-sampler-examples">4. MCMC sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#5.-Comparison-of-results">5. Comparison of results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#6.-Nested-sampler-examples">6. Nested sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#questions-and-suggestions">Questions and suggestions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">special package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">special</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>special.template_fit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for special.template_fit</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module for simplex or grid search of best fit spectrum in a template library.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;V. Christiaens&#39;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;best_fit_tmp&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_chi&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">time_ini</span><span class="p">,</span> <span class="n">timing</span><span class="p">,</span> <span class="n">time_fin</span><span class="p">,</span> <span class="n">pool_map</span><span class="p">,</span> <span class="n">iterable</span>
+<span class="kn">from</span> <span class="nn">.chi</span> <span class="kn">import</span> <span class="n">gof_scal</span>
+<span class="kn">from</span> <span class="nn">.model_resampling</span> <span class="kn">import</span> <span class="n">resample_model</span>
+<span class="kn">from</span> <span class="nn">.utils_spec</span> <span class="kn">import</span> <span class="n">extinction</span><span class="p">,</span> <span class="n">find_nearest</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_chi"><a class="viewcode-back" href="../../special.html#special.template_fit.get_chi">[docs]</a><span class="k">def</span> <span class="nf">get_chi</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">tmp_name</span><span class="p">,</span> <span class="n">tmp_reader</span><span class="p">,</span> 
+            <span class="n">search_mode</span><span class="o">=</span><span class="s1">&#39;simplex&#39;</span><span class="p">,</span> <span class="n">lambda_scal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale_range</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">0.01</span><span class="p">),</span> 
+            <span class="n">ext_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+            <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+            <span class="n">simplex_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">red_chi2</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+            <span class="n">force_continue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_npts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Routine calculating chi^2, optimal scaling factor and optimal </span>
+<span class="sd">    extinction for a given template spectrum to match an observed spectrum.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelengths of observed spectrum. If several instruments were used, the </span>
+<span class="sd">        wavelengths should be ordered per instrument, not necessarily as </span>
+<span class="sd">        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the </span>
+<span class="sd">        length of ``lbda_obs``.</span>
+<span class="sd">    spec_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Observed spectrum for each value of ``lbda_obs``. Should have a length</span>
+<span class="sd">        of :math:`n_{ch}`.</span>
+<span class="sd">    err_obs : numpy 1d/2d ndarray or list</span>
+<span class="sd">        Uncertainties on the observed spectrum. The array (list) can have either</span>
+<span class="sd">        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower </span>
+<span class="sd">        (first column) and upper (second column) uncertainties provided.</span>
+<span class="sd">    tmp_name :  str</span>
+<span class="sd">        Template spectrum filename.</span>
+<span class="sd">    tmp_reader : python routine</span>
+<span class="sd">        External routine that reads a model file and returns a 3D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, the second </span>
+<span class="sd">        contains flux values, and the third the uncertainties on the flux.</span>
+<span class="sd">    search_mode: str, opt {&#39;simplex&#39;, &#39;grid&#39;}</span>
+<span class="sd">        How is the best fit template found? Simplex or grid search.</span>
+<span class="sd">    lambda_scal: float, optional</span>
+<span class="sd">        Wavelength where a first scaling will be performed between template</span>
+<span class="sd">        and observed spectra. If not provided, the middle wavelength of the </span>
+<span class="sd">        osberved spectra will be considered.</span>
+<span class="sd">    scale_range: tuple, opt</span>
+<span class="sd">        If grid search, this parameter should be provided as a tuple of 3 </span>
+<span class="sd">        floats: lower limit, upper limit and step of the grid search for the </span>
+<span class="sd">        scaling factor to be applied AFTER the first rough scaling (i.e.</span>
+<span class="sd">        scale_range should always encompass 1).</span>
+<span class="sd">    ext_range : tuple or None, opt</span>
+<span class="sd">        - If None: differential extinction is not considered as a free parameter. </span>
+<span class="sd">        - If a tuple: it should contain 2 floats (for simplex \</span>
+<span class="sd">        ``search_mode``) or 3 floats (for grid search ``search_mode``) \</span>
+<span class="sd">        corresponding to the lower limit, upper limit (and step for the grid \</span>
+<span class="sd">        search). For the simplex search, the lower and upper limits are used \</span>
+<span class="sd">        to set a chi square of infinity outside of the range.</span>
+<span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
+<span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
+<span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
+<span class="sd">        infer which part(s) of a combined spectro+photometric spectrum should </span>
+<span class="sd">        involve convolution+subsampling (model resolution higher than </span>
+<span class="sd">        measurements), interpolation (the opposite), or convolution by the </span>
+<span class="sd">        transmission curve of a photometric filter. If not provided, it will be </span>
+<span class="sd">        inferred from the difference between consecutive lbda_obs points (i.e. </span>
+<span class="sd">        inaccurate for a combined spectrum). It must be provided IF one wants to </span>
+<span class="sd">        weigh each measurement based on the spectral resolution of each </span>
+<span class="sd">        instrument (as in [OLO16]_), through the ``use_weights`` argument.</span>
+<span class="sd">    instru_corr : numpy 2d ndarray, optional</span>
+<span class="sd">        Spectral correlation between post-processed images in which the </span>
+<span class="sd">        spectrum is measured. It is specific to the instrument, PSF subtraction </span>
+<span class="sd">        algorithm and radial separation of the companion from the central star.</span>
+<span class="sd">        Can be computed using ``special.spec_corr.spectral_correlation``. In </span>
+<span class="sd">        case of a spectrum obtained with different instruments, it is </span>
+<span class="sd">        recommended to construct the final spectral_correlation matrix with</span>
+<span class="sd">        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, </span>
+<span class="sd">        the uncertainties in each spectral channel will be considered </span>
+<span class="sd">        independent. See [GRE16]_ for more details.</span>
+<span class="sd">    instru_res : float or list of floats/strings, optional</span>
+<span class="sd">        The mean instrumental resolving power(s) OR filter names. This is </span>
+<span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
+<span class="sd">        provide a list of resolving power values / filter names, one for </span>
+<span class="sd">        each instrument used.</span>
+<span class="sd">    instru_idx: numpy 1d array, optional</span>
+<span class="sd">        1d array containing an index representing each instrument used </span>
+<span class="sd">        to obtain the spectrum, label them from 0 to the number of instruments </span>
+<span class="sd">        (:math:`n_{ins}`). Zero for points that don&#39;t correspond to any of the </span>
+<span class="sd">        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points</span>
+<span class="sd">        associated to instru_res[i-1]. This parameter must be provided if the </span>
+<span class="sd">        spectrum consists of points obtained with different instruments.</span>
+<span class="sd">    use_weights: bool, optional</span>
+<span class="sd">        For the likelihood calculation, whether to weigh each point of the </span>
+<span class="sd">        spectrum based on the spectral resolution or bandwidth of photometric</span>
+<span class="sd">        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if </span>
+<span class="sd">        ``dlbda_obs`` is provided, or set to 1 for all points otherwise.</span>
+<span class="sd">    filter_reader: python routine, optional</span>
+<span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains transmission values. Important: if not provided, but strings </span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
+<span class="sd">        It assumes the following format for the files:</span>
+<span class="sd">            </span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
+<span class="sd">     </span>
+<span class="sd">    red_chi2: bool, optional</span>
+<span class="sd">        Whether to compute the reduced chi square. If False, considers chi^2.</span>
+<span class="sd">    remove_nan: bool, optional</span>
+<span class="sd">        Whether to remove NaN values from template spectrum BEFORE resampling</span>
+<span class="sd">        to the wavelength sampling of the observed spectrum. Whether it is set</span>
+<span class="sd">        to True or False, a check is made just before chi^2 is calculated </span>
+<span class="sd">        (after resampling), and only non-NaN values will be considered.</span>
+<span class="sd">    simplex_options: dict, optional</span>
+<span class="sd">        The ``scipy.optimize.minimize`` simplex (Nelder-Mead) options.</span>
+<span class="sd">    force_continue: bool, optional</span>
+<span class="sd">        In case of issue with the fit, whether to continue regardless (this may</span>
+<span class="sd">        be useful in an uneven spectral library, where some templates have too</span>
+<span class="sd">        few points for the fit to be performed).</span>
+<span class="sd">    verbose: str, optional</span>
+<span class="sd">        Whether to print more information when fit fails. </span>
+<span class="sd">    min_npts: int or None, optional</span>
+<span class="sd">        Iinimum number of (resampled) points to consider a template spectrum </span>
+<span class="sd">        valid in the minimization search. A Nan value will be returned for chi </span>
+<span class="sd">        if the condition is not met.</span>
+<span class="sd">    **kwargs: optional</span>
+<span class="sd">        Other optional arguments to the ``scipy.optimize.minimize`` function.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    best_chi: float</span>
+<span class="sd">        goodness of fit scored by the template</span>
+<span class="sd">    best_scal:</span>
+<span class="sd">        best-fit scaling factor for the considered template</span>
+<span class="sd">    best_ext:</span>
+<span class="sd">        best-fit optical extinction for the considered template</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    If several filter filenames are provided in ``instru_res``, the filter files</span>
+<span class="sd">    must all have the same format and wavelength units (for reading by the same</span>
+<span class="sd">    ``filter_reader`` snippet or default function). </span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># read template spectrum</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">spec_tmp</span><span class="p">,</span> <span class="n">spec_tmp_err</span> <span class="o">=</span> <span class="n">tmp_reader</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">,</span> 
+                                                      <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> could not be opened. Corrupt file?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">force_continue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            
+    <span class="c1"># look for any nan and replace</span>
+    <span class="k">if</span> <span class="n">remove_nan</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">spec_tmp</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">spec_tmp_err</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">bad_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">spec_tmp</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1">#bad_idx2 = np.where(np.isnan(spec_tmp_err))[0]</span>
+            <span class="c1">#all_bad = np.concatenate((bad_idx1,bad_idx2))</span>
+            <span class="n">nch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_tmp</span><span class="p">)</span>
+            <span class="n">new_lbda</span> <span class="o">=</span> <span class="p">[</span><span class="n">lbda_tmp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_idx</span><span class="p">]</span>
+            <span class="n">new_spec</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec_tmp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_idx</span><span class="p">]</span>
+            <span class="n">new_err</span> <span class="o">=</span> <span class="p">[</span><span class="n">spec_tmp_err</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bad_idx</span><span class="p">]</span>
+            <span class="n">lbda_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_lbda</span><span class="p">)</span>
+            <span class="n">spec_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_spec</span><span class="p">)</span>
+            <span class="n">spec_tmp_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_err</span><span class="p">)</span>
+        
+    <span class="c1"># don&#39;t consider template spectra whose range is smaller than observed one</span>
+    <span class="k">if</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Wavelength range of template </span><span class="si">{}</span><span class="s2"> (</span><span class="si">{:.2f}</span><span class="s2">, </span><span class="si">{:.2f}</span><span class="s2">)mu too short&quot;</span>
+        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; compared to that of observed spectrum (</span><span class="si">{:.2f}</span><span class="s2">, </span><span class="si">{:.2f}</span><span class="s2">)mu&quot;</span>
+        <span class="k">if</span> <span class="n">force_continue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_tmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_tmp</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_tmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    
+    <span class="c1"># try to resample tmp as observed spectrum - just used to raise error early</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">spec_res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">spec_tmp</span><span class="p">,</span> 
+                                     <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_obs</span><span class="p">,</span> 
+                                     <span class="n">instru_res</span><span class="o">=</span><span class="n">instru_res</span><span class="p">,</span> 
+                                     <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span>
+                                     <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Issue with resampling of template </span><span class="si">{}</span><span class="s2">. Does the wavelength &quot;</span>
+        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot;range extend far enough (</span><span class="si">{:.2f}</span><span class="s2">, </span><span class="si">{:.2f}</span><span class="s2">)mu?&quot;</span>
+        <span class="k">if</span> <span class="n">force_continue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_tmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_tmp</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_tmp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    
+    <span class="c1"># first rescaling fac</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">lambda_scal</span><span class="p">:</span>
+        <span class="n">lambda_scal</span> <span class="o">=</span> <span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">idx_cen</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lambda_scal</span><span class="p">)</span>
+    <span class="n">idx_tmp</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">lambda_scal</span><span class="p">)</span>
+    <span class="n">scal_fac</span> <span class="o">=</span> <span class="n">spec_obs</span><span class="p">[</span><span class="n">idx_cen</span><span class="p">]</span><span class="o">/</span><span class="n">spec_tmp</span><span class="p">[</span><span class="n">idx_tmp</span><span class="p">]</span>
+    <span class="n">spec_tmp</span><span class="o">*=</span><span class="n">scal_fac</span>
+    <span class="c1">#spec_tmp_err*=scal_fac</span>
+    
+    <span class="c1"># EDIT: Don&#39;t combine observed and template uncertainties;</span>
+    <span class="c1"># the best fit would be the most noisy tmp of the library!)</span>
+    <span class="c1">#err_obs = np.sqrt(np.power(spec_tmp_err,2)+np.power(err_obs,2))</span>
+    
+    
+    <span class="c1"># only consider non-zero and non-nan values for chi^2 calculation</span>
+    <span class="n">all_conds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">spec_res</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># cond2 = np.where(np.isfinite(err_obs))[0] </span>
+    <span class="c1"># cond3 = np.where(spec_tmp&gt;0)[0]</span>
+    <span class="c1"># all_conds = np.sort(np.unique(np.concatenate((cond1,cond2,cond3))))</span>
+    <span class="n">ngood_ch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_conds</span><span class="p">)</span>
+    <span class="c1">#good_ch = (all_conds,)</span>
+    <span class="c1"># lbda_obs = lbda_obs[good_ch]</span>
+    <span class="c1"># spec_obs = spec_obs[good_ch]</span>
+    <span class="c1"># err_obs = err_obs[good_ch]</span>
+    <span class="c1">#lbda_tmp = lbda_tmp[good_ch]</span>
+    <span class="c1">#spec_tmp = spec_tmp[good_ch]</span>
+    
+    <span class="n">n_dof</span> <span class="o">=</span> <span class="n">ngood_ch</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">ext_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_dof</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Not enough dof with remaining points of template spectrum </span><span class="si">{}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">force_continue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_dof</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">))</span>
+    
+    <span class="n">best_chi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">best_scal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">best_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">ngood_ch</span> <span class="o">&lt;</span> <span class="n">min_npts</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Unsufficient number of good points (</span><span class="si">{}</span><span class="s2"> &lt; </span><span class="si">{}</span><span class="s2">). Tmp discarded.&quot;</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ngood_ch</span><span class="p">,</span><span class="n">min_npts</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">best_chi</span><span class="p">,</span> <span class="n">best_scal</span><span class="p">,</span> <span class="n">best_ext</span><span class="p">,</span> <span class="n">n_dof</span>
+    
+    <span class="c1"># simplex search</span>
+    <span class="k">if</span> <span class="n">search_mode</span> <span class="o">==</span> <span class="s1">&#39;simplex&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">simplex_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">simplex_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;xatol&#39;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">&#39;fatol&#39;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+                               <span class="s1">&#39;maxfev&#39;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ext_range</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">AV_ini</span> <span class="o">=</span> <span class="p">(</span><span class="n">ext_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">ext_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">AV_ini</span><span class="p">)</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">gof_scal</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> 
+                                              <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">spec_tmp</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                                              <span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> 
+                                              <span class="n">instru_idx</span><span class="p">,</span> <span class="n">use_weights</span><span class="p">,</span> 
+                                              <span class="n">filter_reader</span><span class="p">,</span> <span class="n">ext_range</span><span class="p">),</span>
+                           <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Nelder-Mead&#39;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">simplex_options</span><span class="p">,</span> 
+                           <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Issue with simplex minimization for template </span><span class="si">{}</span><span class="s2">. &quot;</span>
+            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot;Try grid search?&quot;</span>
+            <span class="k">if</span> <span class="n">force_continue</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_dof</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">))</span>
+        <span class="n">best_chi</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">fun</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ext_range</span><span class="p">:</span>
+            <span class="n">best_scal</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+            <span class="n">best_ext</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">best_scal</span><span class="p">,</span> <span class="n">best_ext</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">best_scal</span><span class="p">):</span>
+            <span class="n">best_scal</span><span class="o">*=</span><span class="n">scal_fac</span>
+        
+    <span class="c1"># or grid search        </span>
+    <span class="k">elif</span> <span class="n">search_mode</span> <span class="o">==</span> <span class="s1">&#39;grid&#39;</span><span class="p">:</span>
+        <span class="n">test_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">scale_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scale_range</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">n_test</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_scale</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">test_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">n_ext</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ext_range</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ext_range</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+            <span class="n">test_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ext_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ext_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ext_range</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">n_ext</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_ext</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;ext_range can only be None or tuple of length 3&quot;</span><span class="p">)</span>
+
+        <span class="n">chi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_test</span><span class="p">,</span><span class="n">n_ext</span><span class="p">])</span>
+        
+        <span class="k">for</span> <span class="n">cc</span><span class="p">,</span> <span class="n">scal</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_scale</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ee</span><span class="p">,</span> <span class="n">AV</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_ext</span><span class="p">):</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">scal</span><span class="p">,</span><span class="n">AV</span><span class="p">)</span>
+                <span class="n">chi</span><span class="p">[</span><span class="n">cc</span><span class="p">,</span><span class="n">ee</span><span class="p">]</span> <span class="o">=</span> <span class="n">gof_scal</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">lbda_tmp</span><span class="p">,</span> 
+                                      <span class="n">spec_tmp</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_obs</span><span class="p">,</span> 
+                                      <span class="n">instru_corr</span><span class="o">=</span><span class="n">instru_corr</span><span class="p">,</span> 
+                                      <span class="n">instru_res</span><span class="o">=</span><span class="n">instru_res</span><span class="p">,</span> 
+                                      <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span> 
+                                      <span class="n">use_weights</span><span class="o">=</span><span class="n">use_weights</span><span class="p">,</span>
+                                      <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">,</span>
+                                      <span class="n">ext_range</span><span class="o">=</span><span class="n">ext_range</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">best_chi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+            <span class="n">best_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmin</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+            <span class="n">best_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">best_idx</span><span class="p">,</span><span class="n">chi</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">best_scal</span> <span class="o">=</span> <span class="n">test_scale</span><span class="p">[</span><span class="n">best_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">*</span><span class="n">scal_fac</span>
+            <span class="n">best_ext</span> <span class="o">=</span> <span class="n">test_ext</span><span class="p">[</span><span class="n">best_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">force_continue</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">best_chi</span><span class="p">,</span> <span class="n">best_scal</span><span class="p">,</span> <span class="n">best_ext</span><span class="p">,</span> <span class="n">n_dof</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Issue with grid search minimization for template </span><span class="si">{}</span><span class="s2">. &quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tmp_name</span><span class="p">))</span>
+                <span class="kn">import</span> <span class="nn">pdb</span>
+                <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Search mode not recognised. Should be &#39;simplex&#39; or &#39;grid&#39;.&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">red_chi2</span><span class="p">:</span>
+        <span class="n">best_chi</span> <span class="o">/=</span> <span class="n">n_dof</span>
+        
+    
+    <span class="k">return</span> <span class="n">best_chi</span><span class="p">,</span> <span class="n">best_scal</span><span class="p">,</span> <span class="n">best_ext</span><span class="p">,</span> <span class="n">n_dof</span></div>
+
+
+
+<div class="viewcode-block" id="best_fit_tmp"><a class="viewcode-back" href="../../special.html#special.template_fit.best_fit_tmp">[docs]</a><span class="k">def</span> <span class="nf">best_fit_tmp</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">tmp_reader</span><span class="p">,</span> <span class="n">search_mode</span><span class="o">=</span><span class="s1">&#39;simplex&#39;</span><span class="p">,</span>
+                 <span class="n">n_best</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lambda_scal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale_range</span><span class="o">=</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">0.01</span><span class="p">),</span> 
+                 <span class="n">ext_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">simplex_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lib_dir</span><span class="o">=</span><span class="s1">&#39;tmp_lib/&#39;</span><span class="p">,</span> <span class="n">tmp_endswith</span><span class="o">=</span><span class="s1">&#39;.fits&#39;</span><span class="p">,</span> 
+                 <span class="n">red_chi2</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nproc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                 <span class="n">force_continue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_npts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Finds the best fit template spectrum to a given observed spectrum, </span>
+<span class="sd">    within a spectral library.  By default, a single free parameter is </span>
+<span class="sd">    considered: the scaling factor of the spectrum. A first automatic scaling </span>
+<span class="sd">    is performed by comparing the flux of the observed and template spectra at </span>
+<span class="sd">    lambda_scal. Then a more refined scaling is performed, either through </span>
+<span class="sd">    simplex or grid search (within scale_range).</span>
+<span class="sd">    If fit_extinction is set to True, the exctinction is also considered as a </span>
+<span class="sd">    free parameter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelengths of observed spectrum. If several instruments were used, the </span>
+<span class="sd">        wavelengths should be ordered per instrument, not necessarily as </span>
+<span class="sd">        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the </span>
+<span class="sd">        length of ``lbda_obs``.</span>
+<span class="sd">    spec_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Observed spectrum for each value of ``lbda_obs``. Should have a length</span>
+<span class="sd">        of :math:`n_{ch}`.</span>
+<span class="sd">    err_obs : numpy 1d/2d ndarray or list</span>
+<span class="sd">        Uncertainties on the observed spectrum. The array (list) can have either</span>
+<span class="sd">        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower </span>
+<span class="sd">        (first column) and upper (second column) uncertainties provided.</span>
+<span class="sd">    tmp_reader : python routine</span>
+<span class="sd">        External routine that reads a model file and returns a 3D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, the second </span>
+<span class="sd">        contains flux values, and the third the uncertainties on the flux.</span>
+<span class="sd">    search_mode: str, optional, {&#39;simplex&#39;,&#39;grid&#39;}</span>
+<span class="sd">        How is the best fit template found? Simplex or grid search.</span>
+<span class="sd">    n_best: int, optional</span>
+<span class="sd">        Number of best templates to be returned (default: 1)</span>
+<span class="sd">    lambda_scal: float, optional</span>
+<span class="sd">        Wavelength where a first scaling will be performed between template</span>
+<span class="sd">        and observed spectra. If not provided, the middle wavelength of the </span>
+<span class="sd">        osberved spectra will be considered.</span>
+<span class="sd">    scale_range: tuple, opt</span>
+<span class="sd">        If grid search, this parameter should be provided as a tuple of 3 </span>
+<span class="sd">        floats: lower limit, upper limit and step of the grid search for the </span>
+<span class="sd">        scaling factor to be applied AFTER the first rough scaling (i.e.</span>
+<span class="sd">        scale_range should always encompass 1).</span>
+<span class="sd">    ext_range : tuple or None, opt</span>
+<span class="sd">        - If None: differential extinction is not considered as a free parameter. </span>
+<span class="sd">        - If a tuple: it should contain 2 floats (for simplex \</span>
+<span class="sd">        ``search_mode``) or 3 floats (for grid search ``search_mode``) \</span>
+<span class="sd">        corresponding to the lower limit, upper limit (and step for the grid \</span>
+<span class="sd">        search). For the simplex search, the lower and upper limits are used \</span>
+<span class="sd">        to set a chi square of infinity outside of the range.</span>
+<span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
+<span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
+<span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
+<span class="sd">        infer which part(s) of a combined spectro+photometric spectrum should </span>
+<span class="sd">        involve convolution+subsampling (model resolution higher than </span>
+<span class="sd">        measurements), interpolation (the opposite), or convolution by the </span>
+<span class="sd">        transmission curve of a photometric filter. If not provided, it will be </span>
+<span class="sd">        inferred from the difference between consecutive lbda_obs points (i.e. </span>
+<span class="sd">        inaccurate for a combined spectrum). It must be provided IF one wants to </span>
+<span class="sd">        weigh each measurement based on the spectral resolution of each </span>
+<span class="sd">        instrument (as in [OLO16]_), through the ``use_weights`` argument.</span>
+<span class="sd">    instru_corr : numpy 2d ndarray, optional</span>
+<span class="sd">        Spectral correlation between post-processed images in which the </span>
+<span class="sd">        spectrum is measured. It is specific to the instrument, PSF subtraction </span>
+<span class="sd">        algorithm and radial separation of the companion from the central star.</span>
+<span class="sd">        Can be computed using ``special.spec_corr.spectral_correlation``. In </span>
+<span class="sd">        case of a spectrum obtained with different instruments, it is </span>
+<span class="sd">        recommended to construct the final spectral_correlation matrix with</span>
+<span class="sd">        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, </span>
+<span class="sd">        the uncertainties in each spectral channel will be considered </span>
+<span class="sd">        independent. See [GRE16]_ for more details.</span>
+<span class="sd">    instru_res : float or list of floats/strings, optional</span>
+<span class="sd">        The mean instrumental resolving power(s) OR filter names. This is </span>
+<span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
+<span class="sd">        provide a list of resolving power values / filter names, one for </span>
+<span class="sd">        each instrument used.</span>
+<span class="sd">    instru_idx: numpy 1d array, optional</span>
+<span class="sd">        1d array containing an index representing each instrument used </span>
+<span class="sd">        to obtain the spectrum, label them from 0 to the number of instruments </span>
+<span class="sd">        (:math:`n_{ins}`). Zero for points that don&#39;t correspond to any of the </span>
+<span class="sd">        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points</span>
+<span class="sd">        associated to instru_res[i-1]. This parameter must be provided if the </span>
+<span class="sd">        spectrum consists of points obtained with different instruments.</span>
+<span class="sd">    filter_reader: python routine, optional</span>
+<span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains transmission values. Important: if not provided, but strings </span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
+<span class="sd">        It assumes the following format for the files:</span>
+<span class="sd">            </span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
+<span class="sd">     </span>
+<span class="sd">    simplex_options: dict, optional</span>
+<span class="sd">        The scipy.optimize.minimize simplex (Nelder-Mead) options.</span>
+<span class="sd">    red_chi2: bool, optional</span>
+<span class="sd">        Whether to compute the reduced chi square. If False, considers chi^2.</span>
+<span class="sd">    remove_nan: bool, optional</span>
+<span class="sd">        Whether to remove NaN values from template spectrum BEFORE resampling</span>
+<span class="sd">        to the wavelength sampling of the observed spectrum. Whether it is set</span>
+<span class="sd">        to True or False, a check is made just before chi^2 is calculated </span>
+<span class="sd">        (after resampling), and only non-NaN values will be considered.</span>
+<span class="sd">    nproc: None or int, optional</span>
+<span class="sd">        The number of processes to use for parallelization. If set to None, </span>
+<span class="sd">        will automatically use half of the available CPUs on the machine.</span>
+<span class="sd">    verbosity: 0, 1 or 2, optional</span>
+<span class="sd">        Verbosity level. 0 for no output and 2 for full information.</span>
+<span class="sd">    force_continue: bool, optional</span>
+<span class="sd">        In case of issue with the fit, whether to continue regardless (this may</span>
+<span class="sd">        be useful in an uneven spectral library, where some templates have too</span>
+<span class="sd">        few points for the fit to be performed).</span>
+<span class="sd">    min_npts: int or None, optional</span>
+<span class="sd">        Minimum number of (resampled) points to consider a </span>
+<span class="sd">        template spectrum valid in the minimization search.</span>
+<span class="sd">    **kwargs: optional</span>
+<span class="sd">        Optional arguments to the scipy.optimize.minimize function</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_tmpname: tuple of n_best str</span>
+<span class="sd">        Best-fit template filenames</span>
+<span class="sd">    final_tmp: tuple of n_best 3D numpy array</span>
+<span class="sd">        Best-fit template spectra (3D: lbda+spec+spec_err)</span>
+<span class="sd">    final_chi: 1D numpy array of length n_best</span>
+<span class="sd">        Best-fit template chi^2</span>
+<span class="sd">    final_params: 2D numpy array (2xn_best)</span>
+<span class="sd">        Best-fit parameters (optimal scaling and optical extinction). Note if </span>
+<span class="sd">        extinction is not fitted, optimal AV will be set to 0.</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create list of template filenames</span>
+    <span class="n">tmp_filelist</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">lib_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">tmp_endswith</span><span class="p">)]</span>
+    <span class="n">n_tmp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_filelist</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time_ini</span><span class="p">()</span>
+        <span class="n">int_time</span> <span class="o">=</span> <span class="n">start_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2"> template spectra will be tested.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_tmp</span><span class="p">))</span>
+    
+    <span class="n">chi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_tmp</span><span class="p">)</span>
+    <span class="n">scal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+    <span class="n">ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+    <span class="n">n_dof</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">nproc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">nproc</span> <span class="o">=</span> <span class="n">cpu_count</span><span class="p">()</span><span class="o">//</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="n">verbosity</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2"> CPUs will be used&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nproc</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">verbosity</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;****************************************</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">nproc</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tmp</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">verbosity</span><span class="o">&gt;</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">search_mode</span><span class="o">==</span><span class="s1">&#39;simplex&#39;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nelder-Mead minimization is running...&#39;</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">get_chi</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">tmp_filelist</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> 
+                          <span class="n">tmp_reader</span><span class="p">,</span> <span class="n">search_mode</span><span class="o">=</span><span class="n">search_mode</span><span class="p">,</span> 
+                          <span class="n">scale_range</span><span class="o">=</span><span class="n">scale_range</span><span class="p">,</span> <span class="n">ext_range</span><span class="o">=</span><span class="n">ext_range</span><span class="p">,</span>
+                          <span class="n">lambda_scal</span><span class="o">=</span><span class="n">lambda_scal</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_obs</span><span class="p">,</span> 
+                          <span class="n">instru_corr</span><span class="o">=</span><span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="n">instru_res</span><span class="p">,</span> 
+                          <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">,</span>
+                          <span class="n">simplex_options</span><span class="o">=</span><span class="n">simplex_options</span><span class="p">,</span> <span class="n">red_chi2</span><span class="o">=</span><span class="n">red_chi2</span><span class="p">,</span>
+                          <span class="n">remove_nan</span><span class="o">=</span><span class="n">remove_nan</span><span class="p">,</span> <span class="n">force_continue</span><span class="o">=</span><span class="n">force_continue</span><span class="p">,</span>
+                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbosity</span><span class="p">,</span> <span class="n">min_npts</span><span class="o">=</span><span class="n">min_npts</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> <span class="n">scal</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> <span class="n">ext</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> <span class="n">n_dof</span><span class="p">[</span><span class="n">tt</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+            
+            <span class="n">shortname</span> <span class="o">=</span> <span class="n">tmp_filelist</span><span class="p">[</span><span class="n">tt</span><span class="p">][:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp_endswith</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">verbosity</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">msg_err</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">/</span><span class="si">{:.0f}</span><span class="s2"> (</span><span class="si">{}</span><span class="s2">) FAILED&quot;</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">]):</span>
+                        <span class="n">msg_err</span> <span class="o">+=</span> <span class="s2">&quot; (simplex did not converge)&quot;</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">msg_err</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_tmp</span><span class="p">,</span> <span class="n">tmp_filelist</span><span class="p">[</span><span class="n">tt</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tt</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">/</span><span class="si">{:.0f}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">, chi_r^2 = </span><span class="si">{:.1f}</span><span class="s2">, ndof=</span><span class="si">{:.0f}</span><span class="s2">&quot;</span>
+                    <span class="k">if</span> <span class="n">verbosity</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;, done in </span><span class="si">{}</span><span class="s2">s.&quot;</span>
+                        <span class="n">indiv_time</span> <span class="o">=</span> <span class="n">time_fin</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_tmp</span><span class="p">,</span> <span class="n">shortname</span><span class="p">,</span> <span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> 
+                                         <span class="n">n_dof</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> <span class="n">indiv_time</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_tmp</span><span class="p">,</span> <span class="n">shortname</span><span class="p">,</span> <span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> <span class="n">n_dof</span><span class="p">[</span><span class="n">tt</span><span class="p">]))</span>
+                    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+                    <span class="n">delta_t</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+                    <span class="n">tot_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_tmp</span><span class="o">*</span><span class="n">delta_t</span><span class="o">/</span><span class="mi">60</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Based on the first fit, it may take ~</span><span class="si">{:.0f}</span><span class="s2">min to&quot;</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; test the whole library </span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tot_time</span><span class="p">))</span>
+                    <span class="n">int_time</span> <span class="o">=</span> <span class="n">time_ini</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">/</span><span class="si">{:.0f}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">, chi_r^2 = </span><span class="si">{:.1f}</span><span class="s2">, ndof=</span><span class="si">{:.0f}</span><span class="s2">&quot;</span>
+                    <span class="k">if</span> <span class="n">verbosity</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot; done in </span><span class="si">{}</span><span class="s2">s.&quot;</span>                    
+                        <span class="n">indiv_time</span> <span class="o">=</span> <span class="n">time_fin</span><span class="p">(</span><span class="n">int_time</span><span class="p">)</span>
+                        <span class="n">int_time</span> <span class="o">=</span> <span class="n">time_ini</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_tmp</span><span class="p">,</span> <span class="n">shortname</span><span class="p">,</span> <span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> 
+                                         <span class="n">n_dof</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span> <span class="n">indiv_time</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tt</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_tmp</span><span class="p">,</span> <span class="n">shortname</span><span class="p">,</span> <span class="n">chi</span><span class="p">[</span><span class="n">tt</span><span class="p">],</span>
+                                         <span class="n">n_dof</span><span class="p">[</span><span class="n">tt</span><span class="p">]))</span>
+                        
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pool_map</span><span class="p">(</span><span class="n">nproc</span><span class="p">,</span> <span class="n">get_chi</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> 
+                       <span class="n">iterable</span><span class="p">(</span><span class="n">tmp_filelist</span><span class="p">),</span> <span class="n">tmp_reader</span><span class="p">,</span> <span class="n">search_mode</span><span class="p">,</span> 
+                       <span class="n">lambda_scal</span><span class="p">,</span> <span class="n">scale_range</span><span class="p">,</span> <span class="n">ext_range</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                       <span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">,</span>
+                       <span class="n">simplex_options</span><span class="p">,</span> <span class="n">red_chi2</span><span class="p">,</span> <span class="n">remove_nan</span><span class="p">,</span> <span class="n">force_continue</span><span class="p">,</span>
+                       <span class="n">verbosity</span><span class="p">,</span> <span class="n">min_npts</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+        <span class="n">chi</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">scal</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">n_dof</span> <span class="o">=</span> <span class="n">res</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span>
+        
+    <span class="n">n_success</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">chi</span><span class="p">))</span>
+        
+    <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;****************************************</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">/</span><span class="si">{:.0f}</span><span class="s2"> template spectra were fitted. </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_success</span><span class="p">,</span> <span class="n">n_tmp</span><span class="p">))</span>
+        <span class="n">timing</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">best_n_tmp</span><span class="p">(</span><span class="n">chi</span><span class="p">,</span> <span class="n">scal</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">n_dof</span><span class="p">,</span> <span class="n">tmp_filelist</span><span class="p">,</span> <span class="n">tmp_reader</span><span class="p">,</span> 
+                      <span class="n">n_best</span><span class="o">=</span><span class="n">n_best</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbosity</span><span class="p">)</span></div>
+    
+    
+<span class="k">def</span> <span class="nf">best_n_tmp</span><span class="p">(</span><span class="n">chi</span><span class="p">,</span> <span class="n">scal</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">n_dof</span><span class="p">,</span> <span class="n">tmp_filelist</span><span class="p">,</span> <span class="n">tmp_reader</span><span class="p">,</span> <span class="n">n_best</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+               <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Routine returning the n best template spectra.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_tmpname: tuple of n_best str</span>
+<span class="sd">        Best-fit template filenames</span>
+<span class="sd">    final_tmp: tuple of n_best 3D numpy array</span>
+<span class="sd">        Best-fit template spectra (3D: lbda+spec+spec_err)</span>
+<span class="sd">    final_chi: 1D numpy array of length n_best</span>
+<span class="sd">        Best-fit template chi^2</span>
+<span class="sd">    final_params: 2D numpy array (2xn_best)</span>
+<span class="sd">        Best-fit parameters (optimal scaling and optical extinction). Note if </span>
+<span class="sd">        extinction is not fitted, optimal AV will be set to 0.</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># sort from best to worst match</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">chi</span><span class="p">)</span>
+    <span class="n">sort_chi</span> <span class="o">=</span> <span class="n">chi</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">sort_scal</span> <span class="o">=</span> <span class="n">scal</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">sort_ext</span> <span class="o">=</span> <span class="n">ext</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">sort_ndof</span> <span class="o">=</span> <span class="n">n_dof</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">sort_filelist</span> <span class="o">=</span> <span class="p">[</span><span class="n">tmp_filelist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best chi: &quot;</span><span class="p">,</span> <span class="n">sort_chi</span><span class="p">[:</span><span class="n">n_best</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;best scale fac: &quot;</span><span class="p">,</span> <span class="n">sort_scal</span><span class="p">[:</span><span class="n">n_best</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n_dof: &quot;</span><span class="p">,</span> <span class="n">sort_ndof</span><span class="p">[:</span><span class="n">n_best</span><span class="p">])</span>
+    <span class="c1"># take the n_best first ones</span>
+    <span class="n">best_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_best</span><span class="p">):</span>
+        <span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">spec_tmp</span><span class="p">,</span> <span class="n">spec_tmp_err</span> <span class="o">=</span> <span class="n">tmp_reader</span><span class="p">(</span><span class="n">sort_filelist</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="n">Albdas</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_tmp</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">sort_ext</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+        <span class="n">extinc_fac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">Albdas</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sort_ext</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">final_scal</span> <span class="o">=</span> <span class="n">sort_scal</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="n">extinc_fac</span>
+        <span class="k">elif</span> <span class="n">sort_ext</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">final_scal</span> <span class="o">=</span> <span class="n">sort_scal</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">/</span><span class="n">extinc_fac</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">final_scal</span> <span class="o">=</span> <span class="n">sort_scal</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="n">best_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_tmp</span><span class="p">,</span> <span class="n">spec_tmp</span><span class="o">*</span><span class="n">final_scal</span><span class="p">,</span> 
+                                  <span class="n">spec_tmp_err</span><span class="o">*</span><span class="n">final_scal</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;The best template #</span><span class="si">{:.0f}</span><span class="s2"> is: </span><span class="si">{}</span><span class="s2"> &quot;</span>
+            <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;(Delta A_V=</span><span class="si">{:.1f}</span><span class="s2">mag)</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">sort_filelist</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">sort_ext</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+            
+    <span class="n">best_tmpname</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sort_filelist</span><span class="p">[:</span><span class="n">n_best</span><span class="p">])</span>
+    <span class="n">best_tmp</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">best_tmp</span><span class="p">)</span>
+    <span class="n">best_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sort_scal</span><span class="p">[:</span><span class="n">n_best</span><span class="p">],</span><span class="n">sort_ext</span><span class="p">[:</span><span class="n">n_best</span><span class="p">]])</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">best_tmpname</span><span class="p">,</span> <span class="n">best_tmp</span><span class="p">,</span> <span class="n">sort_chi</span><span class="p">[:</span><span class="n">n_best</span><span class="p">],</span> <span class="n">best_params</span><span class="p">,</span> 
+            <span class="n">sort_ndof</span><span class="p">[:</span><span class="n">n_best</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Valentin Christiaens.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

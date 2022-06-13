@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>special.nested_sampling &mdash; special  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html">
+            <img src="../../_static/Special_logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">What makes it <cite>special</cite>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html">TL;DR setup guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html#installation-and-dependencies">Installation and dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html"><em>special</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#1.-Loading-the-data">1. Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#4.-MCMC-sampler-examples">4. MCMC sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#5.-Comparison-of-results">5. Comparison of results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#6.-Nested-sampler-examples">6. Nested sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#questions-and-suggestions">Questions and suggestions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">special package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">special</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>special.nested_sampling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for special.nested_sampling</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module with functions for posterior sampling of the model spectra parameters </span>
+<span class="sd">using nested sampling (either ``nestle`` or ``ultranest`` samplers).</span>
+
+<span class="sd">.. [nes13]</span>
+<span class="sd">   | Barbary 2013</span>
+<span class="sd">   | **nestle**</span>
+<span class="sd">   | *GitHub*</span>
+<span class="sd">   | `https://github.com/kbarbary/nestle</span>
+<span class="sd">     &lt;https://github.com/kbarbary/nestle&gt;`_</span>
+
+<span class="sd">.. [SKI04]</span>
+<span class="sd">   | Skilling 2004</span>
+<span class="sd">   | **Bayesian Inference and Maximum Entropy Methods in Science and Engineering: </span>
+<span class="sd">     24th International Workshop on Bayesian Inference and Maximum Entropy </span>
+<span class="sd">     Methods in Science and Engineering**</span>
+<span class="sd">   | *American Institute of Physics Conference Series, Volume 735, pp. 395-405*</span>
+<span class="sd">   | `https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S</span>
+<span class="sd">     &lt;https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S&gt;`_</span>
+
+<span class="sd">.. [MUK06]</span>
+<span class="sd">   | Mukherjee et al. 2006</span>
+<span class="sd">   | **A Nested Sampling Algorithm for Cosmological Model Selection**</span>
+<span class="sd">   | *ApJL, Volume 638, Issue 2, pp. 51-54*</span>
+<span class="sd">   | `https://arxiv.org/abs/astro-ph/0508461</span>
+<span class="sd">     &lt;https://arxiv.org/abs/astro-ph/0508461&gt;`_</span>
+
+<span class="sd">.. [FER09]</span>
+<span class="sd">   | Feroz et al. 2009</span>
+<span class="sd">   | **MULTINEST: an efficient and robust Bayesian inference tool for cosmology </span>
+<span class="sd">     and particle physics**</span>
+<span class="sd">   | *MNRAS, Volume 398, Issue 4, pp. 1601-1614*</span>
+<span class="sd">   | `https://arxiv.org/abs/0809.3437</span>
+<span class="sd">     &lt;https://arxiv.org/abs/0809.3437&gt;`_</span>
+<span class="sd">     </span>
+<span class="sd">.. [BUC21]</span>
+<span class="sd">   | Buchner 2021</span>
+<span class="sd">   | **UltraNest - a robust, general purpose Bayesian inference engine**</span>
+<span class="sd">   | *JOSS, Volume 6, Issue 60, p. 3001*</span>
+<span class="sd">   | `https://arxiv.org/abs/2101.09604</span>
+<span class="sd">     &lt;https://arxiv.org/abs/2101.09604&gt;`_</span>
+<span class="sd">     </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;V. Christiaens&#39;</span><span class="p">,</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nested_spec_sampling&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;show_nestle_results&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;show_ultranest_results&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">con</span>
+<span class="kn">import</span> <span class="nn">nestle</span>
+<span class="kn">import</span> <span class="nn">ultranest</span>
+<span class="kn">from</span> <span class="nn">ultranest.plot</span> <span class="kn">import</span> <span class="n">cornerplot</span><span class="p">,</span> <span class="n">PredictionBand</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">time_ini</span><span class="p">,</span> <span class="n">timing</span>
+<span class="kn">from</span> <span class="nn">.fits</span> <span class="kn">import</span> <span class="n">open_fits</span><span class="p">,</span> <span class="n">write_fits</span>
+<span class="kn">from</span> <span class="nn">.mcmc_sampling</span> <span class="kn">import</span> <span class="n">lnlike</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">show_walk_plot</span><span class="p">,</span> <span class="n">show_corner_plot</span>
+<span class="kn">from</span> <span class="nn">.model_resampling</span> <span class="kn">import</span> <span class="n">make_resampled_models</span><span class="p">,</span> <span class="n">make_model_from_params</span>
+<span class="kn">from</span> <span class="nn">.utils_nested</span> <span class="kn">import</span> <span class="n">un_burning</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">ndtri</span>
+
+
+<div class="viewcode-block" id="nested_spec_sampling"><a class="viewcode-back" href="../../special.html#special.nested_sampling.nested_spec_sampling">[docs]</a><span class="k">def</span> <span class="nf">nested_spec_sampling</span><span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> <span class="n">err_obs</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> 
+                         <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">resamp_before</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                         <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> 
+                         <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_corr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                         <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> 
+                         <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">priors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                         <span class="n">physical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interp_nonexist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                         <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;special/&#39;</span><span class="p">,</span> <span class="n">grid_name</span><span class="o">=</span><span class="s1">&#39;resamp_grid.fits&#39;</span><span class="p">,</span> 
+                         <span class="n">sampler</span><span class="o">=</span><span class="s1">&#39;ultranest&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">npoints</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+                         <span class="n">dlogz</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                            
+    
+    <span class="sd">&quot;&quot;&quot; Runs a nested sampling algorithm in order to retrieve the best-fit </span>
+<span class="sd">    parameters for given spectral model and observed spectrum.. The</span>
+<span class="sd">    result of this procedure is either a ``nestle`` [nes13]_ or ``ultranest`` </span>
+<span class="sd">    [BUC21]_ object (depending on the chosen sampler) containing the samples </span>
+<span class="sd">    from the posterior distributions of each of the parameters.</span>
+<span class="sd">    For the ``nestle`` sampler, several methods are available corresponding to</span>
+<span class="sd">    MCMC [SKI04]_, single ellipsoid [MUK06]_ or multiple ellipsoid [FER09]_.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    init: numpy ndarray or tuple</span>
+<span class="sd">        Initial guess on the best fit parameters of the spectral fit. Length of </span>
+<span class="sd">        the tuple should match the total number of free parameters. </span>
+<span class="sd">        - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">        - then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">        - (optionally) the intensity of emission lines (labels must match \</span>
+<span class="sd">        those in the em_lines dict), in units of the model spectrum (x mu)</span>
+<span class="sd">        - (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">        - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">        - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">        contribution</span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelengths of observed spectrum. If several instruments were used, the </span>
+<span class="sd">        wavelengths should be ordered per instrument, not necessarily as </span>
+<span class="sd">        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the </span>
+<span class="sd">        length of ``lbda_obs``.</span>
+<span class="sd">    spec_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Observed spectrum for each value of ``lbda_obs``. Should have a length</span>
+<span class="sd">        of :math:`n_{ch}`.</span>
+<span class="sd">    err_obs : numpy 1d/2d ndarray or list</span>
+<span class="sd">        Uncertainties on the observed spectrum. The array (list) can have either</span>
+<span class="sd">        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower </span>
+<span class="sd">        (first column) and upper (second column) uncertainties provided.</span>
+<span class="sd">    dist :  float</span>
+<span class="sd">        Distance in parsec, used for flux scaling of the models.</span>
+<span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
+<span class="sd">        Should contain list/numpy 1d arrays with available grid of model </span>
+<span class="sd">        parameters (should only contain the sampled parameters, not the models </span>
+<span class="sd">        themselves). The models will be loaded with ``model_reader``.</span>
+<span class="sd">    labels: Tuple of strings</span>
+<span class="sd">        Tuple of labels in the same order as initial_state:</span>
+<span class="sd">            - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">            - then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">            - (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">            in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">            - (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">            contribution.     </span>
+<span class="sd">    bounds: dictionary</span>
+<span class="sd">        Each entry should be associated with a tuple corresponding to lower and </span>
+<span class="sd">        upper bounds respectively. Bounds should be provided for ALL model</span>
+<span class="sd">        parameters, including &#39;R&#39; (planet photometric radius). &#39;Av&#39; (optical </span>
+<span class="sd">        extinction) is optional. If provided here, Av will also be fitted.</span>
+<span class="sd">        All keywords that are neither &#39;R&#39;, &#39;Av&#39; nor &#39;M&#39; will </span>
+<span class="sd">        be considered model grid parameters.</span>
+<span class="sd"> </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; bounds = {&#39;Teff&#39;:(1000,2000), &#39;logg&#39;:(3.0,4.5), &#39;R&#39;:(0.1,5)}</span>
+<span class="sd">            &gt;&gt;&gt; bounds = {&#39;Teff&#39;:(1000,2000), &#39;logg&#39;:(3.0,4.5), &#39;R&#39;:(0.1,5), </span>
+<span class="sd">            &gt;&gt;&gt;           &#39;Av&#39;:(0.,2.5), &#39;Rv&#39;:(1,5)}</span>
+<span class="sd">            &gt;&gt;&gt; bounds = {&#39;Teff&#39;:(1000,2000), &#39;logg&#39;:(3.0,4.5), &#39;R&#39;:(0.1,5),</span>
+<span class="sd">            &gt;&gt;&gt;           &#39;Av&#39;:(0.,2.5), &#39;BrG&#39;:(1e-17,1e-15)}</span>
+<span class="sd">            &gt;&gt;&gt; bounds = {&#39;Teff&#39;:(2000,3000), &#39;logg&#39;:(3.0,4.5), &#39;R&#39;:(1.,5.),</span>
+<span class="sd">            &gt;&gt;&gt;           &#39;Tbb1&#39;:(500,1500), &#39;Rbb1&#39;:(0.1,1.)}</span>
+<span class="sd">     </span>
+<span class="sd">    resamp_before: bool, optional</span>
+<span class="sd">        Whether to prepare the whole grid of resampled models before entering </span>
+<span class="sd">        the MCMC, i.e. to avoid doing it at every MCMC step. Recommended.</span>
+<span class="sd">        Only reason not to: model grid is too large and individual models </span>
+<span class="sd">        require being opened and resampled at each step.</span>
+<span class="sd">    model_grid : numpy N-d array, optional</span>
+<span class="sd">        If provided, should contain the grid of model spectra for each</span>
+<span class="sd">        free parameter of the given grid. I.e. for a grid of :math:`n_T` values </span>
+<span class="sd">        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy </span>
+<span class="sd">        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the </span>
+<span class="sd">        last 2 dimensions correspond to wavelength and fluxes respectively. If </span>
+<span class="sd">        provided, ``model_grid`` takes precedence over ``model_name``/</span>
+<span class="sd">        ``model_reader``.</span>
+<span class="sd">    model_reader : python routine, opt</span>
+<span class="sd">        External routine that reads a model file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains model values. See example routine in </span>
+<span class="sd">        ``special.model_resampling.interpolate_model`` description.</span>
+<span class="sd">    em_lines: dictionary, opt</span>
+<span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
+<span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
+<span class="sd">        4 values: </span>
+<span class="sd">            </span>
+<span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
+<span class="sd">            </span>
+<span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
+<span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
+<span class="sd">              </span>
+<span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
+<span class="sd">            </span>
+<span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
+<span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
+<span class="sd">        line, calculated from the flux to be injected and the continuum </span>
+<span class="sd">        level (measured in the grid model to which the line is injected).</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
+<span class="sd">        </span>
+<span class="sd">    em_grid: dictionary pointing to lists, opt</span>
+<span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation</span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this</span>
+<span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
+<span class="sd">        ``labels`` and ``em_lines``.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
+<span class="sd">            &gt;&gt;&gt;            &#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
+<span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
+<span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
+<span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
+<span class="sd">        infer which part(s) of a combined spectro+photometric spectrum should </span>
+<span class="sd">        involve convolution+subsampling (model resolution higher than </span>
+<span class="sd">        measurements), interpolation (the opposite), or convolution by the </span>
+<span class="sd">        transmission curve of a photometric filter. If not provided, it will be </span>
+<span class="sd">        inferred from the difference between consecutive lbda_obs points (i.e. </span>
+<span class="sd">        inaccurate for a combined spectrum). It must be provided IF one wants to </span>
+<span class="sd">        weigh each measurement based on the spectral resolution of each </span>
+<span class="sd">        instrument (as in [OLO16]_), through the ``use_weights`` argument.</span>
+<span class="sd">    instru_corr : numpy 2d ndarray, optional</span>
+<span class="sd">        Spectral correlation between post-processed images in which the </span>
+<span class="sd">        spectrum is measured. It is specific to the instrument, PSF subtraction </span>
+<span class="sd">        algorithm and radial separation of the companion from the central star.</span>
+<span class="sd">        Can be computed using ``special.spec_corr.spectral_correlation``. In </span>
+<span class="sd">        case of a spectrum obtained with different instruments, it is </span>
+<span class="sd">        recommended to construct the final spectral_correlation matrix with</span>
+<span class="sd">        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, </span>
+<span class="sd">        the uncertainties in each spectral channel will be considered </span>
+<span class="sd">        independent. See [GRE16]_ for more details.</span>
+<span class="sd">    instru_res : float or list of floats/strings, optional</span>
+<span class="sd">        The mean instrumental resolving power(s) OR filter names. This is </span>
+<span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
+<span class="sd">        provide a list of resolving power values / filter names, one for </span>
+<span class="sd">        each instrument used.</span>
+<span class="sd">    instru_idx: numpy 1d array, optional</span>
+<span class="sd">        1d array containing an index representing each instrument used </span>
+<span class="sd">        to obtain the spectrum, label them from 0 to the number of instruments </span>
+<span class="sd">        (:math:`n_{ins}`). Zero for points that don&#39;t correspond to any of the </span>
+<span class="sd">        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points</span>
+<span class="sd">        associated to instru_res[i-1]. This parameter must be provided if the </span>
+<span class="sd">        spectrum consists of points obtained with different instruments.</span>
+<span class="sd">    use_weights: bool, optional</span>
+<span class="sd">        For the likelihood calculation, whether to weigh each point of the </span>
+<span class="sd">        spectrum based on the spectral resolution or bandwidth of photometric</span>
+<span class="sd">        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if </span>
+<span class="sd">        ``dlbda_obs`` is provided, or set to 1 for all points otherwise.</span>
+<span class="sd">    filter_reader: python routine, optional</span>
+<span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains transmission values. Important: if not provided, but strings </span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
+<span class="sd">        It assumes the following format for the files:</span>
+<span class="sd">            </span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
+<span class="sd">        </span>
+<span class="sd">    AV_bef_bb: bool, optional</span>
+<span class="sd">        If both extinction and an extra bb component are free parameters, </span>
+<span class="sd">        whether to apply extinction before adding the BB component (e.g. </span>
+<span class="sd">        extinction mostly from circumplanetary dust) or after the BB component</span>
+<span class="sd">        (e.g. mostly insterstellar extinction).</span>
+<span class="sd">    units_obs : str, opt {&#39;si&#39;,&#39;cgs&#39;,&#39;jy&#39;}</span>
+<span class="sd">        Units of observed spectrum. &#39;si&#39; for W/m^2/mu; &#39;cgs&#39; for ergs/s/cm^2/mu </span>
+<span class="sd">        or &#39;jy&#39; for janskys.</span>
+<span class="sd">    units_mod: str, opt {&#39;si&#39;,&#39;cgs&#39;,&#39;jy&#39;}</span>
+<span class="sd">        Units of the model. &#39;si&#39; for W/m^2/mu; &#39;cgs&#39; for ergs/s/cm^2/mu or &#39;jy&#39;</span>
+<span class="sd">        for janskys. If different to units_obs, the spectrum units will be </span>
+<span class="sd">        converted.</span>
+<span class="sd">    interp_order: int, opt, {-1,0,1} </span>
+<span class="sd">        Interpolation mode for model interpolation.</span>
+<span class="sd">            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
+<span class="sd">            - 0: nearest neighbour model</span>
+<span class="sd">            - 1: Order 1 spline interpolation</span>
+<span class="sd">      </span>
+<span class="sd">    priors: dictionary, opt</span>
+<span class="sd">        If not None, sets prior estimates for each parameter of the model. Each </span>
+<span class="sd">        entry should be set to either None (no prior) or a tuple of 2 elements </span>
+<span class="sd">        containing prior estimate and uncertainty on the estimate.</span>
+<span class="sd">        Missing entries (i.e. provided in ``bounds`` dictionary but not here) </span>
+<span class="sd">        will be associated no prior.</span>
+<span class="sd">        &#39;M&#39; can be used for a prior on the mass of the planet. In that case the</span>
+<span class="sd">        corresponding prior log probability is computed from the values for </span>
+<span class="sd">        parameters &#39;logg&#39; and &#39;R&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; priors = {&#39;logg&#39;:(3.5,0.2), &#39;Rv&#39;:(3.1,0.2)}</span>
+<span class="sd">            &gt;&gt;&gt; priors = {&#39;Teff&#39;:(1600,100), &#39;logg&#39;:(3.5,0.5), &#39;R&#39;:(1.6,0.1),</span>
+<span class="sd">            &gt;&gt;&gt;           &#39;Av&#39;:(1.8,0.2), &#39;M&#39;:(10,3)}</span>
+<span class="sd">        </span>
+<span class="sd">        Important: dictionary entry names should match exactly those of </span>
+<span class="sd">        ``bounds``.</span>
+<span class="sd">    physical: bool, opt</span>
+<span class="sd">        In case of extra black body component(s) to a photosphere, whether to </span>
+<span class="sd">        force lower temperature than the photosphere effective temperature.</span>
+<span class="sd">    interp_nonexist: bool, opt</span>
+<span class="sd">        Whether to interpolate non-existing models in the grid. Only used if </span>
+<span class="sd">        resamp_before is set to True.</span>
+<span class="sd">    w : float or tuple</span>
+<span class="sd">        The relative size of the bounds (around the initial state ``init``) for </span>
+<span class="sd">        each parameter. If a float the same relative size is considered for </span>
+<span class="sd">        each parameter. E.g. if 0.1, bounds will be set to:</span>
+<span class="sd">        (0.9*params[0], 1.1*params[0]),</span>
+<span class="sd">        ...</span>
+<span class="sd">        (0.9*params[N-1], 1.1*params[N-1]),</span>
+<span class="sd">        to True), or make it and write it if it does not.</span>
+<span class="sd">    output_dir: str, optional</span>
+<span class="sd">        The name of the output directory which contains the output files in the </span>
+<span class="sd">        case  ``save`` is True.   </span>
+<span class="sd">    grid_name: str, optional</span>
+<span class="sd">        Name of the fits file containing the model grid (numpy array) AFTER</span>
+<span class="sd">        convolution+resampling as the observed spectrum given as input.</span>
+<span class="sd">        If provided, will read it if it exists (and resamp_before is set</span>
+<span class="sd">    method : {&quot;single&quot;, &quot;multi&quot;, &quot;classic&quot;}, str optional</span>
+<span class="sd">        Flavor of nested sampling.</span>
+<span class="sd">    npoints : int optional</span>
+<span class="sd">        Number of active points. Must be &gt;&gt; ndim+1, otherwise will produce bad </span>
+<span class="sd">        results. For UltraNest, this is the minimum number of active points.</span>
+<span class="sd">    dlogz : float, optional</span>
+<span class="sd">        Target evidence uncertainty. Iterations will stop when the estimated </span>
+<span class="sd">        contribution of the remaining prior volume to the total evidence falls </span>
+<span class="sd">        below this threshold. Explicitly, the stopping criterion is </span>
+<span class="sd">        log(z + z_est) - log(z) &lt; dlogz</span>
+<span class="sd">        where z is the current evidence from all saved samples, and z_est is the</span>
+<span class="sd">        estimated contribution from the remaining volume. This option and</span>
+<span class="sd">        decline_factor are mutually exclusive. If neither is specified, the</span>
+<span class="sd">        default is dlogz=0.2.</span>
+<span class="sd">    decline_factor : float, optional</span>
+<span class="sd">        If supplied, iteration will stop when the weight (likelihood times prior</span>
+<span class="sd">        volume) of newly saved samples has been declining for</span>
+<span class="sd">        decline_factor * nsamples consecutive samples. A value of 1.0 seems to</span>
+<span class="sd">        work pretty well.</span>
+<span class="sd">    rstate : random instance, optional</span>
+<span class="sd">        RandomState instance. If not given, the global random state of the</span>
+<span class="sd">        numpy.random module will be used.</span>
+<span class="sd">    kwargs: optional</span>
+<span class="sd">        Additional optional arguments to either the `nestle.sample` or </span>
+<span class="sd">        `ultranest.ReactiveNestedSampler.run` functions.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    res : nestle object</span>
+<span class="sd">        ``Nestle`` object with the nested sampling results, including the</span>
+<span class="sd">        posterior samples.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Nested Sampling is a computational approach for integrating posterior</span>
+<span class="sd">    probability in order to compare models in Bayesian statistics. It is similar</span>
+<span class="sd">    to Markov Chain Monte Carlo (MCMC) in that it generates samples that can be</span>
+<span class="sd">    used to estimate the posterior probability distribution. Unlike MCMC, the</span>
+<span class="sd">    nature of the sampling also allows one to calculate the integral of the</span>
+<span class="sd">    distribution. It also happens to be a pretty good method for robustly</span>
+<span class="sd">    finding global maxima.</span>
+
+<span class="sd">    Nestle documentation:</span>
+<span class="sd">        http://kbarbary.github.io/nestle/</span>
+
+<span class="sd">    Convergence:</span>
+<span class="sd">        http://kbarbary.github.io/nestle/stopping.html</span>
+<span class="sd">        Nested sampling has no well-defined stopping point. As iterations continue,</span>
+<span class="sd">        the active points sample a smaller and smaller region of prior space.</span>
+<span class="sd">        This can continue indefinitely. Unlike typical MCMC methods, we don&#39;t gain</span>
+<span class="sd">        any additional precision on the results by letting the algorithm run longer;</span>
+<span class="sd">        the precision is determined at the outset by the number of active points.</span>
+<span class="sd">        So, we want to stop iterations as soon as we think the active points are</span>
+<span class="sd">        doing a pretty good job sampling the remaining prior volume - once we&#39;ve</span>
+<span class="sd">        converged to the highest-likelihood regions such that the likelihood is</span>
+<span class="sd">        relatively flat within the remaining prior volume.</span>
+
+<span class="sd">    Method:</span>
+<span class="sd">        The trick in nested sampling is to, at each step in the algorithm,</span>
+<span class="sd">        efficiently choose a new point in parameter space drawn with uniform</span>
+<span class="sd">        probability from the parameter space with likelihood greater than the</span>
+<span class="sd">        current likelihood constraint. The different methods all use the</span>
+<span class="sd">        current set of active points as an indicator of where the target</span>
+<span class="sd">        parameter space lies, but differ in how they select new points from it:</span>
+<span class="sd">        </span>
+<span class="sd">        - &quot;classic&quot; is close to the method described in [SKI04]_.</span>
+<span class="sd">        - &quot;single&quot; [MUK06]_ determines a single ellipsoid that bounds all active \</span>
+<span class="sd">        points, enlarges the ellipsoid by a user-settable factor, and \</span>
+<span class="sd">        selects a new point at random from within the ellipsoid.</span>
+<span class="sd">        - &quot;multiple&quot; [FER09]_ (Multinest). In cases where the posterior is \</span>
+<span class="sd">        multi-modal, the single-ellipsoid method can be extremely inefficient. \</span>
+<span class="sd">        In such situations, there are clusters of active points on separate \</span>
+<span class="sd">        high-likelihood regions separated by regions of lower likelihood. Bounding \</span>
+<span class="sd">        all points in a single ellipsoid means that the ellipsoid includes the \</span>
+<span class="sd">        lower-likelihood regions we wish to avoid sampling from.\</span>
+<span class="sd">        The solution is to detect these clusters and bound them in separate\</span>
+<span class="sd">        ellipsoids. For this, we use a recursive process where we perform\</span>
+<span class="sd">        K-means clustering with K=2. If the resulting two ellipsoids have a\</span>
+<span class="sd">        significantly lower total volume than the parent ellipsoid (less than half),\</span>
+<span class="sd">        we accept the split and repeat the clustering and volume test on each of\</span>
+<span class="sd">        the two subset of points. This process continues recursively.\</span>
+<span class="sd">        Alternatively, if the total ellipse volume is significantly greater\</span>
+<span class="sd">        than expected (based on the expected density of points) this indicates\</span>
+<span class="sd">        that there may be more than two clusters and that K=2 was not an\</span>
+<span class="sd">        appropriate cluster division.\</span>
+<span class="sd">        We therefore still try to subdivide the clusters recursively. However,\</span>
+<span class="sd">        we still only accept the final split into N clusters if the total volume\</span>
+<span class="sd">        decrease is significant.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    - If several filter filenames are provided in ``instru_res``, the filter files</span>
+<span class="sd">      must all have the same format and wavelength units (for reading by the same</span>
+<span class="sd">      ``filter_reader`` snippet or default function). </span>
+
+<span class="sd">    - ``grid_param_list`` and ``model_grid`` shouldn&#39;t contain grids on radius </span>
+<span class="sd">      and Av. For a combined grid model + black body fit, just provide the list </span>
+<span class="sd">      of parameters probed by the grid to ``grid_param_list``, and provide values </span>
+<span class="sd">      for &#39;Tbbn&#39; and &#39;Rbbn&#39; to ``initial_state``, ``labels`` and ``bounds``.  </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ----------------------- Preparation/Formatting --------------------------</span>
+
+    <span class="n">nparams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">model_reader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Either model_grid or model_reader have to be provided&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">n_gparams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
+        <span class="n">gp_dims</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_gparams</span><span class="p">):</span>
+            <span class="n">gp_dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">]))</span>
+        <span class="n">gp_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gp_dims</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_gparams</span> <span class="o">=</span> <span class="mi">0</span>
+        
+    <span class="c1"># format emission line dictionary and em grid</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">n_em</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span>
+        <span class="n">em_dims</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">em_dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">lab</span><span class="p">]))</span>
+        <span class="n">em_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">em_dims</span><span class="p">)</span>
+        <span class="c1"># update the grids depending on input units =&gt; make it surface flux</span>
+        <span class="n">idx_R</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">em_lines</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;L&#39;</span><span class="p">:</span>
+                <span class="n">idx_line</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="c1"># adapt grid</span>
+                <span class="n">R_si</span> <span class="o">=</span> <span class="n">init</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">conv_fac</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">R_si</span><span class="o">**</span><span class="mi">2</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="o">/</span><span class="n">conv_fac</span>
+                <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="c1"># adapt ini state </span>
+                <span class="n">init</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+                <span class="n">init</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span> <span class="o">/=</span> <span class="n">conv_fac</span>
+                <span class="n">init</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+                <span class="c1">#adapt bounds</span>
+                <span class="n">bounds_ori</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">bounds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bounds_ori</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">conv_fac</span><span class="p">,</span> <span class="n">bounds_ori</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">conv_fac</span><span class="p">)</span> 
+            <span class="k">elif</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LogL&#39;</span><span class="p">:</span>
+                <span class="n">idx_line</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">R_si</span> <span class="o">=</span> <span class="n">init</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
+                <span class="n">conv_fac</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">L_sun</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">R_si</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span><span class="o">*</span><span class="n">conv_fac</span>
+                <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>  
+                <span class="c1"># adapt ini state </span>
+                <span class="n">init</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+                <span class="n">init</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv_fac</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">init</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span>
+                <span class="n">init</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+                <span class="c1">#adapt bounds</span>
+                <span class="n">bounds_ori</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">bounds</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">conv_fac</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">bounds_ori</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                               <span class="n">conv_fac</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">bounds_ori</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+            <span class="k">if</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;km/s&#39;</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">em_lines_tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                    <span class="n">em_lines_tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="o">*</span><span class="n">v</span><span class="o">/</span><span class="n">con</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">*</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">em_lines_tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mu&#39;</span>
+                    <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">em_lines_tmp</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;nm&#39;</span><span class="p">:</span>
+                    <span class="n">em_lines_tmp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                    <span class="n">em_lines_tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">1000</span>
+                    <span class="n">em_lines_tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mu&#39;</span>
+                    <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">em_lines_tmp</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;mu&#39;</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid unit of FWHM for line injection&quot;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                
+    <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">model_grid</span><span class="o">.</span><span class="n">ndim</span><span class="o">-</span><span class="mi">2</span> <span class="o">!=</span> <span class="n">n_gparams</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Ndim-2 of model_grid should match len(grid_param_list)&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+ 
+    <span class="c1"># Check model grid parameters extend beyond bounds to avoid extrapolation</span>
+    <span class="k">if</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_gparams</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">]][</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Grid has to extend beyond bounds for </span><span class="si">{}</span><span class="s2">.&quot;</span>
+                <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Consider increasing the lower bound to &gt;</span><span class="si">{}</span><span class="s2">.&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">],</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">]][</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Grid has to extend beyond bounds for </span><span class="si">{}</span><span class="s2">.&quot;</span>
+                <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Consider decreasing the upper bound to &lt;</span><span class="si">{}</span><span class="s2">.&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">],</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+                
+    <span class="c1"># Check initial state is within bounds for all params (not only grid)</span>
+    <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">init</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">&lt;</span><span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">]][</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Initial state has to be within bounds for </span><span class="si">{}</span><span class="s2">.&quot;</span>
+            <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Consider decreasing the lower bound to &lt;</span><span class="si">{}</span><span class="s2">.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">],</span><span class="n">init</span><span class="p">[</span><span class="n">pp</span><span class="p">]))</span>            
+        <span class="k">if</span> <span class="n">init</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">&gt;</span><span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">]][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Initial state has to be within bounds for </span><span class="si">{}</span><span class="s2">.&quot;</span>
+            <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Consider decreasing the upper bound to &gt;</span><span class="si">{}</span><span class="s2">.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">pp</span><span class="p">],</span><span class="n">init</span><span class="p">[</span><span class="n">pp</span><span class="p">]))</span>
+        
+    <span class="c1"># Prepare model grid: convolve+resample models as observations </span>
+    <span class="k">if</span> <span class="n">resamp_before</span> <span class="ow">and</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="n">grid_name</span><span class="p">):</span>
+            <span class="n">model_grid</span> <span class="o">=</span> <span class="n">open_fits</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="n">grid_name</span><span class="p">)</span>
+            <span class="c1"># check its shape is consistent with grid_param_list</span>
+            <span class="k">if</span> <span class="n">model_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="n">n_gparams</span><span class="p">]</span> <span class="o">!=</span> <span class="n">gp_dims</span><span class="p">:</span>
+                <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;the loaded model grid (</span><span class="si">{}</span><span class="s2">) doesn&#39;t have expected dims (</span><span class="si">{}</span><span class="s2">)&quot;</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">gp_dims</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">model_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">):</span>
+                <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;the loaded model grid doesn&#39;t have expected WL dimension&quot;</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">model_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;the loaded model grid doesn&#39;t have expected last dimension&quot;</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">model_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">n_gparams</span><span class="p">:</span><span class="n">n_gparams</span><span class="o">+</span><span class="n">n_em</span><span class="p">]</span> <span class="o">!=</span> <span class="n">em_dims</span><span class="p">:</span>
+                    <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;loaded model grid (</span><span class="si">{}</span><span class="s2">) doesn&#39;t have expected dims (</span><span class="si">{}</span><span class="s2">)&quot;</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">em_dims</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model_grid</span> <span class="o">=</span> <span class="n">make_resampled_models</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> 
+                                               <span class="n">model_grid</span><span class="p">,</span> <span class="n">model_reader</span><span class="p">,</span> 
+                                               <span class="n">em_lines</span><span class="p">,</span> <span class="n">em_grid</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                                               <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
+                                               <span class="n">filter_reader</span><span class="p">,</span> <span class="n">interp_nonexist</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">and</span> <span class="n">grid_name</span><span class="p">:</span>
+                <span class="n">write_fits</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">)</span>
+        <span class="c1"># note: if model_grid is provided, it is still resampled to the </span>
+        <span class="c1"># same wavelengths as observed spectrum. However, if a fits name is </span>
+        <span class="c1"># provided in grid_name and that file exists, it is assumed the model </span>
+        <span class="c1"># grid in it is already resampled to match lbda_obs.    </span>
+
+
+    <span class="c1"># -------------- Definition of utilities for nested sampling --------------</span>
+
+    <span class="k">def</span> <span class="nf">prior_transform</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the transformation from the unit distribution `[0, 1]` to </span>
+<span class="sd">        parameter space. Uniform distributions are assumed for all parameters.</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The prior transform function is used to specify the Bayesian prior for </span>
+<span class="sd">        the problem, in a round-about way. It is a transformation from a space </span>
+<span class="sd">        where variables are independently and uniformly distributed between 0 </span>
+<span class="sd">        and 1 to the parameter space of interest. For independent parameters, </span>
+<span class="sd">        this would be the product of the inverse cumulative distribution </span>
+<span class="sd">        function (also known as the percent point function or quantile function) </span>
+<span class="sd">        for each parameter.</span>
+<span class="sd">        http://kbarbary.github.io/nestle/prior.html</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># uniform priors</span>
+        <span class="n">pt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>            
+            <span class="n">pmin</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pmax</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">pt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">pmax</span> <span class="o">-</span> <span class="n">pmin</span><span class="p">)</span> <span class="o">+</span> <span class="n">pmin</span><span class="p">)</span>
+                
+        <span class="k">if</span> <span class="n">priors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># replace with Gaussian prior where relevant</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">prior</span> <span class="ow">in</span> <span class="n">priors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;M&#39;</span> <span class="ow">and</span> <span class="s1">&#39;logg&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Mass prior only available for MCMC sampling&quot;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">idx_prior</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">pt</span><span class="p">[</span><span class="n">idx_prior</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">prior</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ndtri</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="n">lnlike</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_obs</span><span class="p">,</span> 
+                      <span class="n">err_obs</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="n">model_grid</span><span class="p">,</span>
+                      <span class="n">model_reader</span><span class="o">=</span><span class="n">model_reader</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="n">em_lines</span><span class="p">,</span> 
+                      <span class="n">em_grid</span><span class="o">=</span><span class="n">em_grid</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="n">dlbda_obs</span><span class="p">,</span> 
+                      <span class="n">instru_corr</span><span class="o">=</span><span class="n">instru_corr</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="n">instru_res</span><span class="p">,</span> 
+                      <span class="n">instru_idx</span><span class="o">=</span><span class="n">instru_idx</span><span class="p">,</span> <span class="n">use_weights</span><span class="o">=</span><span class="n">use_weights</span><span class="p">,</span>
+                      <span class="n">filter_reader</span><span class="o">=</span><span class="n">filter_reader</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="n">AV_bef_bb</span><span class="p">,</span> 
+                      <span class="n">units_obs</span><span class="o">=</span><span class="n">units_obs</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="n">units_mod</span><span class="p">,</span> 
+                      <span class="n">interp_order</span><span class="o">=</span><span class="n">interp_order</span><span class="p">)</span>
+        
+        
+    <span class="c1"># ------------------------ Actual sampling --------------------------------</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>  <span class="n">start</span> <span class="o">=</span> <span class="n">time_ini</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prior bounds on parameters:&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>            
+            <span class="n">pmin</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">pmax</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> [</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Using </span><span class="si">{}</span><span class="s1"> active points&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">npoints</span><span class="p">))</span>
+
+
+    <span class="k">if</span> <span class="n">sampler</span> <span class="o">==</span> <span class="s1">&#39;nestle&#39;</span><span class="p">:</span>
+        <span class="n">final_res</span> <span class="o">=</span> <span class="n">nestle</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">prior_transform</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="n">nparams</span><span class="p">,</span> 
+                                  <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">npoints</span><span class="o">=</span><span class="n">npoints</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="n">dlogz</span><span class="p">,</span> 
+                                  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sampler</span> <span class="o">==</span> <span class="s1">&#39;ultranest&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        <span class="n">un_sampler</span> <span class="o">=</span> <span class="n">ultranest</span><span class="o">.</span><span class="n">ReactiveNestedSampler</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">prior_transform</span><span class="p">,</span>
+                                                     <span class="n">log_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> 
+                                                     <span class="n">resume</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">un_sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">min_num_live_points</span><span class="o">=</span><span class="n">npoints</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="n">dlogz</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">final_res</span> <span class="o">=</span> <span class="p">(</span><span class="n">un_sampler</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Total running time:&#39;</span><span class="p">)</span>
+        <span class="n">timing</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">final_res</span></div>
+
+
+<div class="viewcode-block" id="show_nestle_results"><a class="viewcode-back" href="../../special.html#special.nested_sampling.show_nestle_results">[docs]</a><span class="k">def</span> <span class="nf">show_nestle_results</span><span class="p">(</span><span class="n">ns_object</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">burnin</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                        <span class="n">cfd</span><span class="o">=</span><span class="mf">68.27</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ndig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels_plot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                        <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Show the results obtained with the Nestle sampler: summary, parameters with </span>
+<span class="sd">    errors, walk and corner plots. Returns best-fit values and uncertatinties.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ns_object: numpy.array</span>
+<span class="sd">        The nestle object returned from `nested_spec_sampling`.</span>
+<span class="sd">    labels: Tuple of strings</span>
+<span class="sd">        Tuple of labels in the same order as initial_state:</span>
+<span class="sd">            - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">            - then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">            - (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">            in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">            - (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">            contribution. </span>
+<span class="sd">    method : {&quot;single&quot;, &quot;multi&quot;, &quot;classic&quot;}, str optional</span>
+<span class="sd">        Flavor of nested sampling.</span>
+<span class="sd">    burnin: float, default: 0</span>
+<span class="sd">        The fraction of a walker we want to discard.</span>
+<span class="sd">    bins: int, optional</span>
+<span class="sd">        The number of bins used to sample the posterior distributions.</span>
+<span class="sd">    cfd: float, optional</span>
+<span class="sd">        The confidence level given in percentage.</span>
+<span class="sd">    units: tuple, opt</span>
+<span class="sd">        Tuple of strings containing units for each parameter. If provided,</span>
+<span class="sd">        mcmc_res will be printed on top of each 1d posterior distribution along </span>
+<span class="sd">        with these units.</span>
+<span class="sd">    ndig: tuple, opt</span>
+<span class="sd">        Number of digits precision for each printed parameter.</span>
+<span class="sd">    labels_plot: tuple, opt</span>
+<span class="sd">        Labels corresponding to parameter names, used for the plot. If None,</span>
+<span class="sd">        will use &quot;labels&quot; passed in kwargs.</span>
+<span class="sd">    save: boolean, default: False</span>
+<span class="sd">        If True, a pdf file is created.</span>
+<span class="sd">    output_dir: str, optional</span>
+<span class="sd">        The name of the output directory which contains the output files in the </span>
+<span class="sd">        case  ``save`` is True. </span>
+<span class="sd">    plot: bool, optional</span>
+<span class="sd">        Whether to show the plots (instead of saving them).</span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        Additional optional arguments passed to `confidence` (matplotlib </span>
+<span class="sd">        optional arguments for histograms).</span>
+<span class="sd">                    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_res: numpy ndarray</span>
+<span class="sd">         Best-fit parameters and uncertainties (corresponding to 68% confidence</span>
+<span class="sd">         interval). Dimensions: nparams x 2.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ns_object</span>
+    <span class="n">nsamples</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">indburnin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)),</span> <span class="n">burnin</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+    <span class="n">nparams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Natural log of prior volume and Weight corresponding to each sample&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">or</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">logvol</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;logvol&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">indburnin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">logvol</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">res</span><span class="o">.</span><span class="n">logvol</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                   <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;samples&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;weights&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">indburnin</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">res</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                   <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;Nestle-</span><span class="si">{}</span><span class="s1">_results.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Walk plots before the burnin&quot;</span><span class="p">)</span>
+        <span class="n">show_walk_plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">burnin</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Walk plots after the burnin&quot;</span><span class="p">)</span>
+            <span class="n">show_walk_plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                           <span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;Nestle-</span><span class="si">{}</span><span class="s1">_walk_plots.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+        
+    <span class="n">mean</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">nestle</span><span class="o">.</span><span class="n">mean_and_cov</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:],</span>
+                                    <span class="n">res</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Weighted mean +- sqrt(covariance)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ndig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ndig</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>   
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{{:.</span><span class="si">{0}</span><span class="s2">f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndig</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">format</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> = </span><span class="si">{1}</span><span class="s2"> +/- </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">fmt</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span> 
+                                          <span class="n">fmt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cov</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">]))))</span>
+    <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;Nestle-</span><span class="si">{}</span><span class="s1">_sampling.txt&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;#################################</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;####   CONFIDENCE INTERVALS   ###</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;#################################</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Results of the NESTLE SAMPLING fit</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;----------------------------------</span><span class="se">\n</span><span class="s1"> &#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Weighted mean +- sqrt(covariance)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{{:.</span><span class="si">{0}</span><span class="s2">f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndig</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">format</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> = </span><span class="si">{1}</span><span class="s2"> +/- </span><span class="si">{2}</span><span class="s2">\n&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">fmt</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span> 
+                                                      <span class="n">fmt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cov</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">]))))</span>
+                        
+    <span class="n">final_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">nparams</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> 
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>     
+        <span class="n">final_res</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">mean</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cov</span><span class="p">[</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">])]</span>
+
+    <span class="k">if</span> <span class="n">bins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Hist bins =&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">or</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">show_corner_plot</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:],</span> <span class="n">burnin</span><span class="o">=</span><span class="n">burnin</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">,</span> 
+                         <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">mcmc_res</span><span class="o">=</span><span class="n">final_res</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> 
+                         <span class="n">ndig</span><span class="o">=</span><span class="n">ndig</span><span class="p">,</span> <span class="n">labels_plot</span><span class="o">=</span><span class="n">labels_plot</span><span class="p">,</span> 
+                         <span class="n">plot_name</span><span class="o">=</span><span class="s1">&#39;Nestle-</span><span class="si">{}</span><span class="s1">_corner_plot.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">),</span> 
+                         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;Nestle-</span><span class="si">{}</span><span class="s1">_corner.pdf&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Confidence intervals&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">or</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">confidence</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">samples</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:],</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cfd</span><span class="o">=</span><span class="n">cfd</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+                       <span class="n">weights</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">indburnin</span><span class="p">:],</span>
+                       <span class="n">gaussian_fit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>        
+     
+    <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;Nestle-</span><span class="si">{}</span><span class="s1">_confi_hist_gaussfit.pdf&#39;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        
+    <span class="k">return</span> <span class="n">final_res</span></div>
+
+
+<div class="viewcode-block" id="show_ultranest_results"><a class="viewcode-back" href="../../special.html#special.nested_sampling.show_ultranest_results">[docs]</a><span class="k">def</span> <span class="nf">show_ultranest_results</span><span class="p">(</span><span class="n">un_object</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">cfd</span><span class="o">=</span><span class="mf">68.27</span><span class="p">,</span> <span class="n">ndig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> 
+                           <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels_plot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">lbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">spec_obs_err</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">n_pts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Shows the results obtained with the Ultranest sampler: summary, parameters </span>
+<span class="sd">    with errors, walk and corner plots. Returns best-fit values and </span>
+<span class="sd">    uncertatinties.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    un_object: object</span>
+<span class="sd">        The UltraNest Sampler object returned by nested_spec_sampling.</span>
+<span class="sd">    labels: Tuple of strings</span>
+<span class="sd">        Tuple of labels in the same order as initial_state:</span>
+<span class="sd">            - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">            - then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">            - (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">            in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">            - (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">            contribution. </span>
+<span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
+<span class="sd">        Should contain list/numpy 1d arrays with available grid of model </span>
+<span class="sd">        parameters (should only contain the sampled parameters, not the models </span>
+<span class="sd">        themselves). The models will be loaded with ``model_reader``.</span>
+<span class="sd">    dist :  float</span>
+<span class="sd">        Distance in parsec, used for flux scaling of the models.</span>
+<span class="sd">    bins: int, optional</span>
+<span class="sd">        The number of bins used to sample the posterior distributions.</span>
+<span class="sd">    cfd: float, optional</span>
+<span class="sd">        The confidence level given in percentage.</span>
+<span class="sd">    ndig: tuple, opt</span>
+<span class="sd">        Number of digits precision for each printed parameter.</span>
+<span class="sd">    save: boolean, default: False</span>
+<span class="sd">        If True, a pdf file is created.</span>
+<span class="sd">    output_dir: str, optional</span>
+<span class="sd">        The name of the output directory which contains the output files in the </span>
+<span class="sd">        case  ``save`` is True. </span>
+<span class="sd">    plot: bool, optional</span>
+<span class="sd">        Whether to show the best-fit model against data.</span>
+<span class="sd">    col: str, optional</span>
+<span class="sd">        Color used for data points.</span>
+<span class="sd">    lbda_obs, spec_obs, spec_obs_err: 1d ndarrays, optional</span>
+<span class="sd">        Must be provided if plot is set to True</span>
+<span class="sd">    n_pts: None or int, optional</span>
+<span class="sd">        If None, models will be sampled at the same resolution as measured</span>
+<span class="sd">        spectrum for plot. If an integer, corresponds to the number of sampled </span>
+<span class="sd">        points (uniform sampling) between the first and last point of the</span>
+<span class="sd">        measured spectrum.</span>
+<span class="sd">    title: str, optional</span>
+<span class="sd">        If plot is set to True, title of the plot.</span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        Additional optional arguments passed to `nested_spec_sampling` - only</span>
+<span class="sd">        used if plot is set to True and model parameters are evaluated.</span>
+<span class="sd">                    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    final_res: numpy ndarray</span>
+<span class="sd">         Best-fit parameters and uncertainties (corresponding to 68% confidence</span>
+<span class="sd">         interval). Dimensions: nparams x 2.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">un_sampler</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="n">un_object</span>
+    
+    <span class="c1"># print results</span>
+    <span class="n">un_sampler</span><span class="o">.</span><span class="n">print_results</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">or</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="c1"># show run</span>
+        <span class="n">un_sampler</span><span class="o">.</span><span class="n">plot_run</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;UltraNest_run.pdf&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                    
+        <span class="c1"># show trace</span>
+        <span class="n">cornerplot</span>
+        <span class="n">un_sampler</span><span class="o">.</span><span class="n">plot_trace</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;UltraNest_trace.pdf&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="n">burned_res</span> <span class="o">=</span> <span class="n">un_burning</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>        
+    
+    <span class="c1"># show results as table</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;samples&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;paramnames&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+    
+    <span class="c1"># plot the best fit</span>
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">or</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lbda_obs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">spec_obs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">spec_obs_err</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;For the plot to be made, lbda_obs, spec_obs and spec_obs_err&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; must be provided&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Wavelength ($\mu$m)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\lambda F_{\lambda}$ (W m-2)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">lbda_obs</span><span class="o">*</span><span class="n">spec_obs</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">spec_obs_err</span><span class="p">,</span>
+                     <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">n_pts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lbda_grid</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lbda_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_pts</span><span class="p">)</span>
+        <span class="n">band</span> <span class="o">=</span> <span class="n">PredictionBand</span><span class="p">(</span><span class="n">lbda_grid</span><span class="p">)</span>
+        
+        <span class="c1"># go through the solutions</span>
+        <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">un_sampler</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;samples&#39;</span><span class="p">]:</span>
+            <span class="c1"># compute for each time the model</span>
+            <span class="n">mod</span> <span class="o">=</span> <span class="n">make_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> 
+                                         <span class="n">lbda_obs</span><span class="o">=</span><span class="n">lbda_grid</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">band</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">lbda_grid</span><span class="o">*</span><span class="n">mod</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="n">band</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="c1"># add 1 sigma quantile</span>
+        <span class="n">band</span><span class="o">.</span><span class="n">shade</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="c1"># add wider quantile (0.01 .. 0.99)</span>
+        <span class="n">band</span><span class="o">.</span><span class="n">shade</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.49</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s2">&quot;Best-fit_UltraNest.pdf&quot;</span><span class="p">,</span>  
+                        <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Confidence intervals&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Hist bins =&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save</span> <span class="ow">or</span> <span class="n">plot</span><span class="p">:</span>
+        <span class="n">val_max</span><span class="p">,</span> <span class="n">confidenceInterval</span> <span class="o">=</span> <span class="n">confidence</span><span class="p">(</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="p">,</span> 
+                                                 <span class="n">cfd</span><span class="o">=</span><span class="n">cfd</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> 
+                                                 <span class="n">weights</span><span class="o">=</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                 <span class="n">gaussian_fit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                                                 <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>  
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;UltraNest_confi_hist.pdf&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">confidence</span><span class="p">(</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="p">,</span> <span class="n">cfd</span><span class="o">=</span><span class="n">cfd</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+                             <span class="n">weights</span><span class="o">=</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gaussian_fit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                             <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">)</span>       
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;UltraNest_confi_hist_gaussfit.pdf&#39;</span><span class="p">)</span>     
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
+    <span class="n">nparams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ndig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ndig</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>   
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{{:.</span><span class="si">{0}</span><span class="s2">f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndig</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">format</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> = </span><span class="si">{1}</span><span class="s2"> +/- </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">fmt</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span> 
+                                          <span class="n">fmt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="n">p</span><span class="p">]))))</span>
+    <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s1">&#39;UltraNest_sampling.txt&#39;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;#################################</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;####   CONFIDENCE INTERVALS   ###</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;#################################</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Results of the NESTED SAMPLING (UltraNest)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;------------------------------------------</span><span class="se">\n</span><span class="s1"> &#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Most likely value [</span><span class="si">{}% c</span><span class="s2">onfidence interval]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cfd</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{{:.</span><span class="si">{0}</span><span class="s2">f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndig</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">format</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> = </span><span class="si">{1}</span><span class="s2"> [</span><span class="si">{2}</span><span class="s2">, </span><span class="si">{3}</span><span class="s2">] \n&quot;</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">fmt</span><span class="p">(</span><span class="n">val_max</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]]),</span> 
+                                    <span class="n">fmt</span><span class="p">(</span><span class="n">confidenceInterval</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="mi">0</span><span class="p">]),</span>
+                                    <span class="n">fmt</span><span class="p">(</span><span class="n">confidenceInterval</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Gaussian fit results: Weighted mean +- sqrt(covariance) </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nparams</span><span class="p">):</span>
+                <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;{{:.</span><span class="si">{0}</span><span class="s2">f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndig</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">format</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> = </span><span class="si">{1}</span><span class="s2"> +/- </span><span class="si">{2}</span><span class="s2">\n&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="n">fmt</span><span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="n">p</span><span class="p">]),</span> 
+                                                      <span class="n">fmt</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="n">p</span><span class="p">])))</span>                
+
+
+    <span class="k">if</span> <span class="n">plot</span> <span class="ow">or</span> <span class="n">save</span><span class="p">:</span>
+        <span class="c1"># show corner plot</span>
+        <span class="n">show_corner_plot</span><span class="p">(</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="n">save</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">ndig</span><span class="o">=</span><span class="n">ndig</span><span class="p">,</span> 
+                         <span class="n">mcmc_res</span><span class="o">=</span><span class="p">(</span><span class="n">val_max</span><span class="p">,</span> <span class="n">confidenceInterval</span><span class="p">),</span> 
+                         <span class="n">labels_plot</span><span class="o">=</span><span class="n">labels_plot</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> 
+                         <span class="n">plot_name</span><span class="o">=</span><span class="s1">&#39;UltraNest-corner_plot.pdf&#39;</span><span class="p">,</span> 
+                         <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">burned_res</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        
+    <span class="n">final_res</span> <span class="o">=</span> <span class="n">val_max</span><span class="p">,</span> <span class="n">confidenceInterval</span>
+        
+    <span class="k">return</span> <span class="n">final_res</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Valentin Christiaens.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

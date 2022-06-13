@@ -113,12 +113,12 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
      
     red_chi2: bool, optional
         Whether to compute the reduced chi square. If False, considers chi^2.
@@ -445,12 +445,12 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
      
     simplex_options: dict, optional
         The scipy.optimize.minimize simplex (Nelder-Mead) options.

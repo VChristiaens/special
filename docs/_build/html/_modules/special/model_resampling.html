@@ -94,13 +94,6 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Functions useful for spectral fitting of companions, and model interpolation.</span>
-
-<span class="sd">.. [OLO16]</span>
-<span class="sd">   | Olofsson et al. 2016</span>
-<span class="sd">   | **Azimuthal asymmetries in the debris disk around HD 61005. A massive collision of planetesimals?**</span>
-<span class="sd">   | *Astronomy &amp; Astrophysics, Volume 591, p. 108*</span>
-<span class="sd">   | `https://arxiv.org/abs/1601.07861</span>
-<span class="sd">     &lt;https://arxiv.org/abs/1601.07861&gt;`_</span>
 <span class="sd">     </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -240,12 +233,12 @@
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
 <span class="sd">            </span>
-<span class="sd">            - first row contains headers (titles of each column)</span>
-<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
-<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
-<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
-<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
-<span class="sd">            matters for the units.</span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
 <span class="sd">     </span>
 <span class="sd">    AV_bef_bb: bool, optional</span>
 <span class="sd">        If both extinction and an extra bb component are free parameters, </span>
@@ -500,12 +493,12 @@
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
 <span class="sd">            </span>
-<span class="sd">            - first row contains headers (titles of each column)</span>
-<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
-<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
-<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
-<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
-<span class="sd">            matters for the units.</span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
 <span class="sd">     </span>
 <span class="sd">    interp_nonexist: bool, opt</span>
 <span class="sd">        Whether to interpolate if models do not exist, based on closest model(s)</span>
@@ -710,12 +703,12 @@
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
 <span class="sd">            </span>
-<span class="sd">            - first row contains headers (titles of each column)</span>
-<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
-<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
-<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
-<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
-<span class="sd">            matters for the units.</span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
 <span class="sd">     </span>
 <span class="sd">    no_constraint: bool, optional</span>
 <span class="sd">        If set to True, will not use &#39;floor&#39; and &#39;ceil&#39; constraints when</span>
@@ -987,6 +980,7 @@
 <span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
 <span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
 <span class="sd">            contribution. </span>
+<span class="sd">            </span>
 <span class="sd">        Note: only necessary if an emission line dictionary ``em_lines`` is provided.</span>
 <span class="sd">    model_grid : numpy N-d array, optional</span>
 <span class="sd">        If provided, should contain the grid of model spectra for each</span>

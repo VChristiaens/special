@@ -245,8 +245,9 @@ def sp_idx_to_gravity(idx, name='Na-1.1'):
     """
     Provides a qualitative estimate of the gravity/youth based on a 
     gravity-sensitive spectral index. Implemented so far:
-        - the Na-1.1 index [ALL07]_
-        - the CO-2.3 index [GOR03]_
+    
+    - the Na-1.1 index [ALL07]_
+    - the CO-2.3 index [GOR03]_
         
     Parameters
     ----------

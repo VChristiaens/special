@@ -110,12 +110,12 @@ def goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
      
     plot : bool, optional
         Whether to plot the measured spectrum and the model spectrum.
@@ -301,12 +301,12 @@ def gof_scal(params, lbda_obs, spec_obs, err_obs, lbda_tmp, spec_tmp, dlbda_obs,
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
-            - first row contains headers (titles of each column)
-            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-            - Unit of wavelength can be provided in parentheses of first header \
-            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
-            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
-            matters for the units.
+        - first row contains headers (titles of each column)
+        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+        - Unit of wavelength can be provided in parentheses of first header \
+        key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+        or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+        matters for the units.
              
     ext_range : tuple or None, opt
         - If None: differential extinction is not considered as a free parameter. 

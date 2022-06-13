@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>special.utils_nested &mdash; special  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html">
+            <img src="../../_static/Special_logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">What makes it <cite>special</cite>?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html">TL;DR setup guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trimmed_readme.html#installation-and-dependencies">Installation and dependencies</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html"><em>special</em> tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#1.-Loading-the-data">1. Loading the data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#2.-Spectral-correlation-matrix">2. Spectral correlation matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#3.-Preliminary-spectral-analysis">3. Preliminary spectral analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#4.-MCMC-sampler-examples">4. MCMC sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#5.-Comparison-of-results">5. Comparison of results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#6.-Nested-sampler-examples">6. Nested sampler examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/walkthrough.html#7.-Best-fit-template-spectrum">7. Best-fit template spectrum</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#questions-and-suggestions">Questions and suggestions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html#acknowledgements">Acknowledgements</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package content</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">special package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">special</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>special.utils_nested</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for special.utils_nested</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module with utility functions to the nested sampling for parameter estimation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;V. Christiaens&#39;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;un_burning&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="un_burning"><a class="viewcode-back" href="../../special.html#special.utils_nested.un_burning">[docs]</a><span class="k">def</span> <span class="nf">un_burning</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Automatic burning of UltraNest chain based on cumulated sum of weights </span>
+<span class="sd">    (as implemented in UltraNest&#39;s cornerplot).</span>
+<span class="sd">     </span>
+<span class="sd">    Note: this function is necessary to be able to make corner plots showing</span>
+<span class="sd">    units after best estimates, as ultranest&#39;s cornerplots does not feature </span>
+<span class="sd">    that option and does burning+corner plot together.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    res: UltraNest result object</span>
+<span class="sd">        The UltraNest result.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    burned_res: tuple of 2 numpy nd array</span>
+<span class="sd">        The burned UltraNest chain and associated weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">paramnames</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;paramnames&#39;</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;weighted_samples&#39;</span><span class="p">][</span><span class="s1">&#39;points&#39;</span><span class="p">])</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;weighted_samples&#39;</span><span class="p">][</span><span class="s1">&#39;weights&#39;</span><span class="p">])</span>
+    <span class="n">cumsumweights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">cumsumweights</span> <span class="o">&gt;</span> <span class="mf">1e-4</span>
+
+    <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="s1">&#39;Posterior is still concentrated in a single point:&#39;</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paramnames</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;samples&#39;</span><span class="p">][</span><span class="n">mask</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">warn</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s1">&#39;    </span><span class="si">%-20s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warn</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Try running longer.&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+    
+    <span class="n">burned_res</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">,:],</span> <span class="n">weights</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">burned_res</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2022, Valentin Christiaens.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -116,21 +116,6 @@
 <span class="sd">   | *Comm. App. Math. Comp. Sci., Vol. 5, Issue 1, pp. 65-80.*</span>
 <span class="sd">   | `https://ui.adsabs.harvard.edu/abs/2010CAMCS...5...65G</span>
 <span class="sd">     &lt;https://ui.adsabs.harvard.edu/abs/2010CAMCS...5...65G&gt;`_</span>
-
-<span class="sd">.. [GRE16]</span>
-<span class="sd">   | Greco &amp; Brandt 2016</span>
-<span class="sd">   | **The Measurement, Treatment, and Impact of Spectral Covariance and </span>
-<span class="sd">     Bayesian Priors in Integral-field Spectroscopy of Exoplanets**</span>
-<span class="sd">   | *The Astrophysical Journal, Volume 833, Issue 1, p. 134*</span>
-<span class="sd">   | `https://arxiv.org/abs/1602.00691</span>
-<span class="sd">     &lt;https://arxiv.org/abs/1602.00691&gt;`_     </span>
-
-<span class="sd">.. [OLO16]</span>
-<span class="sd">   | Olofsson et al. 2016</span>
-<span class="sd">   | **Azimuthal asymmetries in the debris disk around HD 61005. A massive collision of planetesimals?**</span>
-<span class="sd">   | *Astronomy &amp; Astrophysics, Volume 591, p. 108*</span>
-<span class="sd">   | `https://arxiv.org/abs/1601.07861</span>
-<span class="sd">     &lt;https://arxiv.org/abs/1601.07861&gt;`_</span>
 <span class="sd">     </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -203,11 +188,19 @@
 <span class="sd">        If not None, sets prior estimates for each parameter of the model. Each </span>
 <span class="sd">        entry should be set to either None (no prior) or a tuple of 2 elements </span>
 <span class="sd">        containing prior estimate and uncertainty on the estimate.</span>
-<span class="sd">        Missing entries (i.e. provided in bounds dictionary but not here) will</span>
-<span class="sd">        be associated no prior.</span>
-<span class="sd">        e.g. priors = {&#39;Teff&#39;:(1600,100), &#39;logg&#39;:(3.5,0.5),</span>
-<span class="sd">                       &#39;R&#39;:(1.6,0.1), &#39;Av&#39;:(1.8,0.2), &#39;M&#39;:(10,3)}</span>
-<span class="sd">        Important: dictionary entry names should match exactly those of bounds.</span>
+<span class="sd">        Missing entries (i.e. provided in ``bounds`` dictionary but not here) </span>
+<span class="sd">        will be associated no prior.</span>
+<span class="sd">        &#39;M&#39; can be used for a prior on the mass of the planet. In that case the</span>
+<span class="sd">        corresponding prior log probability is computed from the values for </span>
+<span class="sd">        parameters &#39;logg&#39; and &#39;R&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; priors = {&#39;logg&#39;:(3.5,0.2), &#39;Rv&#39;:(3.1,0.2)}</span>
+<span class="sd">            &gt;&gt;&gt; priors = {&#39;Teff&#39;:(1600,100), &#39;logg&#39;:(3.5,0.5), &#39;R&#39;:(1.6,0.1),</span>
+<span class="sd">            &gt;&gt;&gt;           &#39;Av&#39;:(1.8,0.2), &#39;M&#39;:(10,3)}</span>
+<span class="sd">        </span>
+<span class="sd">        Important: dictionary entry names should match exactly those of </span>
+<span class="sd">        ``bounds``.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -385,12 +378,12 @@
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
 <span class="sd">            </span>
-<span class="sd">            - first row contains headers (titles of each column)</span>
-<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
-<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
-<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
-<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
-<span class="sd">            matters for the units.</span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
 <span class="sd">        </span>
 <span class="sd">    AV_bef_bb: bool, optional</span>
 <span class="sd">        If both extinction and an extra bb component are free parameters, </span>
@@ -597,12 +590,13 @@
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
-<span class="sd">            - first row contains headers (titles of each column)</span>
-<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
-<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
-<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
-<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
-<span class="sd">            matters for the units.</span>
+<span class="sd">            </span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
 <span class="sd">        </span>
 <span class="sd">    AV_bef_bb: bool, optional</span>
 <span class="sd">        If both extinction and an extra bb component are free parameters, </span>
@@ -909,12 +903,12 @@
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
 <span class="sd">            </span>
-<span class="sd">            - first row contains headers (titles of each column)</span>
-<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
-<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
-<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
-<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
-<span class="sd">            matters for the units.</span>
+<span class="sd">        - first row contains headers (titles of each column)</span>
+<span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">        matters for the units.</span>
 <span class="sd">        </span>
 <span class="sd">    AV_bef_bb: bool, optional</span>
 <span class="sd">        If both extinction and an extra bb component are free parameters, </span>
@@ -938,16 +932,16 @@
 <span class="sd">        If not None, sets prior estimates for each parameter of the model. Each </span>
 <span class="sd">        entry should be set to either None (no prior) or a tuple of 2 elements </span>
 <span class="sd">        containing prior estimate and uncertainty on the estimate.</span>
-<span class="sd">        Missing entries (i.e. provided in bounds dictionary but not here) will</span>
-<span class="sd">        be associated no prior.</span>
+<span class="sd">        Missing entries (i.e. provided in ``bounds`` dictionary but not here) </span>
+<span class="sd">        will be associated no prior.</span>
 <span class="sd">        &#39;M&#39; can be used for a prior on the mass of the planet. In that case the</span>
 <span class="sd">        corresponding prior log probability is computed from the values for </span>
 <span class="sd">        parameters &#39;logg&#39; and &#39;R&#39;.</span>
 <span class="sd">        </span>
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; priors = {&#39;logg&#39;:(3.5,0.2), &#39;Rv&#39;:(3.1,0.2)}</span>
-<span class="sd">            &gt;&gt;&gt; priors = {&#39;Teff&#39;:(1600,100), &#39;logg&#39;:(3.5,0.5), &#39;R&#39;:(1.6,0.1), \</span>
-<span class="sd">                        &#39;Av&#39;:(1.8,0.2), &#39;M&#39;:(10,3)}</span>
+<span class="sd">            &gt;&gt;&gt; priors = {&#39;Teff&#39;:(1600,100), &#39;logg&#39;:(3.5,0.5), &#39;R&#39;:(1.6,0.1),</span>
+<span class="sd">            &gt;&gt;&gt;           &#39;Av&#39;:(1.8,0.2), &#39;M&#39;:(10,3)}</span>
 <span class="sd">        </span>
 <span class="sd">        Important: dictionary entry names should match exactly those of </span>
 <span class="sd">        ``bounds``.</span>
