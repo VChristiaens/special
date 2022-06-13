@@ -41,11 +41,11 @@ from .utils_spec import find_nearest
 def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
     """
     Computes a spectral index. Implemented so far:
-        - the Na 1.1 mu index [ALL07]
-        - the H2O 1.3 mu index [GOR03]
-        - the H2O 1.5 mu index [ALL07]
-        - the H2O 2 index [SLE04]
-        - the CO 2.3 index [GOR03].
+        - the Na 1.1 mu index [ALL07]_
+        - the H2O 1.3 mu index [GOR03]_
+        - the H2O 1.5 mu index [ALL07]_
+        - the H2O 2 index [SLE04]_
+        - the CO 2.3 index [GOR03]_.
         
     Parameters
     ----------
@@ -163,9 +163,9 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
 def sp_idx_to_spt(idx, name='H2O-1.5', idx_err=None, young=True):
     """
     Estimates a spectral type from a spectral index. Implemented so far:
-        - the H2O 1.3 mu index [GOR03]
-        - the H2O 1.5 mu index [ALL07]
-        - the H2O-2 index [SLE04]
+        - the H2O 1.3 mu index [GOR03]_
+        - the H2O 1.5 mu index [ALL07]_
+        - the H2O-2 index [SLE04]_
         
     Note on scale of SpT: 0 = M0, 10 = L0.
         
@@ -245,8 +245,8 @@ def sp_idx_to_gravity(idx, name='Na-1.1'):
     """
     Provides a qualitative estimate of the gravity/youth based on a 
     gravity-sensitive spectral index. Implemented so far:
-        - the Na-1.1 index [ALL07]
-        - the CO-2.3 index [GOR03]
+        - the Na-1.1 index [ALL07]_
+        - the CO-2.3 index [GOR03]_
         
     Parameters
     ----------
@@ -291,7 +291,7 @@ def spt_to_digit(spt, convention='splat'):
     convention: str, optional {'splat', 'Allers+07'}
         Which convention to use to convert digit into spectral type.
         Convention from splat: K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
-        Convention from [ALL07]: M0 = 0, L0 = 10, ...
+        Convention from [ALL07]_: M0 = 0, L0 = 10, ...
 
     Returns
     -------

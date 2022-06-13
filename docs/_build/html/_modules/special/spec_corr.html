@@ -62,17 +62,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Package content</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html">special.chi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.config">special.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.fits">special.fits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.model_resampling">special.model_resampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-nested-sampling">special.nested_sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_corr">special.spec_corr</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_indices">special.spec_indices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-template-fit">special.template_fit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_spec">special.utils_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">special package</a></li>
 </ul>
 
         </div>
@@ -118,9 +108,9 @@
 <div class="viewcode-block" id="spectral_correlation"><a class="viewcode-back" href="../../special.html#special.spec_corr.spectral_correlation">[docs]</a><span class="k">def</span> <span class="nf">spectral_correlation</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">awidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">r_in</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pl_xy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">mask_r</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">fwhm</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sp_fwhm_guess</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Computes the spectral correlation between (post-processed) IFS frames, </span>
-<span class="sd">    as a function of radius, implemented as Eq. 7 of Greco &amp; Brandt 2017. This </span>
-<span class="sd">    is a crucial step for an unbias fit of a measured IFS spectrum to either </span>
-<span class="sd">    synthetic or template spectra.</span>
+<span class="sd">    as a function of radius, implemented as Eq. 7 of [GRE16]. This is a crucial </span>
+<span class="sd">    step for an unbiased fit of a measured IFS spectrum to either synthetic or </span>
+<span class="sd">    template spectra.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -155,7 +145,6 @@
 <span class="sd">        Whether to also output the fitted spectral FWHM for each channel, and </span>
 <span class="sd">        the vector of radial separation at which each spectral correlation</span>
 <span class="sd">        matrix is calculated.</span>
-<span class="sd">    Note: radii that are skipped will be filled with zeros in the output cube.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -167,7 +156,13 @@
 <span class="sd">        radius, for each spectral channel. Dims: n_rad x n_ch</span>
 <span class="sd">    sp_rad: numpy ndarray</span>
 <span class="sd">        (if full_output is True) 1d array containing the radial separation of</span>
-<span class="sd">        each measured spectral correlation matrix. Dims: n_rad    </span>
+<span class="sd">        each measured spectral correlation matrix. Dims: n_rad</span>
+<span class="sd">        </span>
+<span class="sd">    </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    Radii that are skipped will be filled with zeros in the output cube.</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">awidth</span><span class="p">,</span><span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r_in</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
@@ -293,7 +288,7 @@
 <span class="k">def</span> <span class="nf">get_annulus_segments</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">inner_radius</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">nsegm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">theta_init</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                          <span class="n">optim_scale_fact</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;ind&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return indices or values in segments of a centerered annulus (as in VIP).</span>
+<span class="sd">    Return indices or values in segments of a centerered annulus (as in ``VIP``).</span>
 
 <span class="sd">    The annulus is defined by ``inner_radius &lt;= annulus &lt; inner_radius+width``.</span>
 
@@ -325,31 +320,6 @@
 <span class="sd">        [mode=&#39;val&#39;] Pixel values.</span>
 <span class="sd">    masked : list of ndarrays</span>
 <span class="sd">        [mode=&#39;mask&#39;] Copy of ``data`` with masked out regions.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    Moving from ``get_annulus`` to ``get_annulus_segments``:</span>
-
-<span class="sd">    .. code::python</span>
-<span class="sd">        # get_annulus handles one single segment only, so note the ``[0]`` </span>
-<span class="sd">        after the call to get_annulus_segments if you want to work with one </span>
-<span class="sd">        single segment only.</span>
-
-<span class="sd">        get_annulus(arr, 2, 3, output_indices=True)</span>
-<span class="sd">        # is the same as</span>
-<span class="sd">        get_annulus_segments(arr, 2, 3)[0]</span>
-
-<span class="sd">        get_annulus(arr, inr, w, output_values=True)</span>
-<span class="sd">        # is the same as</span>
-<span class="sd">        get_annulus_segments(arr, inr, w, mode=&quot;val&quot;)[0]</span>
-
-<span class="sd">        get_annulus(arr, inr, w)</span>
-<span class="sd">        # is the same as</span>
-<span class="sd">        get_annulus_segments(arr, inr, w, mode=&quot;mask&quot;)[0]</span>
-
-<span class="sd">        # the only difference is the handling of the border values:</span>
-<span class="sd">        # get_annulus_segments is `in &lt;= ann &lt; out`, while get_annulus is</span>
-<span class="sd">        # `in &lt;= ann &lt;= out`. But that should make no difference in practice.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">array</span> <span class="o">=</span> <span class="n">frame_or_shape</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -397,7 +367,7 @@
         
 <span class="k">def</span> <span class="nf">get_circle</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">cy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a centered circular region from a 2d ndarray (as in VIP).</span>
+<span class="sd">    Return a centered circular region from a 2d ndarray (as in ``VIP``).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

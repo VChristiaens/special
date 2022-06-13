@@ -62,17 +62,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Package content</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html">special.chi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.config">special.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.fits">special.fits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.model_resampling">special.model_resampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-nested-sampling">special.nested_sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_corr">special.spec_corr</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_indices">special.spec_indices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-template-fit">special.template_fit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_spec">special.utils_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">special package</a></li>
 </ul>
 
         </div>
@@ -105,6 +95,29 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Module with utilities to estimate the spectral type and gravity of an object </span>
 <span class="sd">based on spectral indices.</span>
+
+<span class="sd">.. [GOR03]</span>
+<span class="sd">   | Gorlova et al. 2003</span>
+<span class="sd">   | **Gravity Indicators in the Near-Infrared Spectra of Brown Dwarfs**</span>
+<span class="sd">   | *The Astrophysical Journal, Volume 593, Issue 1, pp. 1074-1092*</span>
+<span class="sd">   | `https://arxiv.org/abs/astro-ph/0305147</span>
+<span class="sd">     &lt;https://arxiv.org/abs/astro-ph/0305147&gt;`_</span>
+<span class="sd">     </span>
+<span class="sd">.. [SLE04]</span>
+<span class="sd">   | Slesnick et al. 2004</span>
+<span class="sd">   | **The Spectroscopically Determined Substellar Mass Function of the Orion </span>
+<span class="sd">     Nebula Cluster**</span>
+<span class="sd">   | *The Astrophysical Journal, Volume 610, Issue 1, pp. 1045-1063*</span>
+<span class="sd">   | `https://arxiv.org/abs/astro-ph/0404292</span>
+<span class="sd">     &lt;https://arxiv.org/abs/astro-ph/0404292&gt;`_</span>
+<span class="sd">          </span>
+<span class="sd">.. [ALL07]</span>
+<span class="sd">   | Allers et al. 2007</span>
+<span class="sd">   | **Characterizing Young Brown Dwarfs Using Low-Resolution Near-Infrared </span>
+<span class="sd">     Spectra**</span>
+<span class="sd">   | *The Astrophysical Journal, Volume 657, Issue 1, pp. 511-520*</span>
+<span class="sd">   | `https://arxiv.org/abs/astro-ph/0611408</span>
+<span class="sd">     &lt;https://arxiv.org/abs/astro-ph/0611408&gt;`_          </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;V. Christiaens&#39;</span>
@@ -120,11 +133,11 @@
 <div class="viewcode-block" id="spectral_idx"><a class="viewcode-back" href="../../special.html#special.spec_indices.spectral_idx">[docs]</a><span class="k">def</span> <span class="nf">spectral_idx</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">band</span><span class="o">=</span><span class="s1">&#39;H2O-1.5&#39;</span><span class="p">,</span> <span class="n">spec_err</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes a spectral index. Implemented so far:</span>
-<span class="sd">        - the Na 1.1 mu index (Allers et al. 2007)</span>
-<span class="sd">        - the H2O 1.3 mu index (Gorlova et al. 2003)</span>
-<span class="sd">        - the H2O 1.5 mu index (Allers et al. 2007)</span>
-<span class="sd">        - the H2O 2 index (Slesnick et al. 2004)</span>
-<span class="sd">        - the CO 2.3 index (Gorlova et al. 2003).</span>
+<span class="sd">        - the Na 1.1 mu index [ALL07]_</span>
+<span class="sd">        - the H2O 1.3 mu index [GOR03]_</span>
+<span class="sd">        - the H2O 1.5 mu index [ALL07]_</span>
+<span class="sd">        - the H2O 2 index [SLE04]_</span>
+<span class="sd">        - the CO 2.3 index [GOR03]_.</span>
 <span class="sd">        </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -191,15 +204,40 @@
         <span class="n">idx_den0</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_den0</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
         <span class="n">idx_den1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_den1</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
         
+    <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># Check if enough spectral resolution</span>
+    <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Indices overlap for num and den: not enough spectral resolution&quot;</span>
+    <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="p">:</span>
+        <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_den0</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_num1</span><span class="p">):</span>
+            <span class="n">idx_num1</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">idx_num0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx_den0</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>  
+    <span class="k">if</span> <span class="n">idx_den1</span> <span class="o">==</span> <span class="n">idx_num0</span><span class="p">:</span>
+        <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_den1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_den1</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_num0</span><span class="p">):</span>
+            <span class="n">idx_num0</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">idx_num0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx_den1</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+        
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Closest indices to </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> mu&quot;</span>
-        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; correspond to </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> resp.&quot;</span>
+        <span class="k">if</span> <span class="n">raise_flag</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;*WARNING*: spectral resolution is barely sufficient for &quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;non-overlapping indices - results to be taken with caution!&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Closest (non-overlapping) wavelengths to </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2"> and&quot;</span>
+        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; </span><span class="si">{:.3f}</span><span class="s2"> mu correspond to </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2"> and </span><span class="si">{:.3f}</span><span class="s2"> mu resp.&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lbda_num0</span><span class="p">,</span> <span class="n">lbda_num1</span><span class="p">,</span> <span class="n">lbda_den0</span><span class="p">,</span> <span class="n">lbda_den1</span><span class="p">,</span> 
                          <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">],</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">],</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">],</span>
                          <span class="n">lbda</span><span class="p">[</span><span class="n">idx_den1</span><span class="p">]))</span>
-    
-    <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_num1</span> <span class="ow">or</span> <span class="n">idx_den1</span> <span class="o">==</span> <span class="n">idx_num0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Indices overlap for num and den: not enough spec res&quot;</span><span class="p">)</span>
     
     <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">:</span><span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">:</span><span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
@@ -217,9 +255,9 @@
 <div class="viewcode-block" id="sp_idx_to_spt"><a class="viewcode-back" href="../../special.html#special.spec_indices.sp_idx_to_spt">[docs]</a><span class="k">def</span> <span class="nf">sp_idx_to_spt</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;H2O-1.5&#39;</span><span class="p">,</span> <span class="n">idx_err</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">young</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimates a spectral type from a spectral index. Implemented so far:</span>
-<span class="sd">        - the H2O 1.3 mu index (Gorlova et al. 2003)</span>
-<span class="sd">        - the H2O 1.5 mu index (Allers et al. 2007)</span>
-<span class="sd">        - the H2O-2 index (Slesnick et al. 2004)</span>
+<span class="sd">        - the H2O 1.3 mu index [GOR03]_</span>
+<span class="sd">        - the H2O 1.5 mu index [ALL07]_</span>
+<span class="sd">        - the H2O-2 index [SLE04]_</span>
 <span class="sd">        </span>
 <span class="sd">    Note on scale of SpT: 0 = M0, 10 = L0.</span>
 <span class="sd">        </span>
@@ -299,8 +337,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Provides a qualitative estimate of the gravity/youth based on a </span>
 <span class="sd">    gravity-sensitive spectral index. Implemented so far:</span>
-<span class="sd">        - the Na-1.1 index (Allers et al. 2007)</span>
-<span class="sd">        - the CO-2.3 index (Gorlova et al. 2003)</span>
+<span class="sd">        - the Na-1.1 index [ALL07]_</span>
+<span class="sd">        - the CO-2.3 index [GOR03]_</span>
 <span class="sd">        </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -337,7 +375,6 @@
 <div class="viewcode-block" id="spt_to_digit"><a class="viewcode-back" href="../../special.html#special.spec_indices.spt_to_digit">[docs]</a><span class="k">def</span> <span class="nf">spt_to_digit</span><span class="p">(</span><span class="n">spt</span><span class="p">,</span> <span class="n">convention</span><span class="o">=</span><span class="s1">&#39;splat&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a string representing spectral type into an integer index.</span>
-<span class="sd">    Convention (from splat): K0 = 0, M0=10, L0=20, T0=30, Y9 = 49</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -346,7 +383,7 @@
 <span class="sd">    convention: str, optional {&#39;splat&#39;, &#39;Allers+07&#39;}</span>
 <span class="sd">        Which convention to use to convert digit into spectral type.</span>
 <span class="sd">        Convention from splat: K0 = 0, M0=10, L0=20, T0=30, Y9 = 49</span>
-<span class="sd">        Convention from Allers+07: M0 = 0, L0 = 10, ...</span>
+<span class="sd">        Convention from [ALL07]_: M0 = 0, L0 = 10, ...</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -363,7 +400,7 @@
         <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="o">-</span><span class="n">sub</span>
         <span class="n">loc</span> <span class="o">=</span> <span class="n">spt_str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">convention</span> <span class="o">==</span> <span class="s1">&#39;Allers+07&#39;</span><span class="p">:</span>
-            <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;WARNING: Allers+07 convention does not consider SpT earlier than M&quot;</span>
+            <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;WARNING: Allers+07 convention doesn&#39;t handle SpT earlier than M&quot;</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>        
     <span class="k">elif</span> <span class="s1">&#39;M&#39;</span> <span class="ow">in</span> <span class="n">spt_str</span><span class="p">:</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="mi">10</span><span class="o">-</span><span class="n">sub</span>
@@ -379,7 +416,7 @@
         <span class="n">loc</span> <span class="o">=</span> <span class="n">spt_str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Spectral type not between K0 and Y9. Idx set to nan.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Spectral type not between K0 and Y9. Idx set to NaN.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spt</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spt</span><span class="p">[</span><span class="n">loc</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>

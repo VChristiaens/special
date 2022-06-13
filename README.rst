@@ -20,10 +20,10 @@ This package provides the following tools for the analysis of measured spectra:
 * calculation of the spectral correlation between channels of an IFS datacube;
 * calculation of empirical spectral indices for MLT-dwarfs;
 * fitting of input spectra to different grids of models, including additional parameters such as (extra) black body component(s) and extinction;
-* using either the MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) or nested (`nestle <http://github.com/kbarbary/nestle>`_) sampler to infer posterior distributions on spectral model parameters;
+* using either MCMC (`emcee <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_) or nested (`nestle <http://github.com/kbarbary/nestle>`_ or `UltraNest <https://johannesbuchner.github.io/UltraNest/>`_) samplers to infer posterior distributions on spectral model parameters;
 * searching for the best-fit template spectrum within a given template library, with up to two free parameters (flux scaling and relative extinction).
 
-More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as ``specfit``, a former module of the ``VIP`` package).
+More details are available in `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ (note it was originally implemented as ``specfit``, a former module of the ``VIP`` package, before undergoing significant expansion).
 
 
 Documentation
@@ -170,4 +170,5 @@ Acknowledgements
 Please cite `Christiaens et al. (2021) <https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract>`_ if you use ``special`` for your research, along with:
 
 - `Foreman-Mackey et al. (2013) <https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract>`_ if you use the ``emcee`` MCMC sampler;
-- `Skilling (2004) <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S/abstract>`_, `Mukherjee et al. (2006) <https://ui.adsabs.harvard.edu/abs/2006ApJ...638L..51M/abstract>`_, or `Feroz et al. (2009) <https://ui.adsabs.harvard.edu/abs/2009MNRAS.398.1601F/abstract>`_ if you use the nested sampler in 'classic', 'single' or 'multi' mode, respectively. Please also mention the ``nestle`` `GitHub repository <http://github.com/kbarbary/nestle>`_.
+- `Skilling (2004) <https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S/abstract>`_, `Mukherjee et al. (2006) <https://ui.adsabs.harvard.edu/abs/2006ApJ...638L..51M/abstract>`_, or `Feroz et al. (2009) <https://ui.adsabs.harvard.edu/abs/2009MNRAS.398.1601F/abstract>`_ if you use the nested sampler `nestle` in 'classic', 'single' or 'multi' mode, respectively. Please also mention the ``nestle`` `GitHub repository <http://github.com/kbarbary/nestle>`_;
+- `Buchner (2021) <https://ui.adsabs.harvard.edu/abs/2021JOSS....6.3001B/abstract>`_ if you use the `UltraNest` nested sampler.

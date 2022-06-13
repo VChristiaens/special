@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 """
-Module with various fits handling functions (same as in VIP)
+Module with various fits handling functions (same as in ``VIP``)
 """
 
 
@@ -102,7 +102,7 @@ def info_fits(fitsfilename, **kwargs):
 def write_fits(fitsfilename, array, header=None, output_verify='exception',
                precision=np.float32, verbose=True):
     """
-    Write array and header into FTIS file.
+    Write array and header into FITS file.
 
     If there is a previous file with the same filename then it's replaced.
 

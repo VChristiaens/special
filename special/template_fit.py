@@ -33,15 +33,17 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
     Parameters
     ----------
     lbda_obs : numpy 1d ndarray or list
-        Wavelength of observed spectrum. If several instruments, should be 
-        ordered per instrument, not necessarily as monotonically increasing 
-        wavelength. Hereafter, n_ch = len(lbda_obs).
+        Wavelengths of observed spectrum. If several instruments were used, the 
+        wavelengths should be ordered per instrument, not necessarily as 
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        length of ``lbda_obs``.
     spec_obs : numpy 1d ndarray or list
-        Observed spectrum for each value of lbda_obs.
+        Observed spectrum for each value of ``lbda_obs``. Should have a length
+        of :math:`n_{ch}`.
     err_obs : numpy 1d/2d ndarray or list
-        Uncertainties on the observed spectrum. If 2d array, should be [2,n_ch]
-        where the first (resp. second) column corresponds to lower (upper) 
-        uncertainty, and n_ch is the length of lbda_obs and spec_obs.
+        Uncertainties on the observed spectrum. The array (list) can have either
+        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower 
+        (first column) and upper (second column) uncertainties provided.
     tmp_name :  str
         Template spectrum filename.
     tmp_reader : python routine
@@ -59,51 +61,65 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         floats: lower limit, upper limit and step of the grid search for the 
         scaling factor to be applied AFTER the first rough scaling (i.e.
         scale_range should always encompass 1).
-    ext_range: tuple or None, opt
-        If None: differential extinction is not to be considered as a free 
-        parameter. Elif a tuple of 3 floats is provided, differential extinction 
-        will be considered, with the floats as lower limit, upper limit and step 
-        of the grid search.
-        Note: if simplex search, the range is still used to set a chi of 
-        np.inf outside of the range.
-    dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
-    instru_corr : numpy 2d ndarray or list, optional
-        Spectral correlation throughout post-processed images in which the 
-        spectrum is measured. It is specific to the combination of instrument, 
+    ext_range : tuple or None, opt
+        - If None: differential extinction is not considered as a free parameter. 
+        - If a tuple: it should contain 2 floats (for simplex \
+        ``search_mode``) or 3 floats (for grid search ``search_mode``) \
+        corresponding to the lower limit, upper limit (and step for the grid \
+        search). For the simplex search, the lower and upper limits are used \
+        to set a chi square of infinity outside of the range.
+    dlbda_obs : numpy 1d ndarray or list, optional
+        Respective spectral channel width or FWHM of the photometric filters 
+        used for each point of the observed spectrum. This vector is used to 
+        infer which part(s) of a combined spectro+photometric spectrum should 
+        involve convolution+subsampling (model resolution higher than 
+        measurements), interpolation (the opposite), or convolution by the 
+        transmission curve of a photometric filter. If not provided, it will be 
+        inferred from the difference between consecutive lbda_obs points (i.e. 
+        inaccurate for a combined spectrum). It must be provided IF one wants to 
+        weigh each measurement based on the spectral resolution of each 
+        instrument (as in [OLO16]_), through the ``use_weights`` argument.
+    instru_corr : numpy 2d ndarray, optional
+        Spectral correlation between post-processed images in which the 
+        spectrum is measured. It is specific to the instrument, PSF subtraction 
         algorithm and radial separation of the companion from the central star.
-        Can be computed using distances.spectral_correlation(). In case of
-        a spectrum obtained with different instruments, build it with
-        distances.combine_corrs(). If not provided, it will consider the 
-        uncertainties in each spectral channels are independent. See Greco & 
-        Brandt (2017) for details.
+        Can be computed using ``special.spec_corr.spectral_correlation``. In 
+        case of a spectrum obtained with different instruments, it is 
+        recommended to construct the final spectral_correlation matrix with
+        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, 
+        the uncertainties in each spectral channel will be considered 
+        independent. See [GRE16]_ for more details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_res provided above, and i in 
-        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
-        must be provided if the spectrum consists of points obtained with 
-        different instruments.
+        to obtain the spectrum, label them from 0 to the number of instruments 
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
+        associated to instru_res[i-1]. This parameter must be provided if the 
+        spectrum consists of points obtained with different instruments.
     use_weights: bool, optional
         For the likelihood calculation, whether to weigh each point of the 
-        spectrum based on the spectral resolution or bandwith of photometric
-        filters used. Weights will be proportional to dlbda_obs/lbda_obs if 
-        dlbda_obs is provided, or set to 1 for all points otherwise.
+        spectrum based on the spectral resolution or bandwidth of photometric
+        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if 
+        ``dlbda_obs`` is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default format assumed for the files:
-        - first row containing header
-        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission
-        Note: files should all have the same format and wavelength units.
+        are detected in instru_res, the default file reader will be used. 
+        It assumes the following format for the files:
+            
+            - first row contains headers (titles of each column)
+            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+            - Unit of wavelength can be provided in parentheses of first header \
+            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+            matters for the units.
+     
     red_chi2: bool, optional
         Whether to compute the reduced chi square. If False, considers chi^2.
     remove_nan: bool, optional
@@ -112,7 +128,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         to True or False, a check is made just before chi^2 is calculated 
         (after resampling), and only non-NaN values will be considered.
     simplex_options: dict, optional
-        The scipy.optimize.minimize simplex (Nelder-Mead) options.
+        The ``scipy.optimize.minimize`` simplex (Nelder-Mead) options.
     force_continue: bool, optional
         In case of issue with the fit, whether to continue regardless (this may
         be useful in an uneven spectral library, where some templates have too
@@ -124,7 +140,7 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         valid in the minimization search. A Nan value will be returned for chi 
         if the condition is not met.
     **kwargs: optional
-        Optional arguments to the scipy.optimize.minimize function.
+        Other optional arguments to the ``scipy.optimize.minimize`` function.
         
     Returns
     -------
@@ -134,6 +150,12 @@ def get_chi(lbda_obs, spec_obs, err_obs, tmp_name, tmp_reader,
         best-fit scaling factor for the considered template
     best_ext:
         best-fit optical extinction for the considered template
+
+    Note
+    ----
+    If several filter filenames are provided in ``instru_res``, the filter files
+    must all have the same format and wavelength units (for reading by the same
+    ``filter_reader`` snippet or default function). 
         
     """
     # read template spectrum
@@ -348,15 +370,17 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
     Parameters
     ----------
     lbda_obs : numpy 1d ndarray or list
-        Wavelength of observed spectrum. If several instruments, should be 
-        ordered per instrument, not necessarily as monotonically increasing 
-        wavelength. Hereafter, n_ch = len(lbda_obs).
+        Wavelengths of observed spectrum. If several instruments were used, the 
+        wavelengths should be ordered per instrument, not necessarily as 
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        length of ``lbda_obs``.
     spec_obs : numpy 1d ndarray or list
-        Observed spectrum for each value of lbda_obs.
+        Observed spectrum for each value of ``lbda_obs``. Should have a length
+        of :math:`n_{ch}`.
     err_obs : numpy 1d/2d ndarray or list
-        Uncertainties on the observed spectrum. If 2d array, should be [2,n_ch]
-        where the first (resp. second) column corresponds to lower (upper) 
-        uncertainty, and n_ch is the length of lbda_obs and spec_obs.
+        Uncertainties on the observed spectrum. The array (list) can have either
+        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower 
+        (first column) and upper (second column) uncertainties provided.
     tmp_reader : python routine
         External routine that reads a model file and returns a 3D numpy array, 
         where the first column corresponds to wavelengths, the second 
@@ -374,50 +398,60 @@ def best_fit_tmp(lbda_obs, spec_obs, err_obs, tmp_reader, search_mode='simplex',
         floats: lower limit, upper limit and step of the grid search for the 
         scaling factor to be applied AFTER the first rough scaling (i.e.
         scale_range should always encompass 1).
-    ext_range: tuple or None, opt
-        If None: differential extinction is not to be considered as a free 
-        parameter. Elif a tuple of 3 floats is provided, differential extinction 
-        will be considered, with the floats as lower limit, upper limit and step 
-        of the grid search.
-        Note: if simplex search, the range is still used to set a chi of 
-        np.inf outside of the range.
-    dlbda_obs: numpy 1d ndarray or list, optional
-        Spectral channel width for the observed spectrum. It should be provided 
-        IF one wants to weigh each point based on the spectral 
-        resolution of the respective instruments (as in Olofsson et al. 2016).
-    instru_corr : numpy 2d ndarray or list, optional
-        Spectral correlation throughout post-processed images in which the 
-        spectrum is measured. It is specific to the combination of instrument, 
+    ext_range : tuple or None, opt
+        - If None: differential extinction is not considered as a free parameter. 
+        - If a tuple: it should contain 2 floats (for simplex \
+        ``search_mode``) or 3 floats (for grid search ``search_mode``) \
+        corresponding to the lower limit, upper limit (and step for the grid \
+        search). For the simplex search, the lower and upper limits are used \
+        to set a chi square of infinity outside of the range.
+    dlbda_obs : numpy 1d ndarray or list, optional
+        Respective spectral channel width or FWHM of the photometric filters 
+        used for each point of the observed spectrum. This vector is used to 
+        infer which part(s) of a combined spectro+photometric spectrum should 
+        involve convolution+subsampling (model resolution higher than 
+        measurements), interpolation (the opposite), or convolution by the 
+        transmission curve of a photometric filter. If not provided, it will be 
+        inferred from the difference between consecutive lbda_obs points (i.e. 
+        inaccurate for a combined spectrum). It must be provided IF one wants to 
+        weigh each measurement based on the spectral resolution of each 
+        instrument (as in [OLO16]_), through the ``use_weights`` argument.
+    instru_corr : numpy 2d ndarray, optional
+        Spectral correlation between post-processed images in which the 
+        spectrum is measured. It is specific to the instrument, PSF subtraction 
         algorithm and radial separation of the companion from the central star.
-        Can be computed using distances.spectral_correlation(). In case of
-        a spectrum obtained with different instruments, build it with
-        distances.combine_corrs(). If not provided, it will consider the 
-        uncertainties in each spectral channels are independent. See Greco & 
-        Brandt (2017) for details.
+        Can be computed using ``special.spec_corr.spectral_correlation``. In 
+        case of a spectrum obtained with different instruments, it is 
+        recommended to construct the final spectral_correlation matrix with
+        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, 
+        the uncertainties in each spectral channel will be considered 
+        independent. See [GRE16]_ for more details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental spectral resolution(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is 
         used to convolve the model spectrum. If several instruments are used, 
-        provide a list of spectral resolution values / filter names, one for 
+        provide a list of resolving power values / filter names, one for 
         each instrument used.
     instru_idx: numpy 1d array, optional
         1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to n_instru. Zero for points 
-        that don't correspond to any instru_res provided above, and i in 
-        [1,n_instru] for points associated to instru_res[i-1]. This parameter 
-        must be provided if the spectrum consists of points obtained with 
-        different instruments.
+        to obtain the spectrum, label them from 0 to the number of instruments 
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
+        associated to instru_res[i-1]. This parameter must be provided if the 
+        spectrum consists of points obtained with different instruments.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
         contains transmission values. Important: if not provided, but strings 
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
-        - first row containing header
-        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
-        - Unit of wavelength can be provided in parentheses of first header key
-        name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer or
-        "lambda(nm)" for nanometer. Note: Only what is in parentheses matters.
-        Important: filter files should all have the same format and WL units.
+            
+            - first row contains headers (titles of each column)
+            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
+            - Unit of wavelength can be provided in parentheses of first header \
+            key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
+            or "lambda(nm)" for nanometer. Note: only what is in parentheses \
+            matters for the units.
+     
     simplex_options: dict, optional
         The scipy.optimize.minimize simplex (Nelder-Mead) options.
     red_chi2: bool, optional
@@ -559,13 +593,6 @@ def best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, n_best=1,
                verbose=False):
     """
     Routine returning the n best template spectra.
-    
-    Parameters
-    ----------
-    lbda_obs : numpy 1d ndarray or list
-        Wavelength of observed spectrum. If several instruments, should be 
-        ordered per instrument, not necessarily as monotonically increasing 
-        wavelength. Hereafter, n_ch = len(lbda_obs).
 
     Returns
     -------
@@ -615,4 +642,5 @@ def best_n_tmp(chi, scal, ext, n_dof, tmp_filelist, tmp_reader, n_best=1,
     best_tmp = tuple(best_tmp)
     best_params = np.array([sort_scal[:n_best],sort_ext[:n_best]])
     
-    return best_tmpname, best_tmp, sort_chi[:n_best], best_params, sort_ndof[:n_best]
+    return (best_tmpname, best_tmp, sort_chi[:n_best], best_params, 
+            sort_ndof[:n_best])

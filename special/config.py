@@ -3,7 +3,7 @@
 
 """
 Module with configuration parameters, timing functions and multiprocessing 
-utilities (inspired from VIP).
+utilities (inspired from ``VIP``).
 """
 
 __author__ = 'Valentin Christiaens, C. A. Gomez Gonzalez'

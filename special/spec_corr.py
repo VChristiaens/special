@@ -2,14 +2,6 @@
 
 """
 Module to estimate the spectral correlation between channels of an IFS datacube.
-
-.. [GRE16]
-   | Greco & Brandt 2016
-   | **The Measurement, Treatment, and Impact of Spectral Covariance and 
-     Bayesian Priors in Integral-field Spectroscopy of Exoplanets**
-   | *The Astrophysical Journal, Volume 833, Issue 1, p. 134*
-   | `https://arxiv.org/abs/1602.00691
-     <https://arxiv.org/abs/1602.00691>`_
 """
 
 __author__ = 'V. Christiaens'
@@ -61,7 +53,6 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
         Whether to also output the fitted spectral FWHM for each channel, and 
         the vector of radial separation at which each spectral correlation
         matrix is calculated.
-    Note: radii that are skipped will be filled with zeros in the output cube.
 
     Returns
     -------
@@ -73,7 +64,13 @@ def spectral_correlation(array, awidth=2, r_in=1, r_out=None, pl_xy=None,
         radius, for each spectral channel. Dims: n_rad x n_ch
     sp_rad: numpy ndarray
         (if full_output is True) 1d array containing the radial separation of
-        each measured spectral correlation matrix. Dims: n_rad    
+        each measured spectral correlation matrix. Dims: n_rad
+        
+    
+    Note
+    ----
+    Radii that are skipped will be filled with zeros in the output cube.
+    
     """
 
     if not isinstance(awidth,int) or not isinstance(r_in,int):
@@ -199,7 +196,7 @@ def combine_spec_corrs(arr_list):
 def get_annulus_segments(data, inner_radius, width, nsegm=1, theta_init=0,
                          optim_scale_fact=1, mode="ind"):
     """
-    Return indices or values in segments of a centerered annulus (as in VIP).
+    Return indices or values in segments of a centerered annulus (as in ``VIP``).
 
     The annulus is defined by ``inner_radius <= annulus < inner_radius+width``.
 
@@ -231,31 +228,6 @@ def get_annulus_segments(data, inner_radius, width, nsegm=1, theta_init=0,
         [mode='val'] Pixel values.
     masked : list of ndarrays
         [mode='mask'] Copy of ``data`` with masked out regions.
-
-    Notes
-    -----
-    Moving from ``get_annulus`` to ``get_annulus_segments``:
-
-    .. code::python
-        # get_annulus handles one single segment only, so note the ``[0]`` 
-        after the call to get_annulus_segments if you want to work with one 
-        single segment only.
-
-        get_annulus(arr, 2, 3, output_indices=True)
-        # is the same as
-        get_annulus_segments(arr, 2, 3)[0]
-
-        get_annulus(arr, inr, w, output_values=True)
-        # is the same as
-        get_annulus_segments(arr, inr, w, mode="val")[0]
-
-        get_annulus(arr, inr, w)
-        # is the same as
-        get_annulus_segments(arr, inr, w, mode="mask")[0]
-
-        # the only difference is the handling of the border values:
-        # get_annulus_segments is `in <= ann < out`, while get_annulus is
-        # `in <= ann <= out`. But that should make no difference in practice.
 
     """
     array = frame_or_shape(data)
@@ -303,7 +275,7 @@ def get_annulus_segments(data, inner_radius, width, nsegm=1, theta_init=0,
         
 def get_circle(array, radius, cy=None, cx=None, mode="mask"):
     """
-    Return a centered circular region from a 2d ndarray (as in VIP).
+    Return a centered circular region from a 2d ndarray (as in ``VIP``).
 
     Parameters
     ----------

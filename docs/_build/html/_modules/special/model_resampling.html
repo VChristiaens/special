@@ -62,17 +62,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Package content</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html">special.chi</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.config">special.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.fits">special.fits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.mcmc_sampling">special.mcmc_sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.model_resampling">special.model_resampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-nested-sampling">special.nested_sampling</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_corr">special.spec_corr</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.spec_indices">special.spec_indices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#special-template-fit">special.template_fit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_mcmc">special.utils_mcmc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../special.html#module-special.utils_spec">special.utils_spec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../special.html">special package</a></li>
 </ul>
 
         </div>
@@ -104,6 +94,14 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Functions useful for spectral fitting of companions, and model interpolation.</span>
+
+<span class="sd">.. [OLO16]</span>
+<span class="sd">   | Olofsson et al. 2016</span>
+<span class="sd">   | **Azimuthal asymmetries in the debris disk around HD 61005. A massive collision of planetesimals?**</span>
+<span class="sd">   | *Astronomy &amp; Astrophysics, Volume 591, p. 108*</span>
+<span class="sd">   | `https://arxiv.org/abs/1601.07861</span>
+<span class="sd">     &lt;https://arxiv.org/abs/1601.07861&gt;`_</span>
+<span class="sd">     </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Valentin Christiaens&#39;</span>
@@ -140,88 +138,115 @@
 <span class="sd">        Set of models parameters for which the model grid has to be </span>
 <span class="sd">        interpolated.</span>
 <span class="sd">    labels: Tuple of strings</span>
-<span class="sd">        Tuple of labels in the same order as initial_state, that is:</span>
-<span class="sd">        * first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
-<span class="sd">        * then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
-<span class="sd">        * (optionally) the flux of emission lines (labels should match those \</span>
-<span class="sd">        in the em_lines dictionary), in units of the model spectrum (times mu)</span>
-<span class="sd">        * (optionally) the optical extinction &#39;Av&#39;, in mag</span>
-<span class="sd">        * (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
-<span class="sd">        * (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
-<span class="sd">        contribution.</span>
-<span class="sd">    grid_param_list : list of 1d numpy arrays/lists OR None</span>
-<span class="sd">        * If list, should contain list/numpy 1d arrays with available grid of \</span>
-<span class="sd">        model parameters. </span>
-<span class="sd">        * Set to None for a pure n-blackbody fit, n=1,2,...</span>
-<span class="sd">        * Note1: model grids should not contain grids on radius and Av, but \</span>
-<span class="sd">        these should still be passed in initial_state (Av optional).</span>
-<span class="sd">        * Note2: for a combined grid model + black body, just provide \</span>
-<span class="sd">        the grid parameter list here, and provide values for &#39;Tbbn&#39; and \</span>
-<span class="sd">        &#39;Rbbn&#39; in initial_state, labels and bounds.</span>
+<span class="sd">        Tuple of labels in the same order as initial_state:</span>
+<span class="sd">            - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">            - then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">            - (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">            in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">            - (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">            contribution. </span>
+<span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
+<span class="sd">        Should contain list/numpy 1d arrays with available grid of model </span>
+<span class="sd">        parameters (should only contain the sampled parameters, not the models </span>
+<span class="sd">        themselves). The models will be loaded with ``model_reader``. </span>
 <span class="sd">    dist :  float</span>
 <span class="sd">        Distance in parsec, used for flux scaling of the models.</span>
-<span class="sd">    lbda_obs : numpy 1d ndarray or list, opt</span>
-<span class="sd">        Wavelength of observed spectrum. If provided, the model spectrum will </span>
-<span class="sd">        be resampled to match lbda_obs. If several instruments, should be </span>
-<span class="sd">        ordered per instrument, not necessarily as monotonically increasing </span>
-<span class="sd">        wavelength. Hereafter, n_ch = len(lbda_obs). </span>
+<span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
+<span class="sd">        Wavelengths of observed spectrum. If several instruments were used, the </span>
+<span class="sd">        wavelengths should be ordered per instrument, not necessarily as </span>
+<span class="sd">        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the </span>
+<span class="sd">        length of ``lbda_obs``.</span>
 <span class="sd">    model_grid : numpy N-d array, optional</span>
 <span class="sd">        If provided, should contain the grid of model spectra for each</span>
-<span class="sd">        free parameter of the given grid. I.e. for a grid of n_T values of Teff </span>
-<span class="sd">        and n_g values of Logg, the numpy array should be n_T x n_g x n_ch x 2, </span>
-<span class="sd">        where n_ch is the number of wavelengths for the observed spectrum,</span>
-<span class="sd">        and the last 2 dims are for wavelength and fluxes respectively.</span>
-<span class="sd">        If provided, takes precedence over model_name/model_reader.</span>
+<span class="sd">        free parameter of the given grid. I.e. for a grid of :math:`n_T` values </span>
+<span class="sd">        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy </span>
+<span class="sd">        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the </span>
+<span class="sd">        last 2 dimensions correspond to wavelength and fluxes respectively. If </span>
+<span class="sd">        provided, ``model_grid`` takes precedence over ``model_name``/</span>
+<span class="sd">        ``model_reader``.</span>
 <span class="sd">    model_reader : python routine, opt</span>
 <span class="sd">        External routine that reads a model file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
-<span class="sd">        contains model values. See example routine in interpolate_model() </span>
-<span class="sd">        description.</span>
+<span class="sd">        contains model values. See example routine in </span>
+<span class="sd">        ``special.model_resampling.interpolate_model`` description.</span>
 <span class="sd">    em_lines: dictionary, opt</span>
 <span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
 <span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
-<span class="sd">        3 values: 1) the wavelength (in mu), 2) a string indicating whether line </span>
-<span class="sd">        intensity is expressed in flux (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) </span>
-<span class="sd">        (&quot;LogL&quot;), and 3) the latter quantity. The intensity of the emission </span>
-<span class="sd">        lines can be sampled by MCMC, in that case the last element of the </span>
-<span class="sd">        tuple can be set to None. If not to be sampled, a value for the </span>
-<span class="sd">        intensity should be provided (in the same system of units as the model </span>
-<span class="sd">        spectra, multiplied by mu). Examples:</span>
-<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,263)};</span>
-<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;,-5.1)}</span>
+<span class="sd">        4 values: </span>
+<span class="sd">            </span>
+<span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
+<span class="sd">            </span>
+<span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
+<span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
+<span class="sd">              </span>
+<span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
+<span class="sd">            </span>
+<span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
+<span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
+<span class="sd">        line, calculated from the flux to be injected and the continuum </span>
+<span class="sd">        level (measured in the grid model to which the line is injected).</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
+<span class="sd">        </span>
 <span class="sd">    em_grid: dictionary pointing to lists, opt</span>
 <span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
-<span class="sd">        to a list of values to inject for emission line fluxes. For computation </span>
-<span class="sd">        efficiency, interpolation will be performed between the points of this </span>
-<span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
-<span class="sd">        em_lines.</span>
-<span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
-<span class="sd">        Spectral channel width for the observed spectrum. It is used to infer </span>
-<span class="sd">        which part(s) of a combined spectro+photometric spectrum should involve</span>
-<span class="sd">        convolution+subsampling (model resolution higher than measurements) or </span>
-<span class="sd">        interpolation (the opposite). If not provided, will be inferred from </span>
-<span class="sd">        half-difference between consecutive lbda_obs points (i.e. inaccurate </span>
-<span class="sd">        for a combined spectrum).</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation</span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this</span>
+<span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
+<span class="sd">        ``labels`` and ``em_lines``.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
+<span class="sd">            &gt;&gt;&gt;            &#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
+<span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
+<span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
+<span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
+<span class="sd">        infer which part(s) of a combined spectro+photometric spectrum should </span>
+<span class="sd">        involve convolution+subsampling (model resolution higher than </span>
+<span class="sd">        measurements), interpolation (the opposite), or convolution by the </span>
+<span class="sd">        transmission curve of a photometric filter. If not provided, it will be </span>
+<span class="sd">        inferred from the difference between consecutive lbda_obs points (i.e. </span>
+<span class="sd">        inaccurate for a combined spectrum). It must be provided IF one wants to </span>
+<span class="sd">        weigh each measurement based on the spectral resolution of each </span>
+<span class="sd">        instrument (as in [OLO16]_), through the ``use_weights`` argument.</span>
 <span class="sd">    instru_res : float or list of floats/strings, optional</span>
-<span class="sd">        The mean instrumental spectral resolution(s) OR filter names. This is </span>
+<span class="sd">        The mean instrumental resolving power(s) OR filter names. This is </span>
 <span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
-<span class="sd">        provide a list of spectral resolution values / filter names, one for </span>
+<span class="sd">        provide a list of resolving power values / filter names, one for </span>
 <span class="sd">        each instrument used.</span>
 <span class="sd">    instru_idx: numpy 1d array, optional</span>
 <span class="sd">        1d array containing an index representing each instrument used </span>
-<span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
-<span class="sd">        that don&#39;t correspond to any instru_res provided above, and i in </span>
-<span class="sd">        [1,n_instru] for points associated to instru_res[i-1]. This parameter </span>
-<span class="sd">        must be provided if the spectrum consists of points obtained with </span>
-<span class="sd">        different instruments.</span>
+<span class="sd">        to obtain the spectrum, label them from 0 to the number of instruments </span>
+<span class="sd">        (:math:`n_{ins}`). Zero for points that don&#39;t correspond to any of the </span>
+<span class="sd">        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points</span>
+<span class="sd">        associated to instru_res[i-1]. This parameter must be provided if the </span>
+<span class="sd">        spectrum consists of points obtained with different instruments.</span>
 <span class="sd">    filter_reader: python routine, optional</span>
 <span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
-<span class="sd">        are detected in instru_res, the default format assumed for the files:</span>
-<span class="sd">        - first row containing header;</span>
-<span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
-<span class="sd">        Note: files should all have the same format and wavelength units.</span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
+<span class="sd">        It assumes the following format for the files:</span>
+<span class="sd">            </span>
+<span class="sd">            - first row contains headers (titles of each column)</span>
+<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">            matters for the units.</span>
+<span class="sd">     </span>
 <span class="sd">    AV_bef_bb: bool, optional</span>
 <span class="sd">        If both extinction and an extra bb component are free parameters, </span>
 <span class="sd">        whether to apply extinction before adding the BB component (e.g. </span>
@@ -236,14 +261,21 @@
 <span class="sd">        converted.</span>
 <span class="sd">    interp_order: int, opt, {-1,0,1} </span>
 <span class="sd">        Interpolation mode for model interpolation.</span>
-<span class="sd">        -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
-<span class="sd">        0: nearest neighbour model.</span>
-<span class="sd">        1: Order 1 spline interpolation.</span>
-<span class="sd">        </span>
+<span class="sd">            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
+<span class="sd">            - 0: nearest neighbour model</span>
+<span class="sd">            - 1: Order 1 spline interpolation</span>
+<span class="sd">      </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    out: numpy array</span>
 <span class="sd">        The model wavelength and spectrum</span>
+<span class="sd">        </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    ``grid_param_list`` and ``model_grid`` shouldn&#39;t contain grids on radius </span>
+<span class="sd">    and Av. For a combined grid model + black body fit, just provide the list </span>
+<span class="sd">    of parameters probed by the grid to ``grid_param_list``, and provide values </span>
+<span class="sd">    for &#39;Tbbn&#39; and &#39;Rbbn&#39; to ``initial_state``, ``labels`` and ``bounds``.  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     
@@ -369,22 +401,22 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------   </span>
 <span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
-<span class="sd">        Wavelength of observed spectrum. If several instruments, should be </span>
-<span class="sd">        ordered per instrument, not necessarily as monotonically increasing </span>
-<span class="sd">        wavelength. Hereafter, n_ch = len(lbda_obs).</span>
+<span class="sd">        Wavelengths of observed spectrum. If several instruments were used, the </span>
+<span class="sd">        wavelengths should be ordered per instrument, not necessarily as </span>
+<span class="sd">        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the </span>
+<span class="sd">        length of ``lbda_obs``.</span>
 <span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
 <span class="sd">        Should contain list/numpy 1d arrays with available grid of model </span>
-<span class="sd">        parameters. Note: model grids shouldn&#39;t contain grids on radius and Av.</span>
-<span class="sd">    model_grid: list of 1d numpy arrays, or list of lists.</span>
-<span class="sd">        Available grid of model parameters (should only contain the parameter</span>
-<span class="sd">        values, not the models themselves). The latter will be loaded. </span>
-<span class="sd">        Important: 1) Make sure the bounds are within the model grid to avoid </span>
-<span class="sd">        extrapolation. 2) All keywords that are neither &#39;R&#39;, &#39;Av&#39; nor &#39;M&#39; will </span>
-<span class="sd">        be considered model grid parameters.</span>
-<span class="sd">        length of params, with the same order. OR &#39;1bb&#39; or &#39;2bb&#39; for black-body</span>
-<span class="sd">        models. In that case the model will be created on the fly at each </span>
-<span class="sd">        iteration using 1 or 2 Planck functions respectively. There are 2 params </span>
-<span class="sd">        for each Planck function: Teff and radius.</span>
+<span class="sd">        parameters (should only contain the sampled parameters, not the models </span>
+<span class="sd">        themselves). The models will be loaded with ``model_reader``.</span>
+<span class="sd">    model_grid : numpy N-d array, optional</span>
+<span class="sd">        If provided, should contain the grid of model spectra for each</span>
+<span class="sd">        free parameter of the given grid. I.e. for a grid of :math:`n_T` values </span>
+<span class="sd">        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy </span>
+<span class="sd">        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the </span>
+<span class="sd">        last 2 dimensions correspond to wavelength and fluxes respectively. If </span>
+<span class="sd">        provided, ``model_grid`` takes precedence over ``model_name``/</span>
+<span class="sd">        ``model_reader``.</span>
 <span class="sd">    model_reader : python routine</span>
 <span class="sd">        External routine that reads a model file, converts it to required </span>
 <span class="sd">        units and returns a 2D numpy array, where the first column corresponds</span>
@@ -392,59 +424,89 @@
 <span class="sd">    em_lines: dictionary, opt</span>
 <span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
 <span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
-<span class="sd">        3 values: 1) the wavelength (in mu), 2) a string indicating whether line </span>
-<span class="sd">        intensity is expressed in flux (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) </span>
-<span class="sd">        (&quot;LogL&quot;), and 3) the latter quantity. The intensity of the emission </span>
-<span class="sd">        lines can be sampled by MCMC, in that case the last element of the </span>
-<span class="sd">        tuple can be set to None. If not to be sampled, a value for the </span>
-<span class="sd">        intensity should be provided (in the same system of units as the model </span>
-<span class="sd">        spectra, multiplied by mu). Example:</span>
-<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,263)}</span>
+<span class="sd">        4 values: </span>
+<span class="sd">            </span>
+<span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
+<span class="sd">            </span>
+<span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
+<span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
+<span class="sd">              </span>
+<span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
+<span class="sd">            </span>
+<span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
+<span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
+<span class="sd">        line, calculated from the flux to be injected and the continuum </span>
+<span class="sd">        level (measured in the grid model to which the line is injected).</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
+<span class="sd">        </span>
 <span class="sd">    em_grid: dictionary pointing to lists, opt</span>
 <span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
-<span class="sd">        to a list of values to inject for emission line fluxes. For computation </span>
-<span class="sd">        efficiency, interpolation will be performed between the points of this </span>
-<span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
-<span class="sd">        em_lines. Note: length of this dictionary can be different of em_lines;</span>
-<span class="sd">        i.e. if a line is in em_lines but not in em_grid, it will not be </span>
-<span class="sd">        considered an MCMC parameter.</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation</span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this</span>
+<span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
+<span class="sd">        ``labels`` and ``em_lines``.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
+<span class="sd">            &gt;&gt;&gt;            &#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
 <span class="sd">    lbda_mod : numpy 1d ndarray or list</span>
 <span class="sd">        Wavelength of tested model. Should have a wider wavelength extent than </span>
 <span class="sd">        the observed spectrum.</span>
 <span class="sd">    spec_mod : numpy 1d ndarray</span>
-<span class="sd">        Model spectrum. It does not require the same wavelength sampling as the</span>
-<span class="sd">        observed spectrum. If higher spectral resolution, it will be convolved</span>
-<span class="sd">        with the instrumental spectral psf (if instru_res is provided) and </span>
-<span class="sd">        then binned to the same sampling. If lower spectral resolution, a </span>
-<span class="sd">        linear interpolation is performed to infer the value at the observed </span>
-<span class="sd">        spectrum wavelength sampling.</span>
-<span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
-<span class="sd">        Spectral channel width for the observed spectrum. It is used to infer </span>
-<span class="sd">        which part(s) of a combined spectro+photometric spectrum should involve</span>
-<span class="sd">        convolution+subsampling (model resolution higher than measurements) or </span>
-<span class="sd">        interpolation (the opposite). If not provided, will be inferred from </span>
-<span class="sd">        half-difference between consecutive lbda_obs points (i.e. inaccurate </span>
-<span class="sd">        for a combined spectrum).</span>
+<span class="sd">        Model spectrum. It does not require the same wavelength sampling as </span>
+<span class="sd">        the observed spectrum. If higher spectral resolution, it will be </span>
+<span class="sd">        convolved with the instrumental spectral PSF (if ``instru_res`` is </span>
+<span class="sd">        provided) and then binned to the same sampling. If lower spectral </span>
+<span class="sd">        resolution, a linear interpolation is performed to infer the value at </span>
+<span class="sd">        the observed spectrum wavelength sampling.</span>
+<span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
+<span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
+<span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
+<span class="sd">        infer which part(s) of a combined spectro+photometric spectrum should </span>
+<span class="sd">        involve convolution+subsampling (model resolution higher than </span>
+<span class="sd">        measurements), interpolation (the opposite), or convolution by the </span>
+<span class="sd">        transmission curve of a photometric filter. If not provided, it will be </span>
+<span class="sd">        inferred from the difference between consecutive lbda_obs points (i.e. </span>
+<span class="sd">        inaccurate for a combined spectrum). It must be provided IF one wants to </span>
+<span class="sd">        weigh each measurement based on the spectral resolution of each </span>
+<span class="sd">        instrument (as in [OLO16]_), through the ``use_weights`` argument.</span>
 <span class="sd">    instru_res : float or list of floats/strings, optional</span>
-<span class="sd">        The mean instrumental spectral resolution(s) OR filter names. This is </span>
+<span class="sd">        The mean instrumental resolving power(s) OR filter names. This is </span>
 <span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
-<span class="sd">        provide a list of spectral resolution values / filter names, one for </span>
+<span class="sd">        provide a list of resolving power values / filter names, one for </span>
 <span class="sd">        each instrument used.</span>
 <span class="sd">    instru_idx: numpy 1d array, optional</span>
 <span class="sd">        1d array containing an index representing each instrument used </span>
-<span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
-<span class="sd">        that don&#39;t correspond to any instru_res provided above, and i in </span>
-<span class="sd">        [1,n_instru] for points associated to instru_res[i-1]. This parameter </span>
-<span class="sd">        must be provided if the spectrum consists of points obtained with </span>
-<span class="sd">        different instruments.</span>
+<span class="sd">        to obtain the spectrum, label them from 0 to the number of instruments </span>
+<span class="sd">        (:math:`n_{ins}`). Zero for points that don&#39;t correspond to any of the </span>
+<span class="sd">        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points</span>
+<span class="sd">        associated to instru_res[i-1]. This parameter must be provided if the </span>
+<span class="sd">        spectrum consists of points obtained with different instruments.</span>
 <span class="sd">    filter_reader: python routine, optional</span>
 <span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
-<span class="sd">        are detected in instru_res, the default format assumed for the files:</span>
-<span class="sd">        - first row containing header</span>
-<span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
-<span class="sd">        Note: files should all have the same format and wavelength units.</span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
+<span class="sd">        It assumes the following format for the files:</span>
+<span class="sd">            </span>
+<span class="sd">            - first row contains headers (titles of each column)</span>
+<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">            matters for the units.</span>
+<span class="sd">     </span>
 <span class="sd">    interp_nonexist: bool, opt</span>
 <span class="sd">        Whether to interpolate if models do not exist, based on closest model(s)</span>
 <span class="sd">        </span>
@@ -453,6 +515,13 @@
 <span class="sd">    resamp_mod: 1d numpy array</span>
 <span class="sd">        Grid of model spectra resampled at wavelengths matching the observed </span>
 <span class="sd">        spectrum.</span>
+<span class="sd">        </span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    ``grid_param_list`` and ``model_grid`` shouldn&#39;t contain grids on radius </span>
+<span class="sd">    and Av. For a combined grid model + black body fit, just provide the list </span>
+<span class="sd">    of parameters probed by the grid to ``grid_param_list``, and provide values </span>
+<span class="sd">    for &#39;Tbbn&#39; and &#39;Rbbn&#39; to ``initial_state``, ``labels`` and ``bounds``.  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
     <span class="n">n_mods</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -597,46 +666,57 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
-<span class="sd">        Wavelength of observed spectrum. If several instruments, should be </span>
-<span class="sd">        ordered per instrument, not necessarily as monotonically increasing </span>
-<span class="sd">        wavelength. Hereafter, n_ch = len(lbda_obs).</span>
+<span class="sd">        Wavelengths of observed spectrum. If several instruments were used, the </span>
+<span class="sd">        wavelengths should be ordered per instrument, not necessarily as </span>
+<span class="sd">        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the </span>
+<span class="sd">        length of ``lbda_obs``.</span>
 <span class="sd">    lbda_mod : numpy 1d ndarray or list</span>
 <span class="sd">        Wavelength of tested model. Should have a wider wavelength extent than </span>
 <span class="sd">        the observed spectrum.</span>
 <span class="sd">    spec_mod : numpy 1d ndarray</span>
-<span class="sd">        Model spectrum. It does not require the same wavelength sampling as the</span>
-<span class="sd">        observed spectrum. If higher spectral resolution, it will be convolved</span>
-<span class="sd">        with the instrumental spectral psf (if instru_res is provided) and </span>
-<span class="sd">        then binned to the same sampling. If lower spectral resolution, a </span>
-<span class="sd">        linear interpolation is performed to infer the value at the observed </span>
-<span class="sd">        spectrum wavelength sampling.</span>
-<span class="sd">    dlbda_obs: numpy 1d ndarray or list, optional</span>
-<span class="sd">        Spectral channel width for the observed spectrum. It is used to infer </span>
-<span class="sd">        which part(s) of a combined spectro+photometric spectrum should involve</span>
-<span class="sd">        convolution+subsampling (model resolution higher than measurements) or </span>
-<span class="sd">        interpolation (the opposite). If not provided, will be inferred from </span>
-<span class="sd">        half-difference between consecutive lbda_obs points (i.e. inaccurate </span>
-<span class="sd">        for a combined spectrum).</span>
+<span class="sd">        Model spectrum. It does not require the same wavelength sampling as </span>
+<span class="sd">        the observed spectrum. If higher spectral resolution, it will be </span>
+<span class="sd">        convolved with the instrumental spectral PSF (if ``instru_res`` is </span>
+<span class="sd">        provided) and then binned to the same sampling. If lower spectral </span>
+<span class="sd">        resolution, a linear interpolation is performed to infer the value at </span>
+<span class="sd">        the observed spectrum wavelength sampling.</span>
+<span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
+<span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
+<span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
+<span class="sd">        infer which part(s) of a combined spectro+photometric spectrum should </span>
+<span class="sd">        involve convolution+subsampling (model resolution higher than </span>
+<span class="sd">        measurements), interpolation (the opposite), or convolution by the </span>
+<span class="sd">        transmission curve of a photometric filter. If not provided, it will be </span>
+<span class="sd">        inferred from the difference between consecutive lbda_obs points (i.e. </span>
+<span class="sd">        inaccurate for a combined spectrum). It must be provided IF one wants to </span>
+<span class="sd">        weigh each measurement based on the spectral resolution of each </span>
+<span class="sd">        instrument (as in [OLO16]_), through the ``use_weights`` argument.</span>
 <span class="sd">    instru_res : float or list of floats/strings, optional</span>
-<span class="sd">        The mean instrumental spectral resolution(s) OR filter names. This is </span>
+<span class="sd">        The mean instrumental resolving power(s) OR filter names. This is </span>
 <span class="sd">        used to convolve the model spectrum. If several instruments are used, </span>
-<span class="sd">        provide a list of spectral resolution values / filter names, one for </span>
+<span class="sd">        provide a list of resolving power values / filter names, one for </span>
 <span class="sd">        each instrument used.</span>
 <span class="sd">    instru_idx: numpy 1d array, optional</span>
 <span class="sd">        1d array containing an index representing each instrument used </span>
-<span class="sd">        to obtain the spectrum, label them from 0 to n_instru. Zero for points </span>
-<span class="sd">        that don&#39;t correspond to any instru_res provided above, and i in </span>
-<span class="sd">        [1,n_instru] for points associated to instru_res[i-1]. This parameter </span>
-<span class="sd">        must be provided if the spectrum consists of points obtained with </span>
-<span class="sd">        different instruments.</span>
+<span class="sd">        to obtain the spectrum, label them from 0 to the number of instruments </span>
+<span class="sd">        (:math:`n_{ins}`). Zero for points that don&#39;t correspond to any of the </span>
+<span class="sd">        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points</span>
+<span class="sd">        associated to instru_res[i-1]. This parameter must be provided if the </span>
+<span class="sd">        spectrum consists of points obtained with different instruments.</span>
 <span class="sd">    filter_reader: python routine, optional</span>
 <span class="sd">        External routine that reads a filter file and returns a 2D numpy array, </span>
 <span class="sd">        where the first column corresponds to wavelengths, and the second </span>
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
-<span class="sd">        are detected in instru_res, the default format assumed for the files:</span>
-<span class="sd">        - first row containing header</span>
-<span class="sd">        - starting from 2nd row: 1st column: WL in mu, 2nd column: transmission</span>
-<span class="sd">        Note: files should all have the same format and wavelength units.</span>
+<span class="sd">        are detected in instru_res, the default file reader will be used. </span>
+<span class="sd">        It assumes the following format for the files:</span>
+<span class="sd">            </span>
+<span class="sd">            - first row contains headers (titles of each column)</span>
+<span class="sd">            - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
+<span class="sd">            - Unit of wavelength can be provided in parentheses of first header \</span>
+<span class="sd">            key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
+<span class="sd">            or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
+<span class="sd">            matters for the units.</span>
+<span class="sd">     </span>
 <span class="sd">    no_constraint: bool, optional</span>
 <span class="sd">        If set to True, will not use &#39;floor&#39; and &#39;ceil&#39; constraints when</span>
 <span class="sd">        cropping the model wavelength ranges, i.e. faces the risk of </span>
@@ -694,14 +774,18 @@
     <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
         <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
-        <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">1.5</span><span class="o">*</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">):</span>
-                <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">1.5</span><span class="o">*</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">):</span>
-                <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">instru_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="mi">1</span><span class="p">)]</span>
+                <span class="n">instru_fwhm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lbda_instru</span><span class="p">)</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">instru_fwhm</span>
+        <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">instru_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">))]</span>
+                <span class="n">instru_fwhm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lbda_instru</span><span class="p">)</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">instru_fwhm</span>
                 
         <span class="k">if</span> <span class="n">no_constraint</span><span class="p">:</span>
             <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_min</span><span class="p">)</span>
@@ -760,11 +844,10 @@
                 <span class="n">idx_0</span><span class="o">=-</span><span class="mi">1</span>
                 <span class="k">if</span> <span class="n">nc</span> <span class="o">!=</span> <span class="n">nchunks_i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span> <span class="c1"># should not happen</span>
-            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_1</span><span class="p">],</span>
+            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_1</span><span class="p">],</span>
                                    <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
-            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_0</span><span class="p">],</span>
+            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_0</span><span class="p">],</span>
                                    <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
-
 
             <span class="n">spl</span> <span class="o">=</span> <span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span> 
                                                <span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span>
@@ -773,11 +856,9 @@
 
             
     <span class="c1">## convolve+bin where the model spectrum has higher resolution (most likely)</span>
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">do_interp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_ch</span> <span class="ow">or</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="c1"># Note: if dlbda_obs_min &lt; 0, it means several instruments are used with </span>
-    <span class="c1"># overlapping WL ranges. instru_res should be provided!</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">do_interp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_ch</span> <span class="ow">or</span> <span class="n">dlbda_obs_min</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">instru_res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Warning! No spectral resolution nor filter file provided&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Warning! No resolving power nor filter file provided&quot;</span>
             <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; =&gt; binning without convolution&quot;</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lbda</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">):</span>
@@ -788,6 +869,10 @@
                 <span class="n">i_l</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span>
                                    <span class="n">mid_lbda_l</span><span class="p">[</span><span class="n">ll</span><span class="p">])</span>
                 <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">i_f</span><span class="p">:</span><span class="n">i_l</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">dlbda_obs_min</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;instru_res not provided, but dlbda_obs_min &lt; 0 means &quot;</span> 
+                <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;several instruments are used with overlapping WL ranges&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;convolving+binning where model spectrum has higher res&quot;</span><span class="p">)</span>   
@@ -847,58 +932,81 @@
 <span class="sd">        Set of models parameters for which the model grid has to be </span>
 <span class="sd">        interpolated.</span>
 <span class="sd">    grid_param_list : list of 1d numpy arrays/lists</span>
-<span class="sd">        * If list, should contain list/numpy 1d arrays with available grid of \</span>
-<span class="sd">        model parameters.</span>
-<span class="sd">        * Note1: model grids should not contain grids on radius and Av, but \</span>
-<span class="sd">        these should still be passed in initial_state (Av optional).</span>
+<span class="sd">        Should contain list/numpy 1d arrays with available grid of model </span>
+<span class="sd">        parameters (should only contain the sampled parameters, not the models </span>
+<span class="sd">        themselves). The models will be loaded with ``model_reader``.</span>
 <span class="sd">    params_em : dictionary, opt</span>
 <span class="sd">        Set of emission line parameters (typically fluxes) for which the model </span>
 <span class="sd">        grid has to be interpolated.</span>
 <span class="sd">    em_grid: dictionary pointing to lists, opt</span>
 <span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
-<span class="sd">        to a list of values to inject for emission line fluxes. For computation </span>
-<span class="sd">        efficiency, interpolation will be performed between the points of this </span>
-<span class="sd">        grid during the MCMC sampling. Dict entries should match labels and </span>
-<span class="sd">        em_lines. Note: length of this dictionary can be different of em_lines;</span>
-<span class="sd">        i.e. if a line is in em_lines but not in em_grid, it will not be </span>
-<span class="sd">        considered an MCMC parameter.</span>
+<span class="sd">        to a list of values to inject for emission line fluxes. For computation</span>
+<span class="sd">        efficiency, interpolation will be performed between the points of this</span>
+<span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
+<span class="sd">        ``labels`` and ``em_lines``.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
+<span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
+<span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
+<span class="sd">            &gt;&gt;&gt;            &#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
+
 <span class="sd">    em_lines: dictionary, opt</span>
 <span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
 <span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
-<span class="sd">        3 values: 1) the wavelength (in mu), 2) a string indicating whether line </span>
-<span class="sd">        intensity is expressed in flux (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) </span>
-<span class="sd">        (&quot;LogL&quot;), and 3) the latter quantity. The intensity of the emission </span>
-<span class="sd">        lines can be sampled by MCMC, in that case the last element of the </span>
-<span class="sd">        tuple can be set to None. If not to be sampled, a value for the </span>
-<span class="sd">        intensity should be provided (in the same system of units as the model </span>
-<span class="sd">        spectra, multiplied by mu). Example:</span>
-<span class="sd">        em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,263)}</span>
+<span class="sd">        4 values: </span>
+<span class="sd">            </span>
+<span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
+<span class="sd">            </span>
+<span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
+<span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
+<span class="sd">              </span>
+<span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
+<span class="sd">            </span>
+<span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
+<span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
+<span class="sd">        line, calculated from the flux to be injected and the continuum </span>
+<span class="sd">        level (measured in the grid model to which the line is injected).</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
+<span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
+<span class="sd">        </span>
 <span class="sd">    labels: Tuple of strings</span>
-<span class="sd">        Tuple of labels in the same order as initial_state, that is:</span>
-<span class="sd">        * first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
-<span class="sd">        * next the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
-<span class="sd">        * (optionally) the flux of emission lines (labels should match those \</span>
-<span class="sd">        in the em_lines dictionary), in units of the model spectrum (times mu)</span>
-<span class="sd">        * (optionally) the optical extinction &#39;Av&#39;, in mag</span>
-<span class="sd">        * (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
-<span class="sd">        * (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
-<span class="sd">        contribution.</span>
-<span class="sd">        Note: only necessary if an emission list dictionary is provided.</span>
-<span class="sd">    model_grid : numpy N-d array</span>
+<span class="sd">        Tuple of labels in the same order as initial_state:</span>
+<span class="sd">            - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
+<span class="sd">            - then the planet photometric radius &#39;R&#39;, in Jupiter radius</span>
+<span class="sd">            - (optionally) the flux of emission lines (labels should match those \</span>
+<span class="sd">            in the em_lines dictionary), in units of the model spectrum (times mu)</span>
+<span class="sd">            - (optionally) the optical extinction &#39;Av&#39;, in mag</span>
+<span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
+<span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
+<span class="sd">            contribution. </span>
+<span class="sd">        Note: only necessary if an emission line dictionary ``em_lines`` is provided.</span>
+<span class="sd">    model_grid : numpy N-d array, optional</span>
 <span class="sd">        If provided, should contain the grid of model spectra for each</span>
-<span class="sd">        free parameter of the given grid. I.e. for a grid of n_T values of Teff </span>
-<span class="sd">        and n_g values of Logg, the numpy array should be n_T x n_g x n_ch x 2, </span>
-<span class="sd">        where n_ch is the number of wavelengths for the observed spectrum.</span>
-<span class="sd">        If provided, takes precedence over filename/file_reader which would </span>
-<span class="sd">        open and read models at each step of the MCMC.</span>
-<span class="sd">        Note: if provided, it should already probe any potential emission line.</span>
-<span class="sd">    model_reader : python routine</span>
-<span class="sd">        External routine that reads a model file, converts it to required </span>
-<span class="sd">        units and returns a 2D numpy array, where the first column corresponds</span>
-<span class="sd">        to wavelengths, and the second contains model values. Example below.</span>
-<span class="sd">    interp_order: int, opt, {0,1} </span>
-<span class="sd">        0: nearest neighbour model.</span>
-<span class="sd">        1: Order 1 spline interpolation.</span>
+<span class="sd">        free parameter of the given grid. I.e. for a grid of :math:`n_T` values </span>
+<span class="sd">        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy </span>
+<span class="sd">        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the </span>
+<span class="sd">        last 2 dimensions correspond to wavelength and fluxes respectively. If </span>
+<span class="sd">        provided, ``model_grid`` takes precedence over ``model_name``/</span>
+<span class="sd">        ``model_reader``.</span>
+<span class="sd">    model_reader : python routine, opt</span>
+<span class="sd">        External routine that reads a model file and returns a 2D numpy array, </span>
+<span class="sd">        where the first column corresponds to wavelengths, and the second </span>
+<span class="sd">        contains model values. See example routine in </span>
+<span class="sd">        ``special.model_resampling.interpolate_model`` description.</span>
+<span class="sd">    interp_order: int, opt, {-1,0,1} </span>
+<span class="sd">        Interpolation mode for model interpolation.</span>
+<span class="sd">            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
+<span class="sd">            - 0: nearest neighbour model</span>
+<span class="sd">            - 1: Order 1 spline interpolation</span>
+<span class="sd">      </span>
 <span class="sd">    max_dlbda: float, opt</span>
 <span class="sd">        Maximum delta lbda in mu allowed if binning of lbda_model is necessary. </span>
 <span class="sd">        This is necessary for grids of models (e.g. BT-SETTL) where the wavelength</span>
@@ -913,21 +1021,6 @@
 <span class="sd">    model : 2d numpy array</span>
 <span class="sd">        Interpolated model for input parameters. First column corresponds</span>
 <span class="sd">        to wavelengths, and the second contains model values.</span>
-<span class="sd">        </span>
-<span class="sd">    Example file_reader</span>
-<span class="sd">    -------------------</span>
-<span class="sd">    def _example_file_reader(params):</span>
-<span class="sd">        &#39;&#39;&#39;This is a minimal example for the file_reader routine to be provided </span>
-<span class="sd">        as argument to model_interpolation. The routine should only take as </span>
-<span class="sd">        inputs grid parameters, and returns as output: both the wavelengths and </span>
-<span class="sd">        model values as a 2D numpy array.</span>
-<span class="sd">        This example assumes the model is in a fits file, that is already a 2D</span>
-<span class="sd">        numpy array, where the first column is the wavelength, and 2nd column </span>
-<span class="sd">        is the corresponding model values.&#39;&#39;&#39;</span>
-<span class="sd">        </span>
-<span class="sd">        model = open_fits(filename.format(params[0],params[1]))</span>
-
-<span class="sd">        return model       </span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
