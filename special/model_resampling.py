@@ -686,7 +686,7 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
             if np.isscalar(instru_res[-1]) and not isinstance(instru_res[-1], str):
                 lbda_instru = lbda_obs[np.where(instru_idx==np.amax(instru_idx))]
                 instru_fwhm = np.mean(lbda_instru)/instru_res[-1]
-                lbda_min = lbda_obs[-1]+3*instru_fwhm
+                lbda_max = lbda_obs[-1]+3*instru_fwhm
                 
         if no_constraint:
             idx_ini = find_nearest(lbda_mod, lbda_min)
