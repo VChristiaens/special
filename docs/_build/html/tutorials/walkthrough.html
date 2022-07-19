@@ -441,7 +441,7 @@ div.rendered_html tbody tr:hover {
 <hr class="docutils" />
 <p>Let’s start by importing a couple of useful packages. It is necessary to have both the <code class="docutils literal notranslate"><span class="pre">utils.py</span></code> file located in the same directory as this notebook, and the datasets in a folder at the same level as the parent directory to this notebook. This is the default if you download the GitHub repository and run the notebook from within your local copy of the repository, or if you use Binder.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">special</span>
@@ -450,7 +450,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -473,10 +473,10 @@ div.rendered_html tbody tr:hover {
 </section>
 <section id="1.-Loading-the-data">
 <h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline"></a></h1>
-<p>In the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">special_extras</span></code> repository you can find:</p>
+<p>The data used in this tutorial correspond to (i) the 2MASS J19005804-3645048 b/B (aka. CrA-9 b/B) spectrum acquired from VLT/SPHERE-IFS, VLT/SPHERE-IRDIS and VLT/NACO high-contrast imaging data, and (ii) the SPHERE-IFS PSF-subtracted datacube, presented in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a>. You can find them in the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">special_extras</span></code> repository:</p>
 <ul class="simple">
-<li><p>a post-processed Integral Field Spectrograph (IFS) datacube (<code class="docutils literal notranslate"><span class="pre">CrA-9_2019_IFS_pca_annulus.fits</span></code>);</p></li>
-<li><p>the measured spectrum of (sub)stellar companion CrA-9 b/B (<code class="docutils literal notranslate"><span class="pre">CrA-9b_spectrum.fits</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CrA-9_2019_IFS_pca_annulus.fits</span></code>: the post-processed Integral Field Spectrograph (IFS) datacube on CrA-9, where the stellar halo and speckles have been modeled by principal component analysis (PCA; <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2012MNRAS.427..948A/abstract">Amara &amp; Quanz 2012</a>) and removed in each of the 39 spectral channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CrA-9b_spectrum.fits</span></code>: the measured spectrum of (sub)stellar companion CrA-9 b/B, as derived using the negative fake companion technique (<a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2017A%26A...598A..83W/abstract">Wertz et al. 2017</a>; i.e. finding the negative flux that minimizes the absolute residuals at the location of the companion) in each IFS spectral channel and in each broad-band filter image obtained with IRDIS and NACO;</p></li>
 </ul>
 <p>Let’s define our input path:</p>
 <div class="nbinput nblast docutils container">
