@@ -459,7 +459,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -475,12 +475,12 @@ div.rendered_html tbody tr:hover {
 <h1>1. Loading the data<a class="headerlink" href="#1.-Loading-the-data" title="Permalink to this headline"></a></h1>
 <p>The data used in this tutorial correspond to (i) the 2MASS J19005804-3645048 b/B (aka. CrA-9 b/B) spectrum acquired from VLT/SPHERE-IFS, VLT/SPHERE-IRDIS and VLT/NACO high-contrast imaging data, and (ii) the SPHERE-IFS PSF-subtracted datacube, presented in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a>. You can find them in the ‘dataset’ folder of the <code class="docutils literal notranslate"><span class="pre">special_extras</span></code> repository:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">CrA-9_2019_IFS_pca_annulus.fits</span></code>: the post-processed Integral Field Spectrograph (IFS) datacube on CrA-9, where the stellar halo and speckles have been modeled by principal component analysis (PCA; <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2012MNRAS.427..948A/abstract">Amara &amp; Quanz 2012</a>) and removed in each of the 39 spectral channels.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CrA-9b_spectrum.fits</span></code>: the measured spectrum of (sub)stellar companion CrA-9 b/B, as derived using the negative fake companion technique (<a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2017A%26A...598A..83W/abstract">Wertz et al. 2017</a>; i.e. finding the negative flux that minimizes the absolute residuals at the location of the companion) in each IFS spectral channel and in each broad-band filter image obtained with IRDIS and NACO;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CrA-9_2019_IFS_pca_annulus.fits</span></code>: the post-processed Integral Field Spectrograph (IFS) datacube on CrA-9, where the stellar halo and speckles have been modeled by principal component analysis (PCA; <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2012MNRAS.427..948A/abstract">Amara &amp; Quanz 2012</a>) and removed in each of the 39 spectral channels.</p></li>
 </ul>
 <p>Let’s define our input path:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">par_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;__file__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
@@ -492,7 +492,7 @@ div.rendered_html tbody tr:hover {
 <p>In the post-processed IFS cube, the emission from the central star has been modeled and subtracted using the ADI strategy in each spectral channel. The post-processing was performed using principal component analysis (PCA) applied in a single annulus. The annulus was chosen to encompass the faint (sub)stellar companion CrA-9b/B, which can be seen towards the left of the images.</p>
 <p>Let’s first inspect the IFS cube using the <code class="docutils literal notranslate"><span class="pre">info_fits</span></code> utility implemented in the <code class="docutils literal notranslate"><span class="pre">fits</span></code> module:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.fits</span> <span class="kn">import</span> <span class="n">info_fits</span>
@@ -512,7 +512,7 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 </div>
 <p>The fits file contains an IFS datacube of 39 images with wavelengths spanning 0.95 to 1.68 <span class="math notranslate nohighlight">\(\mu\)</span>m. Each image is 291x291 px across. Let’s now open it and check a few spectral channels.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.fits</span> <span class="kn">import</span> <span class="n">open_fits</span>
@@ -529,7 +529,7 @@ Fits HDU-0 data successfully loaded. Data shape: (39, 291, 291)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.config</span> <span class="kn">import</span> <span class="n">figsize</span>
@@ -541,12 +541,12 @@ Fits HDU-0 data successfully loaded. Data shape: (39, 291, 291)
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x7f989bb4ed00&gt;
+&lt;matplotlib.image.AxesImage at 0x7fb790142e20&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -558,7 +558,7 @@ Fits HDU-0 data successfully loaded. Data shape: (39, 291, 291)
 </div>
 <p>A point source can be seen towards the left of the image. This is CrA-9 b/B, a faint companion to the pre-main sequence star CrA-9, whose nature is still debated (Christiaens et al. 2021). In addition to this IFS datacube obtained with VLT instrument SPHERE/IFS, three additional detections of the companion were obtained with VLT imagers SPHERE/IRDIS at 2.11 <span class="math notranslate nohighlight">\(\mu\)</span>m and 2.25<span class="math notranslate nohighlight">\(\mu\)</span>m, and NACO at 3.8 <span class="math notranslate nohighlight">\(\mu\)</span>m. The full measured spectrum contains thus 42 points:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info_fits</span><span class="p">(</span><span class="n">datpath</span><span class="o">+</span><span class="s1">&#39;CrA-9b_spectrum.fits&#39;</span><span class="p">)</span>
@@ -583,7 +583,7 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 <li><p>the error on the flux.</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum_b</span> <span class="o">=</span> <span class="n">open_fits</span><span class="p">(</span><span class="n">datpath</span><span class="o">+</span><span class="s1">&#39;CrA-9b_spectrum.fits&#39;</span><span class="p">)</span>
@@ -605,7 +605,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 <p>The flux units follow the SI convention (W m<span class="math notranslate nohighlight">\(^{-2} \mu\)</span>m<span class="math notranslate nohighlight">\(^{-1}\)</span>). Let’s set it for later. Note that <code class="docutils literal notranslate"><span class="pre">special</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if units are provided for observed and model spectra. If not specified, <code class="docutils literal notranslate"><span class="pre">special</span></code> assumes SI units.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">units_obs</span> <span class="o">=</span> <span class="s1">&#39;si&#39;</span>
@@ -614,7 +614,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 <p>Let’s visualize the measured spectrum in <span class="math notranslate nohighlight">\(\lambda F_{\lambda}\)</span> units:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
@@ -631,12 +631,12 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f98a9904be0&gt;
+&lt;matplotlib.legend.Legend at 0x7fb7d1934dc0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -656,7 +656,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 of best-fit model parameters (see e.g. <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt 2016</a>).</p>
 <p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">special</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt (2016)</a>. For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_i</span> <span class="o">=</span> <span class="mi">35</span>
@@ -677,7 +677,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Based on the above inset, we can set the approximate coordinates of the companion, and infer its radial separation:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl_xy</span> <span class="o">=</span> <span class="p">((</span><span class="n">x_i</span><span class="o">+</span><span class="mi">17</span><span class="p">,</span><span class="n">y_i</span><span class="o">+</span><span class="mi">11</span><span class="p">),)</span> <span class="c1"># set pl_xy as a tuple of 2-element tuples - each tuple corresponds to a different companion</span>
@@ -690,7 +690,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -700,7 +700,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>The spectral correlation depends on the radial separation to the central star. The algorithm implemented in <code class="docutils literal notranslate"><span class="pre">special</span></code> can therefore compute it in concentric annuli between given inner and outer radii (by default spanning the whole field). Here since we are only interested in the spectral correlation at the radial separation of the companion, let’s set the annular width, inner and outer radii such that they only encompass the companion radial separation:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">awidth</span><span class="o">=</span><span class="mi">2</span>
@@ -711,7 +711,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Furthermore, we mask the area around the companion to not bias the spectral correlation estimate with companion flux. We set the mask radius to be 4 times the FWHM, with a FWHM set to 4px:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask_r</span><span class="o">=</span><span class="mi">4</span>
@@ -721,7 +721,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Now, we can estimate the spectral correlation at the radial separation of CrA-9b/B:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[109]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_corr</span> <span class="kn">import</span> <span class="n">spectral_correlation</span>
@@ -733,7 +733,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Let’s visualize it:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sp_corr</span><span class="p">)</span>
@@ -757,7 +757,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <p>Since our full spectrum of CrA-9b/B also contains photometric points measured by SPHERE/IRDIS (2) and NACO (1), we need to pad the IFS spectral correlation matrix with 3 additional rows and columns of zeroes + ones on the diagonal, in order to get the final spectral correlation matrix.</p>
 <p>This can easily be done with the <code class="docutils literal notranslate"><span class="pre">combine_spec_corrs</span></code> routine:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_corr</span> <span class="kn">import</span> <span class="n">combine_spec_corrs</span>
@@ -772,7 +772,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Let’s visualize the final matrix:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">final_sp_corr</span><span class="p">)</span>
@@ -790,7 +790,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Uncomment the lines in the following box if you wish to save the final spectral correlation matrix in fits format.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from special.fits import write_fits</span>
@@ -808,7 +808,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <h2>3.1 Dereddening<a class="headerlink" href="#3.1-Dereddening" title="Permalink to this headline"></a></h2>
 <p>Provided a given <span class="math notranslate nohighlight">\(A_V\)</span> extinction value, the <code class="docutils literal notranslate"><span class="pre">extinction</span></code> routine can estimate the corresponding extinction factor at different wavelengths following the <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1989ApJ...345..245C/abstract">Cardelli et al. (1989)</a> law, and for a desired <span class="math notranslate nohighlight">\(R_V\)</span> value. Let’s consider the standard ISM value of <span class="math notranslate nohighlight">\(R_V = 3.1\)</span> mag (default if not provided).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.utils_spec</span> <span class="kn">import</span> <span class="n">extinction</span>
@@ -820,7 +820,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Let’s plot the extinction factor as a function of wavelength:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">extinc_fac</span><span class="p">)</span>
@@ -830,7 +830,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -848,7 +848,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 <p>We see that as expected the effect of extinction is stronger at shorter NIR wavelengths: at 1.0 <span class="math notranslate nohighlight">\(\mu\)</span>m roughly only half of the flux is transmitted, while at <span class="math notranslate nohighlight">\(L'\)</span> band (3.8 <span class="math notranslate nohighlight">\(\mu\)</span>m) <span class="math notranslate nohighlight">\(\sim\)</span> 93% of the flux is transmitted.</p>
 <p>Let’s now deredden the spectrum accordingly and plot it:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[116]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spec_dered</span> <span class="o">=</span> <span class="n">spec</span><span class="o">/</span><span class="n">extinc_fac</span>
@@ -864,12 +864,12 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[116]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f98587b7fd0&gt;
+&lt;matplotlib.legend.Legend at 0x7fb78038f4c0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -885,7 +885,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 <p>(Sub)stellar objects of M, L and T types have been extensively studied. Some empirical spectral indices have been proposed to estimate either their spectral type or their gravity type from the measured flux in two parts of their spectrum. Some of these spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code> (additional inputs are welcome). An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
 <p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2007ApJ...657..511A/abstract">Allers et al. (2007)</a> and references therein.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">spectral_idx</span>
@@ -916,7 +916,7 @@ Na index: 1.011+-0.004
 </div>
 <p>The H<span class="math notranslate nohighlight">\(_2\)</span>O index can then be converted to an estimated spectral type:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[118]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_spt</span><span class="p">,</span> <span class="n">digit_to_spt</span>
@@ -937,7 +937,7 @@ SpT: M5.1+-0.8
 </div>
 <p>The Na index on the other hand can be used to provide a qualitative estimate on the gravity (hence the youth) of an object:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[119]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_gravity</span>
@@ -965,7 +965,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 <h2>4.1. Parameters<a class="headerlink" href="#4.1.-Parameters" title="Permalink to this headline"></a></h2>
 <p>Let’s first define the distance to the system, which will be used to scale the models (along with the companion radius):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[120]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_st</span> <span class="o">=</span> <span class="mf">153.</span> <span class="c1">#pc based on Gaia</span>
@@ -974,7 +974,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>The internal workings of <code class="docutils literal notranslate"><span class="pre">special</span></code> allow for the convolution with the spectral PSF of an IFS, or the integration over a filter transmission curve (in the case of photometric points). For these options to be considered, let’s provide the average resolving power of the IFS in YJH mode (34.5), and the name of the filenames where the filter transmission curves are encoded.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[121]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instru_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">34.5</span><span class="p">,</span> <span class="s1">&#39;SPHERE_IRDIS_D_K1.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;SPHERE_IRDIS_D_K2.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;CONICA_L_prime.dat&#39;</span><span class="p">]</span>
@@ -983,7 +983,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Now let’s assign an index to each instrument and build a list that will tell the algorithm which <code class="docutils literal notranslate"><span class="pre">instru_res</span></code> values are to be assigned to which datapoints.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[122]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_ifs</span><span class="o">=</span><span class="mi">39</span>
@@ -993,7 +993,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>In addition, we define a snippet function that can read the filter transmissions mentioned in the list. For convenience (and to allow for multiprocessing), it is defined in <code class="docutils literal notranslate"><span class="pre">utils.py</span></code>, and commented below FYI.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[123]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">filter_reader</span>
@@ -1053,7 +1053,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s assemble all parameters related to the instrument(s) and filter(s) into a dictionary, including as well the spectral correlation calculated in Sec. 2:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[124]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instru_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;instru_res&#39;</span><span class="p">:</span><span class="n">instru_res</span><span class="p">,</span>
@@ -1065,7 +1065,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">special</span></code> was implemented with directly imaged substellar objects in mind. Radii and masses therefore implicitly assume Jovian units. If you prefer Solar radii for your outputs, set <code class="docutils literal notranslate"><span class="pre">star</span></code> to True in the following box:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[125]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">c</span>
@@ -1079,7 +1079,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s set the MCMC parameters identically for all runs shown in the next subsections (see more details in <code class="docutils literal notranslate"><span class="pre">emcee</span></code> <a class="reference external" href="https://emcee.readthedocs.io/en/stable/index.html">documentation</a>):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[126]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="mf">2.0</span>
@@ -1098,7 +1098,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Similarly, we adopt the autocorrelation time criterion for convergence for all MCMC runs (see more details <a class="reference external" href="https://emcee.readthedocs.io/en/stable/tutorials/autocorr/">here</a>):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[127]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conv_test</span><span class="o">=</span><span class="s1">&#39;ac&#39;</span>
@@ -1117,7 +1117,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 <h2>4.2. Blackbody model<a class="headerlink" href="#4.2.-Blackbody-model" title="Permalink to this headline"></a></h2>
 <p>This model does not involve any grid:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[128]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_list</span><span class="o">=</span><span class="kc">None</span> <span class="c1"># triggers a blackbody fit</span>
@@ -1126,7 +1126,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">special</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[129]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Tbb1&#39;</span><span class="p">,</span> <span class="s1">&#39;Rbb1&#39;</span><span class="p">)</span>
@@ -1138,7 +1138,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[130]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ini_guess</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3200.</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span> <span class="c1">#K and R_Jup</span>
@@ -1149,7 +1149,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Again, let’s collate all model-related parameters into a dictionary:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[131]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;grid_param_list&#39;</span><span class="p">:</span><span class="n">grid_list</span><span class="p">,</span>
@@ -1161,7 +1161,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Now let’s run the MCMC sampler (<strong>Warning: the next cell may take a few minutes to complete</strong>):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[132]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">mcmc_spec_sampling</span>
@@ -1173,7 +1173,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s convert the sampled radii into Solar radii (if requested):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[133]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_chain</span><span class="p">,</span> <span class="n">ln_proba</span> <span class="o">=</span> <span class="n">res</span>
@@ -1189,7 +1189,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s inspect the walk plot:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[134]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_walk_plot</span>
@@ -1208,7 +1208,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Based on the walk plot, let’s define a conservative burnin factor of 0.3 and apply it to the chain:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">burnin</span><span class="o">=</span><span class="mf">0.3</span>
@@ -1216,7 +1216,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[136]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">final_chain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">burnin</span><span class="p">))</span>
@@ -1228,7 +1228,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s compute the 68.27% confidence intervals on the posterior distribution, after burnin:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[137]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">confidence</span>
@@ -1246,18 +1246,18 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Tbb1: 69.36571428571426%
-percentage for Rbb1: 69.57428571428571%
+percentage for Tbb1: 70.27142857142857%
+percentage for Rbb1: 68.54000000000003%
 ******* Results for Tbb1 *****
 
 
 Confidence intervals:
-Tbb1: 2537.4095442514877 [-13.642428996510716,19.099400595114275]
+Tbb1: 2536.43017508591 [-12.77910418499414,20.081449433561374]
 ******* Results for Rbb1 *****
 
 
 Confidence intervals:
-Rbb1: 0.7575394807381471 [-0.006408381821305875,0.01315404689636468]
+Rbb1: 0.7615634111575685 [-0.010784571507789664,0.008553280851005707]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1270,7 +1270,7 @@ Rbb1: 0.7575394807381471 [-0.006408381821305875,0.01315404689636468]
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Let’s define the most likely parameters along with their uncertainties in a numpy array:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[138]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">npar</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
@@ -1289,7 +1289,7 @@ Rbb1: 0.7575394807381471 [-0.006408381821305875,0.01315404689636468]
 <li><p>number of bins to consider for the corner plot histograms.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[139]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ndig</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># should have same length as labels</span>
@@ -1302,7 +1302,7 @@ Rbb1: 0.7575394807381471 [-0.006408381821305875,0.01315404689636468]
 </div>
 <p>If you wish to save the corner plot in pdf format, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value to <code class="docutils literal notranslate"><span class="pre">plot_name</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[140]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_corner_plot</span>
@@ -1325,7 +1325,7 @@ Rbb1: 0.7575394807381471 [-0.006408381821305875,0.01315404689636468]
 <p>As expected, the 2 parameters are highly dependent on each other. With only 2 parameters, we also note that the estimated uncertainties on each parameter are very small. As we will see, with a more realistic model including more parameters, the uncertainties on each parameter get wider.</p>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[141]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># favoured model has highest likelihood</span>
@@ -1337,12 +1337,12 @@ Rbb1: 0.7575394807381471 [-0.006408381821305875,0.01315404689636468]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[141]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([2.53987622e+03, 7.61117642e-01])
+array([2.54004212e+03, 7.60988781e-01])
 </pre></div></div>
 </div>
 </section>
@@ -1351,7 +1351,7 @@ array([2.53987622e+03, 7.61117642e-01])
 <p>Let’s now consider a grid of BT-SETTL models. In addition, let’s also consider extinction as a free parameter, since for young objects it is possible that different amounts of dust surround the companion and the central star.</p>
 <p>In the case of BT-SETTL models, there are 2 free parameters in the grid: effective temperature and surface gravity. Let’s define the grid of parameter values covered by the models in our possession (in the <code class="docutils literal notranslate"><span class="pre">models/btsettl15/</span></code> directory).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[142]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">teff_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">4000</span><span class="p">,</span><span class="n">num</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -1362,7 +1362,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 <p>Let’s now define a snippet function that can read the input files of the grid, and provide as output a tuple of 2 vectors (1d arrays) for the wavelength and flux (in SI units, at the surface of the object). For convenience (and to allow for multiprocessing), it is defined in <code class="docutils literal notranslate"><span class="pre">utils.py</span></code>, and commented below FYI.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[143]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">bts_reader</span>
@@ -1403,7 +1403,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 <p>Since the snippet function already performs the conversion to SI flux units (W m<span class="math notranslate nohighlight">\(^{-2} \mu\)</span>m<span class="math notranslate nohighlight">\(^{-1}\)</span>), we will set the model units to ‘si’. Note that ‘cgs’ units or ‘jy’ are also accepted - the conversion to match the observed flux would then be made internally.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[144]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">units_mod</span> <span class="o">=</span> <span class="s1">&#39;si&#39;</span>
@@ -1412,7 +1412,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 <p>Considering the extinction <code class="docutils literal notranslate"><span class="pre">A_V</span></code> and photometric radius <code class="docutils literal notranslate"><span class="pre">R</span></code> (in Jovian radii) as free parameters, we have a total of 4 free parameters, including 2 captured by the grid: the temperature and surface gravity.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[145]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Teff&#39;</span><span class="p">,</span> <span class="s1">&#39;logg&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;Av&#39;</span><span class="p">)</span>
@@ -1424,7 +1424,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 <p>Set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[146]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ini_guess</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3100.</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">)</span>
@@ -1436,7 +1436,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[147]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;grid_param_list&#39;</span><span class="p">:</span><span class="n">grid_list</span><span class="p">,</span>
@@ -1450,7 +1450,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 <p>In order for the MCMC sampler to run faster, all models of the grid are first resampled (at the same sampling as the measured spectrum), such that only light spectra files are opened and interpolated during the sampling. To do so, set <code class="docutils literal notranslate"><span class="pre">resamp_before=True</span></code> and provide a path and name where the resampled grid will be saved:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[148]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_name</span> <span class="o">=</span> <span class="s1">&#39;bts_resamp_grid.fits&#39;</span>
@@ -1463,7 +1463,7 @@ array([2.53987622e+03, 7.61117642e-01])
 <p><strong>Important</strong>: if a file named <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>+<code class="docutils literal notranslate"><span class="pre">grid_name</span></code> already exists it will be used, instead of creating a new resampled grid (this is to save time when a given MCMC sampling is performed multiple times with different options). Make sure to change either <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">grid_name</span></code> when considering different models or a different range of parameter values in the grid (i.e. differente <code class="docutils literal notranslate"><span class="pre">grid_list</span></code>).</p>
 <p>We also set a filename where the MCMC results will be written as a pickle, such that they can be accessed without having to run again the MCMC.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[149]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;MCMC_results&#39;</span> <span class="c1"># also written in output_dir</span>
@@ -1477,7 +1477,7 @@ array([2.53987622e+03, 7.61117642e-01])
 </div>
 <p>Now let’s run the MCMC sampler (<strong>Warning: the next cell may take a few minutes to complete</strong>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[150]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">mcmc_spec_sampling</span>
@@ -1497,7 +1497,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[151]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_chain</span><span class="p">,</span> <span class="n">ln_proba</span> <span class="o">=</span> <span class="n">res</span>
@@ -1513,7 +1513,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <p>Let’s inspect the walk plot:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[152]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_walk_plot</span>
@@ -1532,7 +1532,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Based on the walk plot, let’s define a conservative burnin factor of 0.3 and apply it to the chain:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[153]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">burnin</span><span class="o">=</span><span class="mf">0.3</span>
@@ -1540,7 +1540,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[154]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">final_chain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">burnin</span><span class="p">))</span>
@@ -1552,7 +1552,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <p>Let’s compute the 68.27% confidence intervals on the posterior distribution, after burnin:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[155]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">confidence</span>
@@ -1570,30 +1570,30 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 69.56857142857142%
-percentage for logg: 69.94%
-percentage for R: 68.96571428571427%
-percentage for Av: 68.59142857142858%
+percentage for Teff: 69.18857142857142%
+percentage for logg: 70.00857142857143%
+percentage for R: 69.56%
+percentage for Av: 68.75714285714288%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3263.2311946220407 [-58.98778137314275,48.262730214389194]
+Teff: 3261.5692922443613 [-46.39064914946903,50.10190108142751]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.553451564455445 [-0.10239148661690489,0.27987006341954146]
+logg: 4.515598235288118 [-0.08176732453744506,0.3047691187304755]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5261767638614286 [-0.008244771398764006,0.016055607460750854]
+R: 0.5283987520569069 [-0.013171388846213938,0.011471854801541004]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.8177549549796783 [-0.08015126421024221,0.09297546648388089]
+Av: 1.8280223635054529 [-0.10269982351889606,0.06294505312448506]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1606,7 +1606,7 @@ Av: 1.8177549549796783 [-0.08015126421024221,0.09297546648388089]
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Let’s define the most likely parameters along with their uncertainties in a numpy array:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[156]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">npar</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
@@ -1625,7 +1625,7 @@ Av: 1.8177549549796783 [-0.08015126421024221,0.09297546648388089]
 <li><p>number of bins to consider for the corner plot histograms.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[157]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ndig</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># should have same length as labels</span>
@@ -1638,7 +1638,7 @@ Av: 1.8177549549796783 [-0.08015126421024221,0.09297546648388089]
 </div>
 <p>If you wish to save the corner plot in pdf format, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value to <code class="docutils literal notranslate"><span class="pre">plot_name</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[158]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_corner_plot</span>
@@ -1660,7 +1660,7 @@ Av: 1.8177549549796783 [-0.08015126421024221,0.09297546648388089]
 </div>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[159]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># favoured model has highest likelihood</span>
@@ -1672,12 +1672,12 @@ Av: 1.8177549549796783 [-0.08015126421024221,0.09297546648388089]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[159]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
+array([3.27272866e+03, 4.52716296e+00, 5.24595077e-01, 1.78463778e+00])
 </pre></div></div>
 </div>
 <p>The results above are puzzling: a ~3000 K effective temperature combined with a ~0.5 <span class="math notranslate nohighlight">\(R_J\)</span> photometric radius. See <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a> for a discussion on the different hypotheses put forward to reconcile these results.</p>
@@ -1689,7 +1689,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 <p>Note that a single extra BB component is considered here, but <code class="docutils literal notranslate"><span class="pre">special</span></code> does not limit the number of components you wish to incorporate in the model (just add the desired number of parameters ‘Tbb<em>n</em>’ and ‘Rbb<em>n</em>’, where <em>n</em>&gt;0).</p>
 <p>This time, we have a total of 8 free parameters, with again only 2 captured by the BT-SETTL grid:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[160]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Teff&#39;</span><span class="p">,</span> <span class="s1">&#39;logg&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;Av&#39;</span><span class="p">,</span> <span class="s1">&#39;Tbb1&#39;</span><span class="p">,</span> <span class="s1">&#39;Rbb1&#39;</span><span class="p">)</span>
@@ -1704,7 +1704,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>Set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[161]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ini_guess</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3100.</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1719,7 +1719,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>Let’s set Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(T_{bb1}\)</span> in a dictionary. By default, uniform priors are considered for parameters not mentioned in this dictionary. Be sure to use the same dictionary labels as for parameter <code class="docutils literal notranslate"><span class="pre">labels</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[162]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">priors</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;logg&#39;</span><span class="p">:(</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
@@ -1729,7 +1729,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>When including a blackbody component, you can ensure that the sampled solutions are physical (e.g. the BB temperatures must systematically be lower temperature than the photosphere effective temperature - assuming it comes from surrounding heated dust):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[163]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">physical</span><span class="o">=</span><span class="kc">True</span>
@@ -1738,7 +1738,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>It is also possible to tell the model whether to apply the extinction before or after adding the blackbody component, depending on where the dust absorbing the companion signal is to be assumed with respect to the emitting dust. By default, we assume the latter (e.g. interstellar dust).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[164]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">AV_bef_bb</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1747,7 +1747,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>Let’s compile all model-related parameters defined above into a dictionary:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[165]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;grid_param_list&#39;</span><span class="p">:</span><span class="n">grid_list</span><span class="p">,</span>
@@ -1764,7 +1764,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>In order for the MCMC sampler to run faster, all models of the grid are first resampled (at the same sampling as the measured spectrum), such that only light spectra files are opened and interpolated during the sampling. To do so, set <code class="docutils literal notranslate"><span class="pre">resamp_before=True</span></code> and provide a path and name where the resampled grid will be saved:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[166]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_name</span> <span class="o">=</span> <span class="s1">&#39;bts_bb_resamp_grid.fits&#39;</span>
@@ -1777,7 +1777,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 <p><strong>Important</strong>: if a file named <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>+<code class="docutils literal notranslate"><span class="pre">grid_name</span></code> already exists it will be used, instead of creating a new resmpled grid (this is to save time when a given MCMC sampling is performed multiple times with different options). Make sure to change either <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">grid_name</span></code> when considering different models or a different range of parameter values in the grid (i.e. different <code class="docutils literal notranslate"><span class="pre">grid_list</span></code>).</p>
 <p>We also set a filename where the MCMC results will be written as a pickle, such that they can be accessed without having to run again the MCMC.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[167]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;MCMC_results_bb&#39;</span> <span class="c1"># also written in output_dir</span>
@@ -1791,7 +1791,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>Finally, given the larger number of parameters, let’s increase the number of iterations and walkers:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[168]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="mf">2.0</span>
@@ -1810,7 +1810,7 @@ array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00])
 </div>
 <p>Now let’s run the MCMC sampler (<strong>Warning: the next cell may take a few minutes to complete</strong>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[169]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">mcmc_spec_sampling</span>
@@ -1829,7 +1829,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[170]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_chain</span><span class="p">,</span> <span class="n">ln_proba</span> <span class="o">=</span> <span class="n">res</span>
@@ -1845,7 +1845,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <p>Let’s inspect the walk plot:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[171]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_walk_plot</span>
@@ -1864,7 +1864,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Based on the walk plot, let’s define a conservative burnin factor of 0.5 and apply it to the chain:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[172]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">burnin</span><span class="o">=</span><span class="mf">0.5</span>
@@ -1872,7 +1872,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[173]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">final_chain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">burnin</span><span class="p">))</span>
@@ -1883,7 +1883,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <p>Let’s compute the 68.27% confidence intervals on the posterior distribution, after burnin:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[174]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">confidence</span>
@@ -1901,42 +1901,42 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 68.32%
-percentage for logg: 69.03099999999999%
-percentage for R: 70.01899999999999%
-percentage for Av: 69.05799999999999%
-percentage for Tbb1: 70.185%
-percentage for Rbb1: 70.943%
+percentage for Teff: 69.254%
+percentage for logg: 68.67799999999998%
+percentage for R: 69.382%
+percentage for Av: 70.12299999999998%
+percentage for Tbb1: 69.47099999999999%
+percentage for Rbb1: 68.87899999999999%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3167.6814172073605 [-28.584853979128184,65.5770179521187]
+Teff: 3168.936495707573 [-37.267002151593715,66.43248209631884]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.080443820532153 [-0.09551428945956575,0.12873665101071996]
+logg: 4.0801046263701375 [-0.08427070461439001,0.11975310655729032]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.4718364218996271 [-0.019106993818974405,0.008684997190442911]
+R: 0.4659713837835686 [-0.013722009826333481,0.01491522807210166]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 0.9338809893432811 [-0.11933606292438159,0.1534320809027765]
+Av: 0.9255878067584334 [-0.10543569408048747,0.16745669059842105]
 ******* Results for Tbb1 *****
 
 
 Confidence intervals:
-Tbb1: 1621.0076232621839 [-140.30327562386265,109.12476992967072]
+Tbb1: 1627.5059817896122 [-131.982889343622,100.3069959011525]
 ******* Results for Rbb1 *****
 
 
 Confidence intervals:
-Rbb1: 0.8473939062091825 [-0.12856892885980897,0.09183494918557789]
+Rbb1: 0.8380663688417916 [-0.10580649255784624,0.093358669903982]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1949,7 +1949,7 @@ Rbb1: 0.8473939062091825 [-0.12856892885980897,0.09183494918557789]
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Let’s define the most likely parameters along with their uncertainties in a numpy array:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[175]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">npar</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
@@ -1968,7 +1968,7 @@ Rbb1: 0.8473939062091825 [-0.12856892885980897,0.09183494918557789]
 <li><p>number of bins to consider for the corner plot histograms.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[176]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ndig</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># should have same length as labels</span>
@@ -1981,7 +1981,7 @@ Rbb1: 0.8473939062091825 [-0.12856892885980897,0.09183494918557789]
 </div>
 <p>If you wish to save the corner plot in pdf format, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value to <code class="docutils literal notranslate"><span class="pre">plot_name</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[177]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_corner_plot</span>
@@ -2003,7 +2003,7 @@ Rbb1: 0.8473939062091825 [-0.12856892885980897,0.09183494918557789]
 </div>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[178]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># favoured model has highest likelihood</span>
@@ -2015,13 +2015,13 @@ Rbb1: 0.8473939062091825 [-0.12856892885980897,0.09183494918557789]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[178]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
-       1.67283095e+03, 8.15557568e-01])
+array([3.15496827e+03, 4.03663715e+00, 4.59722949e-01, 8.53110497e-01,
+       1.68323621e+03, 8.05661488e-01])
 </pre></div></div>
 </div>
 </section>
@@ -2030,7 +2030,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 <p>In order to further showcase the possibilities available in <code class="docutils literal notranslate"><span class="pre">special</span></code>, let’s now consider a BT-SETTL + Brackett Gamma line model for the spectrum. Let’s also consider <span class="math notranslate nohighlight">\(R_V\)</span> as a free parameter, and finally consider Gaussian priors for log(<span class="math notranslate nohighlight">\(g\)</span>) and <span class="math notranslate nohighlight">\(R_V\)</span>: <span class="math notranslate nohighlight">\(\mu_{\mathrm{log}(g)}=3.5\)</span>, <span class="math notranslate nohighlight">\(\sigma_{\mathrm{log}(g)} = 0.2\)</span> and <span class="math notranslate nohighlight">\(\mu_{R_V}=3.1\)</span>, <span class="math notranslate nohighlight">\(\sigma_{R_V} = 0.2\)</span>.</p>
 <p>This time, we have a total of 6 free parameters, including 2 captured by the BT-SETTL grid:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[179]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Teff&#39;</span><span class="p">,</span> <span class="s1">&#39;logg&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;Av&#39;</span><span class="p">,</span> <span class="s1">&#39;Rv&#39;</span><span class="p">,</span> <span class="s1">&#39;BrG&#39;</span><span class="p">)</span>
@@ -2045,7 +2045,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>We first provide an estimate for the possible BrG flux:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[180]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">astropy.constants</span> <span class="k">as</span> <span class="nn">con</span>
@@ -2057,7 +2057,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>We then convert it into log Solar luminosity by setting the <code class="docutils literal notranslate"><span class="pre">input_unit</span></code> to ‘LogL’. Other formats are accepted, such as flux ‘F’ in SI units, or Solar luminosity ‘L’.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[181]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">input_unit</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">:</span>
@@ -2087,7 +2087,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>Let’s set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[182]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define list of BrG line luminosities</span>
@@ -2107,7 +2107,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>Then provide details for each of the line(s), and add an entry in the <code class="docutils literal notranslate"><span class="pre">em_lines</span></code> and <code class="docutils literal notranslate"><span class="pre">em_grid</span></code> dictionaries for each spectral line you’d like to include in the model. Lines can be included in the model without necessarily fitting for their flux with MCMC (e.g. for a known emission line luminosity to be included in the model):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[183]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">em_lines</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2120,7 +2120,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>Let’s set Gaussian priors for <span class="math notranslate nohighlight">\(R_V\)</span> in a dictionary. By default, uniform priors are considered for parameters not mentioned in this dictionary. Be sure to use the same dictionary labels as for parameter <code class="docutils literal notranslate"><span class="pre">labels</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[184]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[90]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">priors</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;logg&#39;</span><span class="p">:(</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
@@ -2130,7 +2130,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>Let’s compile all model-related parameters defined above into a dictionary:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[185]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[91]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;grid_param_list&#39;</span><span class="p">:</span><span class="n">grid_list</span><span class="p">,</span>
@@ -2147,7 +2147,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>In order for the MCMC sampler to run faster, all models of the grid are first resampled (at the same sampling as the measured spectrum), such that only light spectra files are opened and interpolated during the sampling. To do so, set <code class="docutils literal notranslate"><span class="pre">resamp_before=True</span></code> and provide a path and name where the resampled grid will be saved:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[187]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_name</span> <span class="o">=</span> <span class="s1">&#39;bts_BrG_resamp_grid.fits&#39;</span>
@@ -2160,7 +2160,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 <p><strong>Important</strong>: if a file named <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>+<code class="docutils literal notranslate"><span class="pre">grid_name</span></code> already exists it will be used, instead of creating a new resmpled grid (this is to save time when a given MCMC sampling is performed multiple times with different options). Make sure to change either <code class="docutils literal notranslate"><span class="pre">output_dir</span></code> or <code class="docutils literal notranslate"><span class="pre">grid_name</span></code> when considering different models or a different range of parameter values in the grid (i.e. different <code class="docutils literal notranslate"><span class="pre">grid_list</span></code>).</p>
 <p>We also set a filename where the MCMC results will be written as a pickle, such that they can be accessed without having to run again the MCMC.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[188]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;MCMC_results_BrG&#39;</span> <span class="c1"># also written in output_dir</span>
@@ -2174,7 +2174,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>Finally, given the larger number of parameters, we increase the number of iterations and walkers:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[189]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="mf">2.0</span>
@@ -2193,7 +2193,7 @@ array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
 </div>
 <p>Now let’s run the MCMC sampler (<strong>Warning: the next cell may take a few minutes to complete</strong>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[190]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">mcmc_spec_sampling</span>
@@ -2212,7 +2212,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[191]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_chain</span><span class="p">,</span> <span class="n">ln_proba</span> <span class="o">=</span> <span class="n">res</span>
@@ -2228,7 +2228,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 </div>
 <p>Let’s inspect the walk plot:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[192]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_walk_plot</span>
@@ -2247,7 +2247,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 <p>If you wish to save the walk plot in a pdf, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Based on the walk plot, let’s define a conservative burnin factor of 0.5 and apply it to the chain:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[193]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">burnin</span><span class="o">=</span><span class="mf">0.5</span>
@@ -2255,7 +2255,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[194]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutoff</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">final_chain</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">burnin</span><span class="p">))</span>
@@ -2266,7 +2266,7 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 </div>
 <p>Let’s compute the 68.27% confidence intervals on the posterior distribution, after burnin:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[195]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">confidence</span>
@@ -2282,42 +2282,42 @@ Fits HDU-0 data successfully loaded. Data shape: (21, 7, 23, 42, 2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-percentage for Teff: 69.03626666666666%
-percentage for logg: 70.53599999999997%
-percentage for R: 69.59680000000002%
-percentage for Av: 70.392%
-percentage for Rv: 70.07199999999999%
-percentage for BrG: 71.23733333333334%
+percentage for Teff: 69.86453333333334%
+percentage for logg: 68.38026666666666%
+percentage for R: 69.18560000000001%
+percentage for Av: 69.85759999999999%
+percentage for Rv: 68.73546666666667%
+percentage for BrG: 69.08213333333335%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3217.1453269938747 [-64.57293827678632,28.147178223214723]
+Teff: 3214.7509828668067 [-60.97434863201306,34.607062737088654]
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.1837408014104644 [-0.13314025217307535,0.11183781182538333]
+logg: 4.177281043939222 [-0.11970308395665352,0.1031923137557369]
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5213025049259865 [-0.01435639870698635,0.010651521621312332]
+R: 0.5186520751189583 [-0.0110903950305552,0.012864858235444032]
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.607696847130795 [-0.10430110855783359,0.10430110855783381]
+Av: 1.5779050589298471 [-0.07936032597506859,0.1378363556409088]
 ******* Results for Rv *****
 
 
 Confidence intervals:
-Rv: 3.0586807788836747 [-0.18029247220244038,0.23576707903395944]
+Rv: 3.0973610678202204 [-0.20355153690226713,0.20355153690226668]
 ******* Results for BrG *****
 
 
 Confidence intervals:
-BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
+BrG: -5.55671561256929 [-0.05579466590269977,0.0632339546897267]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2330,7 +2330,7 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 <p>If you wish to save the results in a text file, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value for the output directory (<code class="docutils literal notranslate"><span class="pre">output_dir</span></code>).</p>
 <p>Let’s define the most likely parameters along with their uncertainties in a numpy array:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[196]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">post_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">npar</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
@@ -2349,7 +2349,7 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 <li><p>number of bins to consider for the corner plot histograms.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[197]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ndig</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># should have same length as labels</span>
@@ -2362,7 +2362,7 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 </div>
 <p>If you wish to save the corner plot in pdf format, set <code class="docutils literal notranslate"><span class="pre">save=True</span></code> and provide a value to <code class="docutils literal notranslate"><span class="pre">plot_name</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[198]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.mcmc_sampling</span> <span class="kn">import</span> <span class="n">show_corner_plot</span>
@@ -2384,7 +2384,7 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 </div>
 <p>Compared to the results obtained without the inclusion of a potential BrG line (affecting the K1 photometry of the point source), we now get a lower value of log(g), more consistent with a young object. Nonetheless, the required BrG line luminosity is significant. This would likely imply the presence of more H recombination lines - which may or may not be present near ~1.09 and ~1.22 <span class="math notranslate nohighlight">\(\mu\)</span>m (see below).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[199]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
@@ -2397,12 +2397,12 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[199]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7f989bbce1f0&gt;
+&lt;matplotlib.legend.Legend at 0x7fb7d3751760&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2414,7 +2414,7 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 </div>
 <p>Let’s save the likelihood and parameter values of the most likely model for later (<a class="reference external" href="#5.2.-Best-fit-models">Sec. 5.2</a>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[200]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># favoured model has highest likelihood</span>
@@ -2426,13 +2426,13 @@ BrG: -5.547217994508396 [-0.07215461912444265,0.05517706168339842]
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[200]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
-        3.09995628e+00, -5.57407569e+00])
+array([ 3.21519208e+03,  4.18801773e+00,  5.16319938e-01,  1.60157058e+00,
+        3.09254766e+00, -5.56420293e+00])
 </pre></div></div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
@@ -2451,7 +2451,7 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 </ul>
 <p>For each type of model, we need the maximum likelihood model among all MCMC samples, and the number of free parameters.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[201]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nparam_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
@@ -2462,7 +2462,7 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[202]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.utils_spec</span> <span class="kn">import</span> <span class="n">akaike</span>
@@ -2473,17 +2473,17 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[202]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[107]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[297.15358587293144, 166.63272228437856, 138.73664406358012, 156.7310077359902]
+[297.15299370133073, 166.62414008735863, 138.575204762022, 156.67665677341705]
 </pre></div></div>
 </div>
 <p>Now let’s compute the <span class="math notranslate nohighlight">\(\Delta\)</span> AIC, i.e. the difference with the smallest AIC value obtained for the different models:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[203]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_aic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">aic_list</span><span class="p">)</span>
@@ -2494,12 +2494,12 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[203]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[108]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[158.41694180935133, 27.896078220798444, 0.0, 17.99436367241009]
+[158.57778893930873, 28.04893532533663, 0.0, 18.101452011395054]
 </pre></div></div>
 </div>
 <p>The values above suggest that the most likely types of model that we considered are the BT-SETTL alone, the BT-SETTL+BB and BT-SETTL+BrG line models.</p>
@@ -2510,7 +2510,7 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 <h2>5.2. Best-fit models<a class="headerlink" href="#5.2.-Best-fit-models" title="Permalink to this headline"></a></h2>
 <p>Let’s first assemble all the relevant parameters from the different models considered above in different lists:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[204]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[109]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lab_models</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BB&#39;</span><span class="p">,</span> <span class="s1">&#39;BT-SETTL&#39;</span><span class="p">,</span> <span class="s1">&#39;BT-SETTL + BB&#39;</span><span class="p">,</span> <span class="s1">&#39;BT-SETTL + BrG line&#39;</span><span class="p">]</span>
@@ -2537,7 +2537,7 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[205]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bf_params</span>
@@ -2545,23 +2545,23 @@ array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[205]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[110]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[array([2.53987622e+03, 7.61117642e-01]),
- array([3.26717352e+03, 4.53215582e+00, 5.25874604e-01, 1.78706639e+00]),
- array([3.16104168e+03, 4.00022323e+00, 4.58800454e-01, 8.47015063e-01,
-        1.67283095e+03, 8.15557568e-01]),
- array([ 3.21252238e+03,  4.19317211e+00,  5.17818713e-01,  1.60762634e+00,
-         3.09995628e+00, -5.57407569e+00])]
+[array([2.54004212e+03, 7.60988781e-01]),
+ array([3.27272866e+03, 4.52716296e+00, 5.24595077e-01, 1.78463778e+00]),
+ array([3.15496827e+03, 4.03663715e+00, 4.59722949e-01, 8.53110497e-01,
+        1.68323621e+03, 8.05661488e-01]),
+ array([ 3.21519208e+03,  4.18801773e+00,  5.16319938e-01,  1.60157058e+00,
+         3.09254766e+00, -5.56420293e+00])]
 </pre></div></div>
 </div>
 <p>Now for each type of model considered above, let’s now generate the spectrum corresponding to the most likely parameters inferred with the MCMC. By providing <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> to <code class="docutils literal notranslate"><span class="pre">make_model_from_params</span></code>, the returned model will be resampled to match the spectral resolution of the measured spectrum. If provided, the instrumental resolving power and/or photometric filter(s) will also be used. If <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> is left to None, the model is returned at the native resolution of the grid used as input.
 Let’s leverage this to have both high-res and resampled spectra.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[206]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[111]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.model_resampling</span> <span class="kn">import</span> <span class="n">make_model_from_params</span>
@@ -2604,7 +2604,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 <p>For models not based on a grid, <code class="docutils literal notranslate"><span class="pre">lbda_obs</span></code> is a mandatory parameter, hence the avoidance of the BB model for high-res models. Let’s use the output <code class="docutils literal notranslate"><span class="pre">lbda_model_hr</span></code> from BT-SETTL models, to add a high-res spectrum for the BB model as well.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[207]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[112]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lbda_model_hr</span><span class="p">,</span> <span class="n">flux_model_hr</span> <span class="o">=</span> <span class="n">make_model_from_params</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">bf_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
@@ -2624,7 +2624,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 <p>Now crop the model spectra to the same wavelength range as the measured spectrum:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[208]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[113]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.utils_spec</span> <span class="kn">import</span> <span class="n">find_nearest</span>
@@ -2643,7 +2643,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 <p>Now let’s plot the best-fit models at their native resolution (first panel) and after resampling (second panel):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[209]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[114]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
@@ -2721,7 +2721,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <h2>5.3. Models from the posterior distribution<a class="headerlink" href="#5.3.-Models-from-the-posterior-distribution" title="Permalink to this headline"></a></h2>
 <p>It can be useful to plot a large number of models randomly picked from the posterior distribution in order to have an idea of the uncertainty in different parts of the spectrum. Let’s consider 200 samples from the posterior distribution:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[210]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[115]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samp</span> <span class="o">=</span> <span class="mi">200</span>
@@ -2729,7 +2729,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[211]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[116]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -2783,7 +2783,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 <p>Now let’s plot the samples:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[212]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[117]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">24</span><span class="p">))</span>
@@ -2867,7 +2867,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <p>Other sampler-specific parameters (e.g. <code class="docutils literal notranslate"><span class="pre">decline_factor</span></code> and <code class="docutils literal notranslate"><span class="pre">rstate</span></code> for nestle, or <code class="docutils literal notranslate"><span class="pre">frac_remain</span></code> and <code class="docutils literal notranslate"><span class="pre">dKL</span></code> for UltraNest) can be provided as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>. The interested reader is referred to the documentation of <a class="reference external" href="https://johannesbuchner.github.io/UltraNest/index.html">UltraNest</a> and <a class="reference external" href="http://kylebarbary.com/nestle/">nestle</a> for details on how to appropriately set the values of the different parameters.</p>
 <p>Below we show three examples of nested sampler runs, using <code class="docutils literal notranslate"><span class="pre">nestle</span></code> and <code class="docutils literal notranslate"><span class="pre">ultranest</span></code>, with the BT-SETTL grid, considering A_V as a free parameter. Let’s first set the parameters as in <a class="reference external" href="#4.3.-BT-SETTL-model">Sec. 4.3</a>:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[213]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[118]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">bts_reader</span>
@@ -2907,7 +2907,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <h2>6.1. Nestle - single ellipsoid method<a class="headerlink" href="#6.1.-Nestle---single-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Now let’s set the parameters that are specific to the nested sampler:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[214]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[119]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampler</span><span class="o">=</span><span class="s1">&#39;nestle&#39;</span>
@@ -2918,7 +2918,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[215]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[120]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nested_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sampler&#39;</span><span class="p">:</span><span class="n">sampler</span><span class="p">,</span>
@@ -2930,7 +2930,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 </div>
 <p>Now let’s run the nested sampler. <strong>Warning: the next cell may take up to a few minutes to complete</strong> - reduce the number of active points for a faster calculation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[216]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[121]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.nested_sampling</span> <span class="kn">import</span> <span class="n">nested_spec_sampling</span>
@@ -2947,7 +2947,7 @@ Let’s leverage this to have both high-res and resampled spectra.</p>
 <div class="highlight"><pre>
 Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-06-25 15:05:26
+Starting time: 2022-07-19 21:27:28
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 Prior bounds on parameters:
 Teff [2000,4000]
@@ -2958,13 +2958,13 @@ Av [0.0,5]
 Using 1500 active points
 
 Total running time:
-Running time:  0:16:00.528058
+Running time:  0:07:27.211147
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 </pre></div></div>
 </div>
 <p>Now let’s plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[217]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[122]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.nested_sampling</span> <span class="kn">import</span> <span class="n">show_nestle_results</span>
@@ -2980,11 +2980,11 @@ Running time:  0:16:00.528058
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-niter: 25953
-ncall: 93550
-nsamples: 27453
-logz: -94.292 +/-  0.093
-h: 12.938
+niter: 25950
+ncall: 97229
+nsamples: 27450
+logz: -94.284 +/-  0.093
+h: 12.939
 
 Natural log of prior volume and Weight corresponding to each sample
 </pre></div></div>
@@ -3057,38 +3057,38 @@ Hist bins = 90
 <div class="highlight"><pre>
 
 Confidence intervals
-percentage for Teff: 69.2719978782505%
-percentage for logg: 68.72569650261191%
-percentage for R: 69.08959732738612%
-percentage for Av: 69.3733322264288%
+percentage for Teff: 68.6790236094111%
+percentage for logg: 69.10487288569335%
+percentage for R: 68.44545497081079%
+percentage for Av: 68.80433635677994%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3269.241160409604 [-47.9759455240619,50.56923987671371]
+Teff: 3255.2048800845087 [-32.49087707398621,58.483578733175364]
 Gaussian fit results:
-Teff: 3270.481347117445 +-37.42731338752293
+Teff: 3270.585203487759 +-37.107556974444066
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.494442332321805 [-0.06846366539112392,0.3107197121597185]
+logg: 4.510081671647883 [-0.07967390861213719,0.29213766491117177]
 Gaussian fit results:
-logg: 4.629127921963271 +-0.151336778584201
+logg: 4.631164708435556 +-0.15308836013684518
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5256162910802248 [-0.011054104977241352,0.014403833758223517]
+R: 0.5276287529819825 [-0.011849096659429792,0.01049491418406645]
 Gaussian fit results:
-R: 0.5268184391867224 +-0.009474531320086608
+R: 0.5268574253545723 +-0.009478138061505282
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.7964673777738958 [-0.07080639510504216,0.09703098588468761]
+Av: 1.8308786112937931 [-0.10375892600113201,0.06119116148784687]
 Gaussian fit results:
-Av: 1.8034235352725754 +-0.06900707392632269
+Av: 1.8051740105208116 +-0.06860620377010292
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -3100,7 +3100,7 @@ Av: 1.8034235352725754 +-0.06900707392632269
 </div>
 <p>The best-fit parameters, with uncertainty are:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[218]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[123]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
@@ -3126,7 +3126,7 @@ Av: 1.8+/-0.1 mag
 <h2>6.2. Nestle - multi-ellipsoid method<a class="headerlink" href="#6.2.-Nestle---multi-ellipsoid-method" title="Permalink to this headline"></a></h2>
 <p>Let’s adapt the method and number of active points:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[219]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[124]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampler</span><span class="o">=</span><span class="s1">&#39;nestle&#39;</span>
@@ -3137,7 +3137,7 @@ Av: 1.8+/-0.1 mag
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[220]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[125]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nested_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sampler&#39;</span><span class="p">:</span><span class="n">sampler</span><span class="p">,</span>
@@ -3149,7 +3149,7 @@ Av: 1.8+/-0.1 mag
 </div>
 <p>Now let’s run the nested sampler. <strong>Warning: the next cell may take up to a few minutes to complete</strong> - reduce the number of active points for a faster calculation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[221]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[126]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.nested_sampling</span> <span class="kn">import</span> <span class="n">nested_spec_sampling</span>
@@ -3166,7 +3166,7 @@ Av: 1.8+/-0.1 mag
 <div class="highlight"><pre>
 Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-06-25 15:21:29
+Starting time: 2022-07-19 21:34:58
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 Prior bounds on parameters:
 Teff [2000,4000]
@@ -3177,13 +3177,13 @@ Av [0.0,5]
 Using 2000 active points
 
 Total running time:
-Running time:  0:17:30.321990
+Running time:  0:08:38.857183
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 </pre></div></div>
 </div>
 <p>Now let’s plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[222]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[127]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.nested_sampling</span> <span class="kn">import</span> <span class="n">show_nestle_results</span>
@@ -3199,11 +3199,11 @@ Running time:  0:17:30.321990
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-niter: 31228
-ncall: 113745
-nsamples: 33228
-logz: -94.208 +/-  0.080
-h: 12.877
+niter: 31340
+ncall: 114175
+nsamples: 33340
+logz: -94.270 +/-  0.080
+h: 12.911
 
 Natural log of prior volume and Weight corresponding to each sample
 </pre></div></div>
@@ -3254,12 +3254,12 @@ Walk plots after the burnin
 <div class="highlight"><pre>
 
 Weighted mean +- sqrt(covariance)
-Teff = 3269 +/- 44
+Teff = 3270 +/- 44
 logg = 4.7 +/- 0.2
 R = 0.53 +/- 0.01
 Av = 1.8 +/- 0.1
 
-Hist bins = 99
+Hist bins = 100
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -3276,38 +3276,38 @@ Hist bins = 99
 <div class="highlight"><pre>
 
 Confidence intervals
-percentage for Teff: 69.54919805509982%
-percentage for logg: 69.59643122375994%
-percentage for R: 68.50340168884395%
-percentage for Av: 69.1888442972108%
+percentage for Teff: 69.89057892880491%
+percentage for logg: 69.93370589570154%
+percentage for R: 68.46940419701123%
+percentage for Av: 69.26545604168112%
 ******* Results for Teff *****
 
 
 Confidence intervals:
-Teff: 3247.51940782906 [-30.304192564534333,71.77308765284397]
+Teff: 3272.899299017645 [-51.81775211309923,48.67728228806254]
 Gaussian fit results:
-Teff: 3269.398954415175 +-50.40931656363725
+Teff: 3270.0609525307273 +-50.804364850437594
 ******* Results for logg *****
 
 
 Confidence intervals:
-logg: 4.535352368765836 [-0.11118875351586155,0.25508008159521367]
+logg: 4.506237720021102 [-0.08419608445418802,0.2914479846491096]
 Gaussian fit results:
-logg: 4.668533503318657 +-0.20352730484678627
+logg: 4.668571424193444 +-0.2038107083690245
 ******* Results for R *****
 
 
 Confidence intervals:
-R: 0.5236416523266828 [-0.009031986720229868,0.015315107916911819]
+R: 0.5288653159214967 [-0.013912224591151268,0.009400151750778019]
 Gaussian fit results:
-R: 0.5275983014556549 +-0.01258860107816698
+R: 0.5275071459160208 +-0.01254632831145272
 ******* Results for Av *****
 
 
 Confidence intervals:
-Av: 1.8118657890048067 [-0.08809046696108136,0.08809046696108114]
+Av: 1.8197973636032507 [-0.0948145226481445,0.07519772485887355]
 Gaussian fit results:
-Av: 1.8096366680822853 +-0.0930453034214668
+Av: 1.8095766177645412 +-0.09376126515824745
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -3323,7 +3323,7 @@ Av: 1.8096366680822853 +-0.0930453034214668
 <h2>6.3. UltraNest<a class="headerlink" href="#6.3.-UltraNest" title="Permalink to this headline"></a></h2>
 <p>Let’s adapt the sampler and number of active points:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[223]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[128]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampler</span><span class="o">=</span><span class="s1">&#39;ultranest&#39;</span>
@@ -3333,7 +3333,7 @@ Av: 1.8096366680822853 +-0.0930453034214668
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[224]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[129]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nested_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sampler&#39;</span><span class="p">:</span><span class="n">sampler</span><span class="p">,</span>
@@ -3345,7 +3345,7 @@ Av: 1.8096366680822853 +-0.0930453034214668
 </div>
 <p>Now let’s run the nested sampler. <strong>Warning: the next cell may take up to a few minutes to complete</strong> - reduce the number of active points for a faster calculation.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[225]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[130]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.nested_sampling</span> <span class="kn">import</span> <span class="n">nested_spec_sampling</span>
@@ -3362,7 +3362,7 @@ Av: 1.8096366680822853 +-0.0930453034214668
 <div class="highlight"><pre>
 Fits HDU-0 data successfully loaded. Data shape: (21, 7, 42, 2)
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-06-25 15:39:02
+Starting time: 2022-07-19 21:43:40
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 Prior bounds on parameters:
 Teff [2000,4000]
@@ -3378,7 +3378,7 @@ Using 1000 active points
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "650e6df0537c429da005f93c0ac19a5a", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "57da490ba6394c928fca53f7bbc13d56", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -3389,21 +3389,21 @@ Using 1000 active points
 [ultranest] Likelihood function evaluations: 49465
 [ultranest] Writing samples and results to disk ...
 [ultranest] Writing samples and results to disk ... done
-[ultranest]   logZ = -94.35 +- 0.1119
+[ultranest]   logZ = -94.34 +- 0.08423
 [ultranest] Effective samples strategy satisfied (ESS = 5363.6, need &gt;400)
-[ultranest] Posterior uncertainty strategy is satisfied (KL: 0.46+-0.06 nat, need &lt;0.50 nat)
-[ultranest] Evidency uncertainty strategy wants 998 minimum live points (dlogz from 0.09 to 0.27, need &lt;0.2)
-[ultranest]   logZ error budget: single: 0.11 bs:0.11 tail:0.01 total:0.11 required:&lt;0.20
+[ultranest] Posterior uncertainty strategy is satisfied (KL: 0.46+-0.05 nat, need &lt;0.50 nat)
+[ultranest] Evidency uncertainty strategy wants 998 minimum live points (dlogz from 0.06 to 0.28, need &lt;0.2)
+[ultranest]   logZ error budget: single: 0.11 bs:0.08 tail:0.01 total:0.08 required:&lt;0.20
 [ultranest] done iterating.
 
 Total running time:
-Running time:  0:00:24.761524
+Running time:  0:00:29.245532
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 </pre></div></div>
 </div>
 <p>Now let’s plot the results:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[226]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[131]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.nested_sampling</span> <span class="kn">import</span> <span class="n">show_ultranest_results</span>
@@ -3423,16 +3423,16 @@ Running time:  0:00:24.761524
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 
-logZ = -94.355 +- 0.274
+logZ = -94.355 +- 0.283
   single instance: logZ = -94.355 +- 0.114
-  bootstrapped   : logZ = -94.355 +- 0.274
+  bootstrapped   : logZ = -94.338 +- 0.283
   tail           : logZ = +- 0.010
 insert order U test : converged: True correlation: inf iterations
 
-    Teff                : 3067  │ ▁ ▁ ▁▁▁▁▁▂▂▃▄▅▆▇▇▇▇▆▅▅▃▃▂▁▁▁▁▁▁▁▁▁▁ ▁ │3499      3270 +- 44
-    logg                : 4.04  │ ▁▁▁▁▁▁▁▂▂▄▅▇▇▇▇▆▆▆▅▅▄▃▃▃▂▂▁▁▁▁▁▁▁▁▁▁▁ │5.48      4.66 +- 0.18
-    R                   : 0.479 │ ▁▁▁▁▁▁▁▁▁▁▂▂▃▄▅▆▆▇▇▇▇▆▅▅▄▃▃▂▂▁▁▁▁▁▁▁▁ │0.573     0.527 +- 0.011
-    Av                  : 1.331 │ ▁    ▁▁▁▁▁▁▁▁▁▂▂▃▄▅▆▇▇▇▇▇▅▄▃▂▂▁▁▁▁▁▁▁ │2.140     1.809 +- 0.083
+    Teff                : 3086  │ ▁ ▁▁▁▁▁▁▁▂▂▃▄▅▆▇▇▇▇▇▆▅▅▄▃▃▂▁▁▁▁▁▁▁▁▁▁ │3462      3270 +- 44
+    logg                : 3.89  │ ▁   ▁▁▁▁▁▁▂▃▅▆▇▇▇▆▆▆▅▅▃▃▃▂▁▁▁▁▁▁▁▁▁▁▁▁│5.50      4.66 +- 0.18
+    R                   : 0.481 │ ▁▁▁▁▁▁▁▁▁▁▂▃▄▅▆▆▆▇▇▇▆▆▅▄▃▃▂▂▁▁▁▁▁▁▁ ▁ │0.574     0.527 +- 0.011
+    Av                  : 1.403 │ ▁ ▁▁▁▁▁▁▁▁▁▁▂▂▃▄▅▆▇▆▇▇▇▆▅▄▃▃▂▁▁▁▁▁▁▁▁ │2.134     1.809 +- 0.083
 
 
 Confidence intervals
@@ -3549,7 +3549,7 @@ Av = 1.8 +/- 0.3
 <h1>7. Best-fit template spectrum<a class="headerlink" href="#7.-Best-fit-template-spectrum" title="Permalink to this headline"></a></h1>
 <p>In this section, we will find the best-fit template spectra to our measured spectrum in the Montreal Spectral Library of observed M-L-T type low-mass objects. Since the template spectra from this library typically do not cover wavelengths longward of the K band, we will discard the NACO L’ point from the spectrum, just for the sake of this exercise:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[227]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[132]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lbda_crop</span> <span class="o">=</span> <span class="n">lbda</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -3561,7 +3561,7 @@ Av = 1.8 +/- 0.3
 </div>
 <p>Let’s define the parameters associated to the instrument(s) which acquired the spectrum (again we discard the NACO measurement):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[228]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[133]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instru_res_crop</span> <span class="o">=</span> <span class="n">instru_res</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -3578,7 +3578,7 @@ Av = 1.8 +/- 0.3
 <p>For this exercice, we have downloaded the MSL library following the instructions on the page of J. Gagné: <a class="reference external" href="https://jgagneastro.com/the-montreal-spectral-library/">https://jgagneastro.com/the-montreal-spectral-library/</a></p>
 <p>Below, we then set the folder in which the template spectra placed, and their extension (‘.fits’, for automatic identification of spectra in that folder). We also define the snippet function <code class="docutils literal notranslate"><span class="pre">tmp_reader</span></code> to read the template spectra in the utils.py file, loaded below.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[229]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[134]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">tmp_reader</span>
@@ -3593,7 +3593,7 @@ Av = 1.8 +/- 0.3
 </div>
 <p>FYI it is commented below:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[230]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[135]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># def tmp_reader(tmp_name, verbose=False):</span>
@@ -3612,7 +3612,7 @@ Av = 1.8 +/- 0.3
 </div>
 <p>Let’s assume we are interested in the top 3 most similar template spectra:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[231]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[136]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_best</span><span class="o">=</span><span class="mi">3</span>
@@ -3621,7 +3621,7 @@ Av = 1.8 +/- 0.3
 </div>
 <p>Let’s use the Nelder-Mead algorithm to find the optimal flux scaling factor and <span class="math notranslate nohighlight">\(A_V\)</span> to be applied to each template. Additional options for the simplex can be set with <code class="docutils literal notranslate"><span class="pre">simplex_options</span></code> (example above) - these will be provided to the <code class="docutils literal notranslate"><span class="pre">scipy.minimize</span></code> function.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[232]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[137]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">search_mode</span> <span class="o">=</span> <span class="s1">&#39;simplex&#39;</span> <span class="c1">#&#39;grid&#39;</span>
@@ -3638,7 +3638,7 @@ Av = 1.8 +/- 0.3
 <p>Alternatively, one can set <code class="docutils literal notranslate"><span class="pre">search_mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'grid'</span></code>, which will simply use a grid search to find the optimal <span class="math notranslate nohighlight">\(A_V\)</span> and flux scaling factors to be applied to the template spectra for comparison to the measured spectrum. This is slower but avoids the risk of a failed minimization. In this case, both the <code class="docutils literal notranslate"><span class="pre">AV_range</span></code> and <code class="docutils literal notranslate"><span class="pre">scale_range</span></code> parameters have to be set.</p>
 <p>Some template spectra may be corrupted or unusable for this specific spectrum (e.g. wrong wavelength coverage), let’s force the algorithm to continue instead of raising an error.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[233]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[138]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">force_continue</span><span class="o">=</span><span class="kc">True</span>
@@ -3648,7 +3648,7 @@ Av = 1.8 +/- 0.3
 <p>Some template spectra will have a sufficient wavelength coverage (Y to K), but with missing points (NaN values) in between bands (e.g. between J and H bands, or H and K bands). For a given template spectrum to be considered valid, it is recommeded to set a minimum threshold in terms of number of non-NaN resampled points. The risk of not doing that is to end up with best-fit template spectra with very few - but very well fitting - points minimizing our <span class="math notranslate nohighlight">\(\chi_r^2\)</span> metric.</p>
 <p>Let’s set this threshold to cover &gt;80% of our observed spectrum, i.e. 34 points:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[234]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[139]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_npts</span> <span class="o">=</span> <span class="mi">34</span>
@@ -3657,7 +3657,7 @@ Av = 1.8 +/- 0.3
 </div>
 <p>Now let’s find the best-fit templates:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[235]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[140]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.template_fit</span> <span class="kn">import</span> <span class="n">best_fit_tmp</span>
@@ -3674,7 +3674,7 @@ Av = 1.8 +/- 0.3
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-Starting time: 2022-06-25 15:48:36
+Starting time: 2022-07-19 22:37:46
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 424 template spectra will be tested.
 ****************************************
@@ -5215,7 +5215,7 @@ Issue with resampling of template 2MASSJ0423-1533_NIR_Flamingos-2_Gagne2015c.fit
 
 228/424 template spectra were fitted.
 
-Running time:  0:12:35.639492
+Running time:  0:09:44.590072
 ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 best chi:  [2.6494487  2.71261062 2.87087266]
 best scale fac:  [8.93336943e-05 5.61832126e-05 9.14677818e-03]
@@ -5230,7 +5230,7 @@ The best template #3 is: 2MASSJ0758+15300_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.
 </div>
 <p>Let’s load the results, and prepare a list of short template names (for display; i.e. without the suffix):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[236]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[141]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_tmpname</span><span class="p">,</span> <span class="n">final_tmp</span><span class="p">,</span> <span class="n">final_chi</span><span class="p">,</span> <span class="n">final_params</span><span class="p">,</span> <span class="n">final_ndof</span> <span class="o">=</span> <span class="n">final_res</span>
@@ -5242,7 +5242,7 @@ The best template #3 is: 2MASSJ0758+15300_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[236]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[141]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -5252,7 +5252,7 @@ The best template #3 is: 2MASSJ0758+15300_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.
 </div>
 <p>Checking in the <a class="reference external" href="https://docs.google.com/spreadsheets/d/1136rRdcjHZJoe00mt4kPeWU8ZNORcPe-w4cipkDKGRc/edit#gid=0">online table of the MSL</a>, these spectra turn out to correspond to the following types of objects:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[237]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[142]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels_tmp</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;M3&quot;</span><span class="p">,</span> <span class="s2">&quot;M4.5&quot;</span><span class="p">,</span> <span class="s2">&quot;M4&quot;</span><span class="p">]</span>
@@ -5262,7 +5262,7 @@ The best template #3 is: 2MASSJ0758+15300_NIR_SpeX_Gagne2015c.fits (Delta A_V=2.
 <p>Feel free to repeat the fit after changing the exact value of <code class="docutils literal notranslate"><span class="pre">min_npts</span></code> (e.g.~lower this value to allow more templates to be considered in the search). Although the best-fit templates may change a little, you should mostly retrieve M3-M5 spectral types as top-3 template spectra for reasonable values of <code class="docutils literal notranslate"><span class="pre">min_npts</span></code>.</p>
 <p>Let’s finally plot the best-fit template spectra, at native resolution and resampled, respectively:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[238]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[143]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.model_resampling</span> <span class="kn">import</span> <span class="n">resample_model</span>
