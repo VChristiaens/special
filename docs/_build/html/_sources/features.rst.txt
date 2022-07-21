@@ -1,7 +1,7 @@
 What makes it `special`?
 ------------------------
 
-The ``special`` package provides a number of tools for the analysis of spectra from any (sub)stellar object, whichever the observational method used to obtain the spectrum (direct imaging or not) and the format of the spectra (multi-band photometry, low-resolution or medium-resolution spectrum, or a combination thereof). That being said, the main routines in the package (e.g. Bayesian retrieval of model parameters though MCMC or nested samplers, or best-fit template search) can also be applied to the spectrum of any object, provided a relevant grid of models or library of templates for the fit.
+The ``special`` package provides a number of tools for the analysis of spectra from any (sub)stellar object, regardless of the observational method used to obtain the spectra (direct imaging or not) and the format of the spectra (multi-band photometry, low-resolution or medium-resolution spectrum, or a combination thereof). That being said, the main routines in the package (e.g. Bayesian retrieval of model parameters though MCMC or nested samplers, or best-fit template search) can also be applied to the spectrum of any object, provided a relevant grid of models or library of templates for the fit.
 
 The main available features of the package are listed below:
 
@@ -18,6 +18,7 @@ The MCMC and nested sampler routines have been adapted to:
 * sample the effect of (additional) blackbody components;
 * sample the effect of extinction (AV); 
 * sample different extinction laws than ISM (parametrised using the total-to-selective extinction ratio RV);
+* sample a list of potential emission lines;
 * accept either uniform or Gaussian priors for each model parameter;
 * accept a prior on the mass of the object (if surface gravity is one of the model parameters, and for the MCMC sampler only);
 * consider convolution with the line spread function, photometric filters transmission and/or resampling of the model for consistency with the input spectrum - in particular convolution and resampling are done in two consecutive steps, and multiple resolving powers can be provided as input;

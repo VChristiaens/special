@@ -34,7 +34,28 @@ imaged low-mass companions.
 
 # Statement of need
 
-``special`` provides the following tools for the analysis of measured spectra:
+``special`` provides a number of tools for the analysis of spectra from any (sub)stellar 
+object, regardless of the observational method used to obtain the spectra (direct imaging 
+or not) and the format of the spectra (multi-band photometry, low-resolution or 
+medium-resolution spectrum, or a combination thereof). Although implemented with
+the characterization of directly imaged substellar companions in mind, the main routines 
+in ``special`` (e.g. Bayesian retrieval of model parameters though MCMC or nested 
+samplers, or best-fit template search) can also be applied to the spectrum of any object, 
+provided a relevant grid of models or library of templates for the fit.
+
+``special`` shares similar basic utilities as offered in ``splat`` [@Burgasser:2017], such as 
+dereddening, spectral indices calculation, model grid fitting through MCMC and template 
+fitting. However, a number of features are currently unique to ``special``, such as (i) Bayesian 
+inference through nested samplers; (ii) inclusion of non-grid parameters for model fits (e.g. 
+extinction, extra blackbody components, specific emission lines); (iii) inclusion of relative 
+extinction and flux scaling, and handling of spectral coverage mismatches when searching 
+for the best-fit template in a library; (iv) empirical estimation of spectral correlation between 
+channels of an integral field spectrograph, which is relevant to the directly imaged companions 
+for which uncertainties in the spectrum capture correlated residual speckle noise [@Greco:2016]; 
+and (v) compatibility of all ``special`` fitting routines with combined spectra (i.e. obtained with 
+multiple instruments with potentially different resolving powers or photometric filters).
+
+The main available features of the package are listed below:
 
 * calculation of the spectral correlation between channels of an integral field
 spectrograph (IFS) datacube [@Greco:2016; @Delorme:2017];
@@ -43,9 +64,9 @@ spectrograph (IFS) datacube [@Greco:2016; @Delorme:2017];
 [@Gorlova:2003; @Slesnick:2004; @Allers:2007], enabling their 
 classification;
 
-* fitting of input spectra to different (user-provided) grids of models, with 
-the possibility to include additional parameters such as extra blackbody 
-component(s) and extinction;
+* fitting of input spectra to either photo-/atmospheric model grids or a blackbody model, 
+including additional parameters such as (extra) black body component(s), extinction,
+ total-to-selective extinction ratio or specific emission lines.
 
 * estimating most likely model parameters in a Bayesian framework, using either 
 MCMC [@Goodman:2010] or nested 

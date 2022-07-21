@@ -118,7 +118,7 @@
 </style>
 <section id="what-makes-it-special">
 <h1>What makes it <cite>special</cite>?<a class="headerlink" href="#what-makes-it-special" title="Permalink to this headline"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">special</span></code> package provides a number of tools for the analysis of spectra from any (sub)stellar object, whichever the observational method used to obtain the spectrum (direct imaging or not) and the format of the spectra (multi-band photometry, low-resolution or medium-resolution spectrum, or a combination thereof). That being said, the main routines in the package (e.g. Bayesian retrieval of model parameters though MCMC or nested samplers, or best-fit template search) can also be applied to the spectrum of any object, provided a relevant grid of models or library of templates for the fit.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">special</span></code> package provides a number of tools for the analysis of spectra from any (sub)stellar object, regardless of the observational method used to obtain the spectra (direct imaging or not) and the format of the spectra (multi-band photometry, low-resolution or medium-resolution spectrum, or a combination thereof). That being said, the main routines in the package (e.g. Bayesian retrieval of model parameters though MCMC or nested samplers, or best-fit template search) can also be applied to the spectrum of any object, provided a relevant grid of models or library of templates for the fit.</p>
 <p>The main available features of the package are listed below:</p>
 <ul class="simple">
 <li><p>calculation of the spectral correlation between channels of an IFS datacube (relevant to directly imaged companions with an IFS, where the uncertainty reflects spectrally correlated residual speckle noise);</p></li>
@@ -133,6 +133,7 @@
 <li><p>sample the effect of (additional) blackbody components;</p></li>
 <li><p>sample the effect of extinction (AV);</p></li>
 <li><p>sample different extinction laws than ISM (parametrised using the total-to-selective extinction ratio RV);</p></li>
+<li><p>sample a list of potential emission lines;</p></li>
 <li><p>accept either uniform or Gaussian priors for each model parameter;</p></li>
 <li><p>accept a prior on the mass of the object (if surface gravity is one of the model parameters, and for the MCMC sampler only);</p></li>
 <li><p>consider convolution with the line spread function, photometric filters transmission and/or resampling of the model for consistency with the input spectrum - in particular convolution and resampling are done in two consecutive steps, and multiple resolving powers can be provided as input;</p></li>
