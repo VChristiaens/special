@@ -118,11 +118,13 @@
 </style>
 <section id="what-makes-it-special">
 <h1>What makes it <cite>special</cite>?<a class="headerlink" href="#what-makes-it-special" title="Permalink to this headline"></a></h1>
-<p>This package provides the following tools for the analysis of measured spectra:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">special</span></code> package provides a number of specific tools for the analysis of the spectrum of any (sub)stellar object. That being said, the main routines in the package (e.g. Bayesian retrieval of model parameters though MCMC or nested samplers, or best-fit template search) can also be applied to the spectrum of any object, provided a relevant grid of models or library of templates for the fit.</p>
+<p>The format of the input spectrum is very flexible as it can consist of multi-band photometry, low-resolution or medium-resolution spectrum (or a combination thereof), obtained through direct imaging or not.</p>
+<p>The main available features of the package are listed below:</p>
 <ul class="simple">
-<li><p>calculation of the spectral correlation between channels of an IFS datacube;</p></li>
+<li><p>calculation of the spectral correlation between channels of an IFS datacube (relevant to directly imaged companions with an IFS, where the stellar halo had to be subtracted leaving residual speckle noise);</p></li>
 <li><p>calculation of empirical spectral indices for MLT-dwarfs;</p></li>
-<li><p>fitting of input spectra to different grids of models, including additional parameters such as (extra) black body component(s) and extinction;</p></li>
+<li><p>fitting of input spectra to either grids of models or a blackbody, including additional parameters such as (extra) black body component(s), extinction and total-to-selective extinction ratio;</p></li>
 <li><p>using either MCMC (<a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2013PASP..125..306F/abstract">emcee</a>) or nested (<a class="reference external" href="http://github.com/kbarbary/nestle">nestle</a> or <a class="reference external" href="https://johannesbuchner.github.io/UltraNest/">UltraNest</a>) samplers to infer posterior distributions on spectral model parameters;</p></li>
 <li><p>searching for the best-fit template spectrum within a given template library, with up to two free parameters (flux scaling and relative extinction).</p></li>
 </ul>
@@ -130,14 +132,14 @@
 <ul class="simple">
 <li><p>be flexible, as they are usable on any grid of models provided by the user (along with a snippet function specifying the format of the input);</p></li>
 <li><p>sample the effect of (additional) blackbody components;</p></li>
-<li><p>sample the effect of extinction;</p></li>
-<li><p>sample different extinction laws than ISM (parametrised using RV);</p></li>
+<li><p>sample the effect of extinction (AV);</p></li>
+<li><p>sample different extinction laws than ISM (parametrised using the total-to-selective extinction ratio RV);</p></li>
 <li><p>accept either uniform or Gaussian priors for each model parameter;</p></li>
 <li><p>accept a prior on the mass of the object (if surface gravity is one of the model parameters, and for the MCMC sampler only);</p></li>
-<li><p>consider convolution with the spectral PSF, photometric filters transmission and/or resampling of the model for consistency with the input spectrum.</p></li>
+<li><p>consider convolution with the line spread function, photometric filters transmission and/or resampling of the model for consistency with the input spectrum - in particular convolution and resampling are done in two consecutive steps, and multiple resolving powers can be provided as input.</p></li>
 <li><p>use a log-likelihood expression that can include i) spectral correlation between measurements of adjacent channels of a given instrument, and ii) additional weights that are proportional to the relative spectral bandwidth of each measurement, in case these are obtained from different instruments (e.g. photometry+spectroscopy).</p></li>
 </ul>
-<p>More details are available in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a> (note it was originally implemented as <code class="docutils literal notranslate"><span class="pre">specfit</span></code>, a former module of the <code class="docutils literal notranslate"><span class="pre">VIP</span></code> package, before undergoing significant expansion).</p>
+<p><code class="docutils literal notranslate"><span class="pre">special</span></code> was originally implemented as <code class="docutils literal notranslate"><span class="pre">specfit</span></code>, a former module of the <code class="docutils literal notranslate"><span class="pre">VIP</span></code> package, before undergoing significant expansion. It was first presented in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2021MNRAS.502.6117C/abstract">Christiaens et al. (2021)</a> . More details will be available in an upcoming publication (Christiaens et al., subm. to JOSS).</p>
 </section>
 
 
