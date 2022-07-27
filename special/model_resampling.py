@@ -563,16 +563,6 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     """
     Convolve or interpolate, and resample, a model spectrum to match observed 
     spectrum.
-    
-    Note
-    ----
-    For models with large number of points (e.g. >1e6) and several resolving
-    powers are requested for convolution, this routine can be very slow. It can 
-    be useful to first bin down the model spectrum to ~50x the sampling of the 
-    observed spectrum before performing the convolutions corresponding to 
-    different resolving powers. Rebinning without convolution can be performed 
-    with this same function, by providing appropriate values only for the first 
-    3 parameters.
 
     Parameters
     ----------
@@ -798,16 +788,21 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                     lbda_instru = lbda_obs[np.where(instru_idx==i)]
                     instru_fwhm = np.mean(lbda_instru)/instru_res[i-1]
                     ifwhm = instru_fwhm/(np.mean(dlbda_mod))
-                    gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
-                    spec_mod_conv = convolve_fft(spec_mod, gau_ker, 
-                                                 preserve_nan=True)
+                    stddev = ifwhm*gaussian_fwhm_to_sigma
+                    gau_ker = Gaussian1DKernel(stddev=stddev)
+                    idx0 = find_nearest(lbda_mod, lbda_instru[0])
+                    idx1 = find_nearest(lbda_mod, lbda_instru[-1])
+                    idx_ini = max(0,int(idx0-10*stddev))
+                    idx_fin = max(len(spec_mod)-1,int(idx1+10*stddev))
+                    spec_mod_conv = convolve_fft(spec_mod[idx_ini:idx_fin+1], 
+                                                 gau_ker, preserve_nan=True)
                     tmp = np.zeros_like(lbda_obs[np.where(instru_idx==i)])
                     for ll, lbda in enumerate(lbda_obs[np.where(instru_idx==i)]):
                         mid_lbda_f = lbda_obs-dlbda_obs/2.
                         mid_lbda_l = lbda_obs+dlbda_obs/2.
-                        i_f = find_nearest(lbda_mod,
+                        i_f = find_nearest(lbda_mod[idx_ini:idx_fin+1],
                                            mid_lbda_f[np.where(instru_idx==i)][ll])
-                        i_l = find_nearest(lbda_mod,
+                        i_l = find_nearest(lbda_mod[idx_ini:idx_fin+1],
                                            mid_lbda_l[np.where(instru_idx==i)][ll])
                         tmp[ll] = np.mean(spec_mod_conv[i_f:i_l+1])
                     spec_mod_res[np.where(instru_idx==i)] = tmp
