@@ -142,7 +142,7 @@
 <span id="special-chi-module"></span><h2>special.chi module<a class="headerlink" href="#module-special.chi" title="Permalink to this headline"></a></h2>
 <p>Function defining the goodness of fit.</p>
 <dl class="citation">
-<dt class="label" id="olo16"><span class="brackets">OLO16</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>,<a href="#id5">3</a>,<a href="#id7">4</a>,<a href="#id9">5</a>,<a href="#id13">6</a>,<a href="#id16">7</a>,<a href="#id17">8</a>,<a href="#id18">9</a>,<a href="#id24">10</a>,<a href="#id41">11</a>,<a href="#id43">12</a>)</span></dt>
+<dt class="label" id="olo16"><span class="brackets">OLO16</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>,<a href="#id5">3</a>,<a href="#id7">4</a>,<a href="#id9">5</a>,<a href="#id13">6</a>,<a href="#id16">7</a>,<a href="#id17">8</a>,<a href="#id23">9</a>,<a href="#id40">10</a>,<a href="#id42">11</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Olofsson et al. 2016</div>
 <div class="line"><strong>Azimuthal asymmetries in the debris disk around HD 61005. A massive collision of planetesimals?</strong></div>
@@ -150,7 +150,7 @@
 <div class="line"><a class="reference external" href="https://arxiv.org/abs/1601.07861">https://arxiv.org/abs/1601.07861</a></div>
 </div>
 </dd>
-<dt class="label" id="gre16"><span class="brackets">GRE16</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>,<a href="#id6">3</a>,<a href="#id8">4</a>,<a href="#id10">5</a>,<a href="#id14">6</a>,<a href="#id25">7</a>,<a href="#id29">8</a>,<a href="#id42">9</a>,<a href="#id44">10</a>)</span></dt>
+<dt class="label" id="gre16"><span class="brackets">GRE16</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>,<a href="#id6">3</a>,<a href="#id8">4</a>,<a href="#id10">5</a>,<a href="#id14">6</a>,<a href="#id24">7</a>,<a href="#id28">8</a>,<a href="#id41">9</a>,<a href="#id43">10</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Greco &amp; Brandt 2016</div>
 <div class="line"><strong>The Measurement, Treatment, and Impact of Spectral Covariance and
@@ -1684,7 +1684,7 @@ for ‘Tbbn’ and ‘Rbbn’ to <code class="docutils literal notranslate"><spa
 <dl class="py function">
 <dt class="sig sig-object py" id="special.model_resampling.resample_model">
 <span class="sig-prename descclassname"><span class="pre">special.model_resampling.</span></span><span class="sig-name descname"><span class="pre">resample_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lbda_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lbda_mod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_mod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlbda_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instru_res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instru_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_reader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_constraint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/model_resampling.html#resample_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.model_resampling.resample_model" title="Permalink to this definition"></a></dt>
-<dd><p>Convolve, interpolate and resample a model spectrum to match observed
+<dd><p>Convolve or interpolate, and resample, a model spectrum to match observed
 spectrum.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1708,22 +1708,22 @@ involve convolution+subsampling (model resolution higher than
 measurements), interpolation (the opposite), or convolution by the
 transmission curve of a photometric filter. If not provided, it will be
 inferred from the difference between consecutive lbda_obs points (i.e.
-inaccurate for a combined spectrum). It must be provided IF one wants to
-weigh each measurement based on the spectral resolution of each
-instrument (as in <a class="reference internal" href="#olo16" id="id18"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
+inaccurate for a combined spectrum obtained with different instruments).</p></li>
 <li><p><strong>instru_res</strong> (<em>float</em><em> or </em><em>list of floats/strings</em><em>, </em><em>optional</em>) – The mean instrumental resolving power(s) OR filter names. This is
-used to convolve the model spectrum. If several instruments are used,
-provide a list of resolving power values / filter names, one for
-each instrument used.</p></li>
-<li><p><strong>instru_idx</strong> (<em>numpy 1d array</em><em>, </em><em>optional</em>) – 1d array containing an index representing each instrument used
-to obtain the spectrum, label them from 0 to the number of instruments
-(<span class="math notranslate nohighlight">\(n_{ins}\)</span>). Zero for points that don’t correspond to any of the
-<code class="docutils literal notranslate"><span class="pre">instru_res</span></code> values provided, and i in <span class="math notranslate nohighlight">\([1,n_{ins}]\)</span> for points
-associated to instru_res[i-1]. This parameter must be provided if the
-spectrum consists of points obtained with different instruments.</p></li>
+used to convolve the model spectrum. If several instruments/resolving
+powere are to be considered, provide a list of resolving power values
+or filter names.</p></li>
+<li><p><strong>instru_idx</strong> (<em>numpy 1d array</em><em>, </em><em>optional</em>) – 1d array containing an index representing each instrument/resolving
+power used to obtain the spectrum. Label them from 0 to the number of
+instruments (<span class="math notranslate nohighlight">\(n_{ins}\)</span>): zero for points that don’t correspond to
+any of the <code class="docutils literal notranslate"><span class="pre">instru_res</span></code> values provided, and i in <span class="math notranslate nohighlight">\([1,n_{ins}]\)</span>
+for points associated to instru_res[i-1]. This parameter must be
+provided if the spectrum consists of points obtained with different
+instruments/resolving powers.</p></li>
 <li><p><strong>filter_reader</strong> (<em>python routine</em><em>, </em><em>optional</em>) – <p>External routine that reads a filter file and returns a 2D numpy array,
 where the first column corresponds to wavelengths, and the second
-contains transmission values. Important: if not provided, but strings
+contains transmission values. Must be provided if instru_res contains
+strings (filter filenames). Important: if not provided, but strings
 are detected in instru_res, the default file reader will be used.
 It assumes the following format for the files:</p>
 <ul>
@@ -1740,10 +1740,10 @@ are known to match exactly.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>lbda_obs, spec_mod_res</strong> – Observed lambdas, and resampled model spectrum (at those lambdas)</p>
+<dd class="field-even"><p><strong>lbda_obs, spec_mod_res</strong> – Observed wavelengths, and resampled model spectrum at those wavelengths.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>2x 1d numpy array</p>
+<dd class="field-odd"><p>2d numpy array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1754,7 +1754,7 @@ are known to match exactly.</p></li>
 <p>Module with functions for posterior sampling of the model spectra parameters
 using nested sampling (either <code class="docutils literal notranslate"><span class="pre">nestle</span></code> or <code class="docutils literal notranslate"><span class="pre">ultranest</span></code> samplers).</p>
 <dl class="citation">
-<dt class="label" id="nes13"><span class="brackets"><a class="fn-backref" href="#id19">nes13</a></span></dt>
+<dt class="label" id="nes13"><span class="brackets"><a class="fn-backref" href="#id18">nes13</a></span></dt>
 <dd><div class="line-block">
 <div class="line">Barbary 2013</div>
 <div class="line"><strong>nestle</strong></div>
@@ -1762,7 +1762,7 @@ using nested sampling (either <code class="docutils literal notranslate"><span c
 <div class="line"><a class="reference external" href="https://github.com/kbarbary/nestle">https://github.com/kbarbary/nestle</a></div>
 </div>
 </dd>
-<dt class="label" id="ski04"><span class="brackets">SKI04</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id26">2</a>)</span></dt>
+<dt class="label" id="ski04"><span class="brackets">SKI04</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id25">2</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Skilling 2004</div>
 <div class="line"><strong>Bayesian Inference and Maximum Entropy Methods in Science and Engineering:
@@ -1772,7 +1772,7 @@ Methods in Science and Engineering</strong></div>
 <div class="line"><a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S">https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S</a></div>
 </div>
 </dd>
-<dt class="label" id="muk06"><span class="brackets">MUK06</span><span class="fn-backref">(<a href="#id22">1</a>,<a href="#id27">2</a>)</span></dt>
+<dt class="label" id="muk06"><span class="brackets">MUK06</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id26">2</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Mukherjee et al. 2006</div>
 <div class="line"><strong>A Nested Sampling Algorithm for Cosmological Model Selection</strong></div>
@@ -1780,7 +1780,7 @@ Methods in Science and Engineering</strong></div>
 <div class="line"><a class="reference external" href="https://arxiv.org/abs/astro-ph/0508461">https://arxiv.org/abs/astro-ph/0508461</a></div>
 </div>
 </dd>
-<dt class="label" id="fer09"><span class="brackets">FER09</span><span class="fn-backref">(<a href="#id23">1</a>,<a href="#id28">2</a>)</span></dt>
+<dt class="label" id="fer09"><span class="brackets">FER09</span><span class="fn-backref">(<a href="#id22">1</a>,<a href="#id27">2</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Feroz et al. 2009</div>
 <div class="line"><strong>MULTINEST: an efficient and robust Bayesian inference tool for cosmology
@@ -1789,7 +1789,7 @@ and particle physics</strong></div>
 <div class="line"><a class="reference external" href="https://arxiv.org/abs/0809.3437">https://arxiv.org/abs/0809.3437</a></div>
 </div>
 </dd>
-<dt class="label" id="buc21"><span class="brackets"><a class="fn-backref" href="#id20">BUC21</a></span></dt>
+<dt class="label" id="buc21"><span class="brackets"><a class="fn-backref" href="#id19">BUC21</a></span></dt>
 <dd><div class="line-block">
 <div class="line">Buchner 2021</div>
 <div class="line"><strong>UltraNest - a robust, general purpose Bayesian inference engine</strong></div>
@@ -1803,11 +1803,11 @@ and particle physics</strong></div>
 <span class="sig-prename descclassname"><span class="pre">special.nested_sampling.</span></span><span class="sig-name descname"><span class="pre">nested_spec_sampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lbda_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_param_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resamp_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_reader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">em_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">em_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlbda_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instru_corr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instru_res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instru_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_reader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AV_bef_bb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_obs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'si'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units_mod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'si'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_nonexist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'special/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'resamp_grid.fits'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ultranest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'single'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlogz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/nested_sampling.html#nested_spec_sampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.nested_sampling.nested_spec_sampling" title="Permalink to this definition"></a></dt>
 <dd><p>Runs a nested sampling algorithm in order to retrieve the best-fit
 parameters for given spectral model and observed spectrum.. The
-result of this procedure is either a <code class="docutils literal notranslate"><span class="pre">nestle</span></code> <a class="reference internal" href="#nes13" id="id19"><span>[nes13]</span></a> or <code class="docutils literal notranslate"><span class="pre">ultranest</span></code>
-<a class="reference internal" href="#buc21" id="id20"><span>[BUC21]</span></a> object (depending on the chosen sampler) containing the samples
+result of this procedure is either a <code class="docutils literal notranslate"><span class="pre">nestle</span></code> <a class="reference internal" href="#nes13" id="id18"><span>[nes13]</span></a> or <code class="docutils literal notranslate"><span class="pre">ultranest</span></code>
+<a class="reference internal" href="#buc21" id="id19"><span>[BUC21]</span></a> object (depending on the chosen sampler) containing the samples
 from the posterior distributions of each of the parameters.
 For the <code class="docutils literal notranslate"><span class="pre">nestle</span></code> sampler, several methods are available corresponding to
-MCMC <a class="reference internal" href="#ski04" id="id21"><span>[SKI04]</span></a>, single ellipsoid <a class="reference internal" href="#muk06" id="id22"><span>[MUK06]</span></a> or multiple ellipsoid <a class="reference internal" href="#fer09" id="id23"><span>[FER09]</span></a>.</p>
+MCMC <a class="reference internal" href="#ski04" id="id20"><span>[SKI04]</span></a>, single ellipsoid <a class="reference internal" href="#muk06" id="id21"><span>[MUK06]</span></a> or multiple ellipsoid <a class="reference internal" href="#fer09" id="id22"><span>[FER09]</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1929,7 +1929,7 @@ transmission curve of a photometric filter. If not provided, it will be
 inferred from the difference between consecutive lbda_obs points (i.e.
 inaccurate for a combined spectrum). It must be provided IF one wants to
 weigh each measurement based on the spectral resolution of each
-instrument (as in <a class="reference internal" href="#olo16" id="id24"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
+instrument (as in <a class="reference internal" href="#olo16" id="id23"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
 <li><p><strong>instru_corr</strong> (<em>numpy 2d ndarray</em><em>, </em><em>optional</em>) – Spectral correlation between post-processed images in which the
 spectrum is measured. It is specific to the instrument, PSF subtraction
 algorithm and radial separation of the companion from the central star.
@@ -1938,7 +1938,7 @@ case of a spectrum obtained with different instruments, it is
 recommended to construct the final spectral_correlation matrix with
 <code class="docutils literal notranslate"><span class="pre">special.spec_corr.combine_corrs</span></code>. If <code class="docutils literal notranslate"><span class="pre">instru_corr</span></code> is not provided,
 the uncertainties in each spectral channel will be considered
-independent. See <a class="reference internal" href="#gre16" id="id25"><span>[GRE16]</span></a> for more details.</p></li>
+independent. See <a class="reference internal" href="#gre16" id="id24"><span>[GRE16]</span></a> for more details.</p></li>
 <li><p><strong>instru_res</strong> (<em>float</em><em> or </em><em>list of floats/strings</em><em>, </em><em>optional</em>) – The mean instrumental resolving power(s) OR filter names. This is
 used to convolve the model spectrum. If several instruments are used,
 provide a list of resolving power values / filter names, one for
@@ -2075,9 +2075,9 @@ current likelihood constraint. The different methods all use the
 current set of active points as an indicator of where the target
 parameter space lies, but differ in how they select new points from it:</p>
 <ul class="simple">
-<li><p>“classic” is close to the method described in <a class="reference internal" href="#ski04" id="id26"><span>[SKI04]</span></a>.</p></li>
-<li><p>“single” <a class="reference internal" href="#muk06" id="id27"><span>[MUK06]</span></a> determines a single ellipsoid that bounds all active         points, enlarges the ellipsoid by a user-settable factor, and         selects a new point at random from within the ellipsoid.</p></li>
-<li><p>“multiple” <a class="reference internal" href="#fer09" id="id28"><span>[FER09]</span></a> (Multinest). In cases where the posterior is         multi-modal, the single-ellipsoid method can be extremely inefficient.         In such situations, there are clusters of active points on separate         high-likelihood regions separated by regions of lower likelihood. Bounding         all points in a single ellipsoid means that the ellipsoid includes the         lower-likelihood regions we wish to avoid sampling from.        The solution is to detect these clusters and bound them in separate        ellipsoids. For this, we use a recursive process where we perform        K-means clustering with K=2. If the resulting two ellipsoids have a        significantly lower total volume than the parent ellipsoid (less than half),        we accept the split and repeat the clustering and volume test on each of        the two subset of points. This process continues recursively.        Alternatively, if the total ellipse volume is significantly greater        than expected (based on the expected density of points) this indicates        that there may be more than two clusters and that K=2 was not an        appropriate cluster division.        We therefore still try to subdivide the clusters recursively. However,        we still only accept the final split into N clusters if the total volume        decrease is significant.</p></li>
+<li><p>“classic” is close to the method described in <a class="reference internal" href="#ski04" id="id25"><span>[SKI04]</span></a>.</p></li>
+<li><p>“single” <a class="reference internal" href="#muk06" id="id26"><span>[MUK06]</span></a> determines a single ellipsoid that bounds all active         points, enlarges the ellipsoid by a user-settable factor, and         selects a new point at random from within the ellipsoid.</p></li>
+<li><p>“multiple” <a class="reference internal" href="#fer09" id="id27"><span>[FER09]</span></a> (Multinest). In cases where the posterior is         multi-modal, the single-ellipsoid method can be extremely inefficient.         In such situations, there are clusters of active points on separate         high-likelihood regions separated by regions of lower likelihood. Bounding         all points in a single ellipsoid means that the ellipsoid includes the         lower-likelihood regions we wish to avoid sampling from.        The solution is to detect these clusters and bound them in separate        ellipsoids. For this, we use a recursive process where we perform        K-means clustering with K=2. If the resulting two ellipsoids have a        significantly lower total volume than the parent ellipsoid (less than half),        we accept the split and repeat the clustering and volume test on each of        the two subset of points. This process continues recursively.        Alternatively, if the total ellipse volume is significantly greater        than expected (based on the expected density of points) this indicates        that there may be more than two clusters and that K=2 was not an        appropriate cluster division.        We therefore still try to subdivide the clusters recursively. However,        we still only accept the final split into N clusters if the total volume        decrease is significant.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2227,7 +2227,7 @@ OR ones (for independent photometric measurements).</p>
 <dt class="sig sig-object py" id="special.spec_corr.spectral_correlation">
 <span class="sig-prename descclassname"><span class="pre">special.spec_corr.</span></span><span class="sig-name descname"><span class="pre">spectral_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">awidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_xy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fwhm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_fwhm_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_corr.html#spectral_correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_corr.spectral_correlation" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the spectral correlation between (post-processed) IFS frames,
-as a function of radius, implemented as Eq. 7 of <a class="reference internal" href="#gre16" id="id29"><span>[GRE16]</span></a>. This is a crucial
+as a function of radius, implemented as Eq. 7 of <a class="reference internal" href="#gre16" id="id28"><span>[GRE16]</span></a>. This is a crucial
 step for an unbiased fit of a measured IFS spectrum to either synthetic or
 template spectra.</p>
 <dl class="field-list simple">
@@ -2281,7 +2281,7 @@ each measured spectral correlation matrix. Dims: n_rad</p></li>
 <p>Module with utilities to estimate the spectral type and gravity of an object
 based on spectral indices.</p>
 <dl class="citation">
-<dt class="label" id="gor03"><span class="brackets">GOR03</span><span class="fn-backref">(<a href="#id31">1</a>,<a href="#id32">2</a>,<a href="#id36">3</a>,<a href="#id39">4</a>)</span></dt>
+<dt class="label" id="gor03"><span class="brackets">GOR03</span><span class="fn-backref">(<a href="#id30">1</a>,<a href="#id31">2</a>,<a href="#id35">3</a>,<a href="#id38">4</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Gorlova et al. 2003</div>
 <div class="line"><strong>Gravity Indicators in the Near-Infrared Spectra of Brown Dwarfs</strong></div>
@@ -2289,7 +2289,7 @@ based on spectral indices.</p>
 <div class="line"><a class="reference external" href="https://arxiv.org/abs/astro-ph/0305147">https://arxiv.org/abs/astro-ph/0305147</a></div>
 </div>
 </dd>
-<dt class="label" id="sle04"><span class="brackets">SLE04</span><span class="fn-backref">(<a href="#id34">1</a>,<a href="#id38">2</a>)</span></dt>
+<dt class="label" id="sle04"><span class="brackets">SLE04</span><span class="fn-backref">(<a href="#id33">1</a>,<a href="#id37">2</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Slesnick et al. 2004</div>
 <div class="line"><strong>The Spectroscopically Determined Substellar Mass Function of the Orion
@@ -2298,7 +2298,7 @@ Nebula Cluster</strong></div>
 <div class="line"><a class="reference external" href="https://arxiv.org/abs/astro-ph/0404292">https://arxiv.org/abs/astro-ph/0404292</a></div>
 </div>
 </dd>
-<dt class="label" id="all07"><span class="brackets">ALL07</span><span class="fn-backref">(<a href="#id30">1</a>,<a href="#id33">2</a>,<a href="#id35">3</a>,<a href="#id37">4</a>,<a href="#id40">5</a>)</span></dt>
+<dt class="label" id="all07"><span class="brackets">ALL07</span><span class="fn-backref">(<a href="#id29">1</a>,<a href="#id32">2</a>,<a href="#id34">3</a>,<a href="#id36">4</a>,<a href="#id39">5</a>)</span></dt>
 <dd><div class="line-block">
 <div class="line">Allers et al. 2007</div>
 <div class="line"><strong>Characterizing Young Brown Dwarfs Using Low-Resolution Near-Infrared
@@ -2336,8 +2336,8 @@ Convention from Allers+07: M0 = 0, L0 = 10, …</p></li>
 <dd><p>Provides a qualitative estimate of the gravity/youth based on a
 gravity-sensitive spectral index. Implemented so far:</p>
 <ul class="simple">
-<li><p>the Na-1.1 index <a class="reference internal" href="#all07" id="id30"><span>[ALL07]</span></a></p></li>
-<li><p>the CO-2.3 index <a class="reference internal" href="#gor03" id="id31"><span>[GOR03]</span></a></p></li>
+<li><p>the Na-1.1 index <a class="reference internal" href="#all07" id="id29"><span>[ALL07]</span></a></p></li>
+<li><p>the CO-2.3 index <a class="reference internal" href="#gor03" id="id30"><span>[GOR03]</span></a></p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2354,9 +2354,9 @@ gravity-sensitive spectral index. Implemented so far:</p>
 <span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">sp_idx_to_spt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2O-1.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">young</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#sp_idx_to_spt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.sp_idx_to_spt" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Estimates a spectral type from a spectral index. Implemented so far:</dt><dd><ul class="simple">
-<li><p>the H2O 1.3 mu index <a class="reference internal" href="#gor03" id="id32"><span>[GOR03]</span></a></p></li>
-<li><p>the H2O 1.5 mu index <a class="reference internal" href="#all07" id="id33"><span>[ALL07]</span></a></p></li>
-<li><p>the H2O-2 index <a class="reference internal" href="#sle04" id="id34"><span>[SLE04]</span></a></p></li>
+<li><p>the H2O 1.3 mu index <a class="reference internal" href="#gor03" id="id31"><span>[GOR03]</span></a></p></li>
+<li><p>the H2O 1.5 mu index <a class="reference internal" href="#all07" id="id32"><span>[ALL07]</span></a></p></li>
+<li><p>the H2O-2 index <a class="reference internal" href="#sle04" id="id33"><span>[SLE04]</span></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -2386,11 +2386,11 @@ is gravity dependent)</p></li>
 <span class="sig-prename descclassname"><span class="pre">special.spec_indices.</span></span><span class="sig-name descname"><span class="pre">spectral_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lbda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'H2O-1.5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/special/spec_indices.html#spectral_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#special.spec_indices.spectral_idx" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Computes a spectral index. Implemented so far:</dt><dd><ul class="simple">
-<li><p>the Na 1.1 mu index <a class="reference internal" href="#all07" id="id35"><span>[ALL07]</span></a></p></li>
-<li><p>the H2O 1.3 mu index <a class="reference internal" href="#gor03" id="id36"><span>[GOR03]</span></a></p></li>
-<li><p>the H2O 1.5 mu index <a class="reference internal" href="#all07" id="id37"><span>[ALL07]</span></a></p></li>
-<li><p>the H2O 2 index <a class="reference internal" href="#sle04" id="id38"><span>[SLE04]</span></a></p></li>
-<li><p>the CO 2.3 index <a class="reference internal" href="#gor03" id="id39"><span>[GOR03]</span></a>.</p></li>
+<li><p>the Na 1.1 mu index <a class="reference internal" href="#all07" id="id34"><span>[ALL07]</span></a></p></li>
+<li><p>the H2O 1.3 mu index <a class="reference internal" href="#gor03" id="id35"><span>[GOR03]</span></a></p></li>
+<li><p>the H2O 1.5 mu index <a class="reference internal" href="#all07" id="id36"><span>[ALL07]</span></a></p></li>
+<li><p>the H2O 2 index <a class="reference internal" href="#sle04" id="id37"><span>[SLE04]</span></a></p></li>
+<li><p>the CO 2.3 index <a class="reference internal" href="#gor03" id="id38"><span>[GOR03]</span></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2427,7 +2427,7 @@ index will also be returned.</p></li>
 <li><p><strong>spt</strong> (<em>str</em>) – String representing the spectral index</p></li>
 <li><p><strong>convention</strong> (<em>str</em><em>, </em><em>optional {'splat'</em><em>, </em><em>'Allers+07'}</em>) – Which convention to use to convert digit into spectral type.
 Convention from splat: K0 = 0, M0=10, L0=20, T0=30, Y9 = 49
-Convention from <a class="reference internal" href="#all07" id="id40"><span>[ALL07]</span></a>: M0 = 0, L0 = 10, …</p></li>
+Convention from <a class="reference internal" href="#all07" id="id39"><span>[ALL07]</span></a>: M0 = 0, L0 = 10, …</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -2492,7 +2492,7 @@ transmission curve of a photometric filter. If not provided, it will be
 inferred from the difference between consecutive lbda_obs points (i.e.
 inaccurate for a combined spectrum). It must be provided IF one wants to
 weigh each measurement based on the spectral resolution of each
-instrument (as in <a class="reference internal" href="#olo16" id="id41"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
+instrument (as in <a class="reference internal" href="#olo16" id="id40"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
 <li><p><strong>instru_corr</strong> (<em>numpy 2d ndarray</em><em>, </em><em>optional</em>) – Spectral correlation between post-processed images in which the
 spectrum is measured. It is specific to the instrument, PSF subtraction
 algorithm and radial separation of the companion from the central star.
@@ -2501,7 +2501,7 @@ case of a spectrum obtained with different instruments, it is
 recommended to construct the final spectral_correlation matrix with
 <code class="docutils literal notranslate"><span class="pre">special.spec_corr.combine_corrs</span></code>. If <code class="docutils literal notranslate"><span class="pre">instru_corr</span></code> is not provided,
 the uncertainties in each spectral channel will be considered
-independent. See <a class="reference internal" href="#gre16" id="id42"><span>[GRE16]</span></a> for more details.</p></li>
+independent. See <a class="reference internal" href="#gre16" id="id41"><span>[GRE16]</span></a> for more details.</p></li>
 <li><p><strong>instru_res</strong> (<em>float</em><em> or </em><em>list of floats/strings</em><em>, </em><em>optional</em>) – The mean instrumental resolving power(s) OR filter names. This is
 used to convolve the model spectrum. If several instruments are used,
 provide a list of resolving power values / filter names, one for
@@ -2596,7 +2596,7 @@ transmission curve of a photometric filter. If not provided, it will be
 inferred from the difference between consecutive lbda_obs points (i.e.
 inaccurate for a combined spectrum). It must be provided IF one wants to
 weigh each measurement based on the spectral resolution of each
-instrument (as in <a class="reference internal" href="#olo16" id="id43"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
+instrument (as in <a class="reference internal" href="#olo16" id="id42"><span>[OLO16]</span></a>), through the <code class="docutils literal notranslate"><span class="pre">use_weights</span></code> argument.</p></li>
 <li><p><strong>instru_corr</strong> (<em>numpy 2d ndarray</em><em>, </em><em>optional</em>) – Spectral correlation between post-processed images in which the
 spectrum is measured. It is specific to the instrument, PSF subtraction
 algorithm and radial separation of the companion from the central star.
@@ -2605,7 +2605,7 @@ case of a spectrum obtained with different instruments, it is
 recommended to construct the final spectral_correlation matrix with
 <code class="docutils literal notranslate"><span class="pre">special.spec_corr.combine_corrs</span></code>. If <code class="docutils literal notranslate"><span class="pre">instru_corr</span></code> is not provided,
 the uncertainties in each spectral channel will be considered
-independent. See <a class="reference internal" href="#gre16" id="id44"><span>[GRE16]</span></a> for more details.</p></li>
+independent. See <a class="reference internal" href="#gre16" id="id43"><span>[GRE16]</span></a> for more details.</p></li>
 <li><p><strong>instru_res</strong> (<em>float</em><em> or </em><em>list of floats/strings</em><em>, </em><em>optional</em>) – The mean instrumental resolving power(s) OR filter names. This is
 used to convolve the model spectrum. If several instruments are used,
 provide a list of resolving power values / filter names, one for
