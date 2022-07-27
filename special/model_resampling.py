@@ -561,7 +561,7 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                    instru_res=None, instru_idx=None, filter_reader=None,
                    no_constraint=False, verbose=False):
     """
-    Convolve, interpolate and resample a model spectrum to match observed 
+    Convolve or interpolate, and resample, a model spectrum to match observed 
     spectrum.
 
     Parameters
@@ -589,25 +589,25 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         measurements), interpolation (the opposite), or convolution by the 
         transmission curve of a photometric filter. If not provided, it will be 
         inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
-        instrument (as in [OLO16]_), through the ``use_weights`` argument.
+        inaccurate for a combined spectrum obtained with different instruments).
     instru_res : float or list of floats/strings, optional
         The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
-        each instrument used.
+        used to convolve the model spectrum. If several instruments/resolving
+        powere are to be considered, provide a list of resolving power values 
+        or filter names.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
-        ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
-        spectrum consists of points obtained with different instruments.
+        1d array containing an index representing each instrument/resolving 
+        power used to obtain the spectrum. Label them from 0 to the number of 
+        instruments (:math:`n_{ins}`): zero for points that don't correspond to 
+        any of the ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` 
+        for points associated to instru_res[i-1]. This parameter must be 
+        provided if the spectrum consists of points obtained with different 
+        instruments/resolving powers.
     filter_reader: python routine, optional
         External routine that reads a filter file and returns a 2D numpy array, 
         where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
+        contains transmission values. Must be provided if instru_res contains
+        strings (filter filenames). Important: if not provided, but strings 
         are detected in instru_res, the default file reader will be used. 
         It assumes the following format for the files:
             
@@ -628,8 +628,8 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         
     Returns
     -------
-    lbda_obs, spec_mod_res: 2x 1d numpy array
-        Observed lambdas, and resampled model spectrum (at those lambdas)
+    lbda_obs, spec_mod_res: 2d numpy array
+        Observed wavelengths, and resampled model spectrum at those wavelengths.
     
     """
     
@@ -656,7 +656,8 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     spec_mod_res = np.zeros_like(lbda_obs)
     
     if dlbda_obs is None:
-        # this is only to trim out useless WL ranges, hence significantly 
+        # if dlbda_obs is not provided, estimate it to trim out useless WL 
+        # ranges from the model spectrum, hence significantly 
         # improving speed for large (>1M pts) models (e.g. BT-SETTL).
         # 0.3 factor to consider possible broad-band filters.
         dlbda_obs1 = [min(0.3*lbda_obs[0],lbda_obs[1]-lbda_obs[0])]
@@ -787,16 +788,21 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                     lbda_instru = lbda_obs[np.where(instru_idx==i)]
                     instru_fwhm = np.mean(lbda_instru)/instru_res[i-1]
                     ifwhm = instru_fwhm/(np.mean(dlbda_mod))
-                    gau_ker = Gaussian1DKernel(stddev=ifwhm*gaussian_fwhm_to_sigma)
-                    spec_mod_conv = convolve_fft(spec_mod, gau_ker, 
-                                                 preserve_nan=True)
+                    stddev = ifwhm*gaussian_fwhm_to_sigma
+                    gau_ker = Gaussian1DKernel(stddev=stddev)
+                    idx0 = find_nearest(lbda_mod, lbda_instru[0])
+                    idx1 = find_nearest(lbda_mod, lbda_instru[-1])
+                    idx_ini = max(0,int(idx0-10*stddev))
+                    idx_fin = max(len(spec_mod)-1,int(idx1+10*stddev))
+                    spec_mod_conv = convolve_fft(spec_mod[idx_ini:idx_fin+1], 
+                                                 gau_ker, preserve_nan=True)
                     tmp = np.zeros_like(lbda_obs[np.where(instru_idx==i)])
                     for ll, lbda in enumerate(lbda_obs[np.where(instru_idx==i)]):
                         mid_lbda_f = lbda_obs-dlbda_obs/2.
                         mid_lbda_l = lbda_obs+dlbda_obs/2.
-                        i_f = find_nearest(lbda_mod,
+                        i_f = find_nearest(lbda_mod[idx_ini:idx_fin+1],
                                            mid_lbda_f[np.where(instru_idx==i)][ll])
-                        i_l = find_nearest(lbda_mod,
+                        i_l = find_nearest(lbda_mod[idx_ini:idx_fin+1],
                                            mid_lbda_l[np.where(instru_idx==i)][ll])
                         tmp[ll] = np.mean(spec_mod_conv[i_f:i_l+1])
                     spec_mod_res[np.where(instru_idx==i)] = tmp
