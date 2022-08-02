@@ -40,8 +40,8 @@ or not) and the format of the spectra (multi-band photometry, low-resolution or
 medium-resolution spectrum, or a combination thereof). Although implemented with
 the characterization of directly imaged substellar companions in mind, the main routines 
 in ``special`` (e.g. Bayesian retrieval of model parameters though MCMC or nested 
-samplers, or best-fit template search) can also be applied to the spectrum of any object, 
-provided a relevant grid of models or library of templates for the fit.
+samplers, or best-fit template search) can also be applied to the spectrum of any type of 
+object, provided a relevant grid of models or library of templates for the fit.
 
 ``special`` shares similar basic utilities as offered in ``splat`` [@Burgasser:2017], such as 
 dereddening, spectral indices calculation, model grid fitting through MCMC and template 
