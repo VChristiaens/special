@@ -113,10 +113,17 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
         idx_den1 = find_nearest(lbda, lbda_den1, constraint='ceil')
         
     raise_flag = False
-    # Check if enough spectral resolution
+    raise_flag2 = False
+    # Check if enough spectral resolution (<5nm)
+    thr = 0.005*lbda_num0/1.15
+    cond1 = abs(lbda[lbda_num1+1] - lbda[idx_num1])<thr
+    cond2 = abs(lbda[lbda_den0+1] - lbda[lbda_den0])<thr
+    if cond1 or cond2:
+        raise_flag = True
+    # Check if overlap
     err_msg = "Indices overlap for num and den: not enough spectral resolution"
     if idx_den0 == idx_num1:
-        raise_flag = True
+        raise_flag2 = True
         if abs(lbda[idx_den0]-lbda_den0)<abs(lbda[idx_num1]-lbda_num1):
             idx_num1 -= 1
             if idx_num0 == idx_num1+1:
@@ -126,7 +133,7 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
             if idx_den0 == idx_den1+1:
                 raise ValueError(err_msg)  
     if idx_den1 == idx_num0:
-        raise_flag = True
+        raise_flag2 = True
         if abs(lbda[idx_den1]-lbda_den1)<abs(lbda[idx_num0]-lbda_num0):
             idx_num0 += 1
             if idx_num0 == idx_num1+1:
@@ -138,14 +145,19 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
         
     if verbose:
         if raise_flag:
-            msg = "*WARNING*: spectral resolution is barely sufficient for "
-            msg += "non-overlapping indices - results to be taken with caution!"
+            msg = "*WARNING*: input spectrum has low spectral resolution."
+            msg += "These spectral indices have not been tested or calibrated "
+            msg += "at such a low spectral resolution (see Allers et al. 2007 "
+            msg += "for details). Consider results with CAUTION."
             print(msg)
-        msg = "Closest (non-overlapping) wavelengths to {:.3f}, {:.3f}, {:.3f} and"
-        msg+= " {:.3f} mu correspond to {:.3f}, {:.3f}, {:.3f} and {:.3f} mu resp."
-        print(msg.format(lbda_num0, lbda_num1, lbda_den0, lbda_den1, 
-                         lbda[idx_num0], lbda[idx_num1], lbda[idx_den0],
-                         lbda[idx_den1]))
+        if raise_flag2:
+            msg = "*WARNING*: input spectrum has VERY low spectral resolution."
+            msg += "Closest (non-overlapping) wavelengths to {:.3f}, {:.3f}, {:.3f} and"
+            msg += " {:.3f} mu correspond to {:.3f}, {:.3f}, {:.3f} and {:.3f} mu resp."
+            msg += "Consider results with EXTRA CAUTION."
+            print(msg.format(lbda_num0, lbda_num1, lbda_den0, lbda_den1, 
+                             lbda[idx_num0], lbda[idx_num1], lbda[idx_den0],
+                             lbda[idx_den1]))
     
     num = np.mean(spec[idx_num0:idx_num1+1])
     den = np.mean(spec[idx_den0:idx_den1+1])
