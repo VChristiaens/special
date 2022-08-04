@@ -205,10 +205,17 @@
         <span class="n">idx_den1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">lbda_den1</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
         
     <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="c1"># Check if enough spectral resolution</span>
+    <span class="n">raise_flag2</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># Check if enough spectral resolution (&lt;5nm)</span>
+    <span class="n">thr</span> <span class="o">=</span> <span class="mf">0.005</span><span class="o">*</span><span class="n">lbda_num0</span><span class="o">/</span><span class="mf">1.15</span>
+    <span class="n">cond1</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">lbda_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">])</span><span class="o">&lt;</span><span class="n">thr</span>
+    <span class="n">cond2</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">lbda_den0</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lbda</span><span class="p">[</span><span class="n">lbda_den0</span><span class="p">])</span><span class="o">&lt;</span><span class="n">thr</span>
+    <span class="k">if</span> <span class="n">cond1</span> <span class="ow">or</span> <span class="n">cond2</span><span class="p">:</span>
+        <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># Check if overlap</span>
     <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Indices overlap for num and den: not enough spectral resolution&quot;</span>
     <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="p">:</span>
-        <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">raise_flag2</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_den0</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_num1</span><span class="p">):</span>
             <span class="n">idx_num1</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">idx_num0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
@@ -218,7 +225,7 @@
             <span class="k">if</span> <span class="n">idx_den0</span> <span class="o">==</span> <span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>  
     <span class="k">if</span> <span class="n">idx_den1</span> <span class="o">==</span> <span class="n">idx_num0</span><span class="p">:</span>
-        <span class="n">raise_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">raise_flag2</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_den1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_den1</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">abs</span><span class="p">(</span><span class="n">lbda</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_num0</span><span class="p">):</span>
             <span class="n">idx_num0</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">idx_num0</span> <span class="o">==</span> <span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
@@ -230,14 +237,19 @@
         
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">raise_flag</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;*WARNING*: spectral resolution is barely sufficient for &quot;</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;non-overlapping indices - results to be taken with caution!&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;*WARNING*: input spectrum has low spectral resolution.&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;These spectral indices have not been tested or calibrated &quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;at such a low spectral resolution (see Allers et al. 2007 &quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;for details). Consider results with CAUTION.&quot;</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Closest (non-overlapping) wavelengths to </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2"> and&quot;</span>
-        <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; </span><span class="si">{:.3f}</span><span class="s2"> mu correspond to </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2"> and </span><span class="si">{:.3f}</span><span class="s2"> mu resp.&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lbda_num0</span><span class="p">,</span> <span class="n">lbda_num1</span><span class="p">,</span> <span class="n">lbda_den0</span><span class="p">,</span> <span class="n">lbda_den1</span><span class="p">,</span> 
-                         <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">],</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">],</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">],</span>
-                         <span class="n">lbda</span><span class="p">[</span><span class="n">idx_den1</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">raise_flag2</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;*WARNING*: input spectrum has VERY low spectral resolution.&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Closest (non-overlapping) wavelengths to </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2"> and&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="si">{:.3f}</span><span class="s2"> mu correspond to </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2">, </span><span class="si">{:.3f}</span><span class="s2"> and </span><span class="si">{:.3f}</span><span class="s2"> mu resp.&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Consider results with EXTRA CAUTION.&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lbda_num0</span><span class="p">,</span> <span class="n">lbda_num1</span><span class="p">,</span> <span class="n">lbda_den0</span><span class="p">,</span> <span class="n">lbda_den1</span><span class="p">,</span> 
+                             <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">],</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_num1</span><span class="p">],</span> <span class="n">lbda</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">],</span>
+                             <span class="n">lbda</span><span class="p">[</span><span class="n">idx_den1</span><span class="p">]))</span>
     
     <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">idx_num0</span><span class="p">:</span><span class="n">idx_num1</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="n">idx_den0</span><span class="p">:</span><span class="n">idx_den1</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
