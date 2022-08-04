@@ -116,8 +116,8 @@ def spectral_idx(lbda, spec, band='H2O-1.5', spec_err=None, verbose=False):
     raise_flag2 = False
     # Check if enough spectral resolution (<5nm)
     thr = 0.005*lbda_num0/1.15
-    cond1 = abs(lbda[lbda_num1+1] - lbda[idx_num1])<thr
-    cond2 = abs(lbda[lbda_den0+1] - lbda[lbda_den0])<thr
+    cond1 = abs(lbda[idx_num1+1] - lbda[idx_num1])<thr
+    cond2 = abs(lbda[idx_den0+1] - lbda[idx_den0])<thr
     if cond1 or cond2:
         raise_flag = True
     # Check if overlap
