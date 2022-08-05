@@ -546,7 +546,7 @@ Fits HDU-0 data successfully loaded. Data shape: (39, 291, 291)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.image.AxesImage at 0x7fce90b50d90&gt;
+&lt;matplotlib.image.AxesImage at 0x7fd16c806f10&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -603,18 +603,9 @@ No.    Name      Ver    Type      Cards   Dimensions   Format
 Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </pre></div></div>
 </div>
-<p>The flux units follow the SI convention (W m<span class="math notranslate nohighlight">\(^{-2} \mu\)</span>m<span class="math notranslate nohighlight">\(^{-1}\)</span>). Let’s set it for later. Note that <code class="docutils literal notranslate"><span class="pre">special</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if units are provided for observed and model spectra. If not specified, <code class="docutils literal notranslate"><span class="pre">special</span></code> assumes SI units.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">units_obs</span> <span class="o">=</span> <span class="s1">&#39;si&#39;</span>
-</pre></div>
-</div>
-</div>
 <p>Let’s visualize the measured spectrum in <span class="math notranslate nohighlight">\(\lambda F_{\lambda}\)</span> units:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
@@ -631,19 +622,19 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fce80f3f9d0&gt;
+&lt;matplotlib.legend.Legend at 0x7fd149338a90&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_22_1.png" src="../_images/tutorials_walkthrough_22_1.png" />
+<img alt="../_images/tutorials_walkthrough_20_1.png" src="../_images/tutorials_walkthrough_20_1.png" />
 </div>
 </div>
 <p><a class="reference external" href="#Table-of-contents">Go to the top</a></p>
@@ -656,7 +647,7 @@ Fits HDU-0 data successfully loaded. Data shape: (4, 42)
 of best-fit model parameters (see e.g. <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt 2016</a>).</p>
 <p>Estimating the spectral correlation can be done easily in <code class="docutils literal notranslate"><span class="pre">special</span></code> using the <code class="docutils literal notranslate"><span class="pre">spectral_correlation</span></code> routine, which follows the method recommended in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2016ApJ...833..134G/abstract">Greco &amp; Brandt (2016)</a>. For that let’s first determine the location of the companion in the IFS images, by zooming on the median image of the cube:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_i</span> <span class="o">=</span> <span class="mi">35</span>
@@ -672,12 +663,12 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_28_0.png" src="../_images/tutorials_walkthrough_28_0.png" />
+<img alt="../_images/tutorials_walkthrough_26_0.png" src="../_images/tutorials_walkthrough_26_0.png" />
 </div>
 </div>
 <p>Based on the above inset, we can set the approximate coordinates of the companion, and infer its radial separation:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl_xy</span> <span class="o">=</span> <span class="p">((</span><span class="n">x_i</span><span class="o">+</span><span class="mi">17</span><span class="p">,</span><span class="n">y_i</span><span class="o">+</span><span class="mi">11</span><span class="p">),)</span> <span class="c1"># set pl_xy as a tuple of 2-element tuples - each tuple corresponds to a different companion</span>
@@ -690,7 +681,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -700,7 +691,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>The spectral correlation depends on the radial separation to the central star. The algorithm implemented in <code class="docutils literal notranslate"><span class="pre">special</span></code> can therefore compute it in concentric annuli between given inner and outer radii (by default spanning the whole field). Here since we are only interested in the spectral correlation at the radial separation of the companion, let’s set the annular width, inner and outer radii such that they only encompass the companion radial separation:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">awidth</span><span class="o">=</span><span class="mi">2</span>
@@ -711,7 +702,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Furthermore, we mask the area around the companion to not bias the spectral correlation estimate with companion flux. We set the mask radius to be 4 times the FWHM, with a FWHM set to 4px:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask_r</span><span class="o">=</span><span class="mi">4</span>
@@ -721,7 +712,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Now, we can estimate the spectral correlation at the radial separation of CrA-9b/B:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_corr</span> <span class="kn">import</span> <span class="n">spectral_correlation</span>
@@ -733,7 +724,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Let’s visualize it:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sp_corr</span><span class="p">)</span>
@@ -747,7 +738,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_38_0.png" src="../_images/tutorials_walkthrough_38_0.png" />
+<img alt="../_images/tutorials_walkthrough_36_0.png" src="../_images/tutorials_walkthrough_36_0.png" />
 </div>
 </div>
 <p>Here we used a high number of principal components for PCA, and the companion is far away from the star, such that the correlated speckle noise is efficiently subtracted from each reduced channel. Consequently, not much correlation can be seen between channels. Each spectral channel is most correlated to itself, and at most to its 2 closest neighbouring channels. Note that zero is adopted for uncorrelated channels.</p>
@@ -757,7 +748,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <p>Since our full spectrum of CrA-9b/B also contains photometric points measured by SPHERE/IRDIS (2) and NACO (1), we need to pad the IFS spectral correlation matrix with 3 additional rows and columns of zeroes + ones on the diagonal, in order to get the final spectral correlation matrix.</p>
 <p>This can easily be done with the <code class="docutils literal notranslate"><span class="pre">combine_spec_corrs</span></code> routine:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_corr</span> <span class="kn">import</span> <span class="n">combine_spec_corrs</span>
@@ -772,7 +763,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Let’s visualize the final matrix:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">final_sp_corr</span><span class="p">)</span>
@@ -785,12 +776,12 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_44_0.png" src="../_images/tutorials_walkthrough_44_0.png" />
+<img alt="../_images/tutorials_walkthrough_42_0.png" src="../_images/tutorials_walkthrough_42_0.png" />
 </div>
 </div>
 <p>Uncomment the lines in the following box if you wish to save the final spectral correlation matrix in fits format.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from special.fits import write_fits</span>
@@ -808,7 +799,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 <h2>3.1 Dereddening<a class="headerlink" href="#3.1-Dereddening" title="Permalink to this headline"></a></h2>
 <p>Provided a given <span class="math notranslate nohighlight">\(A_V\)</span> extinction value, the <code class="docutils literal notranslate"><span class="pre">extinction</span></code> routine can estimate the corresponding extinction factor at different wavelengths following the <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1989ApJ...345..245C/abstract">Cardelli et al. (1989)</a> law, and for a desired <span class="math notranslate nohighlight">\(R_V\)</span> value. Let’s consider the standard ISM value of <span class="math notranslate nohighlight">\(R_V = 3.1\)</span> mag (default if not provided).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.utils_spec</span> <span class="kn">import</span> <span class="n">extinction</span>
@@ -820,7 +811,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 <p>Let’s plot the extinction factor as a function of wavelength:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lbda</span><span class="p">,</span> <span class="n">extinc_fac</span><span class="p">)</span>
@@ -830,7 +821,7 @@ of best-fit model parameters (see e.g. <a class="reference external" href="http
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -842,13 +833,13 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_54_1.png" src="../_images/tutorials_walkthrough_54_1.png" />
+<img alt="../_images/tutorials_walkthrough_52_1.png" src="../_images/tutorials_walkthrough_52_1.png" />
 </div>
 </div>
 <p>We see that as expected the effect of extinction is stronger at shorter NIR wavelengths: at 1.0 <span class="math notranslate nohighlight">\(\mu\)</span>m roughly only half of the flux is transmitted, while at <span class="math notranslate nohighlight">\(L'\)</span> band (3.8 <span class="math notranslate nohighlight">\(\mu\)</span>m) <span class="math notranslate nohighlight">\(\sim\)</span> 93% of the flux is transmitted.</p>
 <p>Let’s now deredden the spectrum accordingly and plot it:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spec_dered</span> <span class="o">=</span> <span class="n">spec</span><span class="o">/</span><span class="n">extinc_fac</span>
@@ -864,19 +855,19 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fcea454a5b0&gt;
+&lt;matplotlib.legend.Legend at 0x7fd138990430&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_walkthrough_57_1.png" src="../_images/tutorials_walkthrough_57_1.png" />
+<img alt="../_images/tutorials_walkthrough_55_1.png" src="../_images/tutorials_walkthrough_55_1.png" />
 </div>
 </div>
 </section>
@@ -885,7 +876,7 @@ Text(0, 0.5, &#39;Extinction factor&#39;)
 <p>(Sub)stellar objects of M, L and T types have been extensively studied. Some empirical spectral indices have been proposed to estimate either their spectral type or their gravity type from the measured flux in two parts of their spectrum. Some of these spectral indices have been included in <code class="docutils literal notranslate"><span class="pre">special</span></code> (additional inputs are welcome). An example is provided below with the H<span class="math notranslate nohighlight">\(_2\)</span>O and Na indices which are relevant for a <span class="math notranslate nohighlight">\(YJH\)</span> spectrum.</p>
 <p>It is important to note that different spectral indices are valid in different spectral subtype ranges! The interested reader is referred to <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2007ApJ...657..511A/abstract">Allers et al. (2007)</a> and references therein.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">spectral_idx</span>
@@ -914,7 +905,7 @@ Na index: 1.011+-0.004
 </div>
 <p>The H<span class="math notranslate nohighlight">\(_2\)</span>O index can then be converted to an estimated spectral type:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_spt</span><span class="p">,</span> <span class="n">digit_to_spt</span>
@@ -935,7 +926,7 @@ SpT: M5.1+-0.8
 </div>
 <p>The Na index on the other hand can be used to provide a qualitative estimate on the gravity (hence the youth) of an object:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">special.spec_indices</span> <span class="kn">import</span> <span class="n">sp_idx_to_gravity</span>
@@ -963,7 +954,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 <h2>4.1. Parameters<a class="headerlink" href="#4.1.-Parameters" title="Permalink to this headline"></a></h2>
 <p>Let’s first define the distance to the system, which will be used to scale the models (along with the companion radius):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d_st</span> <span class="o">=</span> <span class="mf">153.</span> <span class="c1">#pc based on Gaia</span>
@@ -972,7 +963,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>The internal workings of <code class="docutils literal notranslate"><span class="pre">special</span></code> allow for the convolution with the spectral PSF of an IFS, or the integration over a filter transmission curve (in the case of photometric points). For these options to be considered, let’s provide the average resolving power of the IFS in YJH mode (34.5), and the name of the filenames where the filter transmission curves are encoded.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instru_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">34.5</span><span class="p">,</span> <span class="s1">&#39;SPHERE_IRDIS_D_K1.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;SPHERE_IRDIS_D_K2.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;CONICA_L_prime.dat&#39;</span><span class="p">]</span>
@@ -981,7 +972,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Now let’s assign an index to each instrument and build a list that will tell the algorithm which <code class="docutils literal notranslate"><span class="pre">instru_res</span></code> values are to be assigned to which datapoints.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_ifs</span><span class="o">=</span><span class="mi">39</span>
@@ -991,7 +982,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>In addition, we define a snippet function that can read the filter transmissions mentioned in the list. For convenience (and to allow for multiprocessing), it is defined in <code class="docutils literal notranslate"><span class="pre">utils.py</span></code>, and commented below FYI.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">filter_reader</span>
@@ -1051,7 +1042,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s assemble all parameters related to the instrument(s) and filter(s) into a dictionary, including as well the spectral correlation calculated in Sec. 2:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">instru_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;instru_res&#39;</span><span class="p">:</span><span class="n">instru_res</span><span class="p">,</span>
@@ -1063,7 +1054,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">special</span></code> was implemented with directly imaged substellar objects in mind. Radii and masses therefore implicitly assume Jovian units. If you prefer Solar radii for your outputs, set <code class="docutils literal notranslate"><span class="pre">star</span></code> to True in the following box:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">c</span>
@@ -1077,7 +1068,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Let’s set the MCMC parameters identically for all runs shown in the next subsections (see more details in <code class="docutils literal notranslate"><span class="pre">emcee</span></code> <a class="reference external" href="https://emcee.readthedocs.io/en/stable/index.html">documentation</a>):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="mf">2.0</span>
@@ -1096,7 +1087,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Similarly, we adopt the autocorrelation time criterion for convergence for all MCMC runs (see more details <a class="reference external" href="https://emcee.readthedocs.io/en/stable/tutorials/autocorr/">here</a>):</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conv_test</span><span class="o">=</span><span class="s1">&#39;ac&#39;</span>
@@ -1115,7 +1106,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 <h2>4.2. Blackbody model<a class="headerlink" href="#4.2.-Blackbody-model" title="Permalink to this headline"></a></h2>
 <p>This model does not involve any grid:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_list</span><span class="o">=</span><span class="kc">None</span> <span class="c1"># triggers a blackbody fit</span>
@@ -1124,7 +1115,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>The 2 parameters are the temperature and radius (of a sphere). It is important to label the blackbody temperature and radius ‘Tbb1’ and ‘Rbb1’, respectively. This is because <code class="docutils literal notranslate"><span class="pre">special</span></code> allows for the addition of an unlimited number of blackbody components. E.g. for n components, set the labels from ‘Tbb1’ to ‘Tbbn’ and from ‘Rbb1’ to ‘Rbbn’.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Tbb1&#39;</span><span class="p">,</span> <span class="s1">&#39;Rbb1&#39;</span><span class="p">)</span>
@@ -1136,7 +1127,7 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Set the initial guesses and bounds accordingly. Note the requirement for a Jovian input radius.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ini_guess</span> <span class="o">=</span> <span class="p">(</span><span class="mf">3200.</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span> <span class="c1">#K and R_Jup</span>
@@ -1147,13 +1138,22 @@ The object&#39;s gravity is consistent with being very young (Na index less than
 </div>
 <p>Again, let’s collate all model-related parameters into a dictionary:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;grid_param_list&#39;</span><span class="p">:</span><span class="n">grid_list</span><span class="p">,</span>
               <span class="s1">&#39;labels&#39;</span><span class="p">:</span><span class="n">labels</span><span class="p">,</span>
               <span class="s1">&#39;initial_state&#39;</span><span class="p">:</span><span class="n">ini_guess</span><span class="p">,</span>
               <span class="s1">&#39;bounds&#39;</span><span class="p">:</span><span class="n">bounds</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>The flux units of input spectra are assumed to follow the SI convention by default (W m<span class="math notranslate nohighlight">\(^{-2} \mu\)</span>m<span class="math notranslate nohighlight">\(^{-1}\)</span>). Note that <code class="docutils literal notranslate"><span class="pre">special</span></code> can also handle ‘cgs’ and ‘jy’. The relevant conversions will be made internally if different units are provided for observed and model spectra.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">units_obs</span> <span class="o">=</span> <span class="s1">&#39;si&#39;</span>
 </pre></div>
 </div>
 </div>
