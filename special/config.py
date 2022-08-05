@@ -19,6 +19,7 @@ __all__ = ['time_ini',
 from datetime import datetime
 import itertools as itt
 import multiprocessing
+import os
 import sys
 
 sep = '―' * 80
@@ -224,10 +225,7 @@ def pool_map(nproc, fkt, *args, **kwargs):
     res : list
         A list with the results.
 
-    """
-    multiprocessing.set_start_method('fork', force=True)
-    from multiprocessing import Pool
-    
+    """    
     msg = kwargs.get("msg", None)
     verbose = kwargs.get("verbose", True)
     progressbar_single = kwargs.get("progressbar_single", False)
@@ -244,6 +242,13 @@ def pool_map(nproc, fkt, *args, **kwargs):
         if not _generator:
             res = list(res)
     else:
+        multiprocessing.set_start_method('fork', force=True)
+        from multiprocessing import Pool
+        # deactivate multithreading
+        os.environ["MKL_NUM_THREADS"] = "1"
+        os.environ["NUMEXPR_NUM_THREADS"] = "1"
+        os.environ["OMP_NUM_THREADS"] = "1"
+
         if verbose and msg is not None:
             print("{} with {} processes".format(msg, nproc))
         pool = Pool(processes=nproc)
@@ -253,6 +258,12 @@ def pool_map(nproc, fkt, *args, **kwargs):
             res = pool.map(eval_func_tuple, z)
         pool.close()
         pool.join()
+
+        # reactivate multithreading
+        ncpus = multiprocessing.cpu_count()
+        os.environ["MKL_NUM_THREADS"] = str(ncpus)
+        os.environ["NUMEXPR_NUM_THREADS"] = str(ncpus)
+        os.environ["OMP_NUM_THREADS"] = str(ncpus)
 
     return res
 
