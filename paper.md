@@ -109,7 +109,7 @@ $w_i \propto \Delta\lambda_i/\lambda_i$, with $\Delta\lambda_i$ the width of
 spectral channels (for integral field spectrograph points) or the FWHM of 
 photometric filters.
 
-A jupyter notebook tutorial illustrates most available features in ``special`` 
+A Jupyter notebook tutorial illustrates most available features in ``special`` 
 through their application for the analysis of the composite spectrum of CrA-9 B/b 
 [@Christiaens:2021]. It is available on 
 [GitHub](https://github.com/VChristiaens/special_extras), 
