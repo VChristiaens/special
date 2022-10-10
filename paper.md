@@ -104,9 +104,9 @@ instruments (e.g. photometry+spectroscopy):
 
 where $D$ are the data at hand (measured fluxes and spectral covariance), 
 $M$ is the considered model, $\mathbf{F_{\rm obs}}$ and $\mathbf{F_{\rm mod}}$ 
-are the fluxes of the observed and model spectra respectively (each are vectors of 
+are the fluxes of the observed and model spectra respectively (both are vectors of 
 length $n_z$, the number of spectro-/photometric points), $\mathbf{C}$ is 
-the spectral covariance matrix ($n_z$x$n_z$), $\odot$ stands for the Hadamard product, and 
+the spectral covariance matrix ($n_z$ x $n_z$), $\odot$ stands for the Hadamard product, and 
 $\mathbf{W}$ is the vector of weights $w_i \propto \Delta\lambda_i/\lambda_i$ (length $n_z$), 
 with $\Delta\lambda_i$ the width of spectral channels (for integral field spectrograph 
 points) or the FWHM of photometric filters.
