@@ -12,6 +12,11 @@
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
     :target: https://github.com/VChristiaens/special/blob/master/LICENSE
 
+.. image:: https://joss.theoj.org/papers/10.21105/joss.04456/status.svg
+   :target: https://doi.org/10.21105/joss.04456
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.7181950.svg
+   :target: https://doi.org/10.5281/zenodo.7181950
 
 ``special`` is a Python package for the SPEctral Characterization of directly ImAged Low-mass companions. While some tools are specific to the characterisation of low-mass (M, L, T) dwarfs down to giant planets at optical/IR wavelengths, the main routines of ``special`` (MCMC and nested samplers) can also be used in a more general way for the characterisation of any type of object with a measured spectrum, provided a relevant input model grid, regardless of the observational method used to obtain the spectrum (direct imaging or not) and regardless of the format of the spectra (multi-band photometry, low-resolution or medium-resolution spectrum, or a combination thereof).
 
