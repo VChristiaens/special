@@ -670,7 +670,7 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
     if verbose:
         print("checking whether WL samplings are the same for obs and model")
 
-    if isinstance(instru_res, float) or isinstance(instru_res, int):
+    if np.isscalar(instru_res) and not isinstance(instru_res, str):
         instru_res = [instru_res]
     cond = False
     if len(lbda_obs) != len(lbda_mod):
@@ -682,19 +682,19 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
         if instru_res is not None:
             if np.isscalar(instru_res[0]) and not isinstance(instru_res[0], str):
                 if instru_idx is None:
-                    instru_idx = [1]*len(lbda_obs)
+                    instru_idx = np.array([1]*len(lbda_obs))
                 lbda_instru = lbda_obs[np.where(instru_idx == 1)]
                 instru_fwhm = np.mean(lbda_instru)/instru_res[0]
-                lbda_min = lbda_obs[0]-3*instru_fwhm
+                lbda_min = max(lbda_obs[0]-3*instru_fwhm, lbda_mod[0])
         lbda_max = lbda_obs[-1]+2*dlbda_obs[-1]
         if instru_res is not None:
             if np.isscalar(instru_res[-1]) and not isinstance(instru_res[-1], str):
                 if instru_idx is None:
-                    instru_idx = [1]*len(lbda_obs)
+                    instru_idx = np.array([1]*len(lbda_obs))
                 lbda_instru = lbda_obs[np.where(
                     instru_idx == np.amax(instru_idx))]
                 instru_fwhm = np.mean(lbda_instru)/instru_res[-1]
-                lbda_max = lbda_obs[-1]+3*instru_fwhm
+                lbda_max = min(lbda_obs[-1]+3*instru_fwhm, lbda_mod[-1])
 
         if no_constraint:
             idx_ini = find_nearest(lbda_mod, lbda_min)
@@ -788,7 +788,22 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                 instru_idx = np.array([1]*n_ch)
 
             for i in range(1, len(instru_res)+1):
-                if isinstance(instru_res[i-1], (float, int)):
+                if isinstance(instru_res[i-1], str):
+                    if filter_reader is not None:
+                        lbda_filt, trans = filter_reader(instru_res[i-1])
+                    else:
+                        lbda_filt, trans = _default_file_reader(instru_res[i-1])
+                    idx_ini = find_nearest(lbda_mod, lbda_filt[0],
+                                           constraint='ceil')
+                    idx_fin = find_nearest(lbda_mod, lbda_filt[-1],
+                                           constraint='floor')
+                    interp_trans = np.interp(lbda_mod[idx_ini:idx_fin], lbda_filt,
+                                             trans)
+                    num = np.sum(
+                        interp_trans*dlbda_mod[idx_ini:idx_fin]*spec_mod[idx_ini:idx_fin])
+                    denom = np.sum(interp_trans*dlbda_mod[idx_ini:idx_fin])
+                    spec_mod_res[np.where(instru_idx == i)] = num/denom
+                elif np.isscalar(instru_res[i-1]):
                     lbda_instru = lbda_obs[np.where(instru_idx == i)]
                     instru_fwhm = np.mean(lbda_instru)/instru_res[i-1]
                     ifwhm = instru_fwhm/(np.mean(dlbda_mod))
@@ -810,21 +825,6 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                                            mid_lbda_l[np.where(instru_idx == i)][ll])
                         tmp[ll] = np.mean(spec_mod_conv[i_f:i_l+1])
                     spec_mod_res[np.where(instru_idx == i)] = tmp
-                elif isinstance(instru_res[i-1], str):
-                    if filter_reader is not None:
-                        lbda_filt, trans = filter_reader(instru_res[i-1])
-                    else:
-                        lbda_filt, trans = _default_file_reader(instru_res[i-1])
-                    idx_ini = find_nearest(lbda_mod, lbda_filt[0],
-                                           constraint='ceil')
-                    idx_fin = find_nearest(lbda_mod, lbda_filt[-1],
-                                           constraint='floor')
-                    interp_trans = np.interp(lbda_mod[idx_ini:idx_fin], lbda_filt,
-                                             trans)
-                    num = np.sum(
-                        interp_trans*dlbda_mod[idx_ini:idx_fin]*spec_mod[idx_ini:idx_fin])
-                    denom = np.sum(interp_trans*dlbda_mod[idx_ini:idx_fin])
-                    spec_mod_res[np.where(instru_idx == i)] = num/denom
                 else:
                     msg = "instru_res is a {}, while it should be either a"
                     msg += " scalar or a string"
