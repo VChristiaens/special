@@ -117,14 +117,14 @@
                          <span class="n">inject_em_line</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="make_model_from_params"><a class="viewcode-back" href="../../special.html#special.model_resampling.make_model_from_params">[docs]</a><span class="k">def</span> <span class="nf">make_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                           <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> 
-                           <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+<div class="viewcode-block" id="make_model_from_params"><a class="viewcode-back" href="../../special.html#special.model_resampling.make_model_from_params">[docs]</a><span class="k">def</span> <span class="nf">make_model_from_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span>
+                           <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AV_bef_bb</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                            <span class="n">units_obs</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">units_mod</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Routine to make the model from input parameters.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    params : tuple</span>
@@ -168,41 +168,41 @@
 <span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
 <span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
 <span class="sd">        4 values: </span>
-<span class="sd">            </span>
+
 <span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
-<span class="sd">            </span>
+
 <span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
 <span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
-<span class="sd">              </span>
+
 <span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
-<span class="sd">            </span>
+
 <span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
 <span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
 <span class="sd">        line, calculated from the flux to be injected and the continuum </span>
 <span class="sd">        level (measured in the grid model to which the line is injected).</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
 <span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
-<span class="sd">        </span>
+
 <span class="sd">    em_grid: dictionary pointing to lists, opt</span>
 <span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
 <span class="sd">        to a list of values to inject for emission line fluxes. For computation</span>
 <span class="sd">        efficiency, interpolation will be performed between the points of this</span>
 <span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
 <span class="sd">        ``labels`` and ``em_lines``.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
 <span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
-<span class="sd">            </span>
+
 <span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
 <span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
 <span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
 <span class="sd">            &gt;&gt;&gt;            &#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
-<span class="sd">            </span>
+
 <span class="sd">    dlbda_obs : numpy 1d ndarray or list, optional</span>
 <span class="sd">        Respective spectral channel width or FWHM of the photometric filters </span>
 <span class="sd">        used for each point of the observed spectrum. This vector is used to </span>
@@ -232,14 +232,14 @@
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
-<span class="sd">            </span>
+
 <span class="sd">        - first row contains headers (titles of each column)</span>
 <span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
 <span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
 <span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
 <span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
 <span class="sd">        matters for the units.</span>
-<span class="sd">     </span>
+
 <span class="sd">    AV_bef_bb: bool, optional</span>
 <span class="sd">        If both extinction and an extra bb component are free parameters, </span>
 <span class="sd">        whether to apply extinction before adding the BB component (e.g. </span>
@@ -257,12 +257,12 @@
 <span class="sd">            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
 <span class="sd">            - 0: nearest neighbour model</span>
 <span class="sd">            - 1: Order 1 spline interpolation</span>
-<span class="sd">      </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    out: numpy array</span>
 <span class="sd">        The model wavelength and spectrum</span>
-<span class="sd">        </span>
+
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
 <span class="sd">    ``grid_param_list`` and ``model_grid`` shouldn&#39;t contain grids on radius </span>
@@ -270,18 +270,17 @@
 <span class="sd">    of parameters probed by the grid to ``grid_param_list``, and provide values </span>
 <span class="sd">    for &#39;Tbbn&#39; and &#39;Rbbn&#39; to ``initial_state``, ``labels`` and ``bounds``.  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    
+
     <span class="k">if</span> <span class="s1">&#39;Tbb1&#39;</span> <span class="ow">in</span> <span class="n">labels</span> <span class="ow">and</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">lbda_obs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lbda_obs should be provided because there is no grid&quot;</span><span class="p">)</span>
-      
+
     <span class="k">if</span> <span class="n">grid_param_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">lbda_obs</span>
         <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">npar_grid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
         <span class="n">params_grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npar_grid</span><span class="p">)]</span>
-        <span class="n">params_grid</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">params_grid</span><span class="p">)</span>        
+        <span class="n">params_grid</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">params_grid</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">p_em_grid</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
@@ -300,20 +299,19 @@
                         <span class="n">R_si</span> <span class="o">=</span> <span class="n">em_params</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
                         <span class="n">conv_fac</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">L_sun</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">R_si</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
                         <span class="n">em_params</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv_fac</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="n">em_params</span><span class="p">[</span><span class="n">idx_line</span><span class="p">]</span>
-                        
-            <span class="c1"># then build em. lines dictionary        </span>
+
+            <span class="c1"># then build em. lines dictionary</span>
             <span class="n">p_em_grid</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">j</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                 <span class="n">p_em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">em_params</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                
 
         <span class="c1"># interpolate model to requested parameters</span>
-        <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">interpolate_model</span><span class="p">(</span><span class="n">params_grid</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> 
+        <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">interpolate_model</span><span class="p">(</span><span class="n">params_grid</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span>
                                                <span class="n">p_em_grid</span><span class="p">,</span> <span class="n">em_grid</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">,</span>
-                                               <span class="n">labels</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">,</span> 
+                                               <span class="n">labels</span><span class="p">,</span> <span class="n">model_grid</span><span class="p">,</span>
                                                <span class="n">model_reader</span><span class="p">,</span> <span class="n">interp_order</span><span class="p">)</span>
-        
+
         <span class="c1"># resample to lbda_obs if needed</span>
         <span class="k">if</span> <span class="n">lbda_obs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">cond</span> <span class="o">=</span> <span class="kc">False</span>
@@ -322,13 +320,13 @@
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
                 <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
-                <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
-                                                    <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> 
+                <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span>
+                                                    <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span>
                                                     <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
-            
+
         <span class="c1"># convert model to same units as observed spectrum if necessary</span>
         <span class="k">if</span> <span class="n">units_mod</span> <span class="o">!=</span> <span class="n">units_obs</span><span class="p">:</span>
-            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">convert_F_units</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">in_unit</span><span class="o">=</span><span class="n">units_mod</span><span class="p">,</span> 
+            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">convert_F_units</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">in_unit</span><span class="o">=</span><span class="n">units_mod</span><span class="p">,</span>
                                        <span class="n">out_unit</span><span class="o">=</span><span class="n">units_obs</span><span class="p">)</span>
 
         <span class="c1"># scale by (R/dist)**2</span>
@@ -336,61 +334,60 @@
         <span class="n">dilut_fac</span> <span class="o">=</span> <span class="p">((</span><span class="n">params</span><span class="p">[</span><span class="n">idx_R</span><span class="p">]</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dist</span><span class="o">*</span><span class="n">con</span><span class="o">.</span><span class="n">pc</span><span class="o">.</span><span class="n">value</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">spec_mod</span> <span class="o">*=</span> <span class="n">dilut_fac</span>
 
-        
     <span class="c1"># apply extinction if requested</span>
     <span class="k">if</span> <span class="s1">&#39;Av&#39;</span> <span class="ow">in</span> <span class="n">labels</span> <span class="ow">and</span> <span class="n">AV_bef_bb</span><span class="p">:</span>
-        <span class="c1">## so far only assume Cardelli extinction law</span>
+        <span class="c1"># so far only assume Cardelli extinction law</span>
         <span class="n">idx_AV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Av&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;Rv&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">idx_RV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Rv&quot;</span><span class="p">)</span>
             <span class="n">RV</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_RV</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">RV</span><span class="o">=</span><span class="mf">3.1</span>
+            <span class="n">RV</span> <span class="o">=</span> <span class="mf">3.1</span>
         <span class="n">extinc_curve</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_AV</span><span class="p">],</span> <span class="n">RV</span><span class="p">)</span>
-        <span class="n">flux_ratio_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">extinc_curve</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">flux_ratio_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="o">-</span><span class="n">extinc_curve</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
         <span class="n">spec_mod</span> <span class="o">*=</span> <span class="n">flux_ratio_ext</span>
-        <span class="c1">## TBD: add more options</span>
+        <span class="c1"># TBD: add more options</span>
 
-    <span class="c1"># add n blackbody component(s) if requested </span>
+    <span class="c1"># add n blackbody component(s) if requested</span>
     <span class="k">if</span> <span class="s1">&#39;Tbb1&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
-         <span class="n">n_bb</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
-             <span class="k">if</span> <span class="s1">&#39;Tbb&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
-                 <span class="n">n_bb</span><span class="o">+=</span><span class="mi">1</span>
-         <span class="n">idx_Tbb1</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Tbb1&quot;</span><span class="p">)</span>
-         <span class="n">Rj</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
-         <span class="n">pc</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">pc</span><span class="o">.</span><span class="n">value</span>
-         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bb</span><span class="p">):</span>
-             <span class="n">idx</span> <span class="o">=</span> <span class="n">ii</span><span class="o">*</span><span class="mi">2</span>
-             <span class="n">Omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">params</span><span class="p">[</span><span class="n">idx_Tbb1</span><span class="o">+</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Rj</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dist</span><span class="o">*</span><span class="n">pc</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-             <span class="n">bb</span> <span class="o">=</span> <span class="n">Omega</span><span class="o">*</span><span class="n">blackbody</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_Tbb1</span><span class="o">+</span><span class="n">idx</span><span class="p">])</span>
-             <span class="n">spec_mod</span> <span class="o">+=</span> <span class="n">bb</span>
+        <span class="n">n_bb</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;Tbb&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+                <span class="n">n_bb</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">idx_Tbb1</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Tbb1&quot;</span><span class="p">)</span>
+        <span class="n">Rj</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">R_jup</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">pc</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bb</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">ii</span><span class="o">*</span><span class="mi">2</span>
+            <span class="n">Omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">((</span><span class="n">params</span><span class="p">[</span><span class="n">idx_Tbb1</span><span class="o">+</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Rj</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dist</span><span class="o">*</span><span class="n">pc</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">bb</span> <span class="o">=</span> <span class="n">Omega</span><span class="o">*</span><span class="n">blackbody</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_Tbb1</span><span class="o">+</span><span class="n">idx</span><span class="p">])</span>
+            <span class="n">spec_mod</span> <span class="o">+=</span> <span class="n">bb</span>
 
     <span class="c1"># apply extinction if requested</span>
     <span class="k">if</span> <span class="s1">&#39;Av&#39;</span> <span class="ow">in</span> <span class="n">labels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">AV_bef_bb</span><span class="p">:</span>
-        <span class="c1">## so far only assume Cardelli extinction law</span>
+        <span class="c1"># so far only assume Cardelli extinction law</span>
         <span class="n">idx_AV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Av&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;Rv&#39;</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">idx_RV</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Rv&quot;</span><span class="p">)</span>
             <span class="n">RV</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_RV</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">RV</span><span class="o">=</span><span class="mf">3.1</span>
+            <span class="n">RV</span> <span class="o">=</span> <span class="mf">3.1</span>
         <span class="n">extinc_curve</span> <span class="o">=</span> <span class="n">extinction</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">params</span><span class="p">[</span><span class="n">idx_AV</span><span class="p">],</span> <span class="n">RV</span><span class="p">)</span>
-        <span class="n">flux_ratio_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span><span class="o">-</span><span class="n">extinc_curve</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="n">flux_ratio_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="o">-</span><span class="n">extinc_curve</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
         <span class="n">spec_mod</span> <span class="o">*=</span> <span class="n">flux_ratio_ext</span>
-        <span class="c1">## TBD: add more options                </span>
-        
+        <span class="c1"># TBD: add more options</span>
+
     <span class="k">return</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span></div>
 
 
 <div class="viewcode-block" id="make_resampled_models"><a class="viewcode-back" href="../../special.html#special.model_resampling.make_resampled_models">[docs]</a><span class="k">def</span> <span class="nf">make_resampled_models</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                          <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                          <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interp_nonexist</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cube of models after convolution and resampling as in the </span>
 <span class="sd">    observations.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------   </span>
 <span class="sd">    lbda_obs : numpy 1d ndarray or list</span>
@@ -418,41 +415,41 @@
 <span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
 <span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
 <span class="sd">        4 values: </span>
-<span class="sd">            </span>
+
 <span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
-<span class="sd">            </span>
+
 <span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
 <span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
-<span class="sd">              </span>
+
 <span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
-<span class="sd">            </span>
+
 <span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
 <span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
 <span class="sd">        line, calculated from the flux to be injected and the continuum </span>
 <span class="sd">        level (measured in the grid model to which the line is injected).</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
 <span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
-<span class="sd">        </span>
+
 <span class="sd">    em_grid: dictionary pointing to lists, opt</span>
 <span class="sd">        Dictionary where each entry corresponds to an emission line and points</span>
 <span class="sd">        to a list of values to inject for emission line fluxes. For computation</span>
 <span class="sd">        efficiency, interpolation will be performed between the points of this</span>
 <span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
 <span class="sd">        ``labels`` and ``em_lines``.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
 <span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
-<span class="sd">            </span>
+
 <span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
 <span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
 <span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
 <span class="sd">            &gt;&gt;&gt;            &#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
-<span class="sd">            </span>
+
 <span class="sd">    lbda_mod : numpy 1d ndarray or list</span>
 <span class="sd">        Wavelength of tested model. Should have a wider wavelength extent than </span>
 <span class="sd">        the observed spectrum.</span>
@@ -492,23 +489,23 @@
 <span class="sd">        contains transmission values. Important: if not provided, but strings </span>
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
-<span class="sd">            </span>
+
 <span class="sd">        - first row contains headers (titles of each column)</span>
 <span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
 <span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
 <span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
 <span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
 <span class="sd">        matters for the units.</span>
-<span class="sd">     </span>
+
 <span class="sd">    interp_nonexist: bool, opt</span>
 <span class="sd">        Whether to interpolate if models do not exist, based on closest model(s)</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    resamp_mod: 1d numpy array</span>
 <span class="sd">        Grid of model spectra resampled at wavelengths matching the observed </span>
 <span class="sd">        spectrum.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
 <span class="sd">    ``grid_param_list`` and ``model_grid`` shouldn&#39;t contain grids on radius </span>
@@ -519,9 +516,9 @@
     <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
     <span class="n">n_mods</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-    
-    <span class="k">if</span> <span class="n">n_params</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n_params</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">n_params</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_params</span><span class="p">):</span>
             <span class="n">n_mods</span> <span class="o">*=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">])</span>
             <span class="n">dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">]))</span>
 
@@ -537,72 +534,77 @@
             <span class="n">dims_em</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
         <span class="n">final_dims</span> <span class="o">=</span> <span class="n">dims</span><span class="o">+</span><span class="n">dims_em</span><span class="o">+</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">dims_em</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dims_em</span><span class="p">)</span>
-     
+
     <span class="n">final_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
     <span class="n">resamp_mod</span> <span class="o">=</span> <span class="p">[]</span>
-    
+
     <span class="c1"># Loop on all models whose parameters are provided in model grid</span>
-    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mods</span><span class="p">):</span>            
+    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_mods</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span><span class="n">dims</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
                 <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">])</span>
             <span class="n">indices</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="n">model_grid</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
-            <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>             
+            <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">params_tmp</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span><span class="n">dims</span><span class="p">)</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
-                <span class="n">params_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>  
+                <span class="n">params_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are nan values in spec for params: &quot;</span><span class="p">)</span>
                     <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Model does not exist for param combination (</span><span class="si">{}</span><span class="s2">)&quot;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Model does not exist for param combination (</span><span class="si">{}</span><span class="s2">)&quot;</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">))</span>
                 <span class="k">if</span> <span class="n">interp_nonexist</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Press c if you wish to interpolate that model from neighbours&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="s2">&quot;Press c if you wish to interpolate that model from neighbours&quot;</span><span class="p">)</span>
                     <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
                     <span class="c1"># find for which dimension the model doesn&#39;t exist;</span>
                     <span class="k">for</span> <span class="n">qq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
-                        <span class="n">interp_params1</span><span class="o">=</span><span class="p">[]</span>
-                        <span class="n">interp_params2</span><span class="o">=</span><span class="p">[]</span>
+                        <span class="n">interp_params1</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="n">interp_params2</span> <span class="o">=</span> <span class="p">[]</span>
                         <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
                             <span class="k">if</span> <span class="n">pp</span> <span class="o">==</span> <span class="n">qq</span><span class="p">:</span>
                                 <span class="k">try</span><span class="p">:</span>
-                                    <span class="n">interp_params1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                                    <span class="n">interp_params2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                                    <span class="n">interp_params1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                        <span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                                    <span class="n">interp_params2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                        <span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
                                 <span class="k">except</span><span class="p">:</span>
                                     <span class="k">continue</span>
                             <span class="k">else</span><span class="p">:</span>
-                                <span class="n">interp_params1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
-                                <span class="n">interp_params2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
+                                <span class="n">interp_params1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
+                                <span class="n">interp_params2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="n">grid_param_list</span><span class="p">[</span><span class="n">pp</span><span class="p">][</span><span class="n">idx</span><span class="p">[</span><span class="n">pp</span><span class="p">]])</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">lbda_mod1</span><span class="p">,</span> <span class="n">spec_mod1</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">interp_params1</span><span class="p">)</span>
                             <span class="n">lbda_mod2</span><span class="p">,</span> <span class="n">spec_mod2</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">interp_params2</span><span class="p">)</span>
-                            <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">lbda_mod1</span><span class="p">,</span><span class="n">lbda_mod2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-                            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">spec_mod1</span><span class="p">,</span><span class="n">spec_mod2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-                            <span class="n">msg</span><span class="o">=</span> <span class="s2">&quot;Model was interpolated based on models: </span><span class="si">{}</span><span class="s2"> &quot;</span>
-                            <span class="n">msg</span><span class="o">+=</span><span class="s2">&quot;and </span><span class="si">{}</span><span class="s2">&quot;</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interp_params1</span><span class="p">,</span><span class="n">interp_params2</span><span class="p">))</span>
+                            <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">lbda_mod1</span><span class="p">,</span> <span class="n">lbda_mod2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">spec_mod1</span><span class="p">,</span> <span class="n">spec_mod2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Model was interpolated based on models: </span><span class="si">{}</span><span class="s2"> &quot;</span>
+                            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;and </span><span class="si">{}</span><span class="s2">&quot;</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interp_params1</span><span class="p">,</span> <span class="n">interp_params2</span><span class="p">))</span>
                             <span class="k">break</span>
                         <span class="k">except</span><span class="p">:</span>
                             <span class="k">pass</span>
                         <span class="k">if</span> <span class="n">qq</span> <span class="o">==</span> <span class="n">n_params</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Impossible to interpolate model!&quot;</span> 
+                            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Impossible to interpolate model!&quot;</span>
                             <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;Consider reducing bounds.&quot;</span>
                             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Model interpolation not allowed for non existing &quot;</span> 
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Model interpolation not allowed for non existing &quot;</span>
                     <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;models in the grid.&quot;</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>                    
-                    
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
         <span class="c1"># inject emission lines if any</span>
         <span class="k">if</span> <span class="n">n_em</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">flux_grids</span> <span class="o">=</span> <span class="p">[]</span>
@@ -616,40 +618,40 @@
             <span class="k">for</span> <span class="n">fluxes</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">flux_grids</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">ff</span><span class="p">,</span> <span class="n">flux</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fluxes</span><span class="p">):</span>
                     <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">wls</span><span class="p">[</span><span class="n">ff</span><span class="p">],</span> <span class="n">flux</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span>
-                                              <span class="n">widths</span><span class="p">[</span><span class="n">ff</span><span class="p">])</span>                
+                                              <span class="n">widths</span><span class="p">[</span><span class="n">ff</span><span class="p">])</span>
                 <span class="c1"># interpolate OR convolve+bin model spectrum if required</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
-                    <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
-                                         <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span>
+                                         <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span>
                                          <span class="n">filter_reader</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
-                    <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> 
-                                         <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> 
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span>
+                                         <span class="n">dlbda_obs</span><span class="p">,</span> <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span>
                                          <span class="n">filter_reader</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">])</span>
-                    
-                <span class="n">resamp_mod</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>                
-        <span class="k">else</span><span class="p">:</span>    
+
+                <span class="n">resamp_mod</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="c1"># interpolate OR convolve+bin model spectrum if not same sampling</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span>
                                      <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">):</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span> 
+                <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="p">,</span>
                                      <span class="n">instru_res</span><span class="p">,</span> <span class="n">instru_idx</span><span class="p">,</span> <span class="n">filter_reader</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">])</span>
-                
+
             <span class="n">resamp_mod</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
     <span class="n">resamp_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">resamp_mod</span><span class="p">)</span>
-    <span class="n">resamp_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">resamp_mod</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-       
+    <span class="n">resamp_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">resamp_mod</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">resamp_mod</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span></div>
 
- 
-<div class="viewcode-block" id="resample_model"><a class="viewcode-back" href="../../special.html#special.model_resampling.resample_model">[docs]</a><span class="k">def</span> <span class="nf">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+
+<div class="viewcode-block" id="resample_model"><a class="viewcode-back" href="../../special.html#special.model_resampling.resample_model">[docs]</a><span class="k">def</span> <span class="nf">resample_model</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">,</span> <span class="n">spec_mod</span><span class="p">,</span> <span class="n">dlbda_obs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">instru_res</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instru_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">no_constraint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -702,14 +704,14 @@
 <span class="sd">        strings (filter filenames). Important: if not provided, but strings </span>
 <span class="sd">        are detected in instru_res, the default file reader will be used. </span>
 <span class="sd">        It assumes the following format for the files:</span>
-<span class="sd">            </span>
+
 <span class="sd">        - first row contains headers (titles of each column)</span>
 <span class="sd">        - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission</span>
 <span class="sd">        - Unit of wavelength can be provided in parentheses of first header \</span>
 <span class="sd">        key name: e.g. &quot;WL(AA)&quot; for angstrom, &quot;wavelength(mu)&quot; for micrometer \</span>
 <span class="sd">        or &quot;lambda(nm)&quot; for nanometer. Note: only what is in parentheses \</span>
 <span class="sd">        matters for the units.</span>
-<span class="sd">     </span>
+
 <span class="sd">    no_constraint: bool, optional</span>
 <span class="sd">        If set to True, will not use &#39;floor&#39; and &#39;ceil&#39; constraints when</span>
 <span class="sd">        cropping the model wavelength ranges, i.e. faces the risk of </span>
@@ -717,50 +719,50 @@
 <span class="sd">        are known to match exactly. </span>
 <span class="sd">    verbose: bool, optional</span>
 <span class="sd">        Whether to print more information during resampling.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    lbda_obs, spec_mod_res: 2d numpy array</span>
 <span class="sd">        Observed wavelengths, and resampled model spectrum at those wavelengths.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="k">def</span> <span class="nf">_default_file_reader</span><span class="p">(</span><span class="n">filter_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Default file reader if no filter file reader is provided.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">filt_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filter_name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+        <span class="n">filt_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filter_name</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                  <span class="n">skipinitialspace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">filt_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="n">lbda_filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filt_table</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
         <span class="k">if</span> <span class="s1">&#39;(AA)&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="n">lbda_filt</span> <span class="o">/=</span><span class="mi">10000</span>
+            <span class="n">lbda_filt</span> <span class="o">/=</span> <span class="mi">10000</span>
         <span class="k">elif</span> <span class="s1">&#39;(mu)&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">pass</span>
         <span class="k">elif</span> <span class="s1">&#39;(nm)&#39;</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="n">lbda_filt</span> <span class="o">/=</span><span class="mi">10000</span>
+            <span class="n">lbda_filt</span> <span class="o">/=</span> <span class="mi">10000</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Wavelength unit not recognised in filter file&#39;</span><span class="p">)</span>
         <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">filt_table</span><span class="p">[</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-        <span class="k">return</span> <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span>      
-                    
+        <span class="k">return</span> <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span>
+
     <span class="n">n_ch</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
     <span class="n">spec_mod_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span>
-    
+
     <span class="k">if</span> <span class="n">dlbda_obs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># if dlbda_obs is not provided, estimate it to trim out useless WL </span>
-        <span class="c1"># ranges from the model spectrum, hence significantly </span>
+        <span class="c1"># if dlbda_obs is not provided, estimate it to trim out useless WL</span>
+        <span class="c1"># ranges from the model spectrum, hence significantly</span>
         <span class="c1"># improving speed for large (&gt;1M pts) models (e.g. BT-SETTL).</span>
         <span class="c1"># 0.3 factor to consider possible broad-band filters.</span>
-        <span class="n">dlbda_obs1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="n">dlbda_obs1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
         <span class="n">dlbda_obs2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_ch</span><span class="o">-</span><span class="mi">2</span><span class="p">)]</span>
-        <span class="n">dlbda_obs3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])]</span>
+        <span class="n">dlbda_obs3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])]</span>
         <span class="n">dlbda_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dlbda_obs1</span><span class="o">+</span><span class="n">dlbda_obs2</span><span class="o">+</span><span class="n">dlbda_obs3</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;checking whether WL samplings are the same for obs and model&quot;</span><span class="p">)</span>        
-        
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;checking whether WL samplings are the same for obs and model&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">instru_res</span> <span class="o">=</span> <span class="p">[</span><span class="n">instru_res</span><span class="p">]</span>
     <span class="n">cond</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">):</span>
@@ -771,36 +773,39 @@
         <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">instru_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="mi">1</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">instru_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">instru_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">))</span>
+                <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span>
                 <span class="n">instru_fwhm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lbda_instru</span><span class="p">)</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">lbda_min</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">instru_fwhm</span>
+                <span class="n">lbda_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">instru_res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">))]</span>
+                <span class="k">if</span> <span class="n">instru_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">instru_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">))</span>
+                <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                    <span class="n">instru_idx</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">))]</span>
                 <span class="n">instru_fwhm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lbda_instru</span><span class="p">)</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">lbda_max</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">instru_fwhm</span>
-                
+                <span class="n">lbda_max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">instru_fwhm</span><span class="p">,</span> <span class="n">lbda_mod</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
         <span class="k">if</span> <span class="n">no_constraint</span><span class="p">:</span>
             <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_min</span><span class="p">)</span>
             <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_max</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_min</span><span class="p">,</span> 
+            <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_min</span><span class="p">,</span>
                                    <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
-            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_max</span><span class="p">,</span> 
+            <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_max</span><span class="p">,</span>
                                    <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
 
         <span class="n">lbda_mod</span> <span class="o">=</span> <span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">spec_mod</span> <span class="o">=</span> <span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-        
-        
+
     <span class="n">nmod</span> <span class="o">=</span> <span class="n">lbda_mod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="c1">## compute the wavelength sampling of the model</span>
+    <span class="c1"># compute the wavelength sampling of the model</span>
     <span class="n">dlbda_mod1</span> <span class="o">=</span> <span class="p">[</span><span class="n">lbda_mod</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-    <span class="n">dlbda_mod2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nmod</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">dlbda_mod2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmod</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
     <span class="n">dlbda_mod3</span> <span class="o">=</span> <span class="p">[</span><span class="n">lbda_mod</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span>
     <span class="n">dlbda_mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dlbda_mod1</span><span class="o">+</span><span class="n">dlbda_mod2</span><span class="o">+</span><span class="n">dlbda_mod3</span><span class="p">)</span>
-
 
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;testing whether observed spectral res could be &gt; than model&#39;s &quot;</span><span class="p">)</span>
@@ -810,50 +815,49 @@
     <span class="n">idx_near</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_obs_min</span><span class="p">])</span>
     <span class="n">dlbda_mod_tmp</span> <span class="o">=</span> <span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_near</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_near</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
     <span class="n">do_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_ch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">dlbda_mod_tmp</span><span class="o">&gt;</span><span class="n">dlbda_obs_min</span> <span class="ow">and</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">dlbda_mod_tmp</span> <span class="o">&gt;</span> <span class="n">dlbda_obs_min</span> <span class="ow">and</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;checking where obs spec res is &lt; or &gt; than model&#39;s&quot;</span><span class="p">)</span>
-        <span class="c1">## check where obs spec res is &lt; or &gt; than model&#39;s</span>
+        <span class="c1"># check where obs spec res is &lt; or &gt; than model&#39;s</span>
         <span class="n">nchunks_i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_ch</span><span class="p">):</span>
             <span class="n">idx_near</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">ll</span><span class="p">])</span>
             <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dlbda_obs</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_near</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">ll</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                    <span class="n">nchunks_i</span><span class="o">+=</span><span class="mi">1</span>
+                    <span class="n">nchunks_i</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">elif</span> <span class="n">do_interp</span><span class="p">[</span><span class="n">ll</span><span class="p">]:</span>
-                <span class="n">nchunks_i</span><span class="o">=</span><span class="mi">1</span>
-            
-    <span class="c1">## interpolate model if the observed spectrum has higher resolution </span>
-    <span class="c1">## and is monotonically increasing</span>
+                <span class="n">nchunks_i</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># interpolate model if the observed spectrum has higher resolution</span>
+    <span class="c1"># and is monotonically increasing</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">do_interp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dlbda_obs_min</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;interpolating model where obs spectrum has higher res&quot;</span><span class="p">)</span>    
-        <span class="n">idx_0</span><span class="o">=</span><span class="mi">0</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;interpolating model where obs spectrum has higher res&quot;</span><span class="p">)</span>
+        <span class="n">idx_0</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nchunks_i</span><span class="p">):</span>
             <span class="n">idx_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">do_interp</span><span class="p">[</span><span class="n">idx_0</span><span class="p">:])</span><span class="o">+</span><span class="n">idx_0</span>
             <span class="n">idx_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">do_interp</span><span class="p">[</span><span class="n">idx_1</span><span class="p">:])</span><span class="o">+</span><span class="n">idx_1</span>
-            <span class="k">if</span> <span class="n">idx_0</span><span class="o">==</span><span class="n">idx_1</span><span class="p">:</span>
-                <span class="n">idx_0</span><span class="o">=-</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">idx_0</span> <span class="o">==</span> <span class="n">idx_1</span><span class="p">:</span>
+                <span class="n">idx_0</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
                 <span class="k">if</span> <span class="n">nc</span> <span class="o">!=</span> <span class="n">nchunks_i</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span> <span class="c1"># should not happen</span>
+                    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>  <span class="c1"># should not happen</span>
             <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_1</span><span class="p">],</span>
                                    <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
             <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_0</span><span class="p">],</span>
                                    <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
 
-            <span class="n">spl</span> <span class="o">=</span> <span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span> 
+            <span class="n">spl</span> <span class="o">=</span> <span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span>
                                                <span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span>
-                                                   <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">idx_fin</span><span class="o">-</span><span class="n">idx_ini</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                                               <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">idx_fin</span><span class="o">-</span><span class="n">idx_ini</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
             <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">idx_1</span><span class="p">:</span><span class="n">idx_0</span><span class="p">]</span> <span class="o">=</span> <span class="n">spl</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">idx_1</span><span class="p">:</span><span class="n">idx_0</span><span class="p">])</span>
 
-            
-    <span class="c1">## convolve+bin where the model spectrum has higher resolution (most likely)</span>
+    <span class="c1"># convolve+bin where the model spectrum has higher resolution (most likely)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">do_interp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n_ch</span> <span class="ow">or</span> <span class="n">dlbda_obs_min</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">instru_res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Warning! No resolving power nor filter file provided&quot;</span>
-            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; =&gt; binning without convolution&quot;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; =&gt; binning without convolution&quot;</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lbda</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">):</span>
                 <span class="n">mid_lbda_f</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">-</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
@@ -864,64 +868,65 @@
                                    <span class="n">mid_lbda_l</span><span class="p">[</span><span class="n">ll</span><span class="p">])</span>
                 <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">i_f</span><span class="p">:</span><span class="n">i_l</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">dlbda_obs_min</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;instru_res not provided, but dlbda_obs_min &lt; 0 means &quot;</span> 
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;instru_res not provided, but dlbda_obs_min &lt; 0 means &quot;</span>
                 <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;several instruments are used with overlapping WL ranges&quot;</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;convolving+binning where model spectrum has higher res&quot;</span><span class="p">)</span>   
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;convolving+binning where model spectrum has higher res&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">instru_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">)</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_idx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="n">instru_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">n_ch</span><span class="p">)</span>
-    
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">instru_res</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">)):</span>
-                    <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">instru_res</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">filter_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">filter_reader</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">_default_file_reader</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_filt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
+                    <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_filt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                           <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+                    <span class="n">interp_trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span> <span class="n">lbda_filt</span><span class="p">,</span>
+                                             <span class="n">trans</span><span class="p">)</span>
+                    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                        <span class="n">interp_trans</span><span class="o">*</span><span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]</span><span class="o">*</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">])</span>
+                    <span class="n">denom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">interp_trans</span><span class="o">*</span><span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">])</span>
+                    <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">denom</span>
+                <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="n">lbda_instru</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)]</span>
                     <span class="n">instru_fwhm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lbda_instru</span><span class="p">)</span><span class="o">/</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                     <span class="n">ifwhm</span> <span class="o">=</span> <span class="n">instru_fwhm</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dlbda_mod</span><span class="p">))</span>
                     <span class="n">stddev</span> <span class="o">=</span> <span class="n">ifwhm</span><span class="o">*</span><span class="n">gaussian_fwhm_to_sigma</span>
                     <span class="n">gau_ker</span> <span class="o">=</span> <span class="n">Gaussian1DKernel</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="n">stddev</span><span class="p">)</span>
                     <span class="n">idx0</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_instru</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                     <span class="n">idx1</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_instru</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="n">idx_ini</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">idx0</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">stddev</span><span class="p">))</span>
-                    <span class="n">idx_fin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">idx1</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">stddev</span><span class="p">))</span>
-                    <span class="n">spec_mod_conv</span> <span class="o">=</span> <span class="n">convolve_fft</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> 
+                    <span class="n">idx_ini</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx0</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">stddev</span><span class="p">))</span>
+                    <span class="n">idx_fin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">idx1</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">stddev</span><span class="p">))</span>
+                    <span class="n">spec_mod_conv</span> <span class="o">=</span> <span class="n">convolve_fft</span><span class="p">(</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
                                                  <span class="n">gau_ker</span><span class="p">,</span> <span class="n">preserve_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)])</span>
-                    <span class="k">for</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lbda</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]):</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)])</span>
+                    <span class="k">for</span> <span class="n">ll</span><span class="p">,</span> <span class="n">lbda</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lbda_obs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)]):</span>
                         <span class="n">mid_lbda_f</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">-</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
                         <span class="n">mid_lbda_l</span> <span class="o">=</span> <span class="n">lbda_obs</span><span class="o">+</span><span class="n">dlbda_obs</span><span class="o">/</span><span class="mf">2.</span>
                         <span class="n">i_f</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
-                                           <span class="n">mid_lbda_f</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)][</span><span class="n">ll</span><span class="p">])</span>
+                                           <span class="n">mid_lbda_f</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)][</span><span class="n">ll</span><span class="p">])</span>
                         <span class="n">i_l</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
-                                           <span class="n">mid_lbda_l</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)][</span><span class="n">ll</span><span class="p">])</span>
+                                           <span class="n">mid_lbda_l</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)][</span><span class="n">ll</span><span class="p">])</span>
                         <span class="n">tmp</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_mod_conv</span><span class="p">[</span><span class="n">i_f</span><span class="p">:</span><span class="n">i_l</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">tmp</span>
-                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">filter_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">filter_reader</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">lbda_filt</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">_default_file_reader</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_filt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
-                                           <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;ceil&#39;</span><span class="p">)</span>
-                    <span class="n">idx_fin</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">,</span> <span class="n">lbda_filt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> 
-                                           <span class="n">constraint</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
-                    <span class="n">interp_trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">lbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">],</span> <span class="n">lbda_filt</span><span class="p">,</span>
-                                             <span class="n">trans</span><span class="p">)</span>
-                    <span class="n">num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">interp_trans</span><span class="o">*</span><span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]</span><span class="o">*</span><span class="n">spec_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">])</span>
-                    <span class="n">denom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">interp_trans</span><span class="o">*</span><span class="n">dlbda_mod</span><span class="p">[</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">])</span>
-                    <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span><span class="o">==</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">denom</span>
+                    <span class="n">spec_mod_res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">instru_idx</span> <span class="o">==</span> <span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">tmp</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;instru_res is a </span><span class="si">{}</span><span class="s2">, while it should be either a&quot;</span>
-                    <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; scalar or a string&quot;</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; scalar or a string&quot;</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">instru_res</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lbda_obs</span><span class="p">,</span> <span class="n">spec_mod_res</span><span class="p">])</span></div>
 
-    
-<div class="viewcode-block" id="interpolate_model"><a class="viewcode-back" href="../../special.html#special.model_resampling.interpolate_model">[docs]</a><span class="k">def</span> <span class="nf">interpolate_model</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">params_em</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span> 
-                      <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+
+<div class="viewcode-block" id="interpolate_model"><a class="viewcode-back" href="../../special.html#special.model_resampling.interpolate_model">[docs]</a><span class="k">def</span> <span class="nf">interpolate_model</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grid_param_list</span><span class="p">,</span> <span class="n">params_em</span><span class="o">=</span><span class="p">{},</span> <span class="n">em_grid</span><span class="o">=</span><span class="p">{},</span>
+                      <span class="n">em_lines</span><span class="o">=</span><span class="p">{},</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">model_reader</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interp_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_dlbda</span><span class="o">=</span><span class="mf">2e-4</span><span class="p">,</span>
                       <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -943,11 +948,11 @@
 <span class="sd">        efficiency, interpolation will be performed between the points of this</span>
 <span class="sd">        grid during the MCMC sampling. Dictionary entries should match those in</span>
 <span class="sd">        ``labels`` and ``em_lines``.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
 <span class="sd">            &gt;&gt;&gt; em_grid = {&#39;BrG&#39;: np.arange(BrGmin, BrGmax, 20)}</span>
-<span class="sd">            </span>
+
 <span class="sd">            &gt;&gt;&gt; BrGmin, BrGmax = -5, 5</span>
 <span class="sd">            &gt;&gt;&gt; PaBmin, PaBmax = -2, 7</span>
 <span class="sd">            &gt;&gt;&gt; em_grid = {&#39;PaB&#39;: np.arange(PaBmin, PaBmax, 20),</span>
@@ -957,25 +962,25 @@
 <span class="sd">        Dictionary of emission lines to be added on top of the model spectrum.</span>
 <span class="sd">        Each dict entry should be the name of the line, assigned to a tuple of</span>
 <span class="sd">        4 values: </span>
-<span class="sd">            </span>
+
 <span class="sd">            1. the wavelength (in :math:`\mu` m);</span>
-<span class="sd">            </span>
+
 <span class="sd">            2. a string indicating whether line intensity is expressed in flux \</span>
 <span class="sd">            (&#39;F&#39;), luminosity (&#39;L&#39;) or log(L/LSun) (&quot;LogL&quot;);</span>
-<span class="sd">              </span>
+
 <span class="sd">            3. the FWHM of the gaussian (or None if to be set automatically); </span>
-<span class="sd">            </span>
+
 <span class="sd">            4. whether the FWHM is expressed in &#39;nm&#39;, &#39;mu&#39; or &#39;km/s&#39;.</span>
-<span class="sd">        </span>
+
 <span class="sd">        The third and fourth can also be set to None. In that case, the FWHM of </span>
 <span class="sd">        the gaussian will automatically be set to the equivalent width of the</span>
 <span class="sd">        line, calculated from the flux to be injected and the continuum </span>
 <span class="sd">        level (measured in the grid model to which the line is injected).</span>
-<span class="sd">        </span>
+
 <span class="sd">        Examples:</span>
 <span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;F&#39;,None, None)};</span>
 <span class="sd">            &gt;&gt;&gt; em_lines = {&#39;BrG&#39;:(2.1667,&#39;LogL&#39;, 100, &#39;km/s&#39;)}</span>
-<span class="sd">        </span>
+
 <span class="sd">    labels: Tuple of strings</span>
 <span class="sd">        Tuple of labels in the same order as initial_state:</span>
 <span class="sd">            - first all parameters related to loaded models (e.g. &#39;Teff&#39;, &#39;logg&#39;)</span>
@@ -986,7 +991,7 @@
 <span class="sd">            - (optionally) the ratio of total to selective optical extinction &#39;Rv&#39;</span>
 <span class="sd">            - (optionally) &#39;Tbb1&#39;, &#39;Rbb1&#39;, &#39;Tbb2&#39;, &#39;Rbb2&#39;, etc. for each extra bb \</span>
 <span class="sd">            contribution. </span>
-<span class="sd">            </span>
+
 <span class="sd">        Note: only necessary if an emission line dictionary ``em_lines`` is provided.</span>
 <span class="sd">    model_grid : numpy N-d array, optional</span>
 <span class="sd">        If provided, should contain the grid of model spectra for each</span>
@@ -1006,7 +1011,7 @@
 <span class="sd">            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))</span>
 <span class="sd">            - 0: nearest neighbour model</span>
 <span class="sd">            - 1: Order 1 spline interpolation</span>
-<span class="sd">      </span>
+
 <span class="sd">    max_dlbda: float, opt</span>
 <span class="sd">        Maximum delta lbda in mu allowed if binning of lbda_model is necessary. </span>
 <span class="sd">        This is necessary for grids of models (e.g. BT-SETTL) where the wavelength</span>
@@ -1015,13 +1020,13 @@
 <span class="sd">        resolution is too prohibitive computationally.</span>
 <span class="sd">    verbose: bool, optional</span>
 <span class="sd">        Whether to print more information during resampling.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    model : 2d numpy array</span>
 <span class="sd">        Interpolated model for input parameters. First column corresponds</span>
 <span class="sd">        to wavelengths, and the second contains model values.</span>
-<span class="sd">        </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_example_file_reader</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -1033,25 +1038,25 @@
 <span class="sd">        numpy array, where the first column is the wavelength, and second column </span>
 <span class="sd">        is the corresponding model values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">open_fits</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">open_fits</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="k">return</span> <span class="n">model</span>
 
-    <span class="k">def</span> <span class="nf">_den_to_bin</span><span class="p">(</span><span class="n">denary</span><span class="p">,</span><span class="n">ndigits</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_den_to_bin</span><span class="p">(</span><span class="n">denary</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert denary to binary number, keeping n digits for binary (i.e.</span>
 <span class="sd">        padding with zeros if necessary)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">binary</span><span class="o">=</span><span class="s2">&quot;&quot;</span>  
-        <span class="k">while</span> <span class="n">denary</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>  
-          <span class="c1">#A left shift in binary means /2  </span>
-          <span class="n">binary</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">denary</span><span class="o">%</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">binary</span>  
-          <span class="n">denary</span> <span class="o">=</span> <span class="n">denary</span><span class="o">//</span><span class="mi">2</span>  
+        <span class="n">binary</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">while</span> <span class="n">denary</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># A left shift in binary means /2</span>
+            <span class="n">binary</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">denary</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">binary</span>
+            <span class="n">denary</span> <span class="o">=</span> <span class="n">denary</span><span class="o">//</span><span class="mi">2</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ndigits</span><span class="p">:</span>
             <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">*</span><span class="p">(</span><span class="n">ndigits</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">binary</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pad</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-        <span class="k">return</span> <span class="n">pad</span><span class="o">+</span><span class="n">binary</span>  
+            <span class="n">pad</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">pad</span><span class="o">+</span><span class="n">binary</span>
 
     <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">)</span>
     <span class="n">n_em</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">em_grid</span><span class="p">)</span>
@@ -1059,19 +1064,19 @@
 
     <span class="k">if</span> <span class="n">interp_order</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>    
+            <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_params</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
-                <span class="n">params_tmp</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span> 
+                <span class="n">params_tmp</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_param_list</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span>
                                               <span class="n">params</span><span class="p">[</span><span class="n">nn</span><span class="p">],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
             <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">n_em</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n_em</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
                     <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span>
-                        <span class="n">spec</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> 
+                        <span class="n">spec</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
                                               <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span>
-            
+
         <span class="k">else</span><span class="p">:</span>
             <span class="n">idx_tmp</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1083,22 +1088,21 @@
                     <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                             <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span>
-                            <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+                            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
                             <span class="k">break</span>
                     <span class="n">idx_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span>
-                                                <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>                    
+                                                <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">))</span>
             <span class="n">idx_tmp</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">idx_tmp</span><span class="p">)</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="n">model_grid</span><span class="p">[</span><span class="n">idx_tmp</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
-    
-    
+            <span class="k">return</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
     <span class="k">elif</span> <span class="nb">abs</span><span class="p">(</span><span class="n">interp_order</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="c1"># first compute new subgrid &quot;coords&quot; for interpolation</span>
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing new coords for interpolation&quot;</span><span class="p">)</span>
-        <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">,</span><span class="s1">&#39;ceil&#39;</span><span class="p">]</span>
-        <span class="n">new_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">sub_grid_param</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">,</span> <span class="s1">&#39;ceil&#39;</span><span class="p">]</span>
+        <span class="n">new_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">sub_grid_param</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
         <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">nn</span> <span class="o">&lt;</span> <span class="n">n_params</span><span class="p">:</span>
@@ -1108,67 +1112,72 @@
                 <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
                     <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span>
-                        <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> 
+                        <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                         <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-                        <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+                        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
                         <span class="k">break</span>
             <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_tmp</span><span class="p">,</span> 
-                                                         <span class="n">params_tmp</span><span class="p">,</span>
-                                                         <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> 
-                                                         <span class="n">output</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+                    <span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_tmp</span><span class="p">,</span>
+                                                          <span class="n">params_tmp</span><span class="p">,</span>
+                                                          <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
+                                                          <span class="n">output</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>
                     <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
-                
-            <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">params_tmp</span><span class="o">-</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">new_coords</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">denom</span>
-            
+
+            <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">params_tmp</span><span class="o">-</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">new_coords</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">/</span><span class="n">denom</span>
+
         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Making sub-grid of models&quot;</span><span class="p">)</span>
         <span class="n">sub_grid</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="p">[]</span>        
+        <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">model_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ntot_subgrid</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n_params_tot</span>
             <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">):</span>
                 <span class="n">str_indices</span> <span class="o">=</span> <span class="n">_den_to_bin</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">n_params_tot</span><span class="p">)</span>
                 <span class="n">params_tmp</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params</span><span class="p">):</span>
-                    <span class="n">params_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">str_indices</span><span class="p">[</span><span class="n">nn</span><span class="p">])])</span>
-                <span class="n">params_tmp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
+                    <span class="n">params_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_grid_param</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_indices</span><span class="p">[</span><span class="n">nn</span><span class="p">])])</span>
+                <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
                 <span class="n">lbda</span><span class="p">,</span> <span class="n">spec</span> <span class="o">=</span> <span class="n">model_reader</span><span class="p">(</span><span class="n">params_tmp</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">n_em</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">n_em</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                             <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span>
-                            <span class="n">spec</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
-                                                  <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">lbda</span><span class="p">,</span> 
+                            <span class="n">spec</span> <span class="o">=</span> <span class="n">inject_em_line</span><span class="p">(</span><span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                                  <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">lbda</span><span class="p">,</span>
                                                   <span class="n">spec</span><span class="p">,</span> <span class="n">em_lines</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
                 <span class="n">sub_grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
                 <span class="n">sub_grid_lbda</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lbda</span><span class="p">)</span>
-            
+
             <span class="c1"># resample to match sparser sampling if required</span>
             <span class="n">nch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
-            <span class="n">nch_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
+            <span class="n">nch_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
             <span class="k">if</span> <span class="n">nch_max</span> <span class="o">!=</span> <span class="n">nch</span><span class="p">:</span>
-                <span class="n">min_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
-                <span class="n">min_dlbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">min_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">)])</span>
+                <span class="n">min_dlbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span>
+                    <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                 <span class="k">if</span> <span class="n">min_dlbda</span> <span class="o">&lt;</span> <span class="n">max_dlbda</span><span class="p">:</span>
                     <span class="n">bin_fac</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_dlbda</span><span class="o">/</span><span class="n">min_dlbda</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Models will be binned in WL by a factor </span><span class="si">{}</span><span class="s2"> to &quot;</span>
                         <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;min dlbda = </span><span class="si">{}</span><span class="s2">mu&quot;</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bin_fac</span><span class="p">,</span><span class="n">max_dlbda</span><span class="p">))</span>
-                    
+                        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bin_fac</span><span class="p">,</span> <span class="n">max_dlbda</span><span class="p">))</span>
+
                     <span class="n">nch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">])</span><span class="o">/</span><span class="n">bin_fac</span><span class="p">)</span>
                     <span class="n">tmp_spec</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="n">tmp_lbda</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="k">for</span> <span class="n">bb</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">):</span>
                         <span class="n">idx_ini</span> <span class="o">=</span> <span class="n">bb</span><span class="o">*</span><span class="n">bin_fac</span>
                         <span class="n">idx_fin</span> <span class="o">=</span> <span class="p">(</span><span class="n">bb</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">bin_fac</span>
-                        <span class="n">tmp_spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]))</span>
-                        <span class="n">tmp_lbda</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]))</span>
+                        <span class="n">tmp_spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]))</span>
+                        <span class="n">tmp_lbda</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="n">idx_ini</span><span class="p">:</span><span class="n">idx_fin</span><span class="p">]))</span>
                     <span class="n">sub_grid</span><span class="p">[</span><span class="n">min_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp_spec</span><span class="p">)</span>
                     <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tmp_lbda</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ntot_subgrid</span><span class="p">):</span>
@@ -1178,17 +1187,17 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1"># np.allclose() or np.array_equal are TOO slow</span>
                         <span class="n">dlbda</span> <span class="o">=</span> <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="n">dlbda</span><span class="o">/=</span><span class="n">nch</span>
-                        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">])</span><span class="o">&gt;</span><span class="n">dlbda</span><span class="p">:</span>
+                        <span class="n">dlbda</span> <span class="o">/=</span> <span class="n">nch</span>
+                        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">]</span><span class="o">-</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">dlbda</span><span class="p">:</span>
                             <span class="n">cond</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Resampling model of different WL sampling. &quot;</span>
-                            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot;This may take a while for high-res/large WL&quot;</span>
-                            <span class="n">msg</span><span class="o">+=</span> <span class="s2">&quot; ranges...&quot;</span>
+                            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;This may take a while for high-res/large WL&quot;</span>
+                            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; ranges...&quot;</span>
                             <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                        <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">],</span> 
-                                             <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">],</span> 
+                        <span class="n">res</span> <span class="o">=</span> <span class="n">resample_model</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">min_i</span><span class="p">],</span>
+                                             <span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">dd</span><span class="p">],</span>
                                              <span class="n">sub_grid</span><span class="p">[</span><span class="n">dd</span><span class="p">],</span>
                                              <span class="n">no_constraint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                              <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
@@ -1198,14 +1207,14 @@
             <span class="n">final_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">nch</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">n_params_tot</span><span class="p">)</span>
             <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">)</span>
             <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">)</span>
-            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>            
-            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span>
             <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">sub_grid_lbda</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">final_dims</span><span class="p">)</span>
-        
+
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">,</span><span class="s1">&#39;ceil&#39;</span><span class="p">]</span>
-            <span class="n">sub_grid_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+            <span class="n">constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;floor&#39;</span><span class="p">,</span> <span class="s1">&#39;ceil&#39;</span><span class="p">]</span>
+            <span class="n">sub_grid_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">n_params_tot</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
             <span class="c1">#list_idx = []</span>
             <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
@@ -1216,53 +1225,55 @@
                     <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span> <span class="ow">in</span> <span class="n">em_grid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                             <span class="n">key</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">counter</span><span class="o">+</span><span class="n">ll</span><span class="p">]</span>
-                            <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> 
+                            <span class="n">grid_tmp</span> <span class="o">=</span> <span class="n">em_grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                             <span class="n">params_tmp</span> <span class="o">=</span> <span class="n">params_em</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-                            <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+                            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
                             <span class="k">break</span>
                 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-                    <span class="n">sub_grid_idx</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span><span class="o">=</span><span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_tmp</span><span class="p">,</span> <span class="n">params_tmp</span><span class="p">,</span>
-                                                     <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> 
-                                                     <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+                    <span class="n">sub_grid_idx</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">find_nearest</span><span class="p">(</span><span class="n">grid_tmp</span><span class="p">,</span> <span class="n">params_tmp</span><span class="p">,</span>
+                                                        <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
+                                                        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n_params_tot</span><span class="p">):</span>
                 <span class="n">str_indices</span> <span class="o">=</span> <span class="n">_den_to_bin</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="n">n_params_tot</span><span class="p">)</span>
                 <span class="n">idx_tmp</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_params_tot</span><span class="p">):</span>
-                    <span class="n">idx_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_grid_idx</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">str_indices</span><span class="p">[</span><span class="n">nn</span><span class="p">])])</span>
+                    <span class="n">idx_tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_grid_idx</span><span class="p">[</span><span class="n">nn</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_indices</span><span class="p">[</span><span class="n">nn</span><span class="p">])])</span>
                     <span class="c1">#idx_tmp = sub_grid_idx[nn,int(str_indices[nn])]</span>
-                <span class="c1">#list_idx.append(idx_tmp)</span>
-                <span class="c1">#list_idx=np.array(list_idx)</span>
+                <span class="c1"># list_idx.append(idx_tmp)</span>
+                <span class="c1"># list_idx=np.array(list_idx)</span>
                 <span class="n">sub_grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_grid</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">idx_tmp</span><span class="p">)])</span>
-            
+
             <span class="c1"># first reshape</span>
             <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">)</span>
-            <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">n_params_tot</span><span class="o">+</span><span class="p">[</span><span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span><span class="o">+</span><span class="p">[</span><span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">n_params_tot</span><span class="o">+</span><span class="p">[</span><span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]]</span> <span class="o">+</span>
+                         <span class="p">[</span><span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
             <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
-            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># make last dim (lbda vs flux) come first</span>
+            <span class="c1"># make last dim (lbda vs flux) come first</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="c1"># move again axis to have nch as first axis</span>
-            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">sub_grid_lbda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">nch</span> <span class="o">=</span> <span class="n">sub_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            
+
         <span class="n">interp_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span>
         <span class="n">interp_lbdas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nch</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="n">interp_order</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">sub_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">)</span>
-        
+
         <span class="k">for</span> <span class="n">cc</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nch</span><span class="p">):</span>
-            <span class="n">interp_model</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">[</span><span class="n">cc</span><span class="p">],</span> <span class="n">new_coords</span><span class="p">,</span> 
+            <span class="n">interp_model</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">sub_grid</span><span class="p">[</span><span class="n">cc</span><span class="p">],</span> <span class="n">new_coords</span><span class="p">,</span>
                                                <span class="n">order</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">interp_order</span><span class="p">))</span>
-            <span class="n">interp_lbdas</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">cc</span><span class="p">],</span> <span class="n">new_coords</span><span class="p">,</span> 
+            <span class="n">interp_lbdas</span><span class="p">[</span><span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">sub_grid_lbda</span><span class="p">[</span><span class="n">cc</span><span class="p">],</span> <span class="n">new_coords</span><span class="p">,</span>
                                                <span class="n">order</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">interp_order</span><span class="p">))</span>
-            
+
         <span class="k">if</span> <span class="n">interp_order</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">interp_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">interp_model</span><span class="p">)</span>
-            
+            <span class="n">interp_model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">interp_model</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">interp_lbdas</span><span class="p">,</span> <span class="n">interp_model</span>
-    
+
     <span class="k">else</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Interpolation order not allowed. Only -1, 0 or 1 accepted&quot;</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
