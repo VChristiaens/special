@@ -1,42 +1,48 @@
 #!/usr/bin/env python
 
+import pkg_resources
+from setuptools import setup
 import os
 import re
-from setuptools import setup
-try:
-    # pip >=20
-    from pip._internal.network.session import PipSession
-    from pip._internal.req import parse_requirements
-except ImportError:
-    try:
-        # 10.0.0 <= pip <= 19.3.1
-        from pip._internal.download import PipSession
-        from pip._internal.req import parse_requirements
-    except ImportError:
-        # pip <= 9.0.3
-        from pip.download import PipSession
-        from pip.req import parse_requirements
-from setuptools.command.install import install
-from setuptools.command.develop import develop
+
+with open('requirements.txt') as req_txt:
+    parse_req = pkg_resources.parse_requirements(req_txt)
+    install_requires = [str(req) for req in parse_req]
+
+# try:
+#     # pip >=20
+#     from pip._internal.network.session import PipSession
+#     from pip._internal.req import parse_requirements
+# except ImportError:
+#     try:
+#         # 10.0.0 <= pip <= 19.3.1
+#         from pip._internal.download import PipSession
+#         from pip._internal.req import parse_requirements
+#     except ImportError:
+#         # pip <= 9.0.3
+#         from pip.download import PipSession
+#         from pip.req import parse_requirements
+# from setuptools.command.install import install
+# from setuptools.command.develop import develop
 
 
-# Hackishly override of the install method
-class InstallReqs(install):
-    def run(self):
-        print(" *************************** ")
-        print(" *** Installing special *** ")
-        print(" *************************** ")
-        os.system('pip install -r requirements.txt')
-        install.run(self)
+# # Hackishly override of the install method
+# class InstallReqs(install):
+#     def run(self):
+#         print(" *************************** ")
+#         print(" *** Installing special *** ")
+#         print(" *************************** ")
+#         os.system('pip install -r requirements.txt')
+#         install.run(self)
 
 
-class InstallDevReqs(develop):
-    def run(self):
-        print(" ********************************* ")
-        print(" *** Installing special (dev) *** ")
-        print(" ********************************* ")
-        os.system('pip install -r requirements-dev.txt')
-        develop.run(self)
+# class InstallDevReqs(develop):
+#     def run(self):
+#         print(" ********************************* ")
+#         print(" *** Installing special (dev) *** ")
+#         print(" ********************************* ")
+#         os.system('pip install -r requirements-dev.txt')
+#         develop.run(self)
 
 
 def resource(*args):
@@ -44,13 +50,13 @@ def resource(*args):
                         *args)
 
 
-# parse_requirements() returns generator of pip.req.InstallRequirement objects
-reqs = parse_requirements(resource('requirements.txt'), session=PipSession)
-requirements = [str(ir.requirement) for ir in reqs]    
+# # parse_requirements() returns generator of pip.req.InstallRequirement objects
+# reqs = parse_requirements(resource('requirements.txt'), session=PipSession)
+# requirements = [str(ir.requirement) for ir in reqs]
 
-reqs_dev = parse_requirements(resource('requirements-dev.txt'), 
-                              session=PipSession)
-requirements_dev = [str(ir.requirement) for ir in reqs_dev]    
+# reqs_dev = parse_requirements(resource('requirements-dev.txt'),
+#                               session=PipSession)
+# requirements_dev = [str(ir.requirement) for ir in reqs_dev]
 
 with open(resource('README.rst')) as readme_file:
     README = readme_file.read()
@@ -73,11 +79,11 @@ setup(
     author='Valentin Christiaens',
     author_email='valentin.christiaens@uliege.be',
     url='https://github.com/VChristiaens/special',
-    cmdclass={'install': InstallReqs,
-              'develop': InstallDevReqs},
+    # cmdclass={'install': InstallReqs,
+    #           'develop': InstallDevReqs},
     packages=PACKAGES,
-    install_requires=requirements,
-    extras_require={"dev": requirements_dev},
+    install_requires=install_requires,
+    #extras_require={"dev": requirements_dev},
     zip_safe=False,
     classifiers=['Intended Audience :: Science/Research',
                  'License :: OSI Approved :: MIT License',
