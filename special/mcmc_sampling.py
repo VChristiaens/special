@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 """
-Module with the MCMC (``emcee``) sampling for model spectra parameter 
+Module with the MCMC (``emcee``) sampling for model spectra parameter
 estimation.
 
 .. [FOR13]
@@ -10,21 +10,21 @@ estimation.
    | *PASP, Volume 125, Issue 925, p. 306*
    | `https://arxiv.org/abs/1202.3665
      <https://arxiv.org/abs/1202.3665>`_
-     
+
 .. [FOR19]
    | Foreman-Mackey et al. 2019
    | **emcee v3: A Python ensemble sampling toolkit for affine-invariant MCMC**
    | *JOSS, Volume 4, Issue 43, p. 1864*
    | `https://arxiv.org/abs/1911.07688
      <https://arxiv.org/abs/1911.07688>`_
-     
+
 .. [GOO10]
    | Goodman & Weare 2010
    | **Ensemble samplers with affine invariance**
    | *Comm. App. Math. Comp. Sci., Vol. 5, Issue 1, pp. 65-80.*
    | `https://ui.adsabs.harvard.edu/abs/2010CAMCS...5...65G
      <https://ui.adsabs.harvard.edu/abs/2010CAMCS...5...65G>`_
-     
+
 """
 
 __author__ = 'V. Christiaens'
@@ -60,7 +60,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def lnprior(params, labels, bounds, priors=None):
     """ Define the prior log-function.
-    
+
     Parameters
     ----------
     params: tuple
@@ -74,42 +74,42 @@ def lnprior(params, labels, bounds, priors=None):
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     bounds: dictionary
-        Each entry should be associated with a tuple corresponding to lower and 
+        Each entry should be associated with a tuple corresponding to lower and
         upper bounds respectively. Bounds should be provided for ALL model
-        parameters, including 'R' (planet photometric radius). 'Av' (optical 
+        parameters, including 'R' (planet photometric radius). 'Av' (optical
         extinction) is optional. If provided here, Av will also be fitted.
-        All keywords that are neither 'R', 'Av' nor 'M' will 
+        All keywords that are neither 'R', 'Av' nor 'M' will
         be considered model grid parameters.
- 
+
         Examples:
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5)}
-            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5), 
+            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'Rv':(1,5)}
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'BrG':(1e-17,1e-15)}
             >>> bounds = {'Teff':(2000,3000), 'logg':(3.0,4.5), 'R':(1.,5.),
             >>>           'Tbb1':(500,1500), 'Rbb1':(0.1,1.)}
-     
+
     priors: dictionary, opt
-        If not None, sets prior estimates for each parameter of the model. Each 
-        entry should be set to either None (no prior) or a tuple of 2 elements 
+        If not None, sets prior estimates for each parameter of the model. Each
+        entry should be set to either None (no prior) or a tuple of 2 elements
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here)
         will be associated no prior.
         'M' can be used for a prior on the mass of the planet. In that case the
-        corresponding prior log probability is computed from the values for 
+        corresponding prior log probability is computed from the values for
         parameters 'logg' and 'R'.
-        
+
         Examples:
             >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
             >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
             >>>           'Av':(1.8,0.2), 'M':(10,3)}
-        
-        Important: dictionary entry names should match exactly those of 
+
+        Important: dictionary entry names should match exactly those of
         ``bounds``.
-    
+
     Returns
     -------
     out: float.
@@ -117,11 +117,11 @@ def lnprior(params, labels, bounds, priors=None):
             * 0 if no prior,
             * the sum of gaussian log proba for each prior otherwise.
         If at least one model parameters is out of bounds:
-        returns -np.inf 
+        returns -np.inf
     """
     n_params = len(params)
     n_labs = len(labels)
-    n_dico = len(bounds)    
+    n_dico = len(bounds)
     if n_dico!=n_params or n_dico != n_labs:
         raise TypeError('params, labels and bounds should have same length')
 
@@ -149,17 +149,17 @@ def lnprior(params, labels, bounds, priors=None):
         return -np.inf
 
 
-def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist, 
-           model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
-           dlbda_obs=None, instru_corr=None, instru_res=None, instru_idx=None, 
-           use_weights=True, filter_reader=None, AV_bef_bb=False, 
+def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
+           model_grid=None, model_reader=None, em_lines={}, em_grid={},
+           dlbda_obs=None, instru_corr=None, instru_res=None, instru_idx=None,
+           use_weights=True, filter_reader=None, AV_bef_bb=False,
            units_obs='si', units_mod='si', interp_order=1):
     """ Define the likelihood log-function.
-    
+
     Parameters
     ----------
     params : tuple
-        Set of models parameters for which the model grid has to be 
+        Set of models parameters for which the model grid has to be
         interpolated.
     labels: Tuple of strings
         Tuple of labels in the same order as initial_state:
@@ -170,189 +170,191 @@ def lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, err_obs, dist,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
         themselves). The models will be loaded with ``model_reader``.
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     spec_obs : numpy 1d ndarray or list
         Observed spectrum for each value of ``lbda_obs``. Should have a length
         of :math:`n_{ch}`.
     err_obs : numpy 1d/2d ndarray or list
         Uncertainties on the observed spectrum. The array (list) can have either
-        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower 
+        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower
         (first column) and upper (second column) uncertainties provided.
     dist : float
         Distance in parsec, used for flux scaling of the models.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine, opt
-        External routine that reads a model file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains model values. See example routine in 
+        External routine that reads a model file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
-            
+        4 values:
+
             1. the wavelength (in :math:`\mu` m);
-            
+
             2. a string indicating whether line intensity is expressed in flux \
             ('F'), luminosity ('L') or log(L/LSun) ("LogL");
-              
-            3. the FWHM of the gaussian (or None if to be set automatically); 
-            
+
+            3. the FWHM of the gaussian (or None if to be set automatically);
+
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
-        
-        The third and fourth can also be set to None. In that case, the FWHM of 
+
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
-        
+
         Examples:
             >>> em_lines = {'BrG':(2.1667,'F',None, None)};
             >>> em_lines = {'BrG':(2.1667,'LogL', 100, 'km/s')}
-        
+
     em_grid: dictionary pointing to lists, opt
         Dictionary where each entry corresponds to an emission line and points
         to a list of values to inject for emission line fluxes. For computation
         efficiency, interpolation will be performed between the points of this
         grid during the MCMC sampling. Dictionary entries should match those in
         ``labels`` and ``em_lines``.
-        
+
         Examples:
             >>> BrGmin, BrGmax = -5, 5
             >>> em_grid = {'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
             >>> BrGmin, BrGmax = -5, 5
             >>> PaBmin, PaBmax = -2, 7
             >>> em_grid = {'PaB': np.arange(PaBmin, PaBmax, 20),
             >>>            'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
+        inaccurate for a combined spectrum). It must be provided IF one wants to
+        weigh each measurement based on the spectral resolution of each
         instrument (as in [OLO16]_), through the ``use_weights`` argument.
     instru_corr : numpy 2d ndarray, optional
-        Spectral correlation between post-processed images in which the 
-        spectrum is measured. It is specific to the instrument, PSF subtraction 
+        Spectral correlation between post-processed images in which the
+        spectrum is measured. It is specific to the instrument, PSF subtraction
         algorithm and radial separation of the companion from the central star.
-        Can be computed using ``special.spec_corr.spectral_correlation``. In 
-        case of a spectrum obtained with different instruments, it is 
+        Can be computed using ``special.spec_corr.spectral_correlation``. In
+        case of a spectrum obtained with different instruments, it is
         recommended to construct the final spectral_correlation matrix with
-        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, 
-        the uncertainties in each spectral channel will be considered 
+        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided,
+        the uncertainties in each spectral channel will be considered
         independent. See [GRE16]_ for more details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
+        The mean instrumental resolving power(s) OR filter names. This is
+        used to convolve the model spectrum. If several instruments are used,
+        provide a list of resolving power values / filter names, one for
         each instrument used.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        1d array containing an index representing each instrument used
+        to obtain the spectrum, label them from 0 to the number of instruments
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the
         ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
+        associated to instru_res[i-1]. This parameter must be provided if the
         spectrum consists of points obtained with different instruments.
     use_weights: bool, optional
-        For the likelihood calculation, whether to weigh each point of the 
+        For the likelihood calculation, whether to weigh each point of the
         spectrum based on the spectral resolution or bandwidth of photometric
-        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if 
+        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if
         ``dlbda_obs`` is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains transmission values. Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
-            
+
         - first row contains headers (titles of each column)
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
         - Unit of wavelength can be provided in parentheses of first header \
         key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
         or "lambda(nm)" for nanometer. Note: only what is in parentheses \
         matters for the units.
-        
+
     AV_bef_bb: bool, optional
-        If both extinction and an extra bb component are free parameters, 
-        whether to apply extinction before adding the BB component (e.g. 
+        If both extinction and an extra bb component are free parameters,
+        whether to apply extinction before adding the BB component (e.g.
         extinction mostly from circumplanetary dust) or after the BB component
         (e.g. mostly insterstellar extinction).
     units_obs : str, opt {'si','cgs','jy'}
-        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu 
+        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu
         or 'jy' for janskys.
     units_mod: str, opt {'si','cgs','jy'}
         Units of the model. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu or 'jy'
-        for janskys. If different to units_obs, the spectrum units will be 
+        for janskys. If different to units_obs, the spectrum units will be
         converted.
-    interp_order: int, opt, {-1,0,1} 
-        Interpolation mode for model interpolation.
-            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
+    interp_order: int or tuple of int, optional, {-1,0,1}
+        Interpolation mode for model interpolation. If a tuple of integers, the
+        length should match the number of grid dimensions and will trigger a
+        different interpolation mode for the different parameters.
+            - -1: Order 1 spline interpolation in logspace for the parameter
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
-      
+
     Returns
     -------
     out: float
         The log of the likelihood.
-        
+
     """
 
     if grid_param_list is not None:
         if model_grid is None and model_reader is None:
             msg = "model_name and model_reader must be provided"
             raise TypeError(msg)
-                         
-    lbda_mod, spec_mod = make_model_from_params(params, labels, grid_param_list, 
-                                                dist, lbda_obs, model_grid, 
-                                                model_reader, em_lines, em_grid, 
-                                                dlbda_obs, instru_res, 
-                                                instru_idx, filter_reader, 
-                                                AV_bef_bb, units_obs, units_mod, 
+
+    lbda_mod, spec_mod = make_model_from_params(params, labels, grid_param_list,
+                                                dist, lbda_obs, model_grid,
+                                                model_reader, em_lines, em_grid,
+                                                dlbda_obs, instru_res,
+                                                instru_idx, filter_reader,
+                                                AV_bef_bb, units_obs, units_mod,
                                                 interp_order)
-     
+
     # evaluate the goodness of fit indicator
-    chi = goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod, 
-                          dlbda_obs=dlbda_obs, instru_corr=instru_corr, 
-                          instru_res=instru_res, instru_idx=instru_idx, 
-                          use_weights=use_weights, filter_reader=filter_reader, 
+    chi = goodness_of_fit(lbda_obs, spec_obs, err_obs, lbda_mod, spec_mod,
+                          dlbda_obs=dlbda_obs, instru_corr=instru_corr,
+                          instru_res=instru_res, instru_idx=instru_idx,
+                          use_weights=use_weights, filter_reader=filter_reader,
                           plot=False, outfile=None)
-    
+
     # log likelihood
     lnlikelihood = -0.5 * chi
-    
+
     return lnlikelihood
 
 
-def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs, 
-           dist, model_grid=None, model_reader=None, em_lines={}, em_grid={}, 
-           dlbda_obs=None, instru_corr=None, instru_res=None, instru_idx=None, 
-           use_weights=True, filter_reader=None, AV_bef_bb=False, 
-           units_obs='si', units_mod='si', interp_order=1, priors=None, 
+def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
+           dist, model_grid=None, model_reader=None, em_lines={}, em_grid={},
+           dlbda_obs=None, instru_corr=None, instru_res=None, instru_idx=None,
+           use_weights=True, filter_reader=None, AV_bef_bb=False,
+           units_obs='si', units_mod='si', interp_order=1, priors=None,
            physical=True):
     """ Define the probability log-function as the sum between the prior and
     likelihood log-functions.
-    
+
     Parameters
     ----------
     params: tuple
@@ -366,197 +368,197 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     bounds: dictionary
-        Each entry should be associated with a tuple corresponding to lower and 
+        Each entry should be associated with a tuple corresponding to lower and
         upper bounds respectively. Bounds should be provided for ALL model
-        parameters, including 'R' (planet photometric radius). 'Av' (optical 
+        parameters, including 'R' (planet photometric radius). 'Av' (optical
         extinction) is optional. If provided here, Av will also be fitted.
-        All keywords that are neither 'R', 'Av' nor 'M' will 
+        All keywords that are neither 'R', 'Av' nor 'M' will
         be considered model grid parameters.
- 
+
         Examples:
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5)}
-            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5), 
+            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'Rv':(1,5)}
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'BrG':(1e-17,1e-15)}
             >>> bounds = {'Teff':(2000,3000), 'logg':(3.0,4.5), 'R':(1.,5.),
             >>>           'Tbb1':(500,1500), 'Rbb1':(0.1,1.)}
-                
+
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
         themselves). The models will be loaded with ``model_reader``.
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     spec_obs : numpy 1d ndarray or list
         Observed spectrum for each value of ``lbda_obs``. Should have a length
         of :math:`n_{ch}`.
     err_obs : numpy 1d/2d ndarray or list
         Uncertainties on the observed spectrum. The array (list) can have either
-        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower 
+        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower
         (first column) and upper (second column) uncertainties provided.
     dist :  float
         Distance in parsec, used for flux scaling of the models.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine, opt
-        External routine that reads a model file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains model values. See example routine in 
+        External routine that reads a model file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
-            
+        4 values:
+
             1. the wavelength (in :math:`\mu` m);
-            
-            2. a string indicating whether line intensity is expressed in flux 
+
+            2. a string indicating whether line intensity is expressed in flux
                ('F'), luminosity ('L') or log(L/LSun) ("LogL");
-              
-            3. the FWHM of the gaussian (or None if to be set automatically); 
-            
+
+            3. the FWHM of the gaussian (or None if to be set automatically);
+
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
-            
-        The third and fourth can also be set to None. In that case, the FWHM of 
+
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
-        
+
         Examples:
             >>> em_lines = {'BrG':(2.1667,'F',None, None)};
             >>> em_lines = {'BrG':(2.1667,'LogL', 100, 'km/s')}
-            
+
     em_grid: dictionary pointing to lists, opt
         Dictionary where each entry corresponds to an emission line and points
         to a list of values to inject for emission line fluxes. For computation
         efficiency, interpolation will be performed between the points of this
         grid during the MCMC sampling. Dictionary entries should match those in
         ``labels`` and ``em_lines``.
-        
+
         Examples:
             >>> BrGmin, BrGmax = -5, 5
             >>> em_grid = {'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
             >>> BrGmin, BrGmax = -5, 5
             >>> PaBmin, PaBmax = -2, 7
             >>> em_grid = {'PaB': np.arange(PaBmin, PaBmax, 20),
             >>>            'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
+        inaccurate for a combined spectrum). It must be provided IF one wants to
+        weigh each measurement based on the spectral resolution of each
         instrument (as in [OLO16]_), through the ``use_weights`` argument.
     instru_corr : numpy 2d ndarray, optional
-        Spectral correlation between post-processed images in which the 
-        spectrum is measured. It is specific to the instrument, PSF subtraction 
+        Spectral correlation between post-processed images in which the
+        spectrum is measured. It is specific to the instrument, PSF subtraction
         algorithm and radial separation of the companion from the central star.
-        Can be computed using ``special.spec_corr.spectral_correlation``. In 
-        case of a spectrum obtained with different instruments, it is 
+        Can be computed using ``special.spec_corr.spectral_correlation``. In
+        case of a spectrum obtained with different instruments, it is
         recommended to construct the final spectral_correlation matrix with
-        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, 
-        the uncertainties in each spectral channel will be considered 
+        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided,
+        the uncertainties in each spectral channel will be considered
         independent. See [GRE16]_ for more details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
+        The mean instrumental resolving power(s) OR filter names. This is
+        used to convolve the model spectrum. If several instruments are used,
+        provide a list of resolving power values / filter names, one for
         each instrument used.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        1d array containing an index representing each instrument used
+        to obtain the spectrum, label them from 0 to the number of instruments
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the
         ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
+        associated to instru_res[i-1]. This parameter must be provided if the
         spectrum consists of points obtained with different instruments.
     use_weights: bool, optional
-        For the likelihood calculation, whether to weigh each point of the 
+        For the likelihood calculation, whether to weigh each point of the
         spectrum based on the spectral resolution or bandwidth of photometric
-        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if 
-        ``dlbda_obs`` is provided, or set to 1 for all points otherwise.      
+        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if
+        ``dlbda_obs`` is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains transmission values. Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
-            
+
         - first row contains headers (titles of each column)
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
         - Unit of wavelength can be provided in parentheses of first header \
         key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
         or "lambda(nm)" for nanometer. Note: only what is in parentheses \
         matters for the units.
-        
+
     AV_bef_bb: bool, optional
-        If both extinction and an extra bb component are free parameters, 
-        whether to apply extinction before adding the BB component (e.g. 
+        If both extinction and an extra bb component are free parameters,
+        whether to apply extinction before adding the BB component (e.g.
         extinction mostly from circumplanetary dust) or after the BB component
         (e.g. mostly insterstellar extinction).
     units_obs : str, opt {'si','cgs','jy'}
-        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu 
+        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu
         or 'jy' for janskys.
     units_mod: str, opt {'si','cgs','jy'}
         Units of the model. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu or 'jy'
-        for janskys. If different to units_obs, the spectrum units will be 
+        for janskys. If different to units_obs, the spectrum units will be
         converted.
-    interp_order: int, opt, {-1,0,1} 
+    interp_order: int, opt, {-1,0,1}
         Interpolation mode for model interpolation.
             - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
-            
+
     priors: dictionary, opt
-        If not None, sets prior estimates for each parameter of the model. Each 
-        entry should be set to either None (no prior) or a tuple of 2 elements 
+        If not None, sets prior estimates for each parameter of the model. Each
+        entry should be set to either None (no prior) or a tuple of 2 elements
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here)
         will be associated no prior.
         'M' can be used for a prior on the mass of the planet. In that case the
-        corresponding prior log probability is computed from the values for 
+        corresponding prior log probability is computed from the values for
         parameters 'logg' and 'R'.
-        
+
         Examples:
             >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
             >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
             >>>           'Av':(1.8,0.2), 'M':(10,3)}
-        
-        Important: dictionary entry names should match exactly those of 
+
+        Important: dictionary entry names should match exactly those of
         ``bounds``.
     physical: bool, opt
-        In case of extra black body component(s) to a photosphere, whether to 
+        In case of extra black body component(s) to a photosphere, whether to
         force lower temperature than the photosphere effective temperature.
-        
+
     Returns
     -------
     out: float
         The probability log-function.
-    
+
     """
-    
+
     lp = lnprior(params, labels, bounds, priors)
-    
+
     if np.isinf(lp):
         return -np.inf
-    
+
     if 'Tbb1' in labels:
         condT = ('T' in labels or 'Teff' in labels)
         n_bb = 0
@@ -590,89 +592,89 @@ def lnprob(params, labels, bounds, grid_param_list, lbda_obs, spec_obs, err_obs,
                 # Teff1 > Teff2, Teff2 > Teff3
                 if params[idx_Tbb1+idx] >= params[idx_Tbb1+idx-2]:
                     return -np.inf
-        
-    return lp + lnlike(params, labels, grid_param_list, lbda_obs, spec_obs, 
+
+    return lp + lnlike(params, labels, grid_param_list, lbda_obs, spec_obs,
                             err_obs, dist, model_grid, model_reader, em_lines,
-                            em_grid, dlbda_obs, instru_corr, instru_res, 
-                            instru_idx, use_weights, filter_reader, AV_bef_bb, 
+                            em_grid, dlbda_obs, instru_corr, instru_res,
+                            instru_idx, use_weights, filter_reader, AV_bef_bb,
                             units_obs, units_mod, interp_order)
 
 
-def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list, 
-                       initial_state, labels, bounds, resamp_before=True, 
-                       model_grid=None, model_reader=None, em_lines={}, 
-                       em_grid={}, dlbda_obs=None, instru_corr=None, 
+def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
+                       initial_state, labels, bounds, resamp_before=True,
+                       model_grid=None, model_reader=None, em_lines={},
+                       em_grid={}, dlbda_obs=None, instru_corr=None,
                        instru_res=None, instru_idx=None, use_weights=True,
                        filter_reader=None, AV_bef_bb=False, units_obs='si',
-                       units_mod='si', interp_order=1, priors=None, 
-                       physical=True, interp_nonexist=True, ini_ball=1e-1, 
-                       a=2.0, nwalkers=1000, niteration_min=10, 
-                       niteration_limit=1000, niteration_supp=0, 
-                       check_maxgap=20, conv_test='ac', ac_c=50, ac_count_thr=3, 
-                       burnin=0.3, rhat_threshold=1.01, rhat_count_threshold=1, 
-                       grid_name='resamp_grid.fits', output_dir='special/', 
-                       output_file=None, nproc=1, display=False, verbosity=0, 
+                       units_mod='si', interp_order=1, priors=None,
+                       physical=True, interp_nonexist=True, ini_ball=1e-1,
+                       a=2.0, nwalkers=1000, niteration_min=10,
+                       niteration_limit=1000, niteration_supp=0,
+                       check_maxgap=20, conv_test='ac', ac_c=50, ac_count_thr=3,
+                       burnin=0.3, rhat_threshold=1.01, rhat_count_threshold=1,
+                       grid_name='resamp_grid.fits', output_dir='special/',
+                       output_file=None, nproc=1, display=False, verbosity=0,
                        save=False):
     """ Runs an affine invariant MCMC sampling algorithm in order to determine
-    the most likely parameters for given spectral model and observed spectrum. 
+    the most likely parameters for given spectral model and observed spectrum.
     The code relies on ``emcee`` ([FOR13]_ & [FOR19]_).
-    
+
     Allowed features:
         * Spectral models can either be read from a grid (e.g. BT-SETTL) or \
         be purely parametric (e.g. a blackbody model).
-    
+
         * Extinction (A_V) and total-to-selective optical extinction ratio \
         (R_V) can be sampled. Default: A_V=0. If non-zero, default R_V=3.1 (ISM).
-    
+
         * A dictionary of emission lines can be provided and their flux can \
         be sampled too.
-    
+
         * Gaussian priors can be provided for each parameter, including the \
         mass of the object. The latter will be used if 'logg' is a parameter.
-    
+
         * Spectral correlation between measurements will be taken into account \
         if provided in 'instru_corr'.
-    
+
         * Convolution of the model spectra with instrumental FWHM or \
         photometric filter can be performed using 'instru_res' and/or \
         'filter_reader' (done before resampling to observed).
-    
+
         * The weight of each observed point will be directly proportional to \
         Delta lbda_i/lbda_i, where Delta lbda_i is either the FWHM of the \
         photometric filter (imager) or the width of the spectral channel (IFS).
-    
+
         * MCMC convergence criterion can either be based on auto-correlation \
         time (default) or the Gelman-Rubin test.
-        
-    The result of this procedure is a chain with the samples from the posterior 
+
+    The result of this procedure is a chain with the samples from the posterior
     distributions of each of the free parameters in the model.
-    
+
     Parameters
     ----------
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     spec_obs : numpy 1d ndarray or list
         Observed spectrum for each value of ``lbda_obs``. Should have a length
         of :math:`n_{ch}`.
     err_obs : numpy 1d/2d ndarray or list
         Uncertainties on the observed spectrum. The array (list) can have either
-        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower 
+        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower
         (first column) and upper (second column) uncertainties provided.
     dist :  float
         Distance in parsec, used for flux scaling of the models.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
-        themselves). The models will be loaded with ``model_reader``.        
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
+        themselves). The models will be loaded with ``model_reader``.
     initial_state: tuple of floats
-        Initial guess on the best fit parameters of the spectral fit. Length of 
+        Initial guess on the best fit parameters of the spectral fit. Length of
         the tuple should match the total number of free parameters. Walkers
         will all be initialised in a small ball of parameter space around that
         first guess.
-        
+
         - first all parameters related to loaded models (e.g. 'Teff', 'logg')
         - then the planet photometric radius 'R', in Jupiter radius
         - (optionally) the intensity of emission lines (labels must match \
@@ -681,7 +683,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         - (optionally) the ratio of total to selective optical extinction 'Rv'
         - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
         contribution
-        
+
     labels: Tuple of strings
         Tuple of labels in the same order as initial_state:
             - first all parameters related to loaded models (e.g. 'Teff', 'logg')
@@ -691,176 +693,176 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     bounds: dictionary
-        Each entry should be associated with a tuple corresponding to lower and 
+        Each entry should be associated with a tuple corresponding to lower and
         upper bounds respectively. Bounds should be provided for ALL model
-        parameters, including 'R' (planet photometric radius). 'Av' (optical 
+        parameters, including 'R' (planet photometric radius). 'Av' (optical
         extinction) is optional. If provided here, Av will also be fitted.
-        All keywords that are neither 'R', 'Av' nor 'M' will 
+        All keywords that are neither 'R', 'Av' nor 'M' will
         be considered model grid parameters.
- 
+
         Examples:
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5)}
-            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5), 
+            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'Rv':(1,5)}
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'BrG':(1e-17,1e-15)}
             >>> bounds = {'Teff':(2000,3000), 'logg':(3.0,4.5), 'R':(1.,5.),
             >>>           'Tbb1':(500,1500), 'Rbb1':(0.1,1.)}
-            
+
     resamp_before: bool, optional
-        Whether to prepare the whole grid of resampled models before entering 
+        Whether to prepare the whole grid of resampled models before entering
         the MCMC, i.e. to avoid doing it at every MCMC step. Recommended.
-        Only reason not to: model grid is too large and individual models 
+        Only reason not to: model grid is too large and individual models
         require being opened and resampled at each step.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine, opt
-        External routine that reads a model file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains model values. See example routine in 
+        External routine that reads a model file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
-            
+        4 values:
+
             1. the wavelength (in :math:`\mu` m);
-            
-            2. a string indicating whether line intensity is expressed in flux 
+
+            2. a string indicating whether line intensity is expressed in flux
                ('F'), luminosity ('L') or log(L/LSun) ("LogL");
-              
-            3. the FWHM of the gaussian (or None if to be set automatically); 
-            
+
+            3. the FWHM of the gaussian (or None if to be set automatically);
+
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
-            
-        The third and fourth can also be set to None. In that case, the FWHM of 
+
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
-        
+
         Examples:
             >>> em_lines = {'BrG':(2.1667,'F',None, None)}
             >>> em_lines = {'BrG':(2.1667,'LogL', 100, 'km/s')}
-            
+
     em_grid: dictionary pointing to lists, opt
         Dictionary where each entry corresponds to an emission line and points
         to a list of values to inject for emission line fluxes. For computation
         efficiency, interpolation will be performed between the points of this
         grid during the MCMC sampling. Dictionary entries should match those in
         ``labels`` and ``em_lines``.
-        
+
         Examples:
             >>> BrGmin, BrGmax = -5, 5
             >>> em_grid = {'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
             >>> BrGmin, BrGmax = -5, 5
             >>> PaBmin, PaBmax = -2, 7
             >>> em_grid = {'PaB': np.arange(PaBmin, PaBmax, 20),
             >>>            'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
+        inaccurate for a combined spectrum). It must be provided IF one wants to
+        weigh each measurement based on the spectral resolution of each
         instrument (as in [OLO16]_), through the ``use_weights`` argument.
     instru_corr : numpy 2d ndarray, optional
-        Spectral correlation between post-processed images in which the 
-        spectrum is measured. It is specific to the instrument, PSF subtraction 
+        Spectral correlation between post-processed images in which the
+        spectrum is measured. It is specific to the instrument, PSF subtraction
         algorithm and radial separation of the companion from the central star.
-        Can be computed using ``special.spec_corr.spectral_correlation``. In 
-        case of a spectrum obtained with different instruments, it is 
+        Can be computed using ``special.spec_corr.spectral_correlation``. In
+        case of a spectrum obtained with different instruments, it is
         recommended to construct the final spectral_correlation matrix with
-        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, 
-        the uncertainties in each spectral channel will be considered 
+        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided,
+        the uncertainties in each spectral channel will be considered
         independent. See [GRE16]_ for more details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
+        The mean instrumental resolving power(s) OR filter names. This is
+        used to convolve the model spectrum. If several instruments are used,
+        provide a list of resolving power values / filter names, one for
         each instrument used.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        1d array containing an index representing each instrument used
+        to obtain the spectrum, label them from 0 to the number of instruments
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the
         ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
+        associated to instru_res[i-1]. This parameter must be provided if the
         spectrum consists of points obtained with different instruments.
     use_weights: bool, optional
-        For the likelihood calculation, whether to weigh each point of the 
+        For the likelihood calculation, whether to weigh each point of the
         spectrum based on the spectral resolution or bandwidth of photometric
-        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if 
+        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if
         ``dlbda_obs`` is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains transmission values. Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
-            
+
         - first row contains headers (titles of each column)
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
         - Unit of wavelength can be provided in parentheses of first header \
         key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
         or "lambda(nm)" for nanometer. Note: only what is in parentheses \
         matters for the units.
-        
+
     AV_bef_bb: bool, optional
-        If both extinction and an extra bb component are free parameters, 
-        whether to apply extinction before adding the BB component (e.g. 
+        If both extinction and an extra bb component are free parameters,
+        whether to apply extinction before adding the BB component (e.g.
         extinction mostly from circumplanetary dust) or after the BB component
         (e.g. mostly insterstellar extinction).
     units_obs : str, opt {'si','cgs','jy'}
-        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu 
+        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu
         or 'jy' for janskys.
     units_mod: str, opt {'si','cgs','jy'}
         Units of the model. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu or 'jy'
-        for janskys. If different to units_obs, the spectrum units will be 
+        for janskys. If different to units_obs, the spectrum units will be
         converted.
-    interp_order: int, opt, {-1,0,1} 
+    interp_order: int, opt, {-1,0,1}
         Interpolation mode for model interpolation.
             - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
-            
+
     priors: dictionary, opt
-        If not None, sets prior estimates for each parameter of the model. Each 
-        entry should be set to either None (no prior) or a tuple of 2 elements 
+        If not None, sets prior estimates for each parameter of the model. Each
+        entry should be set to either None (no prior) or a tuple of 2 elements
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here)
         will be associated no prior.
         'M' can be used for a prior on the mass of the planet. In that case the
-        corresponding prior log probability is computed from the values for 
+        corresponding prior log probability is computed from the values for
         parameters 'logg' and 'R'.
-        
+
         Examples:
             >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
             >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
             >>>           'Av':(1.8,0.2), 'M':(10,3)}
-        
-        Important: dictionary entry names should match exactly those of 
+
+        Important: dictionary entry names should match exactly those of
         ``bounds``.
     physical: bool, opt
-        In case of extra black body component(s) to a photosphere, whether to 
+        In case of extra black body component(s) to a photosphere, whether to
         force lower temperature than the photosphere effective temperature.
     interp_nonexist: bool, opt
-        Whether to interpolate non-existing models in the grid. Only used if 
+        Whether to interpolate non-existing models in the grid. Only used if
         resamp_before is set to True.
     ini_ball: float or string, default=1e-1
-        Size of the initial ball in parameter space from which walkers start 
+        Size of the initial ball in parameter space from which walkers start
         their chain. If "uniform" is provided, a uniform ini_ball spanning
         the bounds interval will be used to initialise walkers.
     a: float, default=2.0
@@ -886,12 +888,12 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     check_maxgap: int, optional
         Maximum number of steps per walker between two convergence tests.
     conv_test: str, optional {'gb','autocorr'}
-        Method to check for convergence: 
+        Method to check for convergence:
             - 'gb' for gelman-rubin test \
                 (http://digitalassets.lib.berkeley.edu/sdtr/ucb/text/305.pdf)
             - 'autocorr' for autocorrelation analysis \
                 (https://emcee.readthedocs.io/en/stable/tutorials/autocorr/)
-        
+
     nproc: int, optional
         The number of processes to use for parallelization.
     grid_name: str, optional
@@ -900,8 +902,8 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         If provided, will read it if it exists (and resamp_before is set
         to True), or make it and write it if it doesn't.
     output_dir: str, optional
-        The name of the output directory which contains the output files in the 
-        case  ``save`` is True.        
+        The name of the output directory which contains the output files in the
+        case  ``save`` is True.
     output_file: str, optional
         The name of the output file which contains the MCMC results in the case
         ``save`` is True.
@@ -912,34 +914,34 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         Verbosity level. 0 for no output and 2 for full information.
     save: bool, optional
         If True, the MCMC results are pickled.
-                    
+
     Returns
     -------
     out : numpy.array
         The MCMC samples after truncation of zeros.
     lnprobability: emcee sample object
         The corresponding probabilities for each sample
-        
+
     Note
     ----
     - The parameter `a` must be > 1. For more theoretical information concerning
       this parameter, see [GOO10]_.
-    
+
     - The parameter 'rhat_threshold' can be a numpy.array with individual
       threshold value for each model parameter.
-    
+
     - If several filter filenames are provided in ``instru_res``, the filter files
       must all have the same format and wavelength units (for reading by the same
-      ``filter_reader`` snippet or default function). 
-    
-    - ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius 
-      and Av. For a combined grid model + black body fit, just provide the list 
-      of parameters probed by the grid to ``grid_param_list``, and provide values 
+      ``filter_reader`` snippet or default function).
+
+    - ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius
+      and Av. For a combined grid model + black body fit, just provide the list
+      of parameters probed by the grid to ``grid_param_list``, and provide values
       for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.
-      
+
     Examples
     --------
-    
+
     This is a minimal example for the file_reader routine to be provided \
     as argument to model_interpolation. The routine should only take as \
     inputs grid parameters, and returns as output: both the wavelengths and \
@@ -947,14 +949,14 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     This example assumes the model is in a fits file, that is already a 2D\
     numpy array, where the first column is the wavelength, and 2nd column \
     is the corresponding model values.
-        
+
     >>> def _example_file_reader(params):
     >>>     model = open_fits(filename.format(params[0],params[1]))
-    >>>     return model    
-    
+    >>>     return model
+
     """
     nparams = len(initial_state)
-    
+
     if grid_param_list is not None:
         if model_grid is None and model_reader is None:
             msg = "Either model_grid or model_reader have to be provided"
@@ -966,7 +968,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         gp_dims = tuple(gp_dims)
     else:
         n_gparams = 0
-        
+
     # format emission line dictionary and em grid
     if len(em_grid)>0:
         n_em = len(em_grid)
@@ -985,27 +987,27 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                 conv_fac = 4*np.pi*R_si**2
                 tmp = np.array(em_grid[key])/conv_fac
                 em_grid[key] = tmp.tolist()
-                # adapt ini state 
+                # adapt ini state
                 initial_state = list(initial_state)
                 initial_state[idx_line] /= conv_fac
                 initial_state = tuple(initial_state)
                 #adapt bounds
                 bounds_ori = list(bounds[key])
-                bounds[key] = (bounds_ori[0]/conv_fac, bounds_ori[1]/conv_fac) 
+                bounds[key] = (bounds_ori[0]/conv_fac, bounds_ori[1]/conv_fac)
             elif val[1] == 'LogL':
                 idx_line = labels.index(key)
                 R_si = initial_state[idx_R]*con.R_jup.value
                 conv_fac = con.L_sun.value/(4*np.pi*R_si**2)
                 tmp = np.power(10,np.array(em_grid[key]))*conv_fac
-                em_grid[key] = tmp.tolist()  
-                # adapt ini state 
+                em_grid[key] = tmp.tolist()
+                # adapt ini state
                 initial_state = list(initial_state)
                 initial_state[idx_line] = conv_fac*10**initial_state[idx_line]
                 initial_state = tuple(initial_state)
                 #adapt bounds
                 bounds_ori = list(bounds[key])
-                bounds[key] = (conv_fac*10**bounds_ori[0], 
-                               conv_fac*10**bounds_ori[1]) 
+                bounds[key] = (conv_fac*10**bounds_ori[0],
+                               conv_fac*10**bounds_ori[1])
             if em_lines[key][2] is not None:
                 if em_lines[key][-1] == 'km/s':
                     v = em_lines[key][2]
@@ -1021,12 +1023,12 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                 elif em_lines[key][-1] != 'mu':
                     msg = "Invalid unit of FWHM for line injection"
                     raise ValueError(msg)
-                
+
     if model_grid is not None and grid_param_list is not None:
         if model_grid.ndim-2 != n_gparams:
             msg = "Ndim-2 of model_grid should match len(grid_param_list)"
             raise TypeError(msg)
-    
+
     if verbosity > 0:
         start_time = time_ini()
         print("       MCMC sampler for spectral fitting       ")
@@ -1043,7 +1045,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
             output_dir = output_dir+'/'
 
         #output_file_tmp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
- 
+
     # Check model grid parameters extend beyond bounds to avoid extrapolation
     if grid_param_list is not None:
         for pp in range(n_gparams):
@@ -1055,19 +1057,19 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                 msg= "Grid has to extend beyond bounds for {}."
                 msg+="\n Consider decreasing the upper bound to <{}."
                 raise ValueError(msg.format(labels[pp],grid_param_list[pp][1]))
-                
+
     # Check initial state is within bounds for all params (not only grid)
     for pp in range(nparams):
         if initial_state[pp]<bounds[labels[pp]][0]:
             msg= "Initial state has to be within bounds for {}."
             msg+="\n Consider decreasing the lower bound to <{}."
-            raise ValueError(msg.format(labels[pp],initial_state[pp]))            
+            raise ValueError(msg.format(labels[pp],initial_state[pp]))
         if initial_state[pp]>bounds[labels[pp]][1]:
             msg= "Initial state has to be within bounds for {}."
             msg+="\n Consider decreasing the upper bound to >{}."
             raise ValueError(msg.format(labels[pp],initial_state[pp]))
-        
-    # Prepare model grid: convolve+resample models as observations 
+
+    # Prepare model grid: convolve+resample models as observations
     if resamp_before and grid_param_list is not None:
         if isfile(output_dir+grid_name):
             model_grid = open_fits(output_dir+grid_name)
@@ -1086,22 +1088,22 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                     msg="loaded model grid ({}) doesn't have expected dims ({})"
                     raise TypeError(msg.format(model_grid.shape,em_dims))
         else:
-            model_grid = make_resampled_models(lbda_obs, grid_param_list, 
-                                               model_grid, model_reader, 
-                                               em_lines, em_grid, dlbda_obs, 
-                                               instru_res, instru_idx, 
+            model_grid = make_resampled_models(lbda_obs, grid_param_list,
+                                               model_grid, model_reader,
+                                               em_lines, em_grid, dlbda_obs,
+                                               instru_res, instru_idx,
                                                filter_reader, interp_nonexist)
             if output_dir and grid_name:
                 write_fits(output_dir+grid_name, model_grid)
-        # note: if model_grid is provided, it is still resampled to the 
-        # same wavelengths as observed spectrum. However, if a fits name is 
-        # provided in grid_name and that file exists, it is assumed the model 
+        # note: if model_grid is provided, it is still resampled to the
+        # same wavelengths as observed spectrum. However, if a fits name is
+        # provided in grid_name and that file exists, it is assumed the model
         # grid in it is already resampled to match lbda_obs.
 
     if save and output_file is None:
         output_file = 'MCMC_results'
 
-    
+
     # #########################################################################
     # Initialization of the MCMC variables                                    #
     # #########################################################################
@@ -1111,7 +1113,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     supp = niteration_supp
     maxgap = check_maxgap
     initial_state = np.array(initial_state)
-    
+
     if itermin > limit:
         itermin = 0
 
@@ -1126,31 +1128,31 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     nIterations = limit + supp
     rhat = np.zeros(dim)
     stop = np.inf
-    
+
     # initialise ball of walkers
     if ini_ball == "uniform":
         pos = np.zeros([nwalkers, dim])
         for ii in range(dim):
             low_b = bounds[labels[ii]][0]
             up_b = (bounds[labels[ii]][1])
-            pos[:,ii] = np.random.uniform(low_b + 0.01*(up_b-low_b), 
+            pos[:,ii] = np.random.uniform(low_b + 0.01*(up_b-low_b),
                                           up_b, nwalkers)
     elif isinstance(ini_ball,float):
         pos = initial_state + np.random.normal(0, ini_ball, (nwalkers, dim))
     else:
         raise ValueError("ini_ball must be string or float")
-    
+
     sampler = emcee.EnsembleSampler(nwalkers, dim, lnprob, a=a,
-                                    args=([labels, bounds, grid_param_list, 
+                                    args=([labels, bounds, grid_param_list,
                                            lbda_obs, spec_obs, err_obs, dist,
                                            model_grid, model_reader, em_lines,
-                                           em_grid, dlbda_obs, instru_corr, 
+                                           em_grid, dlbda_obs, instru_corr,
                                            instru_res, instru_idx, use_weights,
-                                           filter_reader, AV_bef_bb, units_obs, 
-                                           units_mod, interp_order, priors, 
+                                           filter_reader, AV_bef_bb, units_obs,
+                                           units_mod, interp_order, priors,
                                            physical]),
                                     threads=nproc)
-                                    
+
     start = datetime.datetime.now()
 
     # #########################################################################
@@ -1159,7 +1161,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     if verbosity > 1:
         print('\nStart of the MCMC run ...')
         print('Step  |  Duration/step (sec)  |  Remaining Estimated Time (sec)')
-    
+
     for k, res in enumerate(sampler.sample(pos, iterations=nIterations)):
         elapsed = (datetime.datetime.now()-start).total_seconds()
         if verbosity > 1:
@@ -1169,7 +1171,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                 q = 1
             print('{}\t\t{:.5f}\t\t\t{:.5f}'.format(k, elapsed * q,
                                                     elapsed * (limit-k-1) * q))
-            
+
         start = datetime.datetime.now()
 
         # ---------------------------------------------------------------------
@@ -1192,12 +1194,12 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         criterion = int(np.amin([np.ceil(itermin*(1+fraction)**geom),
                         lastcheck+np.floor(maxgap)]))
         if k == criterion:
-            
+
             geom += 1
             lastcheck = k
             if display:
                 show_walk_plot(chain)
-                
+
             # We only test the rhat if we have reached the min # of steps
             if (k+1) >= itermin and konvergence == np.inf:
                 if verbosity > 1:
@@ -1205,7 +1207,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                 if conv_test == 'gb':
                     thr0 = int(np.floor(burnin*k))
                     thr1 = int(np.floor((1-burnin)*k*0.25))
-    
+
                     # We calculate the rhat for each model parameter.
                     for j in range(dim):
                         part1 = chain[:, thr0:thr0 + thr1, j].reshape(-1)
@@ -1223,7 +1225,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                         if rhat_count < rhat_count_threshold:
                             if verbosity > 0:
                                 msg = "Gelman-Rubin test OK {}/{}"
-                                print(msg.format(rhat_count, 
+                                print(msg.format(rhat_count,
                                                  rhat_count_threshold))
                         elif rhat_count >= rhat_count_threshold:
                             if verbosity > 0:
@@ -1254,8 +1256,8 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                         ac_count = 0
                 else:
                     raise ValueError('conv_test value not recognized')
-                
-                                
+
+
                 if save and verbosity == 3:
                     ac_time = []
                     for j in range(dim):
@@ -1278,9 +1280,9 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
         if k+1 >= nIterations-1:
             # break to avoid a bug related to font type
             break
-        
+
     isamples, ln_proba, ar = chain_zero_truncated(chain, sampler.lnprobability,
-                                                  ar_frac)   
+                                                  ar_frac)
     # update units in the chain if needed
     if len(em_grid)>0:
         for key, val in em_lines.items():
@@ -1292,7 +1294,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                 R_si = isamples[:,:,idx_R]*con.R_jup.value
                 conv_fac = 4*np.pi*R_si**2/con.L_sun.value
                 isamples[:,:,idx_line] = np.log10(isamples[:,:,idx_line]*conv_fac)
-      
+
     if k == nIterations-1:
         if verbosity > 0:
             print("We have reached the limit # of steps without convergence")
@@ -1300,7 +1302,7 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
     # #########################################################################
     # Construction of the independent samples
     # #########################################################################
- 
+
 
     if save:
         frame = inspect.currentframe()
@@ -1315,38 +1317,38 @@ def mcmc_spec_sampling(lbda_obs, spec_obs, err_obs, dist, grid_param_list,
                   'AR': ar,
                   'ac_time': ac_time,
                   'lnprobability': ln_proba}
-                  
+
         with open(output_dir+output_file, 'wb') as fileSave:
             pickle.dump(output, fileSave)
-        
+
         msg = "\nThe file MCMC_results has been stored in the folder {}"
         print(msg.format(output_dir))
 
     if verbosity > 0:
         timing(start_time)
-                                    
+
     return isamples, ln_proba
 
-                                    
+
 def chain_zero_truncated(chain, ln_proba=None, ar=None):
     """
     Return the Markov chain with the dimension: walkers x steps* x parameters,
     where steps* is the last step before having 0 (not yet constructed chain).
-    
+
     Parameters
     ----------
     chain: numpy.array
         The MCMC chain.
     ln_proba: numpy.array, opt
         Corresponding ln-probabilities.
-     
+
     Returns
     -------
     out: numpy.array
         The truncated MCMC chain, that is to say, the chain which only contains
         relevant information.
     out_ln_proba: numpy.array
-        If ln_proba is provided as input, out_ln_proba contains the 
+        If ln_proba is provided as input, out_ln_proba contains the
         zero-truncated ln-proba (i.e. matching shape with non-zero samples)
     """
     try:
@@ -1354,7 +1356,7 @@ def chain_zero_truncated(chain, ln_proba=None, ar=None):
     except:
         idxzero = chain.shape[1]
     res = [chain[:, 0:idxzero, :]]
-        
+
     if ln_proba is not None:
         res.append(ln_proba[:,0:idxzero])
     if ar is not None:
@@ -1363,13 +1365,13 @@ def chain_zero_truncated(chain, ln_proba=None, ar=None):
         return res[0]
     else:
         return tuple(res)
- 
-   
+
+
 def show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
                    **kwargs):
     """
     Display/save a figure showing the path of each walker during the MCMC run.
-    
+
     Parameters
     ----------
     chain: numpy.array
@@ -1385,24 +1387,24 @@ def show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     save: boolean, default: False
         If True, a pdf file is created.
     output_dir: str, optional
-        The name of the output directory which contains the output files in the 
-        case  ``save`` is True.    
+        The name of the output directory which contains the output files in the
+        case  ``save`` is True.
     ntrunc: int, opt
         max number of walkers plotted. If too many walkers the plot will become
-        too voluminous and too crowded. Plot will be truncated to only ntrunc 
+        too voluminous and too crowded. Plot will be truncated to only ntrunc
         first walkers
     kwargs:
         Additional attributes are passed to the matplotlib plot method.
-                                                        
+
     Returns
     -------
     Display the figure or create a pdf file named walk_plot.pdf in the working
     directory.
-    
+
     """
     npar = chain.shape[-1]
     if len(labels) != npar:
@@ -1427,7 +1429,7 @@ def show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
             axes[j].set_ylabel(labels[j])
     else:
         axes.set_xlabel(kwargs.pop('xlabel', 'step number'))
-        axes.set_xlim(kwargs.pop('xlim', [0, chain.shape[1]]))            
+        axes.set_xlim(kwargs.pop('xlim', [0, chain.shape[1]]))
         for j in range(npar):
             axes.plot(chain[:ntrunc, :, j].T, color=color, alpha=alpha, **kwargs)
             axes.yaxis.set_major_locator(MaxNLocator(5))
@@ -1440,12 +1442,12 @@ def show_walk_plot(chain, labels, save=False, output_dir='', ntrunc=100,
         plt.show()
 
 
-def show_corner_plot(chain, burnin=0.5, save=False, output_dir='', 
-                     mcmc_res=None, units=None, ndig=None, labels_plot=None, 
+def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
+                     mcmc_res=None, units=None, ndig=None, labels_plot=None,
                      plot_name='corner_plot.pdf', **kwargs):
     """
     Display/save a figure showing the corner plot (pdfs + correlation plots).
-    
+
     Parameters
     ----------
     chain: numpy.array
@@ -1457,26 +1459,26 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
     save: boolean, default: False
         If True, a pdf file is created.
     output_dir: str, optional
-        The name of the output directory which contains the output files in the 
-        case  ``save`` is True.    
+        The name of the output directory which contains the output files in the
+        case  ``save`` is True.
     mcmc_res: numpy array OR tuple of 2 dictionaries/np.array, opt
         Values to be printed on top of each 1d posterior distribution
-        
+
         * if numpy array: \
             - shape :math:`(n_{par},3)`, with :math:`(n_{par}` the number of \
             parameters, with the first, second and third rows containing the \
             most likely value of each parameter and the lower and upper \
-            uncertainties at the desired quantiles, respectively. 
+            uncertainties at the desired quantiles, respectively.
             - shape :math:`(n_{par},2)`: same as above but with a single value \
             for the uncertainty.
         * if tuple of 2 dictionaries: output of \
         ``special.mcm_sampling.spec_confidence`` without gaussian fit.
         * if tuple of 2 np.array: output of \
         ``special.mcm_sampling.spec_confidence`` with gaussian fit.
-        
+
     units: tuple, opt
         Tuple of strings containing units for each parameter. If provided,
-        mcmc_res will be printed on top of each 1d posterior distribution along 
+        mcmc_res will be printed on top of each 1d posterior distribution along
         with these units.
     ndig: tuple, opt
         Number of digits precision for each printed parameter
@@ -1486,18 +1488,18 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
     kwargs:
         Additional attributes passed to the ``corner.corner`` method.
         (e.g. ``labels``, ``labels_tit``, ``labels_tit_unit``, ``title_kwargs``)
-                    
+
     Returns
     -------
     Display the figure or create a pdf file named walk_plot.pdf in the working
     directory.
-        
+
     Raises
     ------
     ImportError
-    
+
     """
-    
+
     npar = chain.shape[-1]
     if "labels" in kwargs.keys():
         labels = kwargs.pop('labels')
@@ -1505,11 +1507,11 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
             labels_plot = labels
     else:
         labels = None
-        
+
     # allows for different title/units on top of 1D posterior distributions
     labels_tit = kwargs.pop('labels_tit', labels_plot)
     labels_tit_unit = kwargs.pop('labels_tit_unit', units)
-    
+
     try:
         temp = np.where(chain[0, :, 0] == 0.0)[0]
         if len(temp) != 0:
@@ -1525,7 +1527,7 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
     else:
         fig = corner.corner(chain, labels=labels_plot, **kwargs)
 
-        
+
     if mcmc_res is not None and labels is not None:
         title_kwargs = kwargs.pop('title_kwargs', {})
         if isinstance(mcmc_res,tuple):
@@ -1537,17 +1539,17 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
                 raise TypeError(msg)
             if labels is None:
                 msg = "labels should be provided"
-                raise TypeError(msg)                
+                raise TypeError(msg)
         elif isinstance(mcmc_res,np.ndarray):
             if mcmc_res.shape[0] != npar:
                 msg = "mcmc_res first dim should be equal to number of params"
-                raise TypeError(msg)  
+                raise TypeError(msg)
         else:
             msg = "type of mcmc_res not recognised"
             raise TypeError(msg)
         # Extract the axes
         axes = np.array(fig.axes).reshape((npar, npar))
-                
+
         # Loop over the diagonal
         for i in range(npar):
             ax = axes[i, i]
@@ -1580,13 +1582,13 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
 
             # Add in the column name if it's given.
             try:
-                title = "{0} = {1} {2}".format(labels_tit[i], title, 
+                title = "{0} = {1} {2}".format(labels_tit[i], title,
                                                labels_tit_unit[i])
             except:
                 title = "{0} = {1}".format(labels_tit[i], title)
-                
+
             ax.set_title(title, **title_kwargs)
-    
+
     if save:
         plt.savefig(output_dir+plot_name)
         plt.close(fig)
@@ -1594,13 +1596,13 @@ def show_corner_plot(chain, burnin=0.5, save=False, output_dir='',
         plt.show()
 
 
-def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False, 
-               weights=None, verbose=True, save=False, output_dir='', 
+def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
+               weights=None, verbose=True, save=False, output_dir='',
                bounds=None, priors=None, **kwargs):
     """
     Determine the highly probable value for each model parameter, as well as
     the 1-sigma confidence interval.
-    
+
     Parameters
     ----------
     isamples: numpy.array
@@ -1614,7 +1616,7 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     cfd: float, optional
         The confidence level given in percentage.
     bins: int, optional
@@ -1636,52 +1638,52 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
         Should be the same ``priors`` as provided to the MCMC.
     kwargs: optional
         Additional attributes are passed to the matplotlib hist() method.
-        
+
     Returns
     -------
     out: tuple
         A 2 elements tuple with the highly probable solution and the confidence
         interval.
-        
+
     """
     title = kwargs.pop('title', None)
-        
+
     output_file = kwargs.pop('filename', 'confidence.txt')
-    
+
     if gaussian_fit:
         output_pdf = kwargs.pop('pdfname','confi_hist_spec_params_gaussfit.pdf')
     else:
         output_pdf = kwargs.pop('pdfname','confi_hist_spec_params.pdf')
-        
+
     try:
         l = isamples.shape[1]
     except:
         l = 1
-     
+
     confidenceInterval = {}
     val_max = {}
     pKey = labels #['r', 'theta', 'f']
-    
+
     if l != len(pKey):
         raise ValueError("Labels length should match chain last dimension")
-    
+
     if cfd == 100:
         cfd = 99.9
-        
+
     #########################################
     ##  Determine the confidence interval  ##
     #########################################
     if gaussian_fit:
         mu = np.zeros(l)
         sigma = np.zeros_like(mu)
-    
+
     if gaussian_fit:
         fig, ax = plt.subplots(2, l, figsize=(int(4*l),8))
     else:
         fig, ax = plt.subplots(1, l, figsize=(int(4*l),4))
-    
+
     for j in range(l):
-        
+
         if gaussian_fit:
             n, bin_vertices, _ = ax[0][j].hist(isamples[:,j], bins=bins,
                                                weights=weights, histtype='step',
@@ -1693,7 +1695,7 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
         bins_width = np.mean(np.diff(bin_vertices))
         surface_total = np.sum(np.ones_like(n)*bins_width * n)
         n_arg_sort = np.argsort(n)[::-1]
-        
+
         test = 0
         pourcentage = 0
         for k, jj in enumerate(n_arg_sort):
@@ -1706,17 +1708,17 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
                 break
         n_arg_min = int(n_arg_sort[:k].min())
         n_arg_max = int(n_arg_sort[:k+1].max())
-        
+
         if n_arg_min == 0:
             n_arg_min += 1
         if n_arg_max == bins:
             n_arg_max -= 1
-        
+
         val_max[pKey[j]] = bin_vertices[int(n_arg_sort[0])]+bins_width/2.
         confidenceInterval[pKey[j]] = np.array([bin_vertices[n_arg_min-1],
                                                bin_vertices[n_arg_max+1]]
                                                - val_max[pKey[j]])
-                        
+
         arg = (isamples[:, j] >= bin_vertices[n_arg_min - 1]) * \
               (isamples[:, j] <= bin_vertices[n_arg_max + 1])
         if gaussian_fit:
@@ -1759,8 +1761,8 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
 
             if title is not None:
                 msg = r"{} - {:.3f} {:.3f} +{:.3f}"
-                ax[1].set_title(msg.format(title, val_max[pKey[j]], 
-                                           confidenceInterval[pKey[j]][0], 
+                ax[1].set_title(msg.format(title, val_max[pKey[j]],
+                                           confidenceInterval[pKey[j]][0],
                                            confidenceInterval[pKey[j]][1]),
                                 fontsize=10)
 
@@ -1812,7 +1814,7 @@ def confidence(isamples, labels, cfd=68.27, bins=100, gaussian_fit=False,
             f.write(' \n')
             f.write('>> Spectral parameters for a ')
             f.write('{} % confidence interval:\n'.format(cfd))
-            
+
             for j in range(l):
                 f.write('{}: {} [{},{}]'.format(pKey[j], val_max[pKey[j]],
                                               confidenceInterval[pKey[j]][0],

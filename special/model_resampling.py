@@ -160,9 +160,11 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         Units of the model. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu or 'jy'
         for janskys. If different to units_obs, the spectrum units will be
         converted.
-    interp_order: int, opt, {-1,0,1}
-        Interpolation mode for model interpolation.
-            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
+    interp_order: int or tuple of int, optional, {-1,0,1}
+        Interpolation mode for model interpolation. If a tuple of integers, the
+        length should match the number of grid dimensions and will trigger a
+        different interpolation mode for the different parameters.
+            - -1: Order 1 spline interpolation in logspace for the parameter
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
 
@@ -970,7 +972,11 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
     n_em = len(em_grid)
     n_params_tot = n_params+n_em
 
-    if interp_order == 0:
+    if isinstance(interp_order, (int, bool)):
+        interp_order = [interp_order]*n_params_tot
+        interp_order = tuple(interp_order)
+
+    if np.sum(np.abs(interp_order)) == 0:
         if model_grid is None:
             params_tmp = np.zeros(n_params)
             for nn in range(n_params):
@@ -1004,7 +1010,17 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
             tmp = model_grid[idx_tmp]
             return tmp[:, 0], tmp[:, 1]
 
-    elif abs(interp_order) == 1:
+    else:
+        if len(interp_order) != n_params_tot:
+            msg = "if a tuple, interp_order should have same length as the "
+            msg += "number of grid dimensions"
+            raise TypeError(msg)
+        else:
+            for i in range(n_params_tot):
+                if interp_order[i] not in [-1, 0, 1]:
+                    msg = "interp_order values should be -1, 0, or 1"
+                    raise TypeError(msg)
+
         # first compute new subgrid "coords" for interpolation
         if verbose:
             print("Computing new coords for interpolation")
@@ -1033,13 +1049,15 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
                 except:
                     pdb.set_trace()
 
-            if interp_order == -1:
+            if interp_order[nn] == -1:
                 num = np.log(params_tmp/sub_grid_param[nn, 0])
                 denom = np.log(sub_grid_param[nn, 1]/sub_grid_param[nn, 0])
             else:
                 num = (params_tmp-sub_grid_param[nn, 0])
                 denom = (sub_grid_param[nn, 1]-sub_grid_param[nn, 0])
             new_coords[nn, 0] = num/denom
+            if interp_order[nn] == 0:
+                new_coords[nn, 0] = round(new_coords[nn, 0])
 
         if verbose:
             print("Making sub-grid of models")
@@ -1174,12 +1192,8 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
 
         for cc in range(nch):
             interp_model[cc] = map_coordinates(sub_grid[cc], new_coords,
-                                               order=abs(interp_order))
+                                               order=1)
             interp_lbdas[cc] = map_coordinates(sub_grid_lbda[cc], new_coords,
-                                               order=abs(interp_order))
+                                               order=1)
 
         return interp_lbdas, interp_model
-
-    else:
-        msg = "Interpolation order not allowed. Only -1, 0 or 1 accepted"
-        raise TypeError(msg)

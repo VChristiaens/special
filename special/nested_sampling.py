@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 """
-Module with functions for posterior sampling of the model spectra parameters 
+Module with functions for posterior sampling of the model spectra parameters
 using nested sampling (either ``nestle`` or ``ultranest`` samplers).
 
 .. [nes13]
@@ -13,8 +13,8 @@ using nested sampling (either ``nestle`` or ``ultranest`` samplers).
 
 .. [SKI04]
    | Skilling 2004
-   | **Bayesian Inference and Maximum Entropy Methods in Science and Engineering: 
-     24th International Workshop on Bayesian Inference and Maximum Entropy 
+   | **Bayesian Inference and Maximum Entropy Methods in Science and Engineering:
+     24th International Workshop on Bayesian Inference and Maximum Entropy
      Methods in Science and Engineering**
    | *American Institute of Physics Conference Series, Volume 735, pp. 395-405*
    | `https://ui.adsabs.harvard.edu/abs/2004AIPC..735..395S
@@ -29,19 +29,19 @@ using nested sampling (either ``nestle`` or ``ultranest`` samplers).
 
 .. [FER09]
    | Feroz et al. 2009
-   | **MULTINEST: an efficient and robust Bayesian inference tool for cosmology 
+   | **MULTINEST: an efficient and robust Bayesian inference tool for cosmology
      and particle physics**
    | *MNRAS, Volume 398, Issue 4, pp. 1601-1614*
    | `https://arxiv.org/abs/0809.3437
      <https://arxiv.org/abs/0809.3437>`_
-     
+
 .. [BUC21]
    | Buchner 2021
    | **UltraNest - a robust, general purpose Bayesian inference engine**
    | *JOSS, Volume 6, Issue 60, p. 3001*
    | `https://arxiv.org/abs/2101.09604
      <https://arxiv.org/abs/2101.09604>`_
-     
+
 """
 
 
@@ -68,23 +68,23 @@ from os.path import isfile
 from scipy.special import ndtri
 
 
-def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist, 
-                         grid_param_list, labels, bounds, resamp_before=True, 
-                         model_grid=None, model_reader=None, em_lines={}, 
-                         em_grid={}, dlbda_obs=None, instru_corr=None, 
+def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
+                         grid_param_list, labels, bounds, resamp_before=True,
+                         model_grid=None, model_reader=None, em_lines={},
+                         em_grid={}, dlbda_obs=None, instru_corr=None,
                          instru_res=None, instru_idx=None, use_weights=True,
-                         filter_reader=None, AV_bef_bb=False, units_obs='si', 
-                         units_mod='si', interp_order=1, priors=None, 
-                         physical=True, interp_nonexist=True, 
-                         output_dir='special/', grid_name='resamp_grid.fits', 
-                         sampler='ultranest', method='single', npoints=100, 
+                         filter_reader=None, AV_bef_bb=False, units_obs='si',
+                         units_mod='si', interp_order=1, priors=None,
+                         physical=True, interp_nonexist=True,
+                         output_dir='special/', grid_name='resamp_grid.fits',
+                         sampler='ultranest', method='single', npoints=100,
                          dlogz=0.2, verbose=True, **kwargs):
-                            
-    
-    """ Runs a nested sampling algorithm in order to retrieve the best-fit 
+
+
+    """ Runs a nested sampling algorithm in order to retrieve the best-fit
     parameters for given spectral model and observed spectrum.. The
-    result of this procedure is either a ``nestle`` [nes13]_ or ``ultranest`` 
-    [BUC21]_ object (depending on the chosen sampler) containing the samples 
+    result of this procedure is either a ``nestle`` [nes13]_ or ``ultranest``
+    [BUC21]_ object (depending on the chosen sampler) containing the samples
     from the posterior distributions of each of the parameters.
     For the ``nestle`` sampler, several methods are available corresponding to
     MCMC [SKI04]_, single ellipsoid [MUK06]_ or multiple ellipsoid [FER09]_.
@@ -92,8 +92,8 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     Parameters
     ----------
     init: numpy ndarray or tuple
-        Initial guess on the best fit parameters of the spectral fit. Length of 
-        the tuple should match the total number of free parameters. 
+        Initial guess on the best fit parameters of the spectral fit. Length of
+        the tuple should match the total number of free parameters.
         - first all parameters related to loaded models (e.g. 'Teff', 'logg')
         - then the planet photometric radius 'R', in Jupiter radius
         - (optionally) the intensity of emission lines (labels must match \
@@ -103,22 +103,22 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
         contribution
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     spec_obs : numpy 1d ndarray or list
         Observed spectrum for each value of ``lbda_obs``. Should have a length
         of :math:`n_{ch}`.
     err_obs : numpy 1d/2d ndarray or list
         Uncertainties on the observed spectrum. The array (list) can have either
-        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower 
+        a length of :math:`n_{ch}`, or a shape of :math:`(2,n_{ch})` for lower
         (first column) and upper (second column) uncertainties provided.
     dist :  float
         Distance in parsec, used for flux scaling of the models.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
         themselves). The models will be loaded with ``model_reader``.
     labels: Tuple of strings
         Tuple of labels in the same order as initial_state:
@@ -129,185 +129,187 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution.     
+            contribution.
     bounds: dictionary
-        Each entry should be associated with a tuple corresponding to lower and 
+        Each entry should be associated with a tuple corresponding to lower and
         upper bounds respectively. Bounds should be provided for ALL model
-        parameters, including 'R' (planet photometric radius). 'Av' (optical 
+        parameters, including 'R' (planet photometric radius). 'Av' (optical
         extinction) is optional. If provided here, Av will also be fitted.
-        All keywords that are neither 'R', 'Av' nor 'M' will 
+        All keywords that are neither 'R', 'Av' nor 'M' will
         be considered model grid parameters.
- 
+
         Examples:
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5)}
-            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5), 
+            >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'Rv':(1,5)}
             >>> bounds = {'Teff':(1000,2000), 'logg':(3.0,4.5), 'R':(0.1,5),
             >>>           'Av':(0.,2.5), 'BrG':(1e-17,1e-15)}
             >>> bounds = {'Teff':(2000,3000), 'logg':(3.0,4.5), 'R':(1.,5.),
             >>>           'Tbb1':(500,1500), 'Rbb1':(0.1,1.)}
-     
+
     resamp_before: bool, optional
-        Whether to prepare the whole grid of resampled models before entering 
+        Whether to prepare the whole grid of resampled models before entering
         the MCMC, i.e. to avoid doing it at every MCMC step. Recommended.
-        Only reason not to: model grid is too large and individual models 
+        Only reason not to: model grid is too large and individual models
         require being opened and resampled at each step.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine, opt
-        External routine that reads a model file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains model values. See example routine in 
+        External routine that reads a model file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
-            
+        4 values:
+
             1. the wavelength (in :math:`\mu` m);
-            
+
             2. a string indicating whether line intensity is expressed in flux \
             ('F'), luminosity ('L') or log(L/LSun) ("LogL");
-              
-            3. the FWHM of the gaussian (or None if to be set automatically); 
-            
+
+            3. the FWHM of the gaussian (or None if to be set automatically);
+
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
-        
-        The third and fourth can also be set to None. In that case, the FWHM of 
+
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
-        
+
         Examples:
             >>> em_lines = {'BrG':(2.1667,'F',None, None)};
             >>> em_lines = {'BrG':(2.1667,'LogL', 100, 'km/s')}
-        
+
     em_grid: dictionary pointing to lists, opt
         Dictionary where each entry corresponds to an emission line and points
         to a list of values to inject for emission line fluxes. For computation
         efficiency, interpolation will be performed between the points of this
         grid during the MCMC sampling. Dictionary entries should match those in
         ``labels`` and ``em_lines``.
-        
+
         Examples:
             >>> BrGmin, BrGmax = -5, 5
             >>> em_grid = {'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
             >>> BrGmin, BrGmax = -5, 5
             >>> PaBmin, PaBmax = -2, 7
             >>> em_grid = {'PaB': np.arange(PaBmin, PaBmax, 20),
             >>>            'BrG': np.arange(BrGmin, BrGmax, 20)}
-            
+
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
+        inaccurate for a combined spectrum). It must be provided IF one wants to
+        weigh each measurement based on the spectral resolution of each
         instrument (as in [OLO16]_), through the ``use_weights`` argument.
     instru_corr : numpy 2d ndarray, optional
-        Spectral correlation between post-processed images in which the 
-        spectrum is measured. It is specific to the instrument, PSF subtraction 
+        Spectral correlation between post-processed images in which the
+        spectrum is measured. It is specific to the instrument, PSF subtraction
         algorithm and radial separation of the companion from the central star.
-        Can be computed using ``special.spec_corr.spectral_correlation``. In 
-        case of a spectrum obtained with different instruments, it is 
+        Can be computed using ``special.spec_corr.spectral_correlation``. In
+        case of a spectrum obtained with different instruments, it is
         recommended to construct the final spectral_correlation matrix with
-        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided, 
-        the uncertainties in each spectral channel will be considered 
+        ``special.spec_corr.combine_corrs``. If ``instru_corr`` is not provided,
+        the uncertainties in each spectral channel will be considered
         independent. See [GRE16]_ for more details.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
+        The mean instrumental resolving power(s) OR filter names. This is
+        used to convolve the model spectrum. If several instruments are used,
+        provide a list of resolving power values / filter names, one for
         each instrument used.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        1d array containing an index representing each instrument used
+        to obtain the spectrum, label them from 0 to the number of instruments
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the
         ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
+        associated to instru_res[i-1]. This parameter must be provided if the
         spectrum consists of points obtained with different instruments.
     use_weights: bool, optional
-        For the likelihood calculation, whether to weigh each point of the 
+        For the likelihood calculation, whether to weigh each point of the
         spectrum based on the spectral resolution or bandwidth of photometric
-        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if 
+        filters used. Weights will be proportional to ``dlbda_obs/lbda_obs`` if
         ``dlbda_obs`` is provided, or set to 1 for all points otherwise.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains transmission values. Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
-            
+
         - first row contains headers (titles of each column)
         - starting from 2nd row: 1st column: wavelength, 2nd col.: transmission
         - Unit of wavelength can be provided in parentheses of first header \
         key name: e.g. "WL(AA)" for angstrom, "wavelength(mu)" for micrometer \
         or "lambda(nm)" for nanometer. Note: only what is in parentheses \
         matters for the units.
-        
+
     AV_bef_bb: bool, optional
-        If both extinction and an extra bb component are free parameters, 
-        whether to apply extinction before adding the BB component (e.g. 
+        If both extinction and an extra bb component are free parameters,
+        whether to apply extinction before adding the BB component (e.g.
         extinction mostly from circumplanetary dust) or after the BB component
         (e.g. mostly insterstellar extinction).
     units_obs : str, opt {'si','cgs','jy'}
-        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu 
+        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu
         or 'jy' for janskys.
     units_mod: str, opt {'si','cgs','jy'}
         Units of the model. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu or 'jy'
-        for janskys. If different to units_obs, the spectrum units will be 
+        for janskys. If different to units_obs, the spectrum units will be
         converted.
-    interp_order: int, opt, {-1,0,1} 
-        Interpolation mode for model interpolation.
-            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
+    interp_order: int or tuple of int, optional, {-1,0,1}
+        Interpolation mode for model interpolation. If a tuple of integers, the
+        length should match the number of grid dimensions and will trigger a
+        different interpolation mode for the different parameters.
+            - -1: Order 1 spline interpolation in logspace for the parameter
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
-      
+
     priors: dictionary, opt
-        If not None, sets prior estimates for each parameter of the model. Each 
-        entry should be set to either None (no prior) or a tuple of 2 elements 
+        If not None, sets prior estimates for each parameter of the model. Each
+        entry should be set to either None (no prior) or a tuple of 2 elements
         containing prior estimate and uncertainty on the estimate.
-        Missing entries (i.e. provided in ``bounds`` dictionary but not here) 
+        Missing entries (i.e. provided in ``bounds`` dictionary but not here)
         will be associated no prior.
         'M' can be used for a prior on the mass of the planet. In that case the
-        corresponding prior log probability is computed from the values for 
+        corresponding prior log probability is computed from the values for
         parameters 'logg' and 'R'.
-        
+
         Examples:
             >>> priors = {'logg':(3.5,0.2), 'Rv':(3.1,0.2)}
             >>> priors = {'Teff':(1600,100), 'logg':(3.5,0.5), 'R':(1.6,0.1),
             >>>           'Av':(1.8,0.2), 'M':(10,3)}
-        
-        Important: dictionary entry names should match exactly those of 
+
+        Important: dictionary entry names should match exactly those of
         ``bounds``.
     physical: bool, opt
-        In case of extra black body component(s) to a photosphere, whether to 
+        In case of extra black body component(s) to a photosphere, whether to
         force lower temperature than the photosphere effective temperature.
     interp_nonexist: bool, opt
-        Whether to interpolate non-existing models in the grid. Only used if 
+        Whether to interpolate non-existing models in the grid. Only used if
         resamp_before is set to True.
     w : float or tuple
-        The relative size of the bounds (around the initial state ``init``) for 
-        each parameter. If a float the same relative size is considered for 
+        The relative size of the bounds (around the initial state ``init``) for
+        each parameter. If a float the same relative size is considered for
         each parameter. E.g. if 0.1, bounds will be set to:
         (0.9*params[0], 1.1*params[0]),
         ...
         (0.9*params[N-1], 1.1*params[N-1]),
         to True), or make it and write it if it does not.
     output_dir: str, optional
-        The name of the output directory which contains the output files in the 
-        case  ``save`` is True.   
+        The name of the output directory which contains the output files in the
+        case  ``save`` is True.
     grid_name: str, optional
         Name of the fits file containing the model grid (numpy array) AFTER
         convolution+resampling as the observed spectrum given as input.
@@ -315,12 +317,12 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     method : {"single", "multi", "classic"}, str optional
         Flavor of nested sampling.
     npoints : int optional
-        Number of active points. Must be >> ndim+1, otherwise will produce bad 
+        Number of active points. Must be >> ndim+1, otherwise will produce bad
         results. For UltraNest, this is the minimum number of active points.
     dlogz : float, optional
-        Target evidence uncertainty. Iterations will stop when the estimated 
-        contribution of the remaining prior volume to the total evidence falls 
-        below this threshold. Explicitly, the stopping criterion is 
+        Target evidence uncertainty. Iterations will stop when the estimated
+        contribution of the remaining prior volume to the total evidence falls
+        below this threshold. Explicitly, the stopping criterion is
         log(z + z_est) - log(z) < dlogz
         where z is the current evidence from all saved samples, and z_est is the
         estimated contribution from the remaining volume. This option and
@@ -335,7 +337,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         RandomState instance. If not given, the global random state of the
         numpy.random module will be used.
     kwargs: optional
-        Additional optional arguments to either the `nestle.sample` or 
+        Additional optional arguments to either the `nestle.sample` or
         `ultranest.ReactiveNestedSampler.run` functions.
 
     Returns
@@ -376,7 +378,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         current likelihood constraint. The different methods all use the
         current set of active points as an indicator of where the target
         parameter space lies, but differ in how they select new points from it:
-        
+
         - "classic" is close to the method described in [SKI04]_.
         - "single" [MUK06]_ determines a single ellipsoid that bounds all active \
         points, enlarges the ellipsoid by a user-settable factor, and \
@@ -405,18 +407,18 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     ----
     - If several filter filenames are provided in ``instru_res``, the filter files
       must all have the same format and wavelength units (for reading by the same
-      ``filter_reader`` snippet or default function). 
+      ``filter_reader`` snippet or default function).
 
-    - ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius 
-      and Av. For a combined grid model + black body fit, just provide the list 
-      of parameters probed by the grid to ``grid_param_list``, and provide values 
-      for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.  
+    - ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius
+      and Av. For a combined grid model + black body fit, just provide the list
+      of parameters probed by the grid to ``grid_param_list``, and provide values
+      for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.
 
     """
     # ----------------------- Preparation/Formatting --------------------------
 
     nparams = len(init)
-    
+
     if grid_param_list is not None:
         if model_grid is None and model_reader is None:
             msg = "Either model_grid or model_reader have to be provided"
@@ -428,7 +430,7 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
         gp_dims = tuple(gp_dims)
     else:
         n_gparams = 0
-        
+
     # format emission line dictionary and em grid
     if len(em_grid)>0:
         n_em = len(em_grid)
@@ -447,27 +449,27 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                 conv_fac = 4*np.pi*R_si**2
                 tmp = np.array(em_grid[key])/conv_fac
                 em_grid[key] = tmp.tolist()
-                # adapt ini state 
+                # adapt ini state
                 init = list(init)
                 init[idx_line] /= conv_fac
                 init = tuple(init)
                 #adapt bounds
                 bounds_ori = list(bounds[key])
-                bounds[key] = (bounds_ori[0]/conv_fac, bounds_ori[1]/conv_fac) 
+                bounds[key] = (bounds_ori[0]/conv_fac, bounds_ori[1]/conv_fac)
             elif val[1] == 'LogL':
                 idx_line = labels.index(key)
                 R_si = init[idx_R]*con.R_jup.value
                 conv_fac = con.L_sun.value/(4*np.pi*R_si**2)
                 tmp = np.power(10,np.array(em_grid[key]))*conv_fac
-                em_grid[key] = tmp.tolist()  
-                # adapt ini state 
+                em_grid[key] = tmp.tolist()
+                # adapt ini state
                 init = list(init)
                 init[idx_line] = conv_fac*10**init[idx_line]
                 init = tuple(init)
                 #adapt bounds
                 bounds_ori = list(bounds[key])
-                bounds[key] = (conv_fac*10**bounds_ori[0], 
-                               conv_fac*10**bounds_ori[1]) 
+                bounds[key] = (conv_fac*10**bounds_ori[0],
+                               conv_fac*10**bounds_ori[1])
             if em_lines[key][2] is not None:
                 if em_lines[key][-1] == 'km/s':
                     v = em_lines[key][2]
@@ -483,13 +485,13 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                 elif em_lines[key][-1] != 'mu':
                     msg = "Invalid unit of FWHM for line injection"
                     raise ValueError(msg)
-                
+
     if model_grid is not None and grid_param_list is not None:
         if model_grid.ndim-2 != n_gparams:
             msg = "Ndim-2 of model_grid should match len(grid_param_list)"
             raise TypeError(msg)
 
- 
+
     # Check model grid parameters extend beyond bounds to avoid extrapolation
     if grid_param_list is not None:
         for pp in range(n_gparams):
@@ -501,19 +503,19 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                 msg= "Grid has to extend beyond bounds for {}."
                 msg+="\n Consider decreasing the upper bound to <{}."
                 raise ValueError(msg.format(labels[pp],grid_param_list[pp][1]))
-                
+
     # Check initial state is within bounds for all params (not only grid)
     for pp in range(nparams):
         if init[pp]<bounds[labels[pp]][0]:
             msg= "Initial state has to be within bounds for {}."
             msg+="\n Consider decreasing the lower bound to <{}."
-            raise ValueError(msg.format(labels[pp],init[pp]))            
+            raise ValueError(msg.format(labels[pp],init[pp]))
         if init[pp]>bounds[labels[pp]][1]:
             msg= "Initial state has to be within bounds for {}."
             msg+="\n Consider decreasing the upper bound to >{}."
             raise ValueError(msg.format(labels[pp],init[pp]))
-        
-    # Prepare model grid: convolve+resample models as observations 
+
+    # Prepare model grid: convolve+resample models as observations
     if resamp_before and grid_param_list is not None:
         if isfile(output_dir+grid_name):
             model_grid = open_fits(output_dir+grid_name)
@@ -532,45 +534,45 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                     msg="loaded model grid ({}) doesn't have expected dims ({})"
                     raise TypeError(msg.format(model_grid.shape,em_dims))
         else:
-            model_grid = make_resampled_models(lbda_obs, grid_param_list, 
-                                               model_grid, model_reader, 
-                                               em_lines, em_grid, dlbda_obs, 
-                                               instru_res, instru_idx, 
+            model_grid = make_resampled_models(lbda_obs, grid_param_list,
+                                               model_grid, model_reader,
+                                               em_lines, em_grid, dlbda_obs,
+                                               instru_res, instru_idx,
                                                filter_reader, interp_nonexist)
             if output_dir and grid_name:
                 write_fits(output_dir+grid_name, model_grid)
-        # note: if model_grid is provided, it is still resampled to the 
-        # same wavelengths as observed spectrum. However, if a fits name is 
-        # provided in grid_name and that file exists, it is assumed the model 
-        # grid in it is already resampled to match lbda_obs.    
+        # note: if model_grid is provided, it is still resampled to the
+        # same wavelengths as observed spectrum. However, if a fits name is
+        # provided in grid_name and that file exists, it is assumed the model
+        # grid in it is already resampled to match lbda_obs.
 
 
     # -------------- Definition of utilities for nested sampling --------------
 
     def prior_transform(x):
         """
-        Computes the transformation from the unit distribution `[0, 1]` to 
+        Computes the transformation from the unit distribution `[0, 1]` to
         parameter space. Uniform distributions are assumed for all parameters.
-        
-        
+
+
         Notes
         -----
-        The prior transform function is used to specify the Bayesian prior for 
-        the problem, in a round-about way. It is a transformation from a space 
-        where variables are independently and uniformly distributed between 0 
-        and 1 to the parameter space of interest. For independent parameters, 
-        this would be the product of the inverse cumulative distribution 
-        function (also known as the percent point function or quantile function) 
+        The prior transform function is used to specify the Bayesian prior for
+        the problem, in a round-about way. It is a transformation from a space
+        where variables are independently and uniformly distributed between 0
+        and 1 to the parameter space of interest. For independent parameters,
+        this would be the product of the inverse cumulative distribution
+        function (also known as the percent point function or quantile function)
         for each parameter.
         http://kbarbary.github.io/nestle/prior.html
         """
         # uniform priors
         pt = []
-        for p in range(nparams):            
+        for p in range(nparams):
             pmin = bounds[labels[p]][0]
             pmax = bounds[labels[p]][1]
             pt.append(x[p] * (pmax - pmin) + pmin)
-                
+
         if priors is not None:
             # replace with Gaussian prior where relevant
             for key, prior in priors.items():
@@ -580,28 +582,28 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
                 else:
                     idx_prior = labels.index(key)
                     pt[idx_prior] = prior[0] + prior[1] * ndtri(x)
-            
+
         return np.array(pt)
 
     def f(param):
-        
-        return lnlike(param, labels, grid_param_list, lbda_obs, spec_obs, 
+
+        return lnlike(param, labels, grid_param_list, lbda_obs, spec_obs,
                       err_obs, dist, model_grid=model_grid,
-                      model_reader=model_reader, em_lines=em_lines, 
-                      em_grid=em_grid, dlbda_obs=dlbda_obs, 
-                      instru_corr=instru_corr, instru_res=instru_res, 
+                      model_reader=model_reader, em_lines=em_lines,
+                      em_grid=em_grid, dlbda_obs=dlbda_obs,
+                      instru_corr=instru_corr, instru_res=instru_res,
                       instru_idx=instru_idx, use_weights=use_weights,
-                      filter_reader=filter_reader, AV_bef_bb=AV_bef_bb, 
-                      units_obs=units_obs, units_mod=units_mod, 
+                      filter_reader=filter_reader, AV_bef_bb=AV_bef_bb,
+                      units_obs=units_obs, units_mod=units_mod,
                       interp_order=interp_order)
-        
-        
+
+
     # ------------------------ Actual sampling --------------------------------
     if verbose:  start = time_ini()
 
     if verbose:
         print('Prior bounds on parameters:')
-        for p in range(nparams):            
+        for p in range(nparams):
             pmin = bounds[labels[p]][0]
             pmax = bounds[labels[p]][1]
             print('{} [{},{}]'.format(labels[p], pmin, pmax))
@@ -609,14 +611,14 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
 
 
     if sampler == 'nestle':
-        final_res = nestle.sample(f, prior_transform, ndim=nparams, 
-                                  method=method, npoints=npoints, dlogz=dlogz, 
+        final_res = nestle.sample(f, prior_transform, ndim=nparams,
+                                  method=method, npoints=npoints, dlogz=dlogz,
                                   **kwargs)
     elif sampler == 'ultranest':
         if isinstance(labels, tuple):
             labels = list(labels)
         un_sampler = ultranest.ReactiveNestedSampler(labels, f, prior_transform,
-                                                     log_dir=output_dir, 
+                                                     log_dir=output_dir,
                                                      resume=True)
         res = un_sampler.run(min_num_live_points=npoints, dlogz=dlogz, **kwargs)
         final_res = (un_sampler, res)
@@ -624,17 +626,17 @@ def nested_spec_sampling(init, lbda_obs, spec_obs, err_obs, dist,
     if verbose:
         print('\nTotal running time:')
         timing(start)
-        
+
     return final_res
 
 
-def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None, 
-                        cfd=68.27, units=None, ndig=None, labels_plot=None, 
+def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
+                        cfd=68.27, units=None, ndig=None, labels_plot=None,
                         save=False, output_dir='/', plot=False,  **kwargs):
-    """ 
-    Show the results obtained with the Nestle sampler: summary, parameters with 
+    """
+    Show the results obtained with the Nestle sampler: summary, parameters with
     errors, walk and corner plots. Returns best-fit values and uncertatinties.
-    
+
     Parameters
     ----------
     ns_object: numpy.array
@@ -648,7 +650,7 @@ def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     method : {"single", "multi", "classic"}, str optional
         Flavor of nested sampling.
     burnin: float, default: 0
@@ -659,7 +661,7 @@ def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
         The confidence level given in percentage.
     units: tuple, opt
         Tuple of strings containing units for each parameter. If provided,
-        mcmc_res will be printed on top of each 1d posterior distribution along 
+        mcmc_res will be printed on top of each 1d posterior distribution along
         with these units.
     ndig: tuple, opt
         Number of digits precision for each printed parameter.
@@ -669,20 +671,20 @@ def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
     save: boolean, default: False
         If True, a pdf file is created.
     output_dir: str, optional
-        The name of the output directory which contains the output files in the 
-        case  ``save`` is True. 
+        The name of the output directory which contains the output files in the
+        case  ``save`` is True.
     plot: bool, optional
         Whether to show the plots (instead of saving them).
     kwargs:
-        Additional optional arguments passed to `confidence` (matplotlib 
+        Additional optional arguments passed to `confidence` (matplotlib
         optional arguments for histograms).
-                    
+
     Returns
     -------
     final_res: numpy ndarray
          Best-fit parameters and uncertainties (corresponding to 68% confidence
          interval). Dimensions: nparams x 2.
-    
+
     """
     res = ns_object
     nsamples = res.samples.shape[0]
@@ -711,7 +713,7 @@ def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
             plt.savefig(output_dir+'Nestle-{}_results.pdf'.format(method))
         if plot:
             plt.show()
-            
+
         print("\nWalk plots before the burnin")
         show_walk_plot(np.expand_dims(res.samples, axis=0), labels)
         if burnin > 0:
@@ -720,15 +722,15 @@ def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
                            labels)
         if save:
             plt.savefig(output_dir+'Nestle-{}_walk_plots.pdf'.format(method))
-        
+
     mean, cov = nestle.mean_and_cov(res.samples[indburnin:],
                                     res.weights[indburnin:])
     print("\nWeighted mean +- sqrt(covariance)")
     if ndig is None:
-        ndig = [3]*len(labels)   
+        ndig = [3]*len(labels)
     for p in range(nparams):
         fmt = "{{:.{0}f}}".format(ndig[p]).format
-        print(r"{0} = {1} +/- {2}".format(labels[p], fmt(mean[p]), 
+        print(r"{0} = {1} +/- {2}".format(labels[p], fmt(mean[p]),
                                           fmt(np.sqrt(cov[p, p]))))
     if save:
         with open(output_dir+'Nestle-{}_sampling.txt'.format(method), "w") as f:
@@ -742,54 +744,54 @@ def show_nestle_results(ns_object, labels, method, burnin=0.4, bins=None,
             f.write("\nWeighted mean +- sqrt(covariance)\n")
             for p in range(nparams):
                 fmt = "{{:.{0}f}}".format(ndig[p]).format
-                f.write(r"{0} = {1} +/- {2}\n".format(labels[p], fmt(mean[p]), 
+                f.write(r"{0} = {1} +/- {2}\n".format(labels[p], fmt(mean[p]),
                                                       fmt(np.sqrt(cov[p, p]))))
-                        
-    final_res = np.zeros([nparams,2]) 
-    for p in range(nparams):     
+
+    final_res = np.zeros([nparams,2])
+    for p in range(nparams):
         final_res[p] = [mean[p], np.sqrt(cov[p, p])]
 
     if bins is None:
         bins = int(np.sqrt(res.samples[indburnin:].shape[0]))
         print("\nHist bins =", bins)
-    
+
     if save or plot:
-        show_corner_plot(res.samples[indburnin:], burnin=burnin, save=save, 
-                         output_dir=output_dir, mcmc_res=final_res, units=units, 
-                         ndig=ndig, labels_plot=labels_plot, 
-                         plot_name='Nestle-{}_corner_plot.pdf'.format(method), 
+        show_corner_plot(res.samples[indburnin:], burnin=burnin, save=save,
+                         output_dir=output_dir, mcmc_res=final_res, units=units,
+                         ndig=ndig, labels_plot=labels_plot,
+                         plot_name='Nestle-{}_corner_plot.pdf'.format(method),
                          labels=labels)
     if save:
         plt.savefig(output_dir+'Nestle-{}_corner.pdf'.format(method))
     if plot:
         plt.show()
-            
+
     print('\nConfidence intervals')
     if save or plot:
         _ = confidence(res.samples[indburnin:], labels, cfd=cfd, bins=bins,
                        weights=res.weights[indburnin:],
-                       gaussian_fit=True, verbose=True, save=False, **kwargs)        
-     
+                       gaussian_fit=True, verbose=True, save=False, **kwargs)
+
     if save:
         fn = output_dir+'Nestle-{}_confi_hist_gaussfit.pdf'
         plt.savefig(fn.format(method))
 
     if plot:
         plt.show()
-        
+
     return final_res
 
 
-def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None, 
-                           cfd=68.27, ndig=None, save=False, output_dir='/', 
+def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
+                           cfd=68.27, ndig=None, save=False, output_dir='/',
                            plot=False, col='b', units=None, labels_plot=None,
-                           lbda_obs=None, spec_obs=None, spec_obs_err=None, 
+                           lbda_obs=None, spec_obs=None, spec_obs_err=None,
                            n_pts=None, title=None, figsize=(8,6), **kwargs):
-    """ 
-    Shows the results obtained with the Ultranest sampler: summary, parameters 
-    with errors, walk and corner plots. Returns best-fit values and 
+    """
+    Shows the results obtained with the Ultranest sampler: summary, parameters
+    with errors, walk and corner plots. Returns best-fit values and
     uncertatinties.
-    
+
     Parameters
     ----------
     un_object: object
@@ -803,10 +805,10 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
         themselves). The models will be loaded with ``model_reader``.
     dist :  float
         Distance in parsec, used for flux scaling of the models.
@@ -819,8 +821,8 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
     save: boolean, default: False
         If True, a pdf file is created.
     output_dir: str, optional
-        The name of the output directory which contains the output files in the 
-        case  ``save`` is True. 
+        The name of the output directory which contains the output files in the
+        case  ``save`` is True.
     plot: bool, optional
         Whether to show the best-fit model against data.
     col: str, optional
@@ -829,7 +831,7 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
         Must be provided if plot is set to True
     n_pts: None or int, optional
         If None, models will be sampled at the same resolution as measured
-        spectrum for plot. If an integer, corresponds to the number of sampled 
+        spectrum for plot. If an integer, corresponds to the number of sampled
         points (uniform sampling) between the first and last point of the
         measured spectrum.
     title: str, optional
@@ -837,19 +839,19 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
     kwargs:
         Additional optional arguments passed to `nested_spec_sampling` - only
         used if plot is set to True and model parameters are evaluated.
-                    
+
     Returns
     -------
     final_res: numpy ndarray
          Best-fit parameters and uncertainties (corresponding to 68% confidence
          interval). Dimensions: nparams x 2.
-    
+
     """
     un_sampler, res = un_object
-    
+
     # print results
     un_sampler.print_results()
-    
+
     if save or plot:
         # show run
         un_sampler.plot_run()
@@ -857,7 +859,7 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
             plt.savefig(output_dir+'UltraNest_run.pdf')
         if plot:
             plt.show()
-                    
+
         # show trace
         cornerplot
         un_sampler.plot_trace()
@@ -865,13 +867,13 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
             plt.savefig(output_dir+'UltraNest_trace.pdf')
         if plot:
             plt.show()
-    
-    burned_res = un_burning(res)        
-    
+
+    burned_res = un_burning(res)
+
     # show results as table
     df = pd.DataFrame(data=res['samples'], columns=res['paramnames'])
     df.describe()
-    
+
     # plot the best fit
     if save or plot:
         if lbda_obs is None or spec_obs is None or spec_obs_err is None:
@@ -885,27 +887,27 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
         plt.ylabel(r'$\lambda F_{\lambda}$ (W m-2)')
         plt.errorbar(x=lbda_obs, y=lbda_obs*spec_obs, yerr=spec_obs_err,
                      marker='o', ls=' ', color=col)
-        
+
         if n_pts is None:
             lbda_grid = lbda_obs.copy()
         else:
             lbda_grid = np.linspace(lbda_obs[0], lbda_obs[-1], n_pts)
         band = PredictionBand(lbda_grid)
-        
+
         # go through the solutions
         for params in un_sampler.results['samples']:
             # compute for each time the model
-            mod = make_model_from_params(params, labels, grid_param_list, dist, 
+            mod = make_model_from_params(params, labels, grid_param_list, dist,
                                          lbda_obs=lbda_grid, **kwargs)
             band.add(lbda_grid*mod[1])
-        
+
         band.line(color='k')
         # add 1 sigma quantile
         band.shade(color='k', alpha=0.3)
         # add wider quantile (0.01 .. 0.99)
         band.shade(q=0.49, color='gray', alpha=0.2)
         if save:
-            plt.savefig(output_dir+"Best-fit_UltraNest.pdf",  
+            plt.savefig(output_dir+"Best-fit_UltraNest.pdf",
                         bbox_inches='tight')
 
     print('\nConfidence intervals')
@@ -913,29 +915,29 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
         bins = int(np.sqrt(burned_res[0].shape[0]))
         print("\nHist bins =", bins)
     if save or plot:
-        val_max, confidenceInterval = confidence(burned_res[0], labels, 
-                                                 cfd=cfd, bins=bins, 
+        val_max, confidenceInterval = confidence(burned_res[0], labels,
+                                                 cfd=cfd, bins=bins,
                                                  weights=burned_res[1],
-                                                 gaussian_fit=False, 
-                                                 verbose=True, save=save)  
+                                                 gaussian_fit=False,
+                                                 verbose=True, save=save)
         if save:
             plt.savefig(output_dir+'UltraNest_confi_hist.pdf')
         if plot:
             plt.show()
         mu, sig = confidence(burned_res[0], labels, cfd=cfd, bins=bins,
-                             weights=burned_res[1], gaussian_fit=True, 
-                             verbose=True, save=save)       
+                             weights=burned_res[1], gaussian_fit=True,
+                             verbose=True, save=save)
         if save:
-            plt.savefig(output_dir+'UltraNest_confi_hist_gaussfit.pdf')     
+            plt.savefig(output_dir+'UltraNest_confi_hist_gaussfit.pdf')
         if plot:
             plt.show()
-            
+
     nparams = len(labels)
     if ndig is None:
-        ndig = [3]*len(labels)   
+        ndig = [3]*len(labels)
     for p in range(nparams):
         fmt = "{{:.{0}f}}".format(ndig[p]).format
-        print(r"{0} = {1} +/- {2}".format(labels[p], fmt(mu[p]), 
+        print(r"{0} = {1} +/- {2}".format(labels[p], fmt(mu[p]),
                                           fmt(np.sqrt(sig[p]))))
     if save:
         with open(output_dir+'UltraNest_sampling.txt', "w") as f:
@@ -950,26 +952,26 @@ def show_ultranest_results(un_object, labels, grid_param_list, dist, bins=None,
             for p in range(nparams):
                 fmt = "{{:.{0}f}}".format(ndig[p]).format
                 line = r"{0} = {1} [{2}, {3}] \n"
-                f.write(line.format(labels[p], fmt(val_max[labels[p]]), 
+                f.write(line.format(labels[p], fmt(val_max[labels[p]]),
                                     fmt(confidenceInterval[labels[p]][0]),
                                     fmt(confidenceInterval[labels[p]][1])))
             f.write("\nGaussian fit results: Weighted mean +- sqrt(covariance) \n")
             for p in range(nparams):
                 fmt = "{{:.{0}f}}".format(ndig[p]).format
-                f.write(r"{0} = {1} +/- {2}\n".format(labels[p], fmt(mu[p]), 
-                                                      fmt(sig[p])))                
+                f.write(r"{0} = {1} +/- {2}\n".format(labels[p], fmt(mu[p]),
+                                                      fmt(sig[p])))
 
 
     if plot or save:
         # show corner plot
-        show_corner_plot(burned_res[0], save=save, units=units, ndig=ndig, 
-                         mcmc_res=(val_max, confidenceInterval), 
-                         labels_plot=labels_plot, output_dir=output_dir, 
-                         plot_name='UltraNest-corner_plot.pdf', 
+        show_corner_plot(burned_res[0], save=save, units=units, ndig=ndig,
+                         mcmc_res=(val_max, confidenceInterval),
+                         labels_plot=labels_plot, output_dir=output_dir,
+                         plot_name='UltraNest-corner_plot.pdf',
                          labels=labels, weights=burned_res[1])
         if plot:
             plt.show()
-        
+
     final_res = val_max, confidenceInterval
-        
+
     return final_res
