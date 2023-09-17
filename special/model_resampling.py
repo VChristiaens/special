@@ -2,7 +2,7 @@
 
 """
 Functions useful for spectral fitting of companions, and model interpolation.
-     
+
 """
 
 __author__ = 'Valentin Christiaens'
@@ -36,7 +36,7 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
     Parameters
     ----------
     params : tuple
-        Set of models parameters for which the model grid has to be 
+        Set of models parameters for which the model grid has to be
         interpolated.
     labels: Tuple of strings
         Tuple of labels in the same order as initial_state:
@@ -47,48 +47,48 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
-        themselves). The models will be loaded with ``model_reader``. 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
+        themselves). The models will be loaded with ``model_reader``.
     dist :  float
         Distance in parsec, used for flux scaling of the models.
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine, opt
-        External routine that reads a model file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains model values. See example routine in 
+        External routine that reads a model file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
+        4 values:
 
             1. the wavelength (in :math:`\mu` m);
 
             2. a string indicating whether line intensity is expressed in flux \
             ('F'), luminosity ('L') or log(L/LSun) ("LogL");
 
-            3. the FWHM of the gaussian (or None if to be set automatically); 
+            3. the FWHM of the gaussian (or None if to be set automatically);
 
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
 
-        The third and fourth can also be set to None. In that case, the FWHM of 
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
 
         Examples:
@@ -112,33 +112,33 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
             >>>            'BrG': np.arange(BrGmin, BrGmax, 20)}
 
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
+        inaccurate for a combined spectrum). It must be provided IF one wants to
+        weigh each measurement based on the spectral resolution of each
         instrument (as in [OLO16]_), through the ``use_weights`` argument.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
+        The mean instrumental resolving power(s) OR filter names. This is
+        used to convolve the model spectrum. If several instruments are used,
+        provide a list of resolving power values / filter names, one for
         each instrument used.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        1d array containing an index representing each instrument used
+        to obtain the spectrum, label them from 0 to the number of instruments
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the
         ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
+        associated to instru_res[i-1]. This parameter must be provided if the
         spectrum consists of points obtained with different instruments.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains transmission values. Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
 
         - first row contains headers (titles of each column)
@@ -149,18 +149,18 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
         matters for the units.
 
     AV_bef_bb: bool, optional
-        If both extinction and an extra bb component are free parameters, 
-        whether to apply extinction before adding the BB component (e.g. 
+        If both extinction and an extra bb component are free parameters,
+        whether to apply extinction before adding the BB component (e.g.
         extinction mostly from circumplanetary dust) or after the BB component
         (e.g. mostly insterstellar extinction).
     units_obs : str, opt {'si','cgs','jy'}
-        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu 
+        Units of observed spectrum. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu
         or 'jy' for janskys.
     units_mod: str, opt {'si','cgs','jy'}
         Units of the model. 'si' for W/m^2/mu; 'cgs' for ergs/s/cm^2/mu or 'jy'
-        for janskys. If different to units_obs, the spectrum units will be 
+        for janskys. If different to units_obs, the spectrum units will be
         converted.
-    interp_order: int, opt, {-1,0,1} 
+    interp_order: int, opt, {-1,0,1}
         Interpolation mode for model interpolation.
             - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
             - 0: nearest neighbour model
@@ -173,10 +173,10 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
 
     Note
     ----
-    ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius 
-    and Av. For a combined grid model + black body fit, just provide the list 
-    of parameters probed by the grid to ``grid_param_list``, and provide values 
-    for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.  
+    ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius
+    and Av. For a combined grid model + black body fit, just provide the list
+    of parameters probed by the grid to ``grid_param_list``, and provide values
+    for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.
     """
 
     if 'Tbb1' in labels and grid_param_list is None and lbda_obs is None:
@@ -293,49 +293,49 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
                           dlbda_obs=None, instru_res=None, instru_idx=None,
                           filter_reader=None, interp_nonexist=True):
     """
-    Returns a cube of models after convolution and resampling as in the 
+    Returns a cube of models after convolution and resampling as in the
     observations.
 
     Parameters
-    ----------   
+    ----------
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
         themselves). The models will be loaded with ``model_reader``.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine
-        External routine that reads a model file, converts it to required 
+        External routine that reads a model file, converts it to required
         units and returns a 2D numpy array, where the first column corresponds
         to wavelengths, and the second contains model values. Example below.
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
+        4 values:
 
             1. the wavelength (in :math:`\mu` m);
 
             2. a string indicating whether line intensity is expressed in flux \
             ('F'), luminosity ('L') or log(L/LSun) ("LogL");
 
-            3. the FWHM of the gaussian (or None if to be set automatically); 
+            3. the FWHM of the gaussian (or None if to be set automatically);
 
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
 
-        The third and fourth can also be set to None. In that case, the FWHM of 
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
 
         Examples:
@@ -359,43 +359,43 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
             >>>            'BrG': np.arange(BrGmin, BrGmax, 20)}
 
     lbda_mod : numpy 1d ndarray or list
-        Wavelength of tested model. Should have a wider wavelength extent than 
+        Wavelength of tested model. Should have a wider wavelength extent than
         the observed spectrum.
     spec_mod : numpy 1d ndarray
-        Model spectrum. It does not require the same wavelength sampling as 
-        the observed spectrum. If higher spectral resolution, it will be 
-        convolved with the instrumental spectral PSF (if ``instru_res`` is 
-        provided) and then binned to the same sampling. If lower spectral 
-        resolution, a linear interpolation is performed to infer the value at 
+        Model spectrum. It does not require the same wavelength sampling as
+        the observed spectrum. If higher spectral resolution, it will be
+        convolved with the instrumental spectral PSF (if ``instru_res`` is
+        provided) and then binned to the same sampling. If lower spectral
+        resolution, a linear interpolation is performed to infer the value at
         the observed spectrum wavelength sampling.
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
-        inaccurate for a combined spectrum). It must be provided IF one wants to 
-        weigh each measurement based on the spectral resolution of each 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
+        inaccurate for a combined spectrum). It must be provided IF one wants to
+        weigh each measurement based on the spectral resolution of each
         instrument (as in [OLO16]_), through the ``use_weights`` argument.
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
-        used to convolve the model spectrum. If several instruments are used, 
-        provide a list of resolving power values / filter names, one for 
+        The mean instrumental resolving power(s) OR filter names. This is
+        used to convolve the model spectrum. If several instruments are used,
+        provide a list of resolving power values / filter names, one for
         each instrument used.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument used 
-        to obtain the spectrum, label them from 0 to the number of instruments 
-        (:math:`n_{ins}`). Zero for points that don't correspond to any of the 
+        1d array containing an index representing each instrument used
+        to obtain the spectrum, label them from 0 to the number of instruments
+        (:math:`n_{ins}`). Zero for points that don't correspond to any of the
         ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` for points
-        associated to instru_res[i-1]. This parameter must be provided if the 
+        associated to instru_res[i-1]. This parameter must be provided if the
         spectrum consists of points obtained with different instruments.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains transmission values. Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains transmission values. Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
 
         - first row contains headers (titles of each column)
@@ -411,15 +411,15 @@ def make_resampled_models(lbda_obs, grid_param_list, model_grid=None,
     Returns
     -------
     resamp_mod: 1d numpy array
-        Grid of model spectra resampled at wavelengths matching the observed 
+        Grid of model spectra resampled at wavelengths matching the observed
         spectrum.
 
     Note
     ----
-    ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius 
-    and Av. For a combined grid model + black body fit, just provide the list 
-    of parameters probed by the grid to ``grid_param_list``, and provide values 
-    for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.  
+    ``grid_param_list`` and ``model_grid`` shouldn't contain grids on radius
+    and Av. For a combined grid model + black body fit, just provide the list
+    of parameters probed by the grid to ``grid_param_list``, and provide values
+    for 'Tbbn' and 'Rbbn' to ``initial_state``, ``labels`` and ``bounds``.
     """
     n_params = len(grid_param_list)
     n_mods = len(grid_param_list[0])
@@ -563,54 +563,54 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
                    instru_res=None, instru_idx=None, filter_reader=None,
                    no_constraint=False, verbose=False):
     """
-    Convolve or interpolate, and resample, a model spectrum to match observed 
+    Convolve or interpolate, and resample, a model spectrum to match observed
     spectrum.
 
     Parameters
     ----------
     lbda_obs : numpy 1d ndarray or list
-        Wavelengths of observed spectrum. If several instruments were used, the 
-        wavelengths should be ordered per instrument, not necessarily as 
-        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the 
+        Wavelengths of observed spectrum. If several instruments were used, the
+        wavelengths should be ordered per instrument, not necessarily as
+        monotonically increasing wavelength. Hereafter, :math:`n_{ch}` is the
         length of ``lbda_obs``.
     lbda_mod : numpy 1d ndarray or list
-        Wavelength of tested model. Should have a wider wavelength extent than 
+        Wavelength of tested model. Should have a wider wavelength extent than
         the observed spectrum.
     spec_mod : numpy 1d ndarray
-        Model spectrum. It does not require the same wavelength sampling as 
-        the observed spectrum. If higher spectral resolution, it will be 
-        convolved with the instrumental spectral PSF (if ``instru_res`` is 
-        provided) and then binned to the same sampling. If lower spectral 
-        resolution, a linear interpolation is performed to infer the value at 
+        Model spectrum. It does not require the same wavelength sampling as
+        the observed spectrum. If higher spectral resolution, it will be
+        convolved with the instrumental spectral PSF (if ``instru_res`` is
+        provided) and then binned to the same sampling. If lower spectral
+        resolution, a linear interpolation is performed to infer the value at
         the observed spectrum wavelength sampling.
     dlbda_obs : numpy 1d ndarray or list, optional
-        Respective spectral channel width or FWHM of the photometric filters 
-        used for each point of the observed spectrum. This vector is used to 
-        infer which part(s) of a combined spectro+photometric spectrum should 
-        involve convolution+subsampling (model resolution higher than 
-        measurements), interpolation (the opposite), or convolution by the 
-        transmission curve of a photometric filter. If not provided, it will be 
-        inferred from the difference between consecutive lbda_obs points (i.e. 
+        Respective spectral channel width or FWHM of the photometric filters
+        used for each point of the observed spectrum. This vector is used to
+        infer which part(s) of a combined spectro+photometric spectrum should
+        involve convolution+subsampling (model resolution higher than
+        measurements), interpolation (the opposite), or convolution by the
+        transmission curve of a photometric filter. If not provided, it will be
+        inferred from the difference between consecutive lbda_obs points (i.e.
         inaccurate for a combined spectrum obtained with different instruments).
     instru_res : float or list of floats/strings, optional
-        The mean instrumental resolving power(s) OR filter names. This is 
+        The mean instrumental resolving power(s) OR filter names. This is
         used to convolve the model spectrum. If several instruments/resolving
-        powere are to be considered, provide a list of resolving power values 
+        powere are to be considered, provide a list of resolving power values
         or filter names.
     instru_idx: numpy 1d array, optional
-        1d array containing an index representing each instrument/resolving 
-        power used to obtain the spectrum. Label them from 0 to the number of 
-        instruments (:math:`n_{ins}`): zero for points that don't correspond to 
-        any of the ``instru_res`` values provided, and i in :math:`[1,n_{ins}]` 
-        for points associated to instru_res[i-1]. This parameter must be 
-        provided if the spectrum consists of points obtained with different 
+        1d array containing an index representing each instrument/resolving
+        power used to obtain the spectrum. Label them from 0 to the number of
+        instruments (:math:`n_{ins}`): zero for points that don't correspond to
+        any of the ``instru_res`` values provided, and i in :math:`[1,n_{ins}]`
+        for points associated to instru_res[i-1]. This parameter must be
+        provided if the spectrum consists of points obtained with different
         instruments/resolving powers.
     filter_reader: python routine, optional
-        External routine that reads a filter file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
+        External routine that reads a filter file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
         contains transmission values. Must be provided if instru_res contains
-        strings (filter filenames). Important: if not provided, but strings 
-        are detected in instru_res, the default file reader will be used. 
+        strings (filter filenames). Important: if not provided, but strings
+        are detected in instru_res, the default file reader will be used.
         It assumes the following format for the files:
 
         - first row contains headers (titles of each column)
@@ -622,9 +622,9 @@ def resample_model(lbda_obs, lbda_mod, spec_mod, dlbda_obs=None,
 
     no_constraint: bool, optional
         If set to True, will not use 'floor' and 'ceil' constraints when
-        cropping the model wavelength ranges, i.e. faces the risk of 
-        extrapolation. May be useful, if the bounds of the wavelength ranges 
-        are known to match exactly. 
+        cropping the model wavelength ranges, i.e. faces the risk of
+        extrapolation. May be useful, if the bounds of the wavelength ranges
+        are known to match exactly.
     verbose: bool, optional
         Whether to print more information during resampling.
 
@@ -841,14 +841,14 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
     Parameters
     ----------
     params : tuple
-        Set of models parameters for which the model grid has to be 
+        Set of models parameters for which the model grid has to be
         interpolated.
     grid_param_list : list of 1d numpy arrays/lists
-        Should contain list/numpy 1d arrays with available grid of model 
-        parameters (should only contain the sampled parameters, not the models 
+        Should contain list/numpy 1d arrays with available grid of model
+        parameters (should only contain the sampled parameters, not the models
         themselves). The models will be loaded with ``model_reader``.
     params_em : dictionary, opt
-        Set of emission line parameters (typically fluxes) for which the model 
+        Set of emission line parameters (typically fluxes) for which the model
         grid has to be interpolated.
     em_grid: dictionary pointing to lists, opt
         Dictionary where each entry corresponds to an emission line and points
@@ -869,20 +869,20 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
     em_lines: dictionary, opt
         Dictionary of emission lines to be added on top of the model spectrum.
         Each dict entry should be the name of the line, assigned to a tuple of
-        4 values: 
+        4 values:
 
             1. the wavelength (in :math:`\mu` m);
 
             2. a string indicating whether line intensity is expressed in flux \
             ('F'), luminosity ('L') or log(L/LSun) ("LogL");
 
-            3. the FWHM of the gaussian (or None if to be set automatically); 
+            3. the FWHM of the gaussian (or None if to be set automatically);
 
             4. whether the FWHM is expressed in 'nm', 'mu' or 'km/s'.
 
-        The third and fourth can also be set to None. In that case, the FWHM of 
+        The third and fourth can also be set to None. In that case, the FWHM of
         the gaussian will automatically be set to the equivalent width of the
-        line, calculated from the flux to be injected and the continuum 
+        line, calculated from the flux to be injected and the continuum
         level (measured in the grid model to which the line is injected).
 
         Examples:
@@ -898,33 +898,33 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
             - (optionally) the optical extinction 'Av', in mag
             - (optionally) the ratio of total to selective optical extinction 'Rv'
             - (optionally) 'Tbb1', 'Rbb1', 'Tbb2', 'Rbb2', etc. for each extra bb \
-            contribution. 
+            contribution.
 
         Note: only necessary if an emission line dictionary ``em_lines`` is provided.
     model_grid : numpy N-d array, optional
         If provided, should contain the grid of model spectra for each
-        free parameter of the given grid. I.e. for a grid of :math:`n_T` values 
-        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy 
-        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the 
-        last 2 dimensions correspond to wavelength and fluxes respectively. If 
+        free parameter of the given grid. I.e. for a grid of :math:`n_T` values
+        of :math:`T_{eff}` and :math:`n_g` values of log(:math:`g`), the numpy
+        array should have a shape of :math:`(n_T, n_g, n_{ch}, 2)`, where the
+        last 2 dimensions correspond to wavelength and fluxes respectively. If
         provided, ``model_grid`` takes precedence over ``model_name``/
         ``model_reader``.
     model_reader : python routine, opt
-        External routine that reads a model file and returns a 2D numpy array, 
-        where the first column corresponds to wavelengths, and the second 
-        contains model values. See example routine in 
+        External routine that reads a model file and returns a 2D numpy array,
+        where the first column corresponds to wavelengths, and the second
+        contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
-    interp_order: int, opt, {-1,0,1} 
+    interp_order: int, opt, {-1,0,1}
         Interpolation mode for model interpolation.
             - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
 
     max_dlbda: float, opt
-        Maximum delta lbda in mu allowed if binning of lbda_model is necessary. 
+        Maximum delta lbda in mu allowed if binning of lbda_model is necessary.
         This is necessary for grids of models (e.g. BT-SETTL) where the wavelength
         sampling is not the same depending on parameters (e.g. between 4000K
-        and 4100K models for BT-SETTL): resampling preserving original 
+        and 4100K models for BT-SETTL): resampling preserving original
         resolution is too prohibitive computationally.
     verbose: bool, optional
         Whether to print more information during resampling.
@@ -938,12 +938,12 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
     """
 
     def _example_file_reader(filename):
-        """ This is a minimal example for the file_reader routine to be provided 
-        as argument to model_interpolation. The routine should take as input a 
-        template filename format with blanks and parameters, and return as output 
+        """ This is a minimal example for the file_reader routine to be provided
+        as argument to model_interpolation. The routine should take as input a
+        template filename format with blanks and parameters, and return as output
         the wavelengths and model values as a 2D numpy array.
         This example assumes the model is in a fits file, that is already a 2D
-        numpy array, where the first column is the wavelength, and second column 
+        numpy array, where the first column is the wavelength, and second column
         is the corresponding model values.
         """
         model = open_fits(filename.format(params[0], params[1]))
@@ -1033,8 +1033,12 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
                 except:
                     pdb.set_trace()
 
-            num = (params_tmp-sub_grid_param[nn, 0])
-            denom = (sub_grid_param[nn, 1]-sub_grid_param[nn, 0])
+            if interp_order == -1:
+                num = np.log(params_tmp/sub_grid_param[nn, 0])
+                denom = np.log(sub_grid_param[nn, 1]/sub_grid_param[nn, 0])
+            else:
+                num = (params_tmp-sub_grid_param[nn, 0])
+                denom = (sub_grid_param[nn, 1]-sub_grid_param[nn, 0])
             new_coords[nn, 0] = num/denom
 
         if verbose:
@@ -1168,17 +1172,11 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
         interp_model = np.zeros(nch)
         interp_lbdas = np.zeros(nch)
 
-        if interp_order == -1:
-            sub_grid = np.log10(sub_grid)
-
         for cc in range(nch):
             interp_model[cc] = map_coordinates(sub_grid[cc], new_coords,
                                                order=abs(interp_order))
             interp_lbdas[cc] = map_coordinates(sub_grid_lbda[cc], new_coords,
                                                order=abs(interp_order))
-
-        if interp_order == -1:
-            interp_model = np.power(10, interp_model)
 
         return interp_lbdas, interp_model
 
