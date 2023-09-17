@@ -72,8 +72,8 @@ jobs:
       uses: sigstore/gh-action-sigstore-python@v1.2.3
       with:
         inputs: >-
-          ./dist/*.tar.gz
-          ./dist/*.whl
+          ./special/dist/*.tar.gz
+          ./special/dist/*.whl
     - name: Upload artifact signatures to GitHub Release
       env:
         GITHUB_TOKEN: ${{ github.token }}
@@ -82,7 +82,7 @@ jobs:
       # sigstore-produced signatures and certificates.
       run: >-
         gh release upload
-        '${{ github.ref_name }}' dist/**
+        '${{ github.ref_name }}' special/dist/**
         --repo '${{ github.repository }}'
 
 #  publish-to-testpypi:
