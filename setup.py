@@ -1,14 +1,8 @@
 #!/usr/bin/env python
 
-import pkg_resources
-from setuptools import setup
 import os
 import re
-
-with open('requirements.txt') as req_txt:
-    parse_req = pkg_resources.parse_requirements(req_txt)
-    install_requires = [str(req) for req in parse_req]
-
+from setuptools import setup
 # try:
 #     # pip >=20
 #     from pip._internal.network.session import PipSession
@@ -50,7 +44,7 @@ def resource(*args):
                         *args)
 
 
-# # parse_requirements() returns generator of pip.req.InstallRequirement objects
+# parse_requirements() returns generator of pip.req.InstallRequirement objects
 # reqs = parse_requirements(resource('requirements.txt'), session=PipSession)
 # requirements = [str(ir.requirement) for ir in reqs]
 
@@ -82,7 +76,21 @@ setup(
     # cmdclass={'install': InstallReqs,
     #           'develop': InstallDevReqs},
     packages=PACKAGES,
-    install_requires=install_requires,
+    #install_requires=requirements,
+    install_requires=["cython",
+                      "numpy",
+                      "scipy",
+                      "astropy",
+                      "emcee==2.2.1",
+                      "corner",
+                      "nestle",
+                      "ultranest",
+                      "pandas",
+                      "matplotlib<=3.4.3",
+                      "nbsphinx",
+                      "pandoc",
+                      "h5py",
+                      "urllib3 < 2.0"],
     #extras_require={"dev": requirements_dev},
     zip_safe=False,
     classifiers=['Intended Audience :: Science/Research',
