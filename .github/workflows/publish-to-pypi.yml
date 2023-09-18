@@ -72,8 +72,8 @@ jobs:
       uses: sigstore/gh-action-sigstore-python@v1.2.3
       with:
         inputs: >-
-          special/dist/*.tar.gz
-          special/dist/*.whl
+          special/dist/special-0.1.19.tar.gz
+          special/dist/special-0.1.19-py2.py3-none-any.whl
     - name: Upload artifact signatures to GitHub Release
       env:
         GITHUB_TOKEN: ${{ github.token }}
