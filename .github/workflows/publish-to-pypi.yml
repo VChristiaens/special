@@ -69,7 +69,7 @@ jobs:
         name: python-package-distributions
         path: dist/  # special/dist/
     - name: Sign the dists with Sigstore
-      uses: sigstore/gh-action-sigstore-python@v2.0.1
+      uses: sigstore/gh-action-sigstore-python@v1.2.3
       with:
         inputs: ./dist/*.tar.gz ./dist/*.whl
     - name: Upload artifact signatures to GitHub Release
@@ -80,8 +80,8 @@ jobs:
       # sigstore-produced signatures and certificates.
       run: >-
         gh release upload
-        ${{ github.ref_name }} dist/**
-        --repo ${{ github.repository }}
+        '${{ github.ref_name }}' dist/**
+        --repo '${{ github.repository }}'
 
 #  publish-to-testpypi:
 #    name: Publish Python 🐍 distribution 📦 to TestPyPI
