@@ -80,16 +80,16 @@ jobs:
         '${{ github.ref_name }}' dist/**
         --generate-notes
         --repo '${{ github.repository }}'
-    - name: Upload artifact signatures to GitHub Release
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      # Upload to GitHub Release using the `gh` CLI.
-      # `dist/` contains the built packages, and the
-      # sigstore-produced signatures and certificates.
-      run: >-
-        gh release upload
-        '${{ github.ref_name }}' dist/**
-        --repo '${{ github.repository }}'
+#    - name: Upload artifact signatures to GitHub Release
+#      env:
+#        GITHUB_TOKEN: ${{ github.token }}
+#      # Upload to GitHub Release using the `gh` CLI.
+#      # `dist/` contains the built packages, and the
+#      # sigstore-produced signatures and certificates.
+#      run: >-
+#        gh release upload
+#        '${{ github.ref_name }}' dist/**
+#        --repo '${{ github.repository }}'
 
 #  publish-to-testpypi:
 #    name: Publish Python 🐍 distribution 📦 to TestPyPI
