@@ -69,9 +69,14 @@ jobs:
         name: python-package-distributions
         path: dist/  # special/dist/
     - name: Sign the dists with Sigstore
-      uses: sigstore/gh-action-sigstore-python@v1.2.3
+      uses: sigstore/gh-action-sigstore-python@v2.1.0
       with:
         inputs: ./dist/*.tar.gz ./dist/*.whl
+    - name: Create GitHub Release
+      run: >-
+        gh release create
+        '${{ github.ref_name }}'
+        --notes-from-tag
     - name: Upload artifact signatures to GitHub Release
       env:
         GITHUB_TOKEN: ${{ github.token }}
