@@ -916,9 +916,11 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
         where the first column corresponds to wavelengths, and the second
         contains model values. See example routine in
         ``special.model_resampling.interpolate_model`` description.
-    interp_order: int, opt, {-1,0,1}
-        Interpolation mode for model interpolation.
-            - -1: log interpolation (i.e. linear interpolatlion on log(Flux))
+    interp_order: int or tuple of int, optional, {-1,0,1}
+        Interpolation mode for model interpolation. If a tuple of integers, the
+        length should match the number of grid dimensions and will trigger a
+        different interpolation mode for the different parameters.
+            - -1: Order 1 spline interpolation in logspace for the parameter
             - 0: nearest neighbour model
             - 1: Order 1 spline interpolation
 
@@ -1024,7 +1026,7 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
         # first compute new subgrid "coords" for interpolation
         if verbose:
             print("Computing new coords for interpolation")
-        constraints = ['floor', 'ceil']
+        constr = ['floor=', 'ceil=']
         new_coords = np.zeros([n_params_tot, 1])
         sub_grid_param = np.zeros([n_params_tot, 2])
         counter = 0
@@ -1044,7 +1046,7 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
                 try:
                     sub_grid_param[nn, ii] = find_nearest(grid_tmp,
                                                           params_tmp,
-                                                          constraint=constraints[ii],
+                                                          constraint=constr[ii],
                                                           output='value')
                 except:
                     pdb.set_trace()
@@ -1143,7 +1145,7 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
             sub_grid_lbda = sub_grid_lbda.reshape(final_dims)
 
         else:
-            constraints = ['floor', 'ceil']
+            constr = ['floor=', 'ceil=']
             sub_grid_idx = np.zeros([n_params_tot, 2], dtype=np.int32)
             #list_idx = []
             counter = 0
@@ -1161,7 +1163,7 @@ def interpolate_model(params, grid_param_list, params_em={}, em_grid={},
                             break
                 for ii in range(2):
                     sub_grid_idx[nn, ii] = find_nearest(grid_tmp, params_tmp,
-                                                        constraint=constraints[ii],
+                                                        constraint=constr[ii],
                                                         output='index')
             for dd in range(2**n_params_tot):
                 str_indices = _den_to_bin(dd, n_params_tot)

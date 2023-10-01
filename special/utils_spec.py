@@ -18,13 +18,13 @@ __all__ = ['akaike',
 import astropy.constants as c
 import numpy as np
 from scipy.signal import gaussian
-        
+
 def akaike(LnL, k):
     """
     Computes the Akaike Information Criterion: 2k-2ln(L),
-    where k is the number of estimated parameters in the model and LnL is the 
+    where k is the number of estimated parameters in the model and LnL is the
     max ln-likelihood for the model.
-    
+
     Parameters
     ----------
     LnL : float
@@ -36,20 +36,20 @@ def akaike(LnL, k):
     -------
     aic : float
         Akaike Information Criterion
-        
+
     """
-    return 2*k-2*LnL  
+    return 2*k-2*LnL
 
 
-def blackbody(lbda, T): 
+def blackbody(lbda, T):
     """
     Planck function. Returns specific intensity for an input wavelength vector
     lbda (in micrometers) and a given input temperature.
-    
+
     Parameters
     ----------
     lbda : numpy array
-        1d numpy array corresponding to the wavelengths (in microns) for the 
+        1d numpy array corresponding to the wavelengths (in microns) for the
         desired output specific intensities.
     T : float
         Temperature
@@ -58,18 +58,18 @@ def blackbody(lbda, T):
     -------
     B_lambda : float
         Specific intensity corresponding to the Planck function.
-    
+
     """
     fac = 2*c.h.value*(c.c.value**2)/(np.power(lbda*1e-6,5))
     div = (1/(np.exp((c.h.value*c.c.value)/((lbda*1e-6)*c.k_B.value*T))-1))
-    # convert from W m-3 Sr-1 to W m-2 mu-1 Sr-1 
+    # convert from W m-3 Sr-1 to W m-2 mu-1 Sr-1
     conv = 1e-6
     return fac*div*conv
 
 
 def convert_F_units(F, lbda, in_unit='cgs', out_unit='si'):
     """
-    Function to convert Flux density between [ergs s-1 cm-2 um-1], 
+    Function to convert Flux density between [ergs s-1 cm-2 um-1],
     [W m-2 um-1] and [Jy].
 
     Parameters
@@ -78,15 +78,15 @@ def convert_F_units(F, lbda, in_unit='cgs', out_unit='si'):
         Flux
     lbda: float or 1d array
         Wavelength of the flux (in um)
-    in_unit: str, opt, {"si", "cgs", "jy", "cgsA"} 
-        Input flux units. 
-        'si': W/m^2/mu; 
+    in_unit: str, opt, {"si", "cgs", "jy", "cgsA"}
+        Input flux units.
+        'si': W/m^2/mu;
         'cgs': ergs/s/cm^2/mu
         'jy': janskys
-        'cgsA': erg/s/cm^2/AA 
+        'cgsA': erg/s/cm^2/AA
     out_unit: str, opt {"si", "cgs", "jy"}
         Output flux units.
-        
+
     Returns
     -------
     Flux in output units.
@@ -102,7 +102,7 @@ def convert_F_units(F, lbda, in_unit='cgs', out_unit='si'):
         new_F=F
     else:
         msg = "in_unit not recognized, try either 'cgs', 'si' or 'jy'."
-        raise TypeError(msg)        
+        raise TypeError(msg)
     if out_unit == 'jy':
         return new_F
     elif out_unit == 'cgs':
@@ -111,13 +111,13 @@ def convert_F_units(F, lbda, in_unit='cgs', out_unit='si'):
         return new_F*1e-26*c.c.value*1e6/np.power(lbda,2)
     else:
         msg = "out_unit not recognized, try either 'cgs', 'si' or 'jy'."
-        raise TypeError(msg)  
+        raise TypeError(msg)
 
 
-def convert_F_vs_mag(value, F_0=None, band='H', system='Johnson', 
+def convert_F_vs_mag(value, F_0=None, band='H', system='Johnson',
                      conversion='to_mag'):
     """
-    Function to convert Flux density (in Jy) to magnitude in a given band, or 
+    Function to convert Flux density (in Jy) to magnitude in a given band, or
     the opposite.
 
     Sources for zero points:
@@ -133,20 +133,20 @@ def convert_F_vs_mag(value, F_0=None, band='H', system='Johnson',
     F_0: float, opt
         Zero-point flux. If provided will take precedence over band.
     band: str, opt
-        Band of the given flux or magnitude. Choice between: {'U','B','V', 'R', 
-        'I', 'J', 'H', 'K', "L", "L'", 'M', 'N', 'O'} 
+        Band of the given flux or magnitude. Choice between: {'U','B','V', 'R',
+        'I', 'J', 'H', 'K', "L", "L'", 'M', 'N', 'O'}
         (but not for all band systems).
     system: str, opt
         Band system. Choice between: {'Johnson;,'2MASS', 'UKIRT', 'ESO'}
     conversion: str, opt
-        In which sense to convert: flux to mag ('to_mag') or mag to flux 
+        In which sense to convert: flux to mag ('to_mag') or mag to flux
         ('to_flux')
-    
+
     Returns
     -------
     Converted flux or magnitude.
-    """               
-    
+    """
+
     dico_zero_pts_Jo = {'U': [0.36,1823.],
                         'B': [0.44,4130.],
                         'V': [0.55,3781.],
@@ -167,20 +167,20 @@ def convert_F_vs_mag(value, F_0=None, band='H', system='Johnson',
                         'J': [1.215,1630.],  # TOKUNAGA (from Cohen 1992)
                         'H': [1.654,1050.],  # TOKUNAGA (from Cohen 1992)
                         'Ks': [2.157,667.],  # TOKUNAGA (from Cohen 1992)
-                        'K': [2.179,655.],   # TOKUNAGA (from Cohen 1992)                        
-                        'L': [3.547,276.],   # TOKUNAGA (from Cohen 1992)  
-                        "L'": [3.761,248.],  # TOKUNAGA (from Cohen 1992)                          
-                        'M': [4.769,160.],   # TOKUNAGA (from Cohen 1992)  
-                        '8.7': [8.756,50.],  # TOKUNAGA (from Cohen 1992)                          
-                        'N': [10.472,35.3],  # TOKUNAGA (from Cohen 1992)  
-                        '11.7': [11.653,28.6], # TOKUNAGA (from Cohen 1992)         
+                        'K': [2.179,655.],   # TOKUNAGA (from Cohen 1992)
+                        'L': [3.547,276.],   # TOKUNAGA (from Cohen 1992)
+                        "L'": [3.761,248.],  # TOKUNAGA (from Cohen 1992)
+                        'M': [4.769,160.],   # TOKUNAGA (from Cohen 1992)
+                        '8.7': [8.756,50.],  # TOKUNAGA (from Cohen 1992)
+                        'N': [10.472,35.3],  # TOKUNAGA (from Cohen 1992)
+                        '11.7': [11.653,28.6], # TOKUNAGA (from Cohen 1992)
                         'Q': [20.13,9.7]}      # TOKUNAGA (from Cohen 1992)
     dico_zero_pts_ESO = {'J': [1.228,3.44e-9],  # van der Bliek 1996
                         'H': [1.651,1.21e-9],   # van der Bliek 1996
                         'K': [2.216,4.12e-10],  # van der Bliek 1996
                         "L'": [3.771,5.58e-11], # van der Bliek 1996
-                        "M": [4.772,2.21e-11]}  # van der Bliek 1996 
-    
+                        "M": [4.772,2.21e-11]}  # van der Bliek 1996
+
     if F_0 is None:
         if system == 'Johnson' and band in dico_zero_pts_Jo:
             dico_F_0 = dico_zero_pts_Jo
@@ -189,16 +189,16 @@ def convert_F_vs_mag(value, F_0=None, band='H', system='Johnson',
         elif system == 'UKIRT' and band in dico_zero_pts_UK:
             dico_F_0 = dico_zero_pts_UK
         elif system == 'ESO' and band in dico_zero_pts_UK:
-            dico_F_0 = dico_zero_pts_ESO                   
+            dico_F_0 = dico_zero_pts_ESO
         else:
             msg = 'Combination of band name and band system not recognized.'
             raise TypeError(msg)
         F_0 = dico_F_0[band][1]
         if system == 'ESO':
             # convert from W m-2 mu-1 to Jy
-            F_0 = convert_F_units(F_0, dico_F_0[band][0], in_unit='si', 
+            F_0 = convert_F_units(F_0, dico_F_0[band][0], in_unit='si',
                                   out_unit='jy')
-    
+
     if conversion == 'to_mag':
         return -2.5*np.log10(value/F_0)
     elif conversion == 'to_flux':
@@ -206,14 +206,14 @@ def convert_F_vs_mag(value, F_0=None, band='H', system='Johnson',
     else:
         msg = "conversion not recognized, must be 'to_mag' or 'to_flux'."
         raise TypeError(msg)
-        
+
 
 def extinction(lbda, AV, RV=3.1):
     """
     Calculates the A(lambda) extinction for a given combination of A_V and R_V.
     If R_V is not provided, assumes an ISM value of R_V=3.1
     Uses the Cardelli et al. (1989) empirical formulas.
-    
+
     Parameters
     ----------
     lbda : 1d np.ndarray
@@ -222,7 +222,7 @@ def extinction(lbda, AV, RV=3.1):
         Extinction (mag) in the V band.
     RV : float, opt
         Reddening in the V band: R_V = A_V / E(B-V)
-        
+
     Returns
     -------
     Albda: 1d np.ndarray
@@ -259,35 +259,36 @@ def extinction(lbda, AV, RV=3.1):
 
 def find_nearest(array, value, output='index', constraint=None, n=1):
     """
-    Function to find the indices, and optionally the values, of an array's n 
+    Function to find the indices, and optionally the values, of an array's n
     closest elements to a certain value.
-    
+    By default, only returns the index/indices.
+
+    Possible constraints: 'ceil', 'floor', None ("ceil" will return the closest
+    element with a value greater than 'value', "floor" the opposite).
+
     Parameters
     ----------
     array: 1d numpy array or list
         Array in which to check the closest element to value.
     value: float
-        Value for which the algorithm searches for the n closest elements in 
+        Value for which the algorithm searches for the n closest elements in
         the array.
     output: str, opt {'index','value','both' }
         Set what is returned
-    constraint: str, opt {None, 'ceil', 'floor'}
-        If not None, will check for the closest element larger than value (ceil)
-        or closest element smaller than value (floor).
+    constraint: str, opt {None, 'ceil', 'floor', 'ceil=', 'floor='}
+        If not None, will check for the closest element larger (or equal) than
+        value if set to 'ceil' ('ceil='), or closest element smaller (or equal)
+        than value if set to 'floor' ('floor=').
     n: int, opt
         Number of elements to be returned, sorted by proximity to the values.
         Default: only the closest value is returned.
-    
+
     Returns
     -------
-    Either:
-        (output='index'): index/indices of the closest n value(s) in the array;
-        (output='value'): the closest n value(s) in the array, 
-        (output='both'): closest value(s) and index/-ices, respectively.
-    By default, only returns the index/indices.
-    
-    Possible constraints: 'ceil', 'floor', None ("ceil" will return the closest 
-    element with a value greater than 'value', "floor" the opposite)
+    [output='index']: index/indices of the closest n value(s) in the array;
+    [output='value']: the closest n value(s) in the array,
+    [output='both']: closest value(s) and index/-ices, respectively.
+
     """
     if isinstance(array, np.ndarray):
         pass
@@ -295,23 +296,27 @@ def find_nearest(array, value, output='index', constraint=None, n=1):
         array = np.array(array)
     else:
         raise ValueError("Input type for array should be np.ndarray or list.")
-    
+
     if constraint is None:
         fm = np.absolute(array-value)
         idx = fm.argsort()[:n]
-    elif constraint == 'floor' or constraint == 'ceil': 
-        indices = np.arange(len(array),dtype=np.int32)
-        if constraint == 'floor':
+    elif 'floor' in constraint or 'ceil' in constraint:
+        indices = np.arange(len(array), dtype=np.int32)
+        if 'floor' in constraint:
             fm = -(array-value)
         else:
             fm = array-value
-        crop_indices = indices[np.where(fm>0)]
-        fm = fm[np.where(fm>0)]
+        if '=' in constraint:
+            crop_indices = indices[np.where(fm >= 0)]
+            fm = fm[np.where(fm >= 0)]
+        else:
+            crop_indices = indices[np.where(fm > 0)]
+            fm = fm[np.where(fm > 0)]
         idx = fm.argsort()[:n]
         idx = crop_indices[idx]
-        if len(idx)==0:
+        if len(idx) == 0:
             msg = "No indices match the constraint ({} w.r.t {:.2f})"
-            print(msg.format(constraint,value))
+            print(msg.format(constraint, value))
             raise ValueError("No indices match the constraint")
     else:
         raise ValueError("Constraint not recognised")
@@ -319,16 +324,19 @@ def find_nearest(array, value, output='index', constraint=None, n=1):
     if n == 1:
         idx = idx[0]
 
-    if output=='index': return idx
-    elif output=='value': return array[idx]
-    else: return array[idx], idx
+    if output == 'index':
+        return idx
+    elif output == 'value':
+        return array[idx]
+    else:
+        return array[idx], idx
 
 
 def inject_em_line(wl, flux, lbda, spec, width=None, height=0.1, em=True):
     """
-    Injects an emission (or absorption) line in a spectrum. 
+    Injects an emission (or absorption) line in a spectrum.
 
-    
+
     Parameters
     ----------
     wl: float
@@ -340,42 +348,42 @@ def inject_em_line(wl, flux, lbda, spec, width=None, height=0.1, em=True):
     spec : 1d np.ndarray
         Input spectrum fluxes
     width : float, opt
-        Full width of the line in mu (see also height). The line will be 
-        injected assuming a gaussian profile. If not provided, the width will 
+        Full width of the line in mu (see also height). The line will be
+        injected assuming a gaussian profile. If not provided, the width will
         be set to the 'equivalent width' of the line.
     height: float, opt
-        Ratio to peak where the line width is considered. E.g. if 
-        height=10%, the width will be the full width at 10% maximum.        
+        Ratio to peak where the line width is considered. E.g. if
+        height=10%, the width will be the full width at 10% maximum.
     em: bool, opt
         Whether emission (True) or absorption (False) line.
-        
+
     Returns
     -------
     spec: 1d np.ndarray
         Spectrum with the injected line
-    
+
     """
     # convert ew, assuming it's in mu
     idx_mid = find_nearest(lbda, wl)
-    
+
     nch = len(lbda)
     dlbda = (lbda[idx_mid+1]-lbda[idx_mid-1])/2
-    
+
     # estimate model continuum level using adjacent channels in the spectrum
     lbda_b0 = 0.99*lbda[idx_mid]
     idx_b0 = find_nearest(lbda, lbda_b0, constraint='floor')-1
     lbda_b1 = 0.995*lbda[idx_mid]
     idx_b1 = find_nearest(lbda, lbda_b1, constraint='floor')
-    lbda_r1 = 1.01*lbda[idx_mid] 
+    lbda_r1 = 1.01*lbda[idx_mid]
     idx_r1 = find_nearest(lbda, lbda_r1, constraint='ceil')+1
-    lbda_r0 = 1.005*lbda[idx_mid] 
+    lbda_r0 = 1.005*lbda[idx_mid]
     idx_r0 = find_nearest(lbda, lbda_r0, constraint='ceil')
     if idx_b0<0 or idx_r1>nch-1:
         raise ValueError("The line is too close from the edge of the spectrum")
     spec_b = spec[idx_b0:idx_b1+1]
     spec_r = spec[idx_r0:idx_r1+1]
     cont = np.median(np.concatenate((spec_b,spec_r)))
-    
+
     if width is None:
         # infer ew
         ew = flux/cont
@@ -383,7 +391,7 @@ def inject_em_line(wl, flux, lbda, spec, width=None, height=0.1, em=True):
         stddev = ew/(2*np.sqrt(2*np.log(1/height)))
     else:
         stddev = width/(2*np.sqrt(2*np.log(1/height)))
-        
+
     win_sz = int((5*stddev)/dlbda)
 
     if win_sz%2==0:
@@ -407,33 +415,33 @@ def inject_em_line(wl, flux, lbda, spec, width=None, height=0.1, em=True):
         dlbda_tmp = lbda[idx_ini+1:idx_ini+win_sz+1]-lbda[idx_ini:idx_ini+win_sz]
         gaus = flux*gaus/(np.sum(gaus)*dlbda_tmp)
 
-    
+
     if em:
         spec[idx_ini:idx_ini+win_sz] += gaus
     else:
         spec[idx_ini:idx_ini+win_sz] -= gaus
-    
+
     return spec
 
-    
+
 def mj_from_rj_and_logg(rp, logg):
     """
-    Estimates a planet mass in Jupiter mass for a given radius in Jupiter 
-    radius and the log of the surface gravity. 
-    
+    Estimates a planet mass in Jupiter mass for a given radius in Jupiter
+    radius and the log of the surface gravity.
+
     Parameters
     ----------
     rp: float
         Planet radius in Jupiter radii
     logg: float
         Log of the surface gravity
-        
+
     Returns
     -------
     mj: float
         Planet mass in Jupiter masses
-    
-    """    
+
+    """
     surf_g = 1e-2 * np.power(10.,logg)  # (m s-2)
 
     rpJ = rp*c.R_jup.value # (m)
@@ -447,33 +455,33 @@ def mj_from_rj_and_logg(rp, logg):
 def nrefrac(wavelength, density=1.0):
    """
    Calculates refractive index of air from Cauchy formula.
-   For comparisong to measurements from the ground, the wavelenghts of model 
+   For comparisong to measurements from the ground, the wavelenghts of model
    spectra must be slightly shifted using:
    lbda_shift = lbda_model/(1+(nrefrac*1e-6))
 
-   Input: wavelength in Angstrom, 
-   Returns N = (n-1) * 1.e6. 
+   Input: wavelength in Angstrom,
+   Returns N = (n-1) * 1.e6.
    Credit: France Allard.
-   
+
    Parameters
    ----------
    wavelength: numpy array
        1d numpy array corresponding to the wavelengths of the input spectrum
        in Angstrom
    density: float
-       density of air in amagat (relative to STP, e.g. ~10% decrease per 1000m 
+       density of air in amagat (relative to STP, e.g. ~10% decrease per 1000m
        above sea level).
-        
+
    Returns
    -------
    N: float
        Refractive index
-   
+
    """
 
    # The IAU standard for conversion from air to vacuum wavelengths is given
    # in Morton (1991, ApJS, 77, 119). For vacuum wavelengths (VAC) in
-   # Angstroms, convert to air wavelength (AIR) via: 
+   # Angstroms, convert to air wavelength (AIR) via:
 
    #  AIR = VAC / (1.0 + 2.735182E-4 + 131.4182 / VAC^2 + 2.76249E8 / VAC^4)
 
