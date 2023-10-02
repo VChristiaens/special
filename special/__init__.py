@@ -9,7 +9,7 @@ spectra, including:
 - utility functions for the spectral fit.
 """
 
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 from .config import *
 from .utils_mcmc import *
