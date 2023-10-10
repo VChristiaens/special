@@ -271,6 +271,9 @@ def make_model_from_params(params, labels, grid_param_list, dist, lbda_obs=None,
             idx = ii*2
             Omega = np.pi*((params[idx_Tbb1+idx+1]*Rj)/(dist*pc))**2
             bb = Omega*blackbody(lbda_mod, params[idx_Tbb1+idx])
+            if units_obs != 'si':
+                bb = convert_F_units(bb, lbda_mod, in_unit='si',
+                                     out_unit=units_obs)
             spec_mod += bb
 
     # apply extinction if requested
